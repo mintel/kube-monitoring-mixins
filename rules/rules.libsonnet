@@ -15,6 +15,17 @@
           },
         ],
       },
+      {
+        name: 'mintel-disk.rules',
+        rules: [
+          {
+            record: 'mintel:pvc:inodes_free:percentage',
+            expr: |||
+              (kubelet_volume_stats_inodes_free / kubelet_volume_stats_inodes) * 100
+            |||
+          },
+        ],
+      },
     ],
   },
 }
