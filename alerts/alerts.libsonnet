@@ -17,7 +17,7 @@
               severity: $._config.containerIoCriticality,
             },
             annotations: {
-              runbook: 'https://gitlab.com/mintel/satoshi/monitoring/runbooks/blob/master/satoshi/platform/ContainerCombinedIoHighOverTime.md',
+              runbook_url: 'https://gitlab.com/mintel/satoshi/monitoring/runbooks/blob/master/satoshi/platform/ContainerCombinedIoHighOverTime.md',
               summary: 'Container have been doing an unusual amount of IO',
               description: 'Container {{ $labels.container_name }} in Pod {{ $labels.pod_name }} have been doing an unusual amount of Sustained IO on {{ $labels.device }} for the specified time',
             },
