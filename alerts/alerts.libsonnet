@@ -32,9 +32,9 @@
             expr: |||
               mintel:pvc:inodes_free:percentage <= 5
             |||,
-            "for": '5m',
+            'for': '5m',
             labels: {
-              severity: warning
+              severity: 'warning',
               context: 'cluster',
             },
             annotations: {
@@ -48,17 +48,15 @@
             expr: |||
               predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
             |||,
-            "for": '10m',
+            'for': '10m',
             labels: {
-              severity: critical
+              severity: 'critical',
               context: 'cluster',
             },
             annotations: {
-              description: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace
-                {{ $labels.exported_namespace }} is predicted to use all its inodes within the
-                next 4 days',
-                runbook_url: 'https://gitlab.com/mintel/satoshi/monitoring/runbooks/blob/master/satoshi/platform/KubePersistentVolumeInodePredictedUsageCritical.md',
-                summary: 'Persistent Volume inodes predicted to fill up'
+              description: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace\n                {{ $labels.exported_namespace }} is predicted to use all its inodes within the\n                next 4 days',
+              runbook_url: 'https://gitlab.com/mintel/satoshi/monitoring/runbooks/blob/master/satoshi/platform/KubePersistentVolumeInodePredictedUsageCritical.md',
+              summary: 'Persistent Volume inodes predicted to fill up',
             },
           },
         ],
