@@ -6,6 +6,8 @@
     cadvisorSelector: 'job="kubelet"',
     // Select the metrics coming from the kube-state-metrics job
     kubeStateMetricsSelector: 'job="kube-state-metrics"',
+    // Select metrics coming from the Kubelet.
+    kubeletSelector: 'job="kubelet"',
 
     // Select the device for Io Container reads/writes metrics
     containerIoDiskDeviceSelector: 'device="/dev/sda"',

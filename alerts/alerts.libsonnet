@@ -34,8 +34,7 @@
             |||,
             'for': '5m',
             labels: {
-              severity: 'warning',
-              context: 'cluster',
+              severity: 'critical',
             },
             annotations: {
               summary: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace {{ $labels.exported_namespace }} has {{ $value }}% inodes left',
@@ -51,7 +50,6 @@
             'for': '10m',
             labels: {
               severity: 'critical',
-              context: 'cluster',
             },
             annotations: {
               description: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace\n                {{ $labels.exported_namespace }} is predicted to use all its inodes within the\n                next 4 days',
