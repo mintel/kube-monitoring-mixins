@@ -8,11 +8,12 @@ dashboards based on the metrics exported by the Node Exporter. The mixin create
 recording and alerting rules for Prometheus and suitable dashboard descriptions
 for Grafana.
 
-To use them, you need to have `jsonnet` (v0.13+) and `jb` installed. If you
+To use them, you need to have `jsonnet` (v0.13+), `jb` and `promtool` installed. If you
 have a working Go development environment, it's easiest to run the following:
 ```bash
 $ go get github.com/google/go-jsonnet/cmd/jsonnet
 $ go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
+$ go get github.com/prometheus/prometheus/cmd/promtool
 ```
 
 _Note: The make targets `lint` and `fmt` need the `jsonnetfmt` binary, which is
