@@ -20,5 +20,8 @@
     containerIoCriticality: 'critical',
 
     grafana_prefix: '',
+
+    // BaseURL for mintel-specific runbooks.
+    runBookBaseURL: 'https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks',
   },
 }
