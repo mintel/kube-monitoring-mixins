@@ -1,28 +1,38 @@
-JSONNET_FMT := jsonnetfmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
+SHELL = /bin/bash
 
-all: fmt mintel_alerts.yaml mintel_rules.yaml lint
+JSONNET_FMT := jsonnet fmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
+JSONNET_CMD := jsonnet -J vendor
+JSONNETBUNDLERCMD=jb
+RENDERED_DASHBOARDS="rendered/dashboards"
+RENDERED_RULES="rendered/rules"
 
-fmt:
-	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
-		xargs -n 1 -- $(JSONNET_FMT) -i
-
-mintel_alerts.yaml: mixin.libsonnet config.libsonnet $(wildcard alerts/*)
-	jsonnet -S alerts.jsonnet > $@
-
-mintel_rules.yaml: mixin.libsonnet config.libsonnet $(wildcard rules/*)
-	jsonnet -S rules.jsonnet > $@
-
-dashboards_out: mixin.libsonnet config.libsonnet $(wildcard dashboards/*)
-	@mkdir -p dashboards_out
-	jsonnet -J vendor -m dashboards_out dashboards.jsonnet
-
-lint: mintel_alerts.yaml mintel_rules.yaml
-	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
-		while read f; do \
-			$(JSONNET_FMT) "$$f" | diff -u "$$f" -; \
-		done
-
-	promtool check rules mintel_alerts.yaml mintel_rules.yaml
+all: install dashboards rules test
 
 clean:
-	rm -rf mintel_alerts.yaml mintel_rules.yaml
+	# Remove all files and directories ignored by git.
+	git clean -Xfd .
+
+rules:
+	@mkdir -p $(RENDERED_RULES)
+	@rm -f $(RENDERED_RULES)/*.yaml
+	$(JSONNET_CMD) -m $(RENDERED_RULES) prometheus-rules.jsonnet \
+		| xargs -I{} sh -c 'cat {} \
+		| gojsontoyaml > {}.yaml; rm -f {}' -- {}
+
+dashboards:
+	@mkdir -p $(RENDERED_DASHBOARDS)/kube-prometheus
+	@rm -rf $(RENDERED_DASHBOARDS)/kube-prometheus/*.json
+	$(JSONNET_CMD) -m $(RENDERED_DASHBOARDS)/kube-prometheus dashboards.jsonnet
+
+test:
+	@cd tests; \
+	bash_unit -f tap *
+
+install:
+	$(JSONNETBUNDLERCMD) install
+
+diff: install dashboards rules
+	@git status
+	git --no-pager diff --exit-code dashboards rules
+
+.PHONY: clean install rules dashboards diff test
