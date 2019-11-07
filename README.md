@@ -1,19 +1,20 @@
-# Mintel Mixin
+# Kubernetes Mixins
 
-_This is work in progress. We aim for it to become a good role model for alerts
-and dashboards eventually, but it is not quite there yet._
+## Overview
 
-The Mintel Mixin is a set of configurable, reusable, and extensible alerts and
-dashboards based on the metrics exported by the Node Exporter. The mixin create
-recording and alerting rules for Prometheus and suitable dashboard descriptions
-for Grafana.
+Extend functionality of [Kubernetes Mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin) and provide options to override prometheus rules/alerts and grafana dashboards.
+
+Also provides a `gke-overrides.libsonnet`.
+
+## Dependencies
 
 To use them, you need to have `jsonnet` (v0.13+), `jb` and `promtool` installed. If you
 have a working Go development environment, it's easiest to run the following:
+
 ```bash
-$ go get github.com/google/go-jsonnet/cmd/jsonnet
-$ go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
-$ go get github.com/prometheus/prometheus/cmd/promtool
+go get github.com/google/go-jsonnet/cmd/jsonnet
+go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
+go get github.com/prometheus/prometheus/cmd/promtool
 ```
 
 _Note: The make targets `lint` and `fmt` need the `jsonnetfmt` binary, which is
@@ -24,25 +25,53 @@ or `make fmt`._
 
 Next, install the dependencies by running the following command in this
 directory:
+
 ```bash
-$ jb install
+jb install
 ```
 
-You can then build the Prometheus rules files `mintel_alerts.yaml` and
-`mintel_rules.yaml`:
-```bash
-$ make mintel_alerts.yaml mintel_rules.yaml
+
+## Usage
+
+Import / update vendor upstream via jsonnet-bundler.
+```
+make install
 ```
 
-You can also build a directory `dashboard_out` with the JSON dashboard files
-for Grafana:
-```bash
-$ make dashboards_out
+Generate grafana dashboards and prometheus rules:
+
+```
+make dashboards
+make rules
 ```
 
-Note that some of the generated dashboards require recording rules specified in
-the previously generated `mintel_rules.yaml`.
+Renders:
 
-For more advanced uses of mixins, see
-https://github.com/monitoring-mixins/docs.
+- `./rendered/rules`
+- `./rendered/dashboards/kube-monitoring`
 
+### Kustomization
+
+Note `kustomization.yaml` - this provides an easy way to use the generated
+rules as a base.
+
+## Configuration
+
+Upstream configuration of *kubernetes-mixin* can be done in `config.jsonnet`
+
+## Jsonnetfile.json
+
+Note this is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
+
+The `release-0.1` branch supports Kubernetes `v1.13`.
+
+## GKE Overrides
+
+GKE Specific overrides can be included by importing `./lib/gke-overrides.libsonnet`.
+
+This file provides helpers to:
+
+- Filter out grafana dashboards
+- Filter out prometheus rule groups
+- Filter out prometheus alerts
+- Modify prometheus alert expressions
