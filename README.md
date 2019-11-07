@@ -1,10 +1,10 @@
-# Kubernetes Mixins
+# kube-monitoring-mixins
 
 ## Overview
 
-Extend functionality of [Kubernetes Mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin) and provide options to override prometheus rules/alerts and grafana dashboards.
+These mixins extend functionality of [Kubernetes Mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin) and provide options to override prometheus rules/alerts and grafana dashboards.
 
-Also provides a `gke-overrides.libsonnet`.
+They also provide related grafana-dashboards, and (optional) GKE specific overrides.
 
 ## Dependencies
 
@@ -23,14 +23,6 @@ being, you have to install the [C++ version of
 jsonnetfmt](https://github.com/google/jsonnet) if you want to use `make lint`
 or `make fmt`._
 
-Next, install the dependencies by running the following command in this
-directory:
-
-```bash
-jb install
-```
-
-
 ## Usage
 
 Import / update vendor upstream via jsonnet-bundler.
@@ -45,25 +37,24 @@ make dashboards
 make rules
 ```
 
-Outputs:
+## Outputs:
 
-- `./rules`
-- `./dashboards/kube-monitoring`
+Prometheus rules are rendered into the `./rules` directory.
 
-### Kustomization
 
-Note `kustomization.yaml` - this provides an easy way to use the generated
-rules as a base.
+There is a `kustomization.yaml` provided which includes the generated prometheus-rules.
+
+Grafana dashboards are rendered into the `./dashboards/kube-monitoring` directory.
 
 ## Configuration
 
-Upstream configuration of *kubernetes-mixin* can be done in `config.jsonnet`
+Configuration is mostly managed through `config.jsonnet`
 
-## Jsonnetfile.json
+## Jsonnetfile
 
-Note this is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
+Note, the `jsonnetfile.json` is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
 
-The `release-0.1` branch supports Kubernetes `v1.13`.
+The `release-0.1` branch supports Kubernetes `v1.13`. You will want to bump this to support Kubernetes versions `v1.14` or above.
 
 ## GKE Overrides
 
