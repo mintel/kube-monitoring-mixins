@@ -3,8 +3,8 @@ SHELL = /bin/bash
 JSONNET_FMT := jsonnet fmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
 JSONNET_CMD := jsonnet -J vendor
 JSONNETBUNDLERCMD=jb
-RENDERED_DASHBOARDS="rendered/dashboards"
-RENDERED_RULES="rendered/rules"
+RENDERED_DASHBOARDS="dashboards"
+RENDERED_RULES="rules"
 
 all: install dashboards rules test
 

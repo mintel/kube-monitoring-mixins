@@ -45,10 +45,10 @@ make dashboards
 make rules
 ```
 
-Renders:
+Outputs:
 
-- `./rendered/rules`
-- `./rendered/dashboards/kube-monitoring`
+- `./rules`
+- `./dashboards/kube-monitoring`
 
 ### Kustomization
 
