@@ -9,8 +9,7 @@
 (import 'prometheus/mixin.libsonnet') +
 (import 'lib/prometheus.libsonnet') +
 (import 'lib/grafana.libsonnet') +
-(import 'lib/mintel/rules.libsonnet') +
-(import 'lib/mintel/alerts.libsonnet') +
+(import 'lib/mintel/mixins.libsonnet') +
 
 // Enable GKE Overrides - to be applied against core-configuration
 (import 'lib/gke-overrides.libsonnet') +

@@ -37,26 +37,37 @@ make dashboards
 make rules
 ```
 
-## Outputs:
+## Outputs
 
 Prometheus rules are rendered into the `./rules` directory.
-
 
 There is a `kustomization.yaml` provided which includes the generated prometheus-rules.
 
 Grafana dashboards are rendered into the `./dashboards/kube-monitoring` directory.
 
+## Testing
+
+Run `promtool` and `runbook_url` validation checks, as well as general JSON/YAML linting.
+
+```
+make test
+```
+
+### Golden Tests
+
+Check whether the rendered files match the expected output.
+
+If these tests fail, it either means you have un-committed changes, or something upstream has changed.
+
+```
+make diff
+```
+
 ## Configuration
 
 Configuration is mostly managed through `config.jsonnet`
 
-## Jsonnetfile
-
-Note, the `jsonnetfile.json` is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
-
-The `release-0.1` branch supports Kubernetes `v1.13`. You will want to bump this to support Kubernetes versions `v1.14` or above.
-
-## GKE Overrides
+### GKE Overrides
 
 GKE Specific overrides can be included by importing `./lib/gke-overrides.libsonnet`.
 
@@ -66,3 +77,21 @@ This file provides helpers to:
 - Filter out prometheus rule groups
 - Filter out prometheus alerts
 - Modify prometheus alert expressions
+
+## Additional Notes
+
+### Kubernetes Version Support
+
+The `jsonnetfile.json` is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
+
+The `release-0.1` branch supports Kubernetes `v1.13`. You will want to bump this to support Kubernetes versions `v1.14` or above.
+
+### Mintel Mixins
+
+You can view the output of the mintel specific mixins like so:
+
+```
+cd lib/mintel
+jsonnet alerts.jsonnet
+jsonnet rules.jsonnet
+```
