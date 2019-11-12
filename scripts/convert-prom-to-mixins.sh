@@ -59,7 +59,7 @@ function write_libsonnet() {
 		$prometheusKey+:: {
 			groups+: [
 				{
-					name: '$group.rules',
+					name: '$group.$type',
 					rules: [ $content ]
 				}
 			]

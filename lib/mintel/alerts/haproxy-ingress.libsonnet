@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'haproxy-ingress',
+        name: 'haproxy-ingress.alerts',
         rules: [{
           alert: 'HAProxyFrontendSessionUsage',
           annotations: {

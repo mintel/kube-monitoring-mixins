@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-node',
+        name: 'mintel-node.alerts',
         rules: [{
           alert: 'NetworkErrorRate',
           annotations: {

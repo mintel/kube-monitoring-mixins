@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-pod',
+        name: 'mintel-pod.alerts',
         rules: [{
           alert: 'PodOOMKilled',
           annotations: {

@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'blackbox',
+        name: 'blackbox.alerts',
         rules: [{
           alert: 'SiteIsDown',
           annotations: {

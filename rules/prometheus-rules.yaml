@@ -335,7 +335,7 @@ spec:
           )
         ) by (node)
       record: 'node:node_inodes_free:'
-  - name: mintel-overcommit
+  - name: mintel-overcommit.rules
     rules:
     - expr: |
         count by (zone) (label_replace(
@@ -349,7 +349,7 @@ spec:
       labels:
         quantile: "0.95"
       record: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile
-  - name: mintel-disk
+  - name: mintel-disk.rules
     rules:
     - expr: |
         (kubelet_volume_stats_inodes_free{job="kubelet"} / kubelet_volume_stats_inodes{job="kubelet"}) * 100
@@ -1394,7 +1394,7 @@ spec:
       for: 15m
       labels:
         severity: warning
-  - name: mintel-disks
+  - name: mintel-disks.alerts
     rules:
     - alert: KubePersistentVolumeInodeUsageCritical
       annotations:
@@ -1422,7 +1422,7 @@ spec:
       for: 10m
       labels:
         severity: critical
-  - name: mintel-containers
+  - name: mintel-containers.alerts
     rules:
     - alert: ContainerCombinedIoHighOverTime
       annotations:
@@ -1439,7 +1439,7 @@ spec:
       for: 12h
       labels:
         severity: critical
-  - name: haproxy-ingress
+  - name: haproxy-ingress.alerts
     rules:
     - alert: HAProxyBackendDown
       annotations:
@@ -1451,7 +1451,7 @@ spec:
       for: 1m
       labels:
         severity: critical
-  - name: mintel-node
+  - name: mintel-node.alerts
     rules:
     - alert: NodeFreeConntrackEntriesLow
       annotations:
@@ -1463,7 +1463,7 @@ spec:
       labels:
         context: node
         severity: critical
-  - name: mintel-pod
+  - name: mintel-pod.alerts
     rules:
     - alert: KubePodFailed
       annotations:
@@ -1475,7 +1475,7 @@ spec:
       for: 1h
       labels:
         severity: critical
-  - name: mintel-web-frontend
+  - name: mintel-web-frontend.alerts
     rules:
     - alert: ReducedService
       annotations:

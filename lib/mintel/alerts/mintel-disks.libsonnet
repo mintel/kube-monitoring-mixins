@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-disks',
+        name: 'mintel-disks.alerts',
         rules: [
           {
             alert: 'KubePersistentVolumeInodeUsageCritical',

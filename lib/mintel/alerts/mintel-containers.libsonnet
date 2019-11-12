@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-containers',
+        name: 'mintel-containers.alerts',
         rules: [
           {
             alert: 'ContainerCombinedIoHighOverTime',

@@ -2,7 +2,7 @@
   prometheusRules+:: {
     groups+: [
       {
-        name: 'mintel-overcommit',
+        name: 'mintel-overcommit.rules',
         rules: [
           {
             // This rule count the number of nodes per gcp zone

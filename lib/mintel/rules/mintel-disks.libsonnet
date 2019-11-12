@@ -2,7 +2,7 @@
   prometheusRules+:: {
     groups+: [
       {
-        name: 'mintel-disk',
+        name: 'mintel-disk.rules',
         rules: [
           {
             record: 'mintel:pvc:inodes_free:percentage',

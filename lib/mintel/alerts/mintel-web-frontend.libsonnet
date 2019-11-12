@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-web-frontend',
+        name: 'mintel-web-frontend.alerts',
         rules: [{
           alert: 'MintelWebServiceDown',
           annotations: {
