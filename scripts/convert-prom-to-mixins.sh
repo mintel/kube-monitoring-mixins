@@ -25,7 +25,13 @@ popd() {
 # Format the created jsonnet
 #
 function tidy_jsonnet() {
-	pushd "$OUTPUT_DIR"
+	pushd "$OUTPUT_DIR/rules"
+	for f in *.libsonnet; do
+		jsonnet fmt -i "$f"
+	done
+	popd
+
+	pushd "$OUTPUT_DIR/alerts"
 	for f in *.libsonnet; do
 		jsonnet fmt -i "$f"
 	done
@@ -41,13 +47,14 @@ function write_libsonnet() {
 	local filename=$1
 	local content=$2
 	local group=$3
+	local type=$4
 
 	prometheusKey="prometheusAlerts"
-	if [ "$group" = "rules" ]; then
+	if [ "$type" = "rules" ]; then
 		prometheusKey="prometheusRules"
 	fi
 
-	cat <<- EOF > "${OUTPUT_DIR}/$filename"
+	cat <<- EOF > "${OUTPUT_DIR}/$type/$filename"
 	{
 		$prometheusKey+:: {
 			groups+: [
@@ -83,8 +90,8 @@ function process() {
 	alerts=$(cat "$f" | gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert!=null)')
 			rules=$(cat "$f"| gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert==null)')
 
-			write_libsonnet "$group-rules.libsonnet" "$rules" "$group"
-			write_libsonnet "$group-alerts.libsonnet" "$alerts" "$group"
+			write_libsonnet "$group.libsonnet" "$rules" "$group" "rules"
+			write_libsonnet "$group.libsonnet" "$alerts" "$group" "alerts"
 		done
 	done
 	popd
@@ -113,7 +120,7 @@ if [ ! -d "$IMPORT_DIR" ]; then
 	exit 1
 fi
 
-mkdir -p "$OUTPUT_DIR"
+mkdir -p "${OUTPUT_DIR}/rules" "${OUTPUT_DIR}/alerts"
 
 process
 tidy_jsonnet
