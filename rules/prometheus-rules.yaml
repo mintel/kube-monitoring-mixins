@@ -1731,7 +1731,7 @@ spec:
     rules:
     - alert: HAProxyFrontendSessionUsage
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendSessionUsage'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
         summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached
           {{ $value }}%'
       expr: sum by (frontend) (haproxy_frontend_current_sessions) / sum by (frontend)
@@ -1740,7 +1740,7 @@ spec:
         severity: warning
     - alert: HAProxyFrontendSessionUsage
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendSessionUsage'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
         summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached
           {{ $value }}%'
       expr: sum by (frontend) (haproxy_frontend_current_sessions) / sum by (frontend)
@@ -1749,7 +1749,7 @@ spec:
         severity: critical
     - alert: HAProxyFrontendRequestErrors
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendRequestErrors'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendRequestErrors
         summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend
           }} frontend'
       expr: sum by (frontend) (rate(haproxy_frontend_request_errors_total[1m])) /
@@ -1760,7 +1760,7 @@ spec:
         severity: warning
     - alert: HAProxyFrontendRequestErrors
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendRequestErrors'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendRequestErrors
         summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend
           }} frontend'
       expr: sum by (frontend) (rate(haproxy_frontend_request_errors_total[1m])) /
@@ -1771,7 +1771,7 @@ spec:
         severity: critical
     - alert: HAProxyBackendRequestQueued
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
         summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
           }} backend'
       expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
@@ -1781,7 +1781,7 @@ spec:
         severity: warning
     - alert: HAProxyBackendRequestQueued
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
         summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
           }} backend'
       expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
@@ -1791,7 +1791,7 @@ spec:
         severity: critical
     - alert: HAProxyBackendRequestQueuedTime
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueuedTime'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
         summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
           }} backend'
       expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.1
@@ -1800,7 +1800,7 @@ spec:
         severity: warning
     - alert: HAProxyBackendRequestQueuedTime
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueuedTime'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
         summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
           }} backend'
       expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5
@@ -1809,7 +1809,7 @@ spec:
         severity: critical
     - alert: HAProxyBackendResponseErrors
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
       expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
@@ -1819,7 +1819,7 @@ spec:
         severity: warning
     - alert: HAProxyBackendResponseErrors
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
       expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
@@ -1829,7 +1829,7 @@ spec:
         severity: critical
     - alert: HAProxyBackendResponseErrors5xx
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
         summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
           }} service'
       expr: |-
@@ -1843,7 +1843,7 @@ spec:
         severity: warning
     - alert: HAProxyBackendResponseErrors5xx
       annotations:
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
         summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
           }} service'
       expr: |-
@@ -1859,7 +1859,7 @@ spec:
       annotations:
         description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
           for at least 1m'
-        runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendDown'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
       expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
         == 0
       for: 1m
@@ -2000,6 +2000,7 @@ spec:
       annotations:
         description: 'Free Conntrack entries is less than 10% on this node: {{ $labels.instance
           }} : {{ $value }}%'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NodeFreeConntrackEntriesLow.md
         summary: Free Conntrack entries is less than 10% on this node
       expr: node:conntrack_entries_free:percentage < 10
       for: 20m
@@ -2048,13 +2049,15 @@ spec:
     - alert: MintelWebServiceDown
       annotations:
         description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelWebServiceDown.md
       expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 0
       for: 1m
       labels:
         severity: critical
-    - alert: ReducedService
+    - alert: MintelReducedService
       annotations:
         description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelReducedService.md
       expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 1
       for: 1m
       labels:

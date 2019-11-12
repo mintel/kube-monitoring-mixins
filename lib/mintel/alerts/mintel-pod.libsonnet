@@ -8,7 +8,7 @@
             alert: 'PodOOMKilled',
             annotations: {
               description: 'Container {{ $labels.container }} in pod {{ $labels.pod }} has been OOMKilled AT LEAST {{ $value }} times in the last hour',
-              runbook_url: 'https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/PodOOMKilled.md',
+              runbook_url: '%(runBookBaseURL)s/core/PodOOMKilled.md' % $._config,
               summary: 'Pod is being OOMKilled',
             },
             expr: 'sum_over_time(kube_pod_container_status_terminated_reason{reason="OOMKilled"}[1h]) > 3',
@@ -21,7 +21,7 @@
             alert: 'KubePodFailed',
             annotations: {
               message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a Failed state for longer than an hour.',
-              runbook_url: 'https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodFailed.md',
+              runbook_url: '%(runBookBaseURL)s/core/KubePodFailed.md' % $._config,
             },
             expr: 'sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0\n',
             'for': '1h',

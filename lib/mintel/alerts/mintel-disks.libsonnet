@@ -17,7 +17,6 @@
               summary: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace {{ $labels.exported_namespace }} has {{ $value }}% inodes left',
               description: 'The free space for device {{ $labels.device }} on node {{ $labels.instance }} is Predicted to be less than 5% in the next 3 hours at the current rate based on the last 4h samples',
               runbook_url: '%(runBookBaseURL)s/core/KubePersistentVolumeInodeUsageCritical.md' % $._config,
-
             },
           },
           {
