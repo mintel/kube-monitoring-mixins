@@ -335,13 +335,14 @@ spec:
           )
         ) by (node)
       record: 'node:node_inodes_free:'
-  - name: mintel-overcommit.rules
+  - name: blackbox.rules
     rules:
-    - expr: |
-        count by (zone) (label_replace(
-          kube_node_info{job="kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
-        )
-      record: mintel:cluster:nodes_per_zone:count
+    - expr: topk(1, count by (target) (up{job="blackbox"}))
+      record: blackbox_node_count
+  - name: elasticsearch.rules
+    rules:
+    - expr: count by (cluster,role,namespace,job) (elasticsearch_nodes_roles{role="data"}==1)
+      record: elasticsearch_cluster_number_of_data_nodes
   - name: haproxy-ingress.rules
     rules:
     - expr: |
@@ -359,6 +360,13 @@ spec:
     - expr: 100 - ( (node_nf_conntrack_entries / node_nf_conntrack_entries_limit)
         * 100 )
       record: node:conntrack_entries_free:percentage
+  - name: mintel-overcommit.rules
+    rules:
+    - expr: |
+        count by (zone) (label_replace(
+          kube_node_info{job="kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
+        )
+      record: mintel:cluster:nodes_per_zone:count
   - name: mintel-pod.rules
     rules:
     - expr: label_replace( (sum by (namespace, container_name, pod_name, environment)
@@ -1394,6 +1402,75 @@ spec:
       for: 15m
       labels:
         severity: warning
+  - name: blackbox.alerts
+    rules:
+    - alert: TargetSSLCertExpireNear
+      annotations:
+        description: Target {{$labels.target}} SSL Certificate is due to expire in
+          less than 14 days
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
+        summary: Target {{$labels.target}} SSL Certificate is due to expire in less
+          than 14 days
+      expr: (min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60
+        / 24 < 14
+      for: 1h
+      labels:
+        severity: critical
+  - name: elasticsearch.alerts
+    rules:
+    - alert: Elasticsearch_json_parse_failures
+      annotations:
+        description: 'ElasticSearch node {{ $labels.instance }}: json parse failures
+          over an hour > 3 and has a value of {{ $value }}'
+        summary: 'ElasticSearch node {{ $labels.instance }}: json parse failures over
+          an hour > 3 and has a value of {{ $value }}'
+      expr: increase(elasticsearch_cluster_health_json_parse_failures[1h]) > 3
+      for: 1m
+      labels:
+        severity: warning
+  - name: haproxy-ingress.alerts
+    rules:
+    - alert: HAProxyBackendDown
+      annotations:
+        description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
+          for at least 1m'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
+        == 0
+      for: 1m
+      labels:
+        severity: critical
+  - name: kubernetes-resources.alerts
+    rules:
+    - alert: KubeMemOvercommit
+      annotations:
+        message: Cluster has overcommitted memory resource requests for Namespaces.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
+      expr: |
+        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
+          /
+        sum(node_memory_MemTotal_bytes{job="node-exporter"})
+          > 1.5
+      for: 5m
+      labels:
+        severity: warning
+  - name: mintel-containers.alerts
+    rules:
+    - alert: ContainerCombinedIoHighOverTime
+      annotations:
+        description: Container {{ $labels.container_name }} in Pod {{ $labels.pod_name
+          }} have been doing an unusual amount of Sustained IO on {{ $labels.device
+          }} for the specified time
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ContainerCombinedIoHighOverTime.md
+        summary: Container have been doing an unusual amount of IO
+      expr: |
+        rate(container_fs_reads_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        +
+        rate(container_fs_writes_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        > 20000000
+      for: 12h
+      labels:
+        severity: critical
   - name: mintel-disks.alerts
     rules:
     - alert: KubePersistentVolumeInodeUsageCritical
@@ -1422,35 +1499,6 @@ spec:
       for: 10m
       labels:
         severity: critical
-  - name: mintel-containers.alerts
-    rules:
-    - alert: ContainerCombinedIoHighOverTime
-      annotations:
-        description: Container {{ $labels.container_name }} in Pod {{ $labels.pod_name
-          }} have been doing an unusual amount of Sustained IO on {{ $labels.device
-          }} for the specified time
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ContainerCombinedIoHighOverTime.md
-        summary: Container have been doing an unusual amount of IO
-      expr: |
-        rate(container_fs_reads_bytes_total{job="kubelet",device="/dev/sda"}[5m])
-        +
-        rate(container_fs_writes_bytes_total{job="kubelet",device="/dev/sda"}[5m])
-        > 20000000
-      for: 12h
-      labels:
-        severity: critical
-  - name: haproxy-ingress.alerts
-    rules:
-    - alert: HAProxyBackendDown
-      annotations:
-        description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
-          for at least 1m'
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
-        == 0
-      for: 1m
-      labels:
-        severity: critical
   - name: mintel-node.alerts
     rules:
     - alert: NodeFreeConntrackEntriesLow
@@ -1462,6 +1510,20 @@ spec:
       for: 20m
       labels:
         context: node
+        severity: critical
+  - name: mintel-overcommit.rules.alerts
+    rules:
+    - alert: ClusterLowMemoryAvailable
+      annotations:
+        description: There is only {{ $value }}% allocatable memory remaining across
+          all cluster nodes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ClusterLowMemoryAvailable.md
+        summary: Low memory available across all cluster nodes
+      expr: 100 * sum(node:memory_for_pod_available:bytes{node!~"master.*"}) / sum(node:node_memory_bytes_total:sum{node!~"master.*"})
+        < 10
+      for: 30m
+      labels:
+        context: cluster
         severity: critical
   - name: mintel-pod.alerts
     rules:
