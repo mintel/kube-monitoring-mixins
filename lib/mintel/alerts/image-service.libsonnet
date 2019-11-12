@@ -15,7 +15,7 @@
             labels: {
               severity: 'warning',
             },
-          }
+          },
           {
             alert: 'ImageServiceAuthIssues',
             annotations: {

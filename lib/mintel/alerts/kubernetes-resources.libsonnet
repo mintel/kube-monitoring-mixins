@@ -15,7 +15,7 @@
             labels: {
               severity: 'warning',
             },
-          }
+          },
           {
             alert: 'KubeMemOvercommit',
             annotations: {
@@ -27,7 +27,7 @@
             labels: {
               severity: 'warning',
             },
-          }
+          },
           {
             alert: 'KubeCPUOvercommit',
             annotations: {
@@ -39,7 +39,7 @@
             labels: {
               severity: 'warning',
             },
-          }
+          },
           {
             alert: 'KubeMemOvercommit',
             annotations: {

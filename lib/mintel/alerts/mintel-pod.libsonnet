@@ -16,7 +16,7 @@
             labels: {
               severity: 'critical',
             },
-          }
+          },
           {
             alert: 'KubePodFailed',
             annotations: {

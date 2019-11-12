@@ -2,7 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-overcommit.rules.alerts',
+        name: 'mintel-overcommit.alerts',
         rules: [
           {
             alert: 'ClusterLowCPUAvailable',

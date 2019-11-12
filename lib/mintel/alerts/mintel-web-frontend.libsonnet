@@ -14,7 +14,7 @@
             labels: {
               severity: 'critical',
             },
-          }
+          },
           {
             alert: 'ReducedService',
             annotations: {
