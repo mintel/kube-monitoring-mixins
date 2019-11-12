@@ -60,7 +60,9 @@ function write_libsonnet() {
 			groups+: [
 				{
 					name: '$group.$type',
-					rules: [ $content ]
+					rules: [
+						$content
+					]
 				}
 			]
 		}
