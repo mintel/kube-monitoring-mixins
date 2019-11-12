@@ -335,18 +335,45 @@ spec:
           )
         ) by (node)
       record: 'node:node_inodes_free:'
-  - name: mintel-overcommit.rules
+  - name: mintel-overcommit
     rules:
     - expr: |
         count by (zone) (label_replace(
           kube_node_info{job="kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
         )
       record: mintel:cluster:nodes_per_zone:count
-  - name: mintel-disk.rules
+  - name: haproxy-ingress.rules
+    rules:
+    - expr: |
+        histogram_quantile(0.95, sum(rate(haproxy:http_backend_queue_time_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_kubernetes_io_owner))
+      labels:
+        quantile: "0.95"
+      record: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile
+  - name: mintel-disk
     rules:
     - expr: |
         (kubelet_volume_stats_inodes_free{job="kubelet"} / kubelet_volume_stats_inodes{job="kubelet"}) * 100
       record: mintel:pvc:inodes_free:percentage
+  - name: mintel-node.rules
+    rules:
+    - expr: 100 - ( (node_nf_conntrack_entries / node_nf_conntrack_entries_limit)
+        * 100 )
+      record: node:conntrack_entries_free:percentage
+  - name: mintel-pod.rules
+    rules:
+    - expr: label_replace( (sum by (namespace, container_name, pod_name, environment)
+        ( sum(container_memory_usage_bytes{container_name!=""}) by (container_name,
+        pod_name) * on (pod_name) group_left(environment, namespace) label_replace(kube_pod_labels{label_app!=""},"pod_name","$1","pod","(.*)")
+        ) / sum( label_replace( label_replace( kube_pod_container_resource_requests_memory_bytes{container!=""},
+        "container_name", "$1", "container",  "(.*)" ), "pod_name", "$1", "pod", "(.*)"
+        ) ) by (namespace, container_name, pod_name, environment) * 100), "service",
+        "$1", "container_name", "(.*)")
+      record: mintel:pod:usage_vs_request_memory:percent
+  - name: mintel-web-frontend.rules
+    rules:
+    - expr: label_replace( (up) * on (pod) group_left(label_environment) kube_pod_labels{label_vendor="mintel",
+        label_tier="frontend"}, "environment", "$1", "label_environment", "(.*)")
+      record: mintel:web_frontend:check_up
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
@@ -1367,23 +1394,6 @@ spec:
       for: 15m
       labels:
         severity: warning
-  - name: mintel-containers
-    rules:
-    - alert: ContainerCombinedIoHighOverTime
-      annotations:
-        description: Container {{ $labels.container_name }} in Pod {{ $labels.pod_name
-          }} have been doing an unusual amount of Sustained IO on {{ $labels.device
-          }} for the specified time
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ContainerCombinedIoHighOverTime.md
-        summary: Container have been doing an unusual amount of IO
-      expr: |
-        rate(container_fs_reads_bytes_total{job="kubelet",device="/dev/sda"}[5m])
-        +
-        rate(container_fs_writes_bytes_total{job="kubelet",device="/dev/sda"}[5m])
-        > 20000000
-      for: 12h
-      labels:
-        severity: critical
   - name: mintel-disks
     rules:
     - alert: KubePersistentVolumeInodeUsageCritical
@@ -1410,5 +1420,67 @@ spec:
       expr: |
         predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
       for: 10m
+      labels:
+        severity: critical
+  - name: mintel-containers
+    rules:
+    - alert: ContainerCombinedIoHighOverTime
+      annotations:
+        description: Container {{ $labels.container_name }} in Pod {{ $labels.pod_name
+          }} have been doing an unusual amount of Sustained IO on {{ $labels.device
+          }} for the specified time
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ContainerCombinedIoHighOverTime.md
+        summary: Container have been doing an unusual amount of IO
+      expr: |
+        rate(container_fs_reads_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        +
+        rate(container_fs_writes_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        > 20000000
+      for: 12h
+      labels:
+        severity: critical
+  - name: haproxy-ingress
+    rules:
+    - alert: HAProxyBackendDown
+      annotations:
+        description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
+          for at least 1m'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
+        == 0
+      for: 1m
+      labels:
+        severity: critical
+  - name: mintel-node
+    rules:
+    - alert: NodeFreeConntrackEntriesLow
+      annotations:
+        description: 'Free Conntrack entries is less than 10% on this node: {{ $labels.instance
+          }} : {{ $value }}%'
+        summary: Free Conntrack entries is less than 10% on this node
+      expr: node:conntrack_entries_free:percentage < 10
+      for: 20m
+      labels:
+        context: node
+        severity: critical
+  - name: mintel-pod
+    rules:
+    - alert: KubePodFailed
+      annotations:
+        message: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a Failed
+          state for longer than an hour.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodFailed.md
+      expr: |
+        sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0
+      for: 1h
+      labels:
+        severity: critical
+  - name: mintel-web-frontend
+    rules:
+    - alert: ReducedService
+      annotations:
+        description: Service `{{$labels.service}}`is down.
+      expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 1
+      for: 1m
       labels:
         severity: critical
