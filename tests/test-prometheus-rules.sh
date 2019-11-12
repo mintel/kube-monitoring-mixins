@@ -12,7 +12,7 @@ test_prometheus_rules_yaml_syntax() {
 	done
 }
 
-test_prometheus_rules_have_runbook_url_set() {
+skip_test_prometheus_rules_have_runbook_url_set() {
 	for file in `find ../rules -type f -name "*.yaml" -or -name "*.yml"` ; do
 		assert_status_code "0" "cat $file | gojsontoyaml -yamltojson | jq -e -r '.spec.groups[] | select(.name|test(\"^mintel-.*\")).rules[] | select(.alert) | .annotations.runbook_url'" "$file has some rules with no runbook_url defined - "
 	done
