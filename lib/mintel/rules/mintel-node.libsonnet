@@ -2,7 +2,7 @@
   prometheusRules+:: {
     groups+: [
       {
-        name: 'mintel-node',
+        name: 'mintel-node.rules',
         rules: [{
           expr: 'rate(node_network_receive_drop[1m]) + rate(node_network_transmit_drop[1m])',
           record: 'instance:node_network_drop:rate',

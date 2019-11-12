@@ -2,7 +2,7 @@
   prometheusRules+:: {
     groups+: [
       {
-        name: 'haproxy-ingress',
+        name: 'haproxy-ingress.rules',
         rules: [{
           expr: 'label_replace(\n  label_replace(http_backend_response_wait_seconds_bucket{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\\\d+$")\n    * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)\n    label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),\n  "label_app_kubernetes_io_owner",\n  "satoshi",\n  "label_app_kubernetes_io_owner",\n  ""\n)\n',
           record: 'haproxy:http_backend_response_wait_seconds_bucket:labeled',
