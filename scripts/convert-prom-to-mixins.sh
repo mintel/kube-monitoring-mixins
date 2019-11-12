@@ -60,9 +60,7 @@ function write_libsonnet() {
 			groups+: [
 				{
 					name: '$group.$type',
-					rules: [
-						$content
-					]
+					rules: $content
 				}
 			]
 		}
@@ -89,8 +87,8 @@ function process() {
 
 		# For each group, get the alerts, and get the rules, and write each file
 		for group in $groups; do
-	alerts=$(cat "$f" | gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert!=null)')
-			rules=$(cat "$f"| gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert==null)')
+			alerts=$(cat "$f" | gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert!=null)' | jq -s)
+			rules=$(cat "$f"| gojsontoyaml -yamltojson | jq -r '.spec.groups[] | select(.name=='\"$group\"') | .rules[] | select(.alert==null)' | jq -s)
 
 			write_libsonnet "$group.libsonnet" "$rules" "$group" "rules"
 			write_libsonnet "$group.libsonnet" "$alerts" "$group" "alerts"
