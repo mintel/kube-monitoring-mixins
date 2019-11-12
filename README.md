@@ -78,6 +78,17 @@ This file provides helpers to:
 - Filter out prometheus alerts
 - Modify prometheus alert expressions
 
+## Importing PrometheusRule resources
+
+The [convert-prom-to-mixins.sh](./scripts/convert-prom-to-mixins.sh) can process a directory containing `PrometheusRule` yaml files and conver them to `.libsonnet` files which we can include in our mixins.
+
+1. Each `.yaml` file found in the import directory is processed
+2. The `group` is extracted and later used in the generated `.libsonnet` filename.
+3. A file containing the alerts is generated
+4. A file containing the rules is generated
+
+You can then copy the resulting files into the `./lib/mintel` mixin directory, and configure `mixins.libsonnet` to include them.
+
 ## Additional Notes
 
 ### Kubernetes Version Support
