@@ -133,7 +133,7 @@
               sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
               /
               sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-              ) * 100 > 1'
+              ) * 100 > 1
             |||,
             'for': '5m',
             labels: {
@@ -151,7 +151,7 @@
               sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
               /
               sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-              ) * 100 > 10'
+              ) * 100 > 10
             |||,
             'for': '5m',
             labels: {
