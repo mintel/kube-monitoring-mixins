@@ -128,7 +128,13 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: '(\n  sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))\n  /\n  sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))\n) * 100 > 1',
+            expr: |||
+              (
+              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+              /
+              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+              ) * 100 > 1'
+            |||,
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -140,7 +146,13 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: '(\n  sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))\n  /\n  sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))\n) * 100 > 10',
+            expr: |||
+              (
+              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+              /
+              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+              ) * 100 > 10'
+            |||,
             'for': '5m',
             labels: {
               severity: 'critical',
