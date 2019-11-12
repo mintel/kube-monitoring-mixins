@@ -89,6 +89,8 @@ The [convert-prom-to-mixins.sh](./scripts/convert-prom-to-mixins.sh) can process
 
 You can then copy the resulting files into the `./lib/mintel` mixin directory, and configure `mixins.libsonnet` to include them.
 
+**WARNING**: The group names must be unique. Note that the script appends `.rules` to groups found matching the rule-spec, to avoid name clashes between rules and groups.
+
 ## Additional Notes
 
 ### Kubernetes Version Support
