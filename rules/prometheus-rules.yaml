@@ -335,6 +335,113 @@ spec:
           )
         ) by (node)
       record: 'node:node_inodes_free:'
+  - name: blackbox.rules
+    rules:
+    - expr: topk(1, count by (target) (up{job="blackbox"}))
+      record: blackbox_node_count
+  - name: elasticsearch.rules
+    rules:
+    - expr: 100 * (elasticsearch_filesystem_data_size_bytes - elasticsearch_filesystem_data_free_bytes)
+        / elasticsearch_filesystem_data_size_bytes
+      record: elasticsearch_filesystem_data_used_percent
+    - expr: 100 - elasticsearch_filesystem_data_used_percent
+      record: elasticsearch_filesystem_data_free_percent
+    - expr: count by (cluster,role,namespace,job) (elasticsearch_nodes_roles{role="client"}==1)
+      record: elasticsearch_cluster_number_of_client_nodes
+    - expr: count by (cluster,role,namespace,job) (elasticsearch_nodes_roles{role="ingest"}==1)
+      record: elasticsearch_cluster_number_of_ingest_nodes
+    - expr: count by (cluster,role,namespace,job) (elasticsearch_nodes_roles{role="master"}==1)
+      record: elasticsearch_cluster_number_of_master_nodes
+    - expr: count by (cluster,role,namespace,job) (elasticsearch_nodes_roles{role="data"}==1)
+      record: elasticsearch_cluster_number_of_data_nodes
+  - name: haproxy-ingress.rules
+    rules:
+    - expr: |
+        label_replace(
+        label_replace(http_backend_response_wait_seconds_bucket{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+        * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:http_backend_response_wait_seconds_bucket:labeled
+    - expr: |
+        label_replace(
+        label_replace(http_backend_queue_time_seconds_bucket{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:http_backend_queue_time_seconds_bucket:labeled
+    - expr: |
+        label_replace(
+        label_replace(haproxy_backend_current_queue{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:haproxy_backend_current_queue:labeled
+    - expr: |
+        label_replace(
+        label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:haproxy_backend_response_errors_total:labeled
+    - expr: |
+        label_replace(
+        label_replace(haproxy_backend_http_responses_total{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:haproxy_backend_http_responses_total:labeled
+    - expr: |
+        label_replace(
+        label_replace(haproxy_backend_up{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
+        "label_app_kubernetes_io_owner",
+        "satoshi",
+        "label_app_kubernetes_io_owner",
+        ""
+        )
+      record: haproxy:haproxy_backend_up:labeled
+    - expr: |
+        histogram_quantile(0.95, sum(rate(haproxy:http_backend_response_wait_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_kubernetes_io_owner))
+      labels:
+        quantile: "0.95"
+      record: haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile
+    - expr: |
+        histogram_quantile(0.95, sum(rate(haproxy:http_backend_queue_time_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_kubernetes_io_owner))
+      labels:
+        quantile: "0.95"
+      record: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile
+  - name: mintel-disk.rules
+    rules:
+    - expr: |
+        (kubelet_volume_stats_inodes_free{job="kubelet"} / kubelet_volume_stats_inodes{job="kubelet"}) * 100
+      record: mintel:pvc:inodes_free:percentage
+  - name: mintel-node.rules
+    rules:
+    - expr: 100 - ( (node_nf_conntrack_entries / node_nf_conntrack_entries_limit)
+        * 100 )
+      record: node:conntrack_entries_free:percentage
   - name: mintel-overcommit.rules
     rules:
     - expr: |
@@ -342,11 +449,21 @@ spec:
           kube_node_info{job="kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
         )
       record: mintel:cluster:nodes_per_zone:count
-  - name: mintel-disk.rules
+  - name: mintel-pod.rules
     rules:
-    - expr: |
-        (kubelet_volume_stats_inodes_free{job="kubelet"} / kubelet_volume_stats_inodes{job="kubelet"}) * 100
-      record: mintel:pvc:inodes_free:percentage
+    - expr: label_replace( (sum by (namespace, container_name, pod_name, environment)
+        ( sum(container_memory_usage_bytes{container_name!=""}) by (container_name,
+        pod_name) * on (pod_name) group_left(environment, namespace) label_replace(kube_pod_labels{label_app!=""},"pod_name","$1","pod","(.*)")
+        ) / sum( label_replace( label_replace( kube_pod_container_resource_requests_memory_bytes{container!=""},
+        "container_name", "$1", "container",  "(.*)" ), "pod_name", "$1", "pod", "(.*)"
+        ) ) by (namespace, container_name, pod_name, environment) * 100), "service",
+        "$1", "container_name", "(.*)")
+      record: mintel:pod:usage_vs_request_memory:percent
+  - name: mintel-web-frontend.rules
+    rules:
+    - expr: label_replace( (up) * on (pod) group_left(label_environment) kube_pod_labels{label_vendor="mintel",
+        label_tier="frontend"}, "environment", "$1", "label_environment", "(.*)")
+      record: mintel:web_frontend:check_up
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
@@ -1367,7 +1484,472 @@ spec:
       for: 15m
       labels:
         severity: warning
-  - name: mintel-containers
+  - name: blackbox.alerts
+    rules:
+    - alert: SiteIsDown
+      annotations:
+        description: Site {{$labels.target}} has been down (non 2xx code) for 1 minute
+          according to {{ $value }}% of Blackbox probes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
+        summary: Site {{$labels.target}} is down (non 2xx code)
+      expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
+        > 50
+      for: 1m
+      labels:
+        severity: warning
+    - alert: SiteIsDown
+      annotations:
+        description: Site {{$labels.target}} has been down (non 2xx code) for more
+          than 3 minutes according to {{ $value }}% of Blackbox probes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
+        summary: Site {{$labels.target}} is down (non 2xx code)
+      expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
+        > 50
+      for: 3m
+      labels:
+        severity: critical
+    - alert: SiteStatusIsFlapping
+      annotations:
+        description: Site {{$labels.target}} status (non 2xx code) has changed more
+          than 5 times over the last 10 minutes according to {{ $value }}% of Blackbox
+          probes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteStatusIsFlapping.md
+        summary: Site {{$labels.target}} status (non 2xx code) is flapping
+      expr: 100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) >
+        5) / blackbox_node_count > 50
+      for: 5m
+      labels:
+        severity: critical
+    - alert: TargetIsDown
+      annotations:
+        description: Target {{$labels.target}} has been down for 5 minutes according
+          to {{ $value }}% of Blackbox probes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
+        summary: Target {{$labels.target}} is down
+      expr: 100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count
+        > 50
+      for: 5m
+      labels:
+        severity: critical
+    - alert: TargetSSLCertExpireNear
+      annotations:
+        description: Target {{$labels.target}} SSL Certificate is due to expire in
+          less than 45 days
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
+        summary: Target {{$labels.target}} SSL Certificate is due to expire in less
+          than 45 days
+      expr: (min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60
+        / 24 < 45
+      for: 24h
+      labels:
+        severity: warning
+    - alert: TargetSSLCertExpireNear
+      annotations:
+        description: Target {{$labels.target}} SSL Certificate is due to expire in
+          less than 14 days
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
+        summary: Target {{$labels.target}} SSL Certificate is due to expire in less
+          than 14 days
+      expr: (min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60
+        / 24 < 14
+      for: 1h
+      labels:
+        severity: critical
+  - name: elasticsearch.alerts
+    rules:
+    - alert: ElasticsearchTooFewNodesRunning
+      annotations:
+        description: There are only {{$value}} < 3 ElasticSearch nodes running in
+          cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchTooFewNodesRunning.md
+        summary: ElasticSearch running on less than 3 nodes
+      expr: elasticsearch_cluster_health_number_of_nodes < 3
+      for: 10m
+      labels:
+        severity: critical
+    - alert: ElasticsearchTooFewMastersRunning
+      annotations:
+        description: There are only {{$value}} < 3 ElasticSearch Master nodes running
+          in cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchTooFewMastersRunning.md
+        summary: ElasticSearch running on less than 3 Master nodes
+      expr: elasticsearch_cluster_number_of_master_nodes < 3
+      for: 10m
+      labels:
+        severity: critical
+    - alert: ElasticsearchHeapTooHigh
+      annotations:
+        description: ElasticSearch instance {{$labels.name}} heap usage is high in
+          cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchHeapTooHigh.md
+        summary: The heap usage is over 80% for 15m
+      expr: elasticsearch_jvm_memory_used_bytes{area="heap"} / elasticsearch_jvm_memory_max_bytes{area="heap"}
+        > 0.8
+      for: 15m
+      labels:
+        severity: warning
+    - alert: ElasticsearchHeapTooHigh
+      annotations:
+        description: ElasticSearch instance {{$labels.name}} heap usage is high in
+          cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchHeapTooHigh.md
+        summary: The heap usage is over 90% for 15m
+      expr: elasticsearch_jvm_memory_used_bytes{area="heap"} / elasticsearch_jvm_memory_max_bytes{area="heap"}
+        > 0.9
+      for: 15m
+      labels:
+        severity: critical
+    - alert: ElasticsearchLowDiskFree
+      annotations:
+        description: Free Disk for elasticsearch node is lower than 30% on {{$labels.name}}
+          in cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchLowDiskFree.md
+        summary: Low free Disk for elasticsearch node
+      expr: elasticsearch_filesystem_data_free_percent < 30
+      for: 15m
+      labels:
+        severity: warning
+    - alert: ElasticsearchLowDiskFree
+      annotations:
+        description: Free Disk for elasticsearch node is lower than 15% on {{$labels.name}}
+          in cluster {{$labels.cluster}}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchLowDiskFree.md
+        summary: Low free Disk for elasticsearch node
+      expr: elasticsearch_filesystem_data_free_percent < 15
+      for: 15m
+      labels:
+        severity: critical
+    - alert: ElasticsearchClusterHealthRED
+      annotations:
+        description: 'Cluster is RED: not all primary and replica shards are allocated
+          in elasticsearch cluster {{ $labels.cluster }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthRED.md
+        summary: Cluster {{ $labels.cluster }} health is RED
+      expr: elasticsearch_cluster_health_status{color="red"}==1
+      for: 5m
+      labels:
+        severity: critical
+    - alert: ElasticsearchClusterHealthYELLOW
+      annotations:
+        description: 'Cluster is YELLOW: not all replica shards are allocated in elasticsearch
+          cluster {{ $labels.cluster }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthYELLOW.md
+        summary: Cluster {{ $labels.cluster }} health is YELLOW
+      expr: elasticsearch_cluster_health_status{color="yellow"}==1
+      for: 15m
+      labels:
+        severity: warning
+    - alert: ElasticsearchClusterHealthYELLOW
+      annotations:
+        description: 'Cluster is YELLOW: not all replica shards are allocated in elasticsearch
+          cluster {{ $labels.cluster }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthYELLOW.md
+        summary: Cluster {{ $labels.cluster }} health is YELLOW
+      expr: elasticsearch_cluster_health_status{color="yellow"}==1
+      for: 120m
+      labels:
+        severity: critical
+    - alert: ElasticsearchClusterHealthUp
+      annotations:
+        description: ElasticSearch {{ $labels.cluster }} last scrape of the ElasticSearch
+          cluster health failed
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthUp.md
+        summary: ElasticSearch {{ $labels.cluster }} last scrape of the ElasticSearch
+          cluster health failed
+      expr: elasticsearch_cluster_health_up !=1
+      for: 1m
+      labels:
+        severity: warning
+    - alert: ElasticsearchClusterHealthUp
+      annotations:
+        description: ElasticSearch {{ $labels.cluster }} last scrape of the ElasticSearch
+          cluster health failed
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthUp.md
+        summary: ElasticSearch {{ $labels.cluster }} last scrape of the ElasticSearch
+          cluster health failed
+      expr: elasticsearch_cluster_health_up !=1
+      for: 5m
+      labels:
+        severity: critical
+    - alert: ElasticsearchGCRunsCount
+      annotations:
+        description: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: Count of JVM GC runs > 5 per sec and has a value of {{ $value }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchGCRunsCount.md
+        summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: Count of JVM GC runs > 5 per sec and has a value of {{ $value }}'
+      expr: rate(elasticsearch_jvm_gc_collection_seconds_count{}[5m])>7
+      for: 1m
+      labels:
+        severity: warning
+    - alert: ElasticsearchGCRunTime
+      annotations:
+        description: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: GC run time in seconds > 0.3 sec and has a value of {{ $value }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchGCRunTime.md
+        summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: GC run time in seconds > 0.3 sec and has a value of {{ $value }}'
+      expr: rate(elasticsearch_jvm_gc_collection_seconds_sum[5m])>0.3
+      for: 1m
+      labels:
+        severity: warning
+    - alert: Elasticsearch_breakers_tripped
+      annotations:
+        description: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: breakers tripped > 0 and has a value of {{ $value }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/Elasticsearch_breakers_tripped.md
+        summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: breakers tripped > 0 and has a value of {{ $value }}'
+      expr: rate(elasticsearch_breakers_tripped{}[5m])>0
+      for: 1m
+      labels:
+        severity: warning
+    - alert: Elasticsearch_health_timed_out
+      annotations:
+        description: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: Number of cluster health checks timed out > 0 and has a value of {{
+          $value }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/Elasticsearch_health_timed_out.md
+        summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
+          }}: Number of cluster health checks timed out > 0 and has a value of {{
+          $value }}'
+      expr: elasticsearch_cluster_health_timed_out>0
+      for: 1m
+      labels:
+        severity: warning
+    - alert: Elasticsearch_json_parse_failures
+      annotations:
+        description: 'ElasticSearch node {{ $labels.instance }}: json parse failures
+          over an hour > 3 and has a value of {{ $value }}'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/Elasticsearch_json_parse_failures.md
+        summary: 'ElasticSearch node {{ $labels.instance }}: json parse failures over
+          an hour > 3 and has a value of {{ $value }}'
+      expr: increase(elasticsearch_cluster_health_json_parse_failures[1h]) > 3
+      labels:
+        severity: warning
+  - name: haproxy-ingress.alerts
+    rules:
+    - alert: HAProxyFrontendSessionUsage
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
+        summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached
+          {{ $value }}%'
+      expr: sum by (frontend) (haproxy_frontend_current_sessions) / sum by (frontend)
+        (haproxy_frontend_limit_sessions) * 100 >= 80
+      labels:
+        severity: warning
+    - alert: HAProxyFrontendSessionUsage
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
+        summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached
+          {{ $value }}%'
+      expr: sum by (frontend) (haproxy_frontend_current_sessions) / sum by (frontend)
+        (haproxy_frontend_limit_sessions) * 100 >= 90
+      labels:
+        severity: critical
+    - alert: HAProxyFrontendRequestErrors
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendRequestErrors
+        summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend
+          }} frontend'
+      expr: sum by (frontend) (rate(haproxy_frontend_request_errors_total[1m])) /
+        sum by (frontend) (rate(haproxy_frontend_http_requests_total[1m])) * 100 >
+        1
+      for: 3m
+      labels:
+        severity: warning
+    - alert: HAProxyFrontendRequestErrors
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendRequestErrors
+        summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend
+          }} frontend'
+      expr: sum by (frontend) (rate(haproxy_frontend_request_errors_total[1m])) /
+        sum by (frontend) (rate(haproxy_frontend_http_requests_total[1m])) * 100 >
+        5
+      for: 3m
+      labels:
+        severity: critical
+    - alert: HAProxyBackendRequestQueued
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
+        summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
+          }} backend'
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
+        > 10
+      for: 2m
+      labels:
+        severity: warning
+    - alert: HAProxyBackendRequestQueued
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
+        summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
+          }} backend'
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
+        > 100
+      for: 2m
+      labels:
+        severity: critical
+    - alert: HAProxyBackendRequestQueuedTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
+        summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
+          }} backend'
+      expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.1
+      for: 2m
+      labels:
+        severity: warning
+    - alert: HAProxyBackendRequestQueuedTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
+        summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
+          }} backend'
+      expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5
+      for: 2m
+      labels:
+        severity: critical
+    - alert: HAProxyBackendResponseErrors
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
+        summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
+          }} backend'
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
+        > 1
+      for: 2m
+      labels:
+        severity: warning
+    - alert: HAProxyBackendResponseErrors
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
+        summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
+          }} backend'
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
+        > 10
+      for: 2m
+      labels:
+        severity: critical
+    - alert: HAProxyBackendResponseErrors5xx
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
+        summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
+          }} service'
+      expr: |
+        (
+        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+        /
+        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+        ) * 100 > 1
+      for: 5m
+      labels:
+        severity: warning
+    - alert: HAProxyBackendResponseErrors5xx
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
+        summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
+          }} service'
+      expr: |
+        (
+        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+        /
+        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+        ) * 100 > 10
+      for: 5m
+      labels:
+        severity: critical
+    - alert: HAProxyBackendDown
+      annotations:
+        description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
+          for at least 1m'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
+      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
+        == 0
+      for: 1m
+      labels:
+        severity: critical
+  - name: image-service.alerts
+    rules:
+    - alert: ImageServiceAuthIssues
+      annotations:
+        message: Service {{ $labels.service }} is returning auth issues fo {{ $value
+          }}% of requests (2% threshold)
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
+      expr: |
+        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+          /
+        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        * 100 > 2
+      for: 5m
+      labels:
+        severity: warning
+    - alert: ImageServiceAuthIssues
+      annotations:
+        message: Service {{ $labels.service }} is returning auth issues for {{ $value
+          }}% of requests (5% threshold)
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
+      expr: |
+        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+          /
+        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        * 100 > 5
+      for: 2m
+      labels:
+        severity: critical
+  - name: kubernetes-resources.alerts
+    rules:
+    - alert: KubeCPUOvercommit
+      annotations:
+        message: Cluster has overcommitted CPU resource requests for Pods and cannot
+          tolerate node failure.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
+      expr: |
+        sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)
+          /
+        sum(node:node_num_cpu:sum)
+          >
+        (count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)
+      for: 5m
+      labels:
+        severity: warning
+    - alert: KubeMemOvercommit
+      annotations:
+        message: Cluster has overcommitted memory resource requests for Pods and cannot
+          tolerate node failure.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
+      expr: |
+        sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)
+          /
+        sum(node_memory_MemTotal_bytes)
+          >
+        (count(node:node_num_cpu:sum)-1)
+          /
+        count(node:node_num_cpu:sum)
+      for: 5m
+      labels:
+        severity: warning
+    - alert: KubeCPUOvercommit
+      annotations:
+        message: Cluster has overcommitted CPU resource requests for Namespaces.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
+      expr: |
+        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.cpu"})
+          /
+        sum(node:node_num_cpu:sum)
+          > 1.5
+      for: 5m
+      labels:
+        severity: warning
+    - alert: KubeMemOvercommit
+      annotations:
+        message: Cluster has overcommitted memory resource requests for Namespaces.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
+      expr: |
+        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
+          /
+        sum(node_memory_MemTotal_bytes{job="node-exporter"})
+          > 1.5
+      for: 5m
+      labels:
+        severity: warning
+  - name: mintel-containers.alerts
     rules:
     - alert: ContainerCombinedIoHighOverTime
       annotations:
@@ -1384,7 +1966,7 @@ spec:
       for: 12h
       labels:
         severity: critical
-  - name: mintel-disks
+  - name: mintel-disks.alerts
     rules:
     - alert: KubePersistentVolumeInodeUsageCritical
       annotations:
@@ -1410,5 +1992,73 @@ spec:
       expr: |
         predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
       for: 10m
+      labels:
+        severity: critical
+  - name: mintel-node.alerts
+    rules:
+    - alert: NodeFreeConntrackEntriesLow
+      annotations:
+        description: 'Free Conntrack entries is less than 10% on this node: {{ $labels.instance
+          }} : {{ $value }}%'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NodeFreeConntrackEntriesLow.md
+        summary: Free Conntrack entries is less than 10% on this node
+      expr: node:conntrack_entries_free:percentage < 10
+      for: 20m
+      labels:
+        context: node
+        severity: critical
+  - name: mintel-overcommit.alerts
+    rules:
+    - alert: ClusterLowMemoryAvailable
+      annotations:
+        description: There is only {{ $value }}% allocatable memory remaining across
+          all cluster nodes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ClusterLowMemoryAvailable.md
+        summary: Low memory available across all cluster nodes
+      expr: 100 * sum(node:memory_for_pod_available:bytes{node!~"master.*"}) / sum(node:node_memory_bytes_total:sum{node!~"master.*"})
+        < 10
+      for: 30m
+      labels:
+        context: cluster
+        severity: critical
+  - name: mintel-pod.alerts
+    rules:
+    - alert: PodOOMKilled
+      annotations:
+        description: Container {{ $labels.container }} in pod {{ $labels.pod }} has
+          been OOMKilled AT LEAST {{ $value }} times in the last hour
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/PodOOMKilled.md
+        summary: Pod is being OOMKilled
+      expr: sum_over_time(kube_pod_container_status_terminated_reason{reason="OOMKilled"}[1h])
+        > 3
+      for: 5m
+      labels:
+        severity: critical
+    - alert: KubePodFailed
+      annotations:
+        message: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a Failed
+          state for longer than an hour.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodFailed.md
+      expr: |
+        sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0
+      for: 1h
+      labels:
+        severity: critical
+  - name: mintel-web-frontend.alerts
+    rules:
+    - alert: MintelWebServiceDown
+      annotations:
+        description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelWebServiceDown.md
+      expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 0
+      for: 1m
+      labels:
+        severity: critical
+    - alert: MintelReducedService
+      annotations:
+        description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelReducedService.md
+      expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 1
+      for: 1m
       labels:
         severity: critical

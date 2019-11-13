@@ -2,30 +2,7 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'mintel-containers',
-        rules: [
-          {
-            alert: 'ContainerCombinedIoHighOverTime',
-            expr: |||
-              rate(container_fs_reads_bytes_total{%(cadvisorSelector)s,%(containerIoDiskDeviceSelector)s}[%(containerIoDiskDeviceRateInterval)s])
-              +
-              rate(container_fs_writes_bytes_total{%(cadvisorSelector)s,%(containerIoDiskDeviceSelector)s}[%(containerIoDiskDeviceRateInterval)s])
-              > %(containerIoBytesValueThreshold)s
-            ||| % $._config,
-            'for': $._config.containerIoBytesTimeThreshold,
-            labels: {
-              severity: $._config.containerIoCriticality,
-            },
-            annotations: {
-              runbook_url: '%(runBookBaseURL)s/core/ContainerCombinedIoHighOverTime.md' % $._config,
-              summary: 'Container have been doing an unusual amount of IO',
-              description: 'Container {{ $labels.container_name }} in Pod {{ $labels.pod_name }} have been doing an unusual amount of Sustained IO on {{ $labels.device }} for the specified time',
-            },
-          },
-        ],
-      },
-      {
-        name: 'mintel-disks',
+        name: 'mintel-disks.alerts',
         rules: [
           {
             alert: 'KubePersistentVolumeInodeUsageCritical',
@@ -40,7 +17,6 @@
               summary: 'The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace {{ $labels.exported_namespace }} has {{ $value }}% inodes left',
               description: 'The free space for device {{ $labels.device }} on node {{ $labels.instance }} is Predicted to be less than 5% in the next 3 hours at the current rate based on the last 4h samples',
               runbook_url: '%(runBookBaseURL)s/core/KubePersistentVolumeInodeUsageCritical.md' % $._config,
-
             },
           },
           {
