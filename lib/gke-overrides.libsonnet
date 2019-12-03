@@ -5,6 +5,8 @@ local ignore_alerts = [
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
+  'NodeNetworkReceiveErrs',
+  'NodeNetworkTransmitErrs',
   'KubeSchedulerDown',
 ];
 
