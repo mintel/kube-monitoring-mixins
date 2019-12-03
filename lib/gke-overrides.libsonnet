@@ -5,15 +5,16 @@ local ignore_alerts = [
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
+  'KubeSchedulerDown',
   'NodeNetworkReceiveErrs',
   'NodeNetworkTransmitErrs',
-  'KubeSchedulerDown',
 ];
 
 // Define a list of groups to ignore
 local ignore_groups = [
   'kube-scheduler.rules',
   'kube-apiserver.rules',
+  'prometheus.rules',
 ];
 
 // Define a mapping of alert/recordname to expression.
@@ -53,6 +54,14 @@ local ignore_dashboards = [
                                 group.rules
                               ),
                             },
+                          super.groups
+                        ),
+                      } +
+                      {
+                        // Ignore entire group of rules
+                        groups: std.filter(
+                          function(group)
+                            std.count(ignore_groups, group.name) == 0,
                           super.groups
                         ),
                       } +
