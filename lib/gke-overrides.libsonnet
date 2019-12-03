@@ -1,10 +1,11 @@
 // Define a list of alerts to ignore
 local ignore_alerts = [
-  'KubeSchedulerDown',
-  'KubeControllerManagerDown',
   'KubeAPIErrorsHigh',
   'KubeAPILatencyHigh',
+  'KubeClientErrors',
   'KubeClientCertificateExpiration',
+  'KubeControllerManagerDown',
+  'KubeSchedulerDown',
 ];
 
 // Define a list of groups to ignore
