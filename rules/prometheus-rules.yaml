@@ -893,6 +893,15 @@ spec:
       for: 15m
       labels:
         severity: critical
+    - alert: HaproxyIngressDown
+      annotations:
+        message: HaproxyIngress has disappeared from Prometheus target discovery.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-haproxyingressdown
+      expr: |
+        absent(up{job="haproxy-exporter"} == 1)
+      for: 15m
+      labels:
+        severity: critical
     - alert: KubeAPIDown
       annotations:
         message: KubeAPI has disappeared from Prometheus target discovery.

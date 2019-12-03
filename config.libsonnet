@@ -63,6 +63,8 @@
     // BaseURL for mintel-specific runbooks.
     runBookBaseURL: 'https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks',
 
+    // The following jobs will be monitored for their ABSENCE , if they disappear an alert will be raised
+    // They will alert as `critical` so be careful what you add here
     jobs: {
       Kubelet: $._config.kubeletSelector,
       KubeScheduler: $._config.kubeSchedulerSelector,
@@ -74,6 +76,7 @@
       Prometheus: $._config.prometheusSelector,
       PrometheusOperator: $._config.prometheusOperatorSelector,
       CoreDNS: $._config.coreDNSSelector,
+      HaproxyIngress: 'job="haproxy-exporter"',
     },
 
     alertmanager+:: {
