@@ -1756,7 +1756,7 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.cpu"})
           /
         sum(node:node_num_cpu:sum)
-          > 1.5
+          > 3
       for: 5m
       labels:
         severity: warning
@@ -1768,7 +1768,7 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
           /
         sum(node_memory_MemTotal_bytes{job="node-exporter"})
-          > 1.5
+          > 3
       for: 5m
       labels:
         severity: warning

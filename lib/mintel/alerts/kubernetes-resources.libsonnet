@@ -14,7 +14,7 @@
               sum(kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="hard", resource="requests.cpu"})
                 /
               sum(node:node_num_cpu:sum)
-                > %(namespaceOvercommitFactor)s
+                > %(quotaVsNodesOvercommitFactor)s
             ||| % $._config,
             'for': '5m',
             labels: {
@@ -31,7 +31,7 @@
               sum(kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="hard", resource="requests.memory"})
                 /
               sum(node_memory_MemTotal_bytes{%(nodeExporterSelector)s})
-                > %(namespaceOvercommitFactor)s
+                > %(quotaVsNodesOvercommitFactor)s
             ||| % $._config,
             'for': '5m',
             labels: {
