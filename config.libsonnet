@@ -60,9 +60,16 @@
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
     prometheusOperatorSelector: 'job="prometheus-operator",namespace="' + $._config.namespace + '"',
 
+    // We alert when the aggregate (CPU, Memory) quota for all namespaces is
+    // greater than the amount of the resources in the cluster.  We do however
+    // allow you to overcommit if you wish.
+    namespaceOvercommitFactor: 1.5,
+
     // BaseURL for mintel-specific runbooks.
     runBookBaseURL: 'https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks',
 
+    // The following jobs will be monitored for their ABSENCE , if they disappear an alert will be raised
+    // They will alert as `critical` so be careful what you add here
     jobs: {
       Kubelet: $._config.kubeletSelector,
       KubeScheduler: $._config.kubeSchedulerSelector,
@@ -74,6 +81,7 @@
       Prometheus: $._config.prometheusSelector,
       PrometheusOperator: $._config.prometheusOperatorSelector,
       CoreDNS: $._config.coreDNSSelector,
+      HaproxyIngress: 'job="haproxy-exporter"',
     },
 
     alertmanager+:: {

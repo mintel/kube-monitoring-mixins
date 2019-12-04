@@ -598,28 +598,6 @@ spec:
       for: 1h
       labels:
         severity: critical
-    - alert: NodeNetworkReceiveErrs
-      annotations:
-        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
-          {{ printf "%.0f" $value }} receive errors in the last two minutes.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworkreceiveerrs
-        summary: Network interface is reporting many receive errors.
-      expr: |
-        increase(node_network_receive_errs_total[2m]) > 10
-      for: 1h
-      labels:
-        severity: warning
-    - alert: NodeNetworkTransmitErrs
-      annotations:
-        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
-          {{ printf "%.0f" $value }} transmit errors in the last two minutes.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworktransmiterrs
-        summary: Network interface is reporting many transmit errors.
-      expr: |
-        increase(node_network_transmit_errs_total[2m]) > 10
-      for: 1h
-      labels:
-        severity: warning
   - name: alertmanager.rules
     rules:
     - alert: AlertmanagerConfigInconsistent
@@ -741,117 +719,6 @@ spec:
       for: 2m
       labels:
         severity: warning
-  - name: prometheus.rules
-    rules:
-    - alert: PrometheusConfigReloadFailed
-      annotations:
-        description: Reloading Prometheus' configuration has failed for {{$labels.namespace}}/{{$labels.pod}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusconfigreloadfailed
-        summary: Reloading Prometheus' configuration failed
-      expr: |
-        prometheus_config_last_reload_successful{job="prometheus-k8s",namespace="monitoring"} == 0
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusNotificationQueueRunningFull
-      annotations:
-        description: Prometheus' alert notification queue is running full for {{$labels.namespace}}/{{
-          $labels.pod}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotificationqueuerunningfull
-        summary: Prometheus' alert notification queue is running full
-      expr: |
-        predict_linear(prometheus_notifications_queue_length{job="prometheus-k8s",namespace="monitoring"}[5m], 60 * 30) > prometheus_notifications_queue_capacity{job="prometheus-k8s",namespace="monitoring"}
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusErrorSendingAlerts
-      annotations:
-        description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
-          $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheuserrorsendingalerts
-        summary: Errors while sending alert from Prometheus
-      expr: |
-        rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m]) / rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0.01
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusErrorSendingAlerts
-      annotations:
-        description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
-          $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheuserrorsendingalerts
-        summary: Errors while sending alerts from Prometheus
-      expr: |
-        rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m]) / rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0.03
-      for: 10m
-      labels:
-        severity: critical
-    - alert: PrometheusNotConnectedToAlertmanagers
-      annotations:
-        description: Prometheus {{ $labels.namespace }}/{{ $labels.pod}} is not connected
-          to any Alertmanagers
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotconnectedtoalertmanagers
-        summary: Prometheus is not connected to any Alertmanagers
-      expr: |
-        prometheus_notifications_alertmanagers_discovered{job="prometheus-k8s",namespace="monitoring"} < 1
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBReloadsFailing
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
-          reload failures over the last four hours.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbreloadsfailing
-        summary: Prometheus has issues reloading data blocks from disk
-      expr: |
-        increase(prometheus_tsdb_reloads_failures_total{job="prometheus-k8s",namespace="monitoring"}[2h]) > 0
-      for: 12h
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBCompactionsFailing
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
-          compaction failures over the last four hours.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbcompactionsfailing
-        summary: Prometheus has issues compacting sample blocks
-      expr: |
-        increase(prometheus_tsdb_compactions_failed_total{job="prometheus-k8s",namespace="monitoring"}[2h]) > 0
-      for: 12h
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBWALCorruptions
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} has a corrupted write-ahead
-          log (WAL).'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbwalcorruptions
-        summary: Prometheus write-ahead log is corrupted
-      expr: |
-        prometheus_tsdb_wal_corruptions_total{job="prometheus-k8s",namespace="monitoring"} > 0
-      for: 4h
-      labels:
-        severity: warning
-    - alert: PrometheusNotIngestingSamples
-      annotations:
-        description: Prometheus {{ $labels.namespace }}/{{ $labels.pod}} isn't ingesting
-          samples.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotingestingsamples
-        summary: Prometheus isn't ingesting samples
-      expr: |
-        rate(prometheus_tsdb_head_samples_appended_total{job="prometheus-k8s",namespace="monitoring"}[5m]) <= 0
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusTargetScrapesDuplicate
-      annotations:
-        description: '{{$labels.namespace}}/{{$labels.pod}} has many samples rejected
-          due to duplicate timestamps but different values'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustargetscrapesduplicate
-        summary: Prometheus has many samples rejected
-      expr: |
-        increase(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
-      for: 10m
-      labels:
-        severity: warning
   - name: prometheus-operator
     rules:
     - alert: PrometheusOperatorReconcileErrors
@@ -890,6 +757,15 @@ spec:
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-corednsdown
       expr: |
         absent(up{job="kube-dns"} == 1)
+      for: 15m
+      labels:
+        severity: critical
+    - alert: HaproxyIngressDown
+      annotations:
+        message: HaproxyIngress has disappeared from Prometheus target discovery.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-haproxyingressdown
+      expr: |
+        absent(up{job="haproxy-exporter"} == 1)
       for: 15m
       labels:
         severity: critical
@@ -1246,29 +1122,6 @@ spec:
       expr: |
         count(count by (gitVersion) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*.[0-9]*).*"))) > 1
       for: 1h
-      labels:
-        severity: warning
-    - alert: KubeClientErrors
-      annotations:
-        message: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
-          }}' is experiencing {{ printf "%0.0f" $value }}% errors.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
-      expr: |
-        (sum(rate(rest_client_requests_total{code=~"5.."}[5m])) by (instance, job)
-          /
-        sum(rate(rest_client_requests_total[5m])) by (instance, job))
-        * 100 > 1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeClientErrors
-      annotations:
-        message: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
-          }}' is experiencing {{ printf "%0.0f" $value }} errors / second.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
-      expr: |
-        sum(rate(ksm_scrape_error_total{job="kube-state-metrics"}[5m])) by (instance, job) > 0.1
-      for: 15m
       labels:
         severity: warning
     - alert: KubeletTooManyPods
@@ -1893,38 +1746,8 @@ spec:
       for: 2m
       labels:
         severity: critical
-  - name: kubernetes-resources.alerts
+  - name: kubernetes-resources-mintel.alerts
     rules:
-    - alert: KubeCPUOvercommit
-      annotations:
-        message: Cluster has overcommitted CPU resource requests for Pods and cannot
-          tolerate node failure.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
-      expr: |
-        sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)
-          /
-        sum(node:node_num_cpu:sum)
-          >
-        (count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)
-      for: 5m
-      labels:
-        severity: warning
-    - alert: KubeMemOvercommit
-      annotations:
-        message: Cluster has overcommitted memory resource requests for Pods and cannot
-          tolerate node failure.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
-      expr: |
-        sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)
-          /
-        sum(node_memory_MemTotal_bytes)
-          >
-        (count(node:node_num_cpu:sum)-1)
-          /
-        count(node:node_num_cpu:sum)
-      for: 5m
-      labels:
-        severity: warning
     - alert: KubeCPUOvercommit
       annotations:
         message: Cluster has overcommitted CPU resource requests for Namespaces.
@@ -1933,7 +1756,7 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.cpu"})
           /
         sum(node:node_num_cpu:sum)
-          > 1.5
+          > 3
       for: 5m
       labels:
         severity: warning
@@ -1945,7 +1768,7 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
           /
         sum(node_memory_MemTotal_bytes{job="node-exporter"})
-          > 1.5
+          > 3
       for: 5m
       labels:
         severity: warning
