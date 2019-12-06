@@ -1746,6 +1746,18 @@ spec:
       for: 2m
       labels:
         severity: critical
+  - name: git-sync.alerts
+    rules:
+    - alert: GitSyncFailing
+      annotations:
+        description: Git-sync sidecar in the pod {{ $labels.pod }} has failed 45 times
+          during the last hour.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/GitSyncFailing.md
+        summary: Git-sync failing to pull git repos
+      expr: increase(git_sync_count_total{status="error"}[60m]) > 45
+      for: 5m
+      labels:
+        severity: warning
   - name: kubernetes-resources-mintel.alerts
     rules:
     - alert: KubeCPUOvercommit
