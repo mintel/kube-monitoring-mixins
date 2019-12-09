@@ -1784,6 +1784,19 @@ spec:
       for: 5m
       labels:
         severity: warning
+    - alert: KubePodDistributionUnbalanced
+      annotations:
+        description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}}
+          , {{ $value }}% are on node {{ $labels.node }}'
+        message: Pod Distribution for pods is unbalanced
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalanced.md
+      expr: "100 * (\n  (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~\"<none>|Job\"})
+        > 1) \n  / \n  ignoring(node) \n    group_left(created_by_kind, created_by_name)
+        \n      count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
+        > 51\n"
+      for: 15m
+      labels:
+        severity: warning
   - name: mintel-containers.alerts
     rules:
     - alert: ContainerCombinedIoHighOverTime

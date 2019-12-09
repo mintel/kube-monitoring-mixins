@@ -38,6 +38,27 @@
               severity: 'warning',
             },
           },
+          {
+            alert: 'KubePodDistributionUnbalanced',
+            annotations: {
+              description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}} , {{ $value }}% are on node {{ $labels.node }}',
+              message: 'Pod Distribution for pods is unbalanced',
+              runbook_url: '%(runBookBaseURL)s/core/KubePodDistributionUnbalanced.md' % $._config,
+            },
+            expr: |||
+              100 * (
+                (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1) 
+                / 
+                ignoring(node) 
+                  group_left(created_by_kind, created_by_name) 
+                    count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+              ) > %(kubePodDistributionUnbalancedPercentageThreshold)s
+            ||| % $._config,
+            'for': '15m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
