@@ -32,5 +32,7 @@
     namespaceOvercommitFactor: 1.5,
     quotaVsNodesOvercommitFactor: self.namespaceOvercommitFactor * 2,
 
+    // If more than 51% of the PODS for a given workload are on the same node
+    kubePodDistributionUnbalancedPercentageThreshold: 51,
   },
 }

@@ -60,6 +60,10 @@
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
     prometheusOperatorSelector: 'job="prometheus-operator",namespace="' + $._config.namespace + '"',
 
+
+    // If more than 51% of the PODS for a given workload are on the same node
+    kubePodDistributionUnbalancedPercentageThreshold: 51,
+
     // We alert when the aggregate (CPU, Memory) quota for all namespaces is
     // greater than the amount of the resources in the cluster.  We do however
     // allow you to overcommit if you wish.
