@@ -34,5 +34,10 @@
 
     // If more than 51% of the PODS for a given workload are on the same node
     kubePodDistributionUnbalancedPercentageThreshold: 51,
+
+    // Flux Vars
+    fluxJobSelector: 'job="flux"',
+    fluxDeltaIntervalMinutes: 6,
+    fluxDeltaDoubleIntervalMinutes: 2 * this.fluxDeltaIntervalMinutes,
   },
 }
