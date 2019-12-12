@@ -8,7 +8,7 @@
             alert: 'FluxDaemonGeneralSyncError',
             annotations: {
               description: 'General flux sync errors',
-              summary: 'Geneirc Flux Daemon sync error',
+              summary: 'General Flux Daemon sync error',
               runbook_url: '%(runBookBaseURL)s/core/flux.md#fluxdaemongeneralsyncerror' % $._config,
             },
             expr: 'delta(flux_daemon_sync_duration_seconds_count{%(fluxJobSelector)s,success="true"}[%(fluxDeltaIntervalMinutes)sm]) < 1' % $._config,
