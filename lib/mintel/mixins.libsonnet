@@ -12,6 +12,7 @@
 (import './alerts/mintel-overcommit.libsonnet') +
 (import './alerts/mintel-pod.libsonnet') +
 (import './alerts/mintel-web-frontend.libsonnet') +
+(import './alerts/flux.libsonnet') +
 
 (import './rules/blackbox.libsonnet') +
 (import './rules/elasticsearch.libsonnet') +
