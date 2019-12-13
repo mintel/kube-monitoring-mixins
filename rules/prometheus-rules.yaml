@@ -1056,7 +1056,7 @@ spec:
       expr: "100 * sum(increase(container_cpu_cfs_throttled_periods_total{container_name!=\"\",
         container_name!~\"ingress-default-backend|redis-exporter|metadata-proxy|autoscaler|metrics-server(-nanny)?\"}[5m]))
         by (container_name, pod_name, namespace)\n  /\nsum(increase(container_cpu_cfs_periods_total{container_name!~\"ingress-default-backend|redis-exporter|metadata-proxy|autoscaler|metrics-server(-nanny)?\"}[5m]))
-        by (container_name, pod_name, namespace)\n  > 25 \n"
+        by (container_name, pod_name, namespace)\n  > 60 \n"
       for: 15m
       labels:
         severity: warning

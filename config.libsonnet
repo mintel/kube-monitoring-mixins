@@ -39,7 +39,7 @@
     containerIoCriticality: 'critical',
 
     // CPU Throttling settings
-    cpuThrottlingPercent: 25,
+    cpuThrottlingPercent: 60,
     // Ignore containers we do not manage
     cpuThrottlingSelector: 'container_name!~"ingress-default-backend|redis-exporter|metadata-proxy|autoscaler|metrics-server(-nanny)?"',
 
