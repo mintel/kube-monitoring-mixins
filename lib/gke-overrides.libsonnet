@@ -21,6 +21,39 @@ local ignore_groups = [
 // Overrides the expr field for the specifeid record name.
 local expr_overrides = {};
 
+// Define a mapping of alertname to label page:false
+// It will add a label `page:false`
+local page_false_critical = [
+
+];
+
+local set_page_false(group) =
+                            group {
+                              rules: std.map(
+                                function(rule)
+                                  if std.objectHas(rule, 'alert') then
+                                    if std.objectHas(expr_overrides, rule.alert) then
+                                      rule {
+                                        expr: expr_overrides[rule.alert],
+                                      }
+                                    else
+                                      rule
+                                  else
+                                    if std.objectHas(rule, 'record') then
+                                      if std.objectHas(expr_overrides, rule.record) then
+                                        rule {
+                                          expr: expr_overrides[rule.record],
+                                        }
+                                      else
+                                        rule
+                                    else
+                                      rule,
+                                group.rules
+                              ),
+                            },
+
+
+
 // Define a list of grafana dashboards to ignore
 local ignore_dashboards = [
   'apiserver.json',

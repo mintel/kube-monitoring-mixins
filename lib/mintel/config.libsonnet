@@ -2,7 +2,10 @@
   _config+:: {
     local this = self,
     // Selectors are inserted between {} in Prometheus queries.
+    namespaceSelector: null,
+    prefixedNamespaceSelector: if self.namespaceSelector != null then self.namespaceSelector + ',' else '',
 
+    nodeExporterSelector: 'job="node-exporter"',
     // Select the metrics coming from the cadvisor job
     cadvisorSelector: 'job="kubelet"',
     // Select the metrics coming from the kube-state-metrics job
