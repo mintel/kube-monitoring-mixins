@@ -461,8 +461,11 @@ spec:
       record: mintel:pod:usage_vs_request_memory:percent
   - name: mintel-web-frontend.rules
     rules:
-    - expr: label_replace( (up) * on (pod) group_left(label_environment) kube_pod_labels{label_vendor="mintel",
-        label_tier="frontend"}, "environment", "$1", "label_environment", "(.*)")
+    - expr: "label_replace( \n  (up) * on (pod) \n    group_left(label_app_mintel_com_owner,label_app_mintel_com_pipeline_stage)
+        \n      kube_pod_labels{label_app_mintel_com_owner=~\".+\", label_app_mintel_com_owner!~\"sre\",
+        \ label_tier=\"frontend\", label_app_mintel_com_pipeline_stage=~\".+\"}, \n
+        \ \"environment\",\n  \"$1\",\n  \"label_app_mintel_com_pipeline_stage\",\n
+        \ \"(.*)\"\n)\n"
       record: mintel:web_frontend:check_up
   - name: node-exporter
     rules:
@@ -1967,20 +1970,40 @@ spec:
       annotations:
         description: Service `{{$labels.service}}`is down.
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelWebServiceDown.md
-      expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 0
+      expr: count(mintel:web_frontend:check_up == 1) by (job, namespace, service,
+        environment, label_app_mintel_com_owner) == 0
+      for: 3m
+      labels:
+        page: "false"
+        severity: critical
+    - alert: MintelWebServiceDown
+      annotations:
+        description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelWebServiceDown.md
+      expr: count(mintel:web_frontend:check_up == 1) by (job, namespace, service,
+        environment, label_app_mintel_com_owner) == 0
       for: 1m
       labels:
-        page: "true"
+        severity: warning
+    - alert: MintelReducedService
+      annotations:
+        description: Service `{{$labels.service}}`is down.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelReducedService.md
+      expr: count(mintel:web_frontend:check_up == 1) by (job, namespace, service,
+        environment, label_app_mintel_com_owner) == 1
+      for: 3m
+      labels:
+        page: "false"
         severity: critical
     - alert: MintelReducedService
       annotations:
         description: Service `{{$labels.service}}`is down.
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MintelReducedService.md
-      expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 1
+      expr: count(mintel:web_frontend:check_up == 1) by (job, namespace, service,
+        environment, label_app_mintel_com_owner) == 1
       for: 1m
       labels:
-        page: "true"
-        severity: critical
+        severity: warning
   - name: flux.alerts
     rules:
     - alert: FluxDaemonGeneralSyncError

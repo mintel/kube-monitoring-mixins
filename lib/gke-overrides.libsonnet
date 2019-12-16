@@ -36,6 +36,8 @@ local expr_overrides = {};
 // It will add a label `page:false` else it will add a `page:true`
 local page_false_critical = [
   'ContainerCombinedIoHighOverTime',
+  'MintelReducedService',
+  'MintelWebServiceDown',
   'PrometheusBadConfig',
   'PrometheusRuleFailures',
   'PrometheusRemoteStorageFailures',
