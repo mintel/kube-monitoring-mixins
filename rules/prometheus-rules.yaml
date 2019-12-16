@@ -337,7 +337,7 @@ spec:
       record: 'node:node_inodes_free:'
   - name: blackbox.rules
     rules:
-    - expr: count by (target) (up{job="blackbox"})
+    - expr: count by (target,job) (up{job="blackbox"})
       record: blackbox_node_count
   - name: elasticsearch.rules
     rules:
@@ -1380,7 +1380,7 @@ spec:
           according to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
-      expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
+      expr: 100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count
         >= 50
       for: 1m
       labels:
@@ -1391,7 +1391,7 @@ spec:
           than 3 minutes according to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
-      expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
+      expr: 100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count
         >= 50
       for: 3m
       labels:
@@ -1404,8 +1404,8 @@ spec:
           probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteStatusIsFlapping.md
         summary: Site {{$labels.target}} status (non 2xx code) is flapping
-      expr: 100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) >
-        5) / blackbox_node_count >= 50
+      expr: 100 * count by (target,job) (changes(probe_success{job="blackbox"}[10m])
+        > 5) / blackbox_node_count >= 50
       for: 5m
       labels:
         page: "true"
@@ -1416,7 +1416,7 @@ spec:
           to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
         summary: Target {{$labels.target}} is down
-      expr: 100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count
+      expr: 100 * count by (target,job) (up{job="blackbox"} == 0) / blackbox_node_count
         >= 50
       for: 5m
       labels:
@@ -1429,8 +1429,8 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
         summary: Target {{$labels.target}} SSL Certificate is due to expire in less
           than 45 days
-      expr: (min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60
-        / 24 < 45
+      expr: (min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60
+        / 60 / 24 < 45
       for: 24h
       labels:
         severity: warning
@@ -1441,8 +1441,8 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
         summary: Target {{$labels.target}} SSL Certificate is due to expire in less
           than 14 days
-      expr: (min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60
-        / 24 < 14
+      expr: (min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60
+        / 60 / 24 < 14
       for: 1h
       labels:
         page: "true"

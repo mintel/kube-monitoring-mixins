@@ -5,7 +5,7 @@
         name: 'blackbox.rules',
         rules: [
           {
-            expr: 'count by (target) (up{job="blackbox"})',
+            expr: 'count by (target,job) (up{job="blackbox"})',
             record: 'blackbox_node_count',
           },
         ],
