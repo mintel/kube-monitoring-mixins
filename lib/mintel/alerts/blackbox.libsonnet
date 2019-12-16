@@ -11,7 +11,7 @@
               summary: 'Site {{$labels.target}} is down (non 2xx code)',
               runbook_url: '%(runBookBaseURL)s/core/SiteIsDown.md' % $._config,
             },
-            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
+            expr: '100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
             'for': '1m',
             labels: {
               severity: 'warning',
@@ -24,7 +24,7 @@
               summary: 'Site {{$labels.target}} is down (non 2xx code)',
               runbook_url: '%(runBookBaseURL)s/core/SiteIsDown.md' % $._config,
             },
-            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
+            expr: '100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
             'for': '3m',
             labels: {
               severity: 'critical',
@@ -37,7 +37,7 @@
               summary: 'Site {{$labels.target}} status (non 2xx code) is flapping',
               runbook_url: '%(runBookBaseURL)s/core/SiteStatusIsFlapping.md' % $._config,
             },
-            expr: '100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) > 5) / blackbox_node_count >= 50',
+            expr: '100 * count by (target,job) (changes(probe_success{job="blackbox"}[10m]) > 5) / blackbox_node_count >= 50',
             'for': '5m',
             labels: {
               severity: 'critical',
@@ -51,7 +51,7 @@
               runbook_url: '%(runBookBaseURL)s/core/TargetIsDown.md' % $._config,
 
             },
-            expr: '100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count >= 50',
+            expr: '100 * count by (target,job) (up{job="blackbox"} == 0) / blackbox_node_count >= 50',
             'for': '5m',
             labels: {
               severity: 'critical',
@@ -64,7 +64,7 @@
               summary: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 45 days',
               runbook_url: '%(runBookBaseURL)s/core/TargetSSLCertExpireNear.md' % $._config,
             },
-            expr: '(min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 45',
+            expr: '(min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 45',
             'for': '24h',
             labels: {
               severity: 'warning',
@@ -78,7 +78,7 @@
               runbook_url: '%(runBookBaseURL)s/core/TargetSSLCertExpireNear.md' % $._config,
 
             },
-            expr: '(min by(target) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 14',
+            expr: '(min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 14',
             'for': '1h',
             labels: {
               severity: 'critical',
