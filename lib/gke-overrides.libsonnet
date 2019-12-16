@@ -21,6 +21,9 @@ local ignore_groups = [
   'prometheus.rules',
 ];
 
+// Define a list of rules to downgrade severity for
+local downgrade_severity_rules = [];
+
 // Define a list of grafana dashboards to ignore
 local ignore_dashboards = [
   'apiserver.json',
@@ -43,6 +46,37 @@ local page_false_critical = [
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',
 ];
+
+
+// Downgrade severity for a rule
+// critical -> warning , warning -> info
+local downgrade_severity(group) =
+  group {
+    rules: std.map(
+      function(rule)
+        if std.objectHas(rule, 'alert') && (std.length(std.find(rule.alert, downgrade_severity_rules)) > 0) then
+          if std.objectHas(rule.labels, 'severity') then
+            if (rule.labels.severity == 'critical') then
+              rule {
+                labels+: {
+                  severity: 'warning',
+                },
+              }
+            else if (rule.labels.severity == 'warning') then
+              rule {
+                labels+: {
+                  severity: 'info',
+                },
+              }
+            else
+              rule
+          else
+            rule
+        else
+          rule,
+      group.rules
+    ),
+  };
 
 
 // Filtering Functions
@@ -159,6 +193,10 @@ local override_expression_for_rule(group) =
     {
       // Set Paging label on severity:critical alerts
       groups: std.map(set_page_label, super.groups),
+    } +
+    {
+      // Downgrade severity
+      groups: std.map(downgrade_severity, super.groups),
     },
 
   // Override grafana dashboards
