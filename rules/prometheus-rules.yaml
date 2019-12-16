@@ -1880,10 +1880,10 @@ spec:
         summary: The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace
           {{ $labels.exported_namespace }} has {{ $value }}% inodes left
       expr: |
-        mintel:pvc:inodes_free:percentage <= 5
-      for: 5m
+        mintel:pvc:inodes_free:percentage <= 3
+      for: 1h
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: KubePersistentVolumeInodePredictedUsageCritical
       annotations:
@@ -1894,7 +1894,22 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePersistentVolumeInodePredictedUsageCritical.md
         summary: Persistent Volume inodes predicted to fill up
       expr: |
+        mintel:pvc:inodes_free:percentage < 15 and
         predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
+      for: 1h
+      labels:
+        severity: warning
+    - alert: KubePersistentVolumeInodePredictedUsageCritical
+      annotations:
+        description: |-
+          The persistent volume {{ $labels.persistentvolumeclaim }} in namespsace
+                          {{ $labels.exported_namespace }} is predicted to use all its inodes within the
+                          next 4 hours
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePersistentVolumeInodePredictedUsageCritical.md
+        summary: Persistent Volume inodes predicted to fill up
+      expr: |
+        mintel:pvc:inodes_free:percentage < 15 and
+        predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 60 * 60) <= 0
       for: 10m
       labels:
         page: "true"
