@@ -1,6 +1,8 @@
 // Configurations
 // Define a list of alerts to ignore
 local ignore_alerts = [
+  'ElasticsearchTooFewNodesRunning',
+  'ElasticsearchTooFewMastersRunning',
   'KubeAPIErrorsHigh',
   'KubeAPILatencyHigh',
   'KubeClientErrors',
@@ -26,6 +28,7 @@ local ignore_groups = [
 local for_overrides = {
   KubePersistentVolumeErrors: '15m',
   KubePersistentVolumeFullInFourDays: '1h',
+  KubePersistentVolumeUsageCritical: '15m',
 };
 
 // Define a list of rules to downgrade severity for
@@ -45,12 +48,15 @@ local expr_overrides = {};
 // Define a mapping of alertname to label page:false
 // It will add a label `page:false` else it will add a `page:true`
 local page_false_critical = [
+  'AlertmanagerConfigInconsistent',
   'ContainerCombinedIoHighOverTime',
+  'ElasticsearchLowDiskFree',
   'KubePersistentVolumeInodeUsageCritical',
   'KubePersistentVolumeFullInFourDays',
   'MintelReducedService',
   'MintelWebServiceDown',
   'PrometheusBadConfig',
+  'PrometheusErrorSendingAlertsToAnyAlertmanager',
   'PrometheusRuleFailures',
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',

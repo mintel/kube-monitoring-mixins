@@ -616,7 +616,7 @@ spec:
         count_values("config_hash", alertmanager_config_hash{job="alertmanager-main",namespace="monitoring"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
       for: 5m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: AlertmanagerFailedReload
       annotations:
@@ -1100,7 +1100,7 @@ spec:
           /
         kubelet_volume_stats_capacity_bytes{job="kubelet"}
           < 3
-      for: 1m
+      for: 15m
       labels:
         page: "true"
         severity: critical
@@ -1228,7 +1228,7 @@ spec:
         > 3
       for: 15m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: PrometheusNotConnectedToAlertmanagers
       annotations:
@@ -1449,28 +1449,6 @@ spec:
         severity: critical
   - name: elasticsearch.alerts
     rules:
-    - alert: ElasticsearchTooFewNodesRunning
-      annotations:
-        description: There are only {{$value}} < 3 ElasticSearch nodes running in
-          cluster {{$labels.cluster}}
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchTooFewNodesRunning.md
-        summary: ElasticSearch running on less than 3 nodes
-      expr: elasticsearch_cluster_health_number_of_nodes < 3
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
-    - alert: ElasticsearchTooFewMastersRunning
-      annotations:
-        description: There are only {{$value}} < 3 ElasticSearch Master nodes running
-          in cluster {{$labels.cluster}}
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchTooFewMastersRunning.md
-        summary: ElasticSearch running on less than 3 Master nodes
-      expr: elasticsearch_cluster_number_of_master_nodes < 3
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
     - alert: ElasticsearchHeapTooHigh
       annotations:
         description: ElasticSearch instance {{$labels.name}} heap usage is high in
@@ -1513,7 +1491,7 @@ spec:
       expr: elasticsearch_filesystem_data_free_percent < 15
       for: 15m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: ElasticsearchClusterHealthRED
       annotations:
@@ -1533,16 +1511,6 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthYELLOW.md
         summary: Cluster {{ $labels.cluster }} health is YELLOW
       expr: elasticsearch_cluster_health_status{color="yellow"}==1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: ElasticsearchClusterHealthYELLOW
-      annotations:
-        description: 'Cluster is YELLOW: not all replica shards are allocated in elasticsearch
-          cluster {{ $labels.cluster }}'
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchClusterHealthYELLOW.md
-        summary: Cluster {{ $labels.cluster }} health is YELLOW
-      expr: elasticsearch_cluster_health_status{color="yellow"}==1
       for: 120m
       labels:
         page: "true"
@@ -1555,7 +1523,7 @@ spec:
         summary: ElasticSearch {{ $labels.cluster }} last scrape of the ElasticSearch
           cluster health failed
       expr: elasticsearch_cluster_health_up !=1
-      for: 1m
+      for: 3m
       labels:
         severity: warning
     - alert: ElasticsearchClusterHealthUp
@@ -1578,7 +1546,7 @@ spec:
         summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
           }}: Count of JVM GC runs > 5 per sec and has a value of {{ $value }}'
       expr: rate(elasticsearch_jvm_gc_collection_seconds_count{}[5m])>7
-      for: 1m
+      for: 3m
       labels:
         severity: warning
     - alert: ElasticsearchGCRunTime
@@ -1589,7 +1557,7 @@ spec:
         summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
           }}: GC run time in seconds > 0.3 sec and has a value of {{ $value }}'
       expr: rate(elasticsearch_jvm_gc_collection_seconds_sum[5m])>0.3
-      for: 1m
+      for: 3m
       labels:
         severity: warning
     - alert: Elasticsearch_breakers_tripped
@@ -1600,7 +1568,7 @@ spec:
         summary: 'ElasticSearch node {{ $labels.name }} on cluster {{ $labels.cluster
           }}: breakers tripped > 0 and has a value of {{ $value }}'
       expr: rate(elasticsearch_breakers_tripped{}[5m])>0
-      for: 1m
+      for: 3m
       labels:
         severity: warning
     - alert: Elasticsearch_health_timed_out
@@ -1613,7 +1581,7 @@ spec:
           }}: Number of cluster health checks timed out > 0 and has a value of {{
           $value }}'
       expr: elasticsearch_cluster_health_timed_out>0
-      for: 1m
+      for: 3m
       labels:
         severity: warning
     - alert: Elasticsearch_json_parse_failures
@@ -1624,6 +1592,7 @@ spec:
         summary: 'ElasticSearch node {{ $labels.instance }}: json parse failures over
           an hour > 3 and has a value of {{ $value }}'
       expr: increase(elasticsearch_cluster_health_json_parse_failures[1h]) > 3
+      for: 5m
       labels:
         severity: warning
   - name: haproxy-ingress.alerts
