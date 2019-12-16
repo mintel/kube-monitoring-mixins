@@ -337,7 +337,7 @@ spec:
       record: 'node:node_inodes_free:'
   - name: blackbox.rules
     rules:
-    - expr: topk(1, count by (target) (up{job="blackbox"}))
+    - expr: count by (target) (up{job="blackbox"})
       record: blackbox_node_count
   - name: elasticsearch.rules
     rules:
@@ -598,28 +598,6 @@ spec:
       for: 1h
       labels:
         severity: critical
-    - alert: NodeNetworkReceiveErrs
-      annotations:
-        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
-          {{ printf "%.0f" $value }} receive errors in the last two minutes.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworkreceiveerrs
-        summary: Network interface is reporting many receive errors.
-      expr: |
-        increase(node_network_receive_errs_total[2m]) > 10
-      for: 1h
-      labels:
-        severity: warning
-    - alert: NodeNetworkTransmitErrs
-      annotations:
-        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
-          {{ printf "%.0f" $value }} transmit errors in the last two minutes.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworktransmiterrs
-        summary: Network interface is reporting many transmit errors.
-      expr: |
-        increase(node_network_transmit_errs_total[2m]) > 10
-      for: 1h
-      labels:
-        severity: warning
   - name: alertmanager.rules
     rules:
     - alert: AlertmanagerConfigInconsistent
@@ -741,117 +719,6 @@ spec:
       for: 2m
       labels:
         severity: warning
-  - name: prometheus.rules
-    rules:
-    - alert: PrometheusConfigReloadFailed
-      annotations:
-        description: Reloading Prometheus' configuration has failed for {{$labels.namespace}}/{{$labels.pod}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusconfigreloadfailed
-        summary: Reloading Prometheus' configuration failed
-      expr: |
-        prometheus_config_last_reload_successful{job="prometheus-k8s",namespace="monitoring"} == 0
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusNotificationQueueRunningFull
-      annotations:
-        description: Prometheus' alert notification queue is running full for {{$labels.namespace}}/{{
-          $labels.pod}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotificationqueuerunningfull
-        summary: Prometheus' alert notification queue is running full
-      expr: |
-        predict_linear(prometheus_notifications_queue_length{job="prometheus-k8s",namespace="monitoring"}[5m], 60 * 30) > prometheus_notifications_queue_capacity{job="prometheus-k8s",namespace="monitoring"}
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusErrorSendingAlerts
-      annotations:
-        description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
-          $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheuserrorsendingalerts
-        summary: Errors while sending alert from Prometheus
-      expr: |
-        rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m]) / rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0.01
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusErrorSendingAlerts
-      annotations:
-        description: Errors while sending alerts from Prometheus {{$labels.namespace}}/{{
-          $labels.pod}} to Alertmanager {{$labels.Alertmanager}}
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheuserrorsendingalerts
-        summary: Errors while sending alerts from Prometheus
-      expr: |
-        rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m]) / rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0.03
-      for: 10m
-      labels:
-        severity: critical
-    - alert: PrometheusNotConnectedToAlertmanagers
-      annotations:
-        description: Prometheus {{ $labels.namespace }}/{{ $labels.pod}} is not connected
-          to any Alertmanagers
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotconnectedtoalertmanagers
-        summary: Prometheus is not connected to any Alertmanagers
-      expr: |
-        prometheus_notifications_alertmanagers_discovered{job="prometheus-k8s",namespace="monitoring"} < 1
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBReloadsFailing
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
-          reload failures over the last four hours.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbreloadsfailing
-        summary: Prometheus has issues reloading data blocks from disk
-      expr: |
-        increase(prometheus_tsdb_reloads_failures_total{job="prometheus-k8s",namespace="monitoring"}[2h]) > 0
-      for: 12h
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBCompactionsFailing
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} had {{$value | humanize}}
-          compaction failures over the last four hours.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbcompactionsfailing
-        summary: Prometheus has issues compacting sample blocks
-      expr: |
-        increase(prometheus_tsdb_compactions_failed_total{job="prometheus-k8s",namespace="monitoring"}[2h]) > 0
-      for: 12h
-      labels:
-        severity: warning
-    - alert: PrometheusTSDBWALCorruptions
-      annotations:
-        description: '{{$labels.job}} at {{$labels.instance}} has a corrupted write-ahead
-          log (WAL).'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustsdbwalcorruptions
-        summary: Prometheus write-ahead log is corrupted
-      expr: |
-        prometheus_tsdb_wal_corruptions_total{job="prometheus-k8s",namespace="monitoring"} > 0
-      for: 4h
-      labels:
-        severity: warning
-    - alert: PrometheusNotIngestingSamples
-      annotations:
-        description: Prometheus {{ $labels.namespace }}/{{ $labels.pod}} isn't ingesting
-          samples.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusnotingestingsamples
-        summary: Prometheus isn't ingesting samples
-      expr: |
-        rate(prometheus_tsdb_head_samples_appended_total{job="prometheus-k8s",namespace="monitoring"}[5m]) <= 0
-      for: 10m
-      labels:
-        severity: warning
-    - alert: PrometheusTargetScrapesDuplicate
-      annotations:
-        description: '{{$labels.namespace}}/{{$labels.pod}} has many samples rejected
-          due to duplicate timestamps but different values'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheustargetscrapesduplicate
-        summary: Prometheus has many samples rejected
-      expr: |
-        increase(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
-      for: 10m
-      labels:
-        severity: warning
   - name: prometheus-operator
     rules:
     - alert: PrometheusOperatorReconcileErrors
@@ -890,6 +757,15 @@ spec:
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-corednsdown
       expr: |
         absent(up{job="kube-dns"} == 1)
+      for: 15m
+      labels:
+        severity: critical
+    - alert: HaproxyIngressDown
+      annotations:
+        message: HaproxyIngress has disappeared from Prometheus target discovery.
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-haproxyingressdown
+      expr: |
+        absent(up{job="haproxy-exporter"} == 1)
       for: 15m
       labels:
         severity: critical
@@ -1248,29 +1124,6 @@ spec:
       for: 1h
       labels:
         severity: warning
-    - alert: KubeClientErrors
-      annotations:
-        message: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
-          }}' is experiencing {{ printf "%0.0f" $value }}% errors.'
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
-      expr: |
-        (sum(rate(rest_client_requests_total{code=~"5.."}[5m])) by (instance, job)
-          /
-        sum(rate(rest_client_requests_total[5m])) by (instance, job))
-        * 100 > 1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeClientErrors
-      annotations:
-        message: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
-          }}' is experiencing {{ printf "%0.0f" $value }} errors / second.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
-      expr: |
-        sum(rate(ksm_scrape_error_total{job="kube-state-metrics"}[5m])) by (instance, job) > 0.1
-      for: 15m
-      labels:
-        severity: warning
     - alert: KubeletTooManyPods
       annotations:
         message: Kubelet {{ $labels.instance }} is running {{ $value }} Pods, close
@@ -1493,7 +1346,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
       expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        > 50
+        >= 50
       for: 1m
       labels:
         severity: warning
@@ -1504,7 +1357,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
       expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        > 50
+        >= 50
       for: 3m
       labels:
         severity: critical
@@ -1516,7 +1369,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteStatusIsFlapping.md
         summary: Site {{$labels.target}} status (non 2xx code) is flapping
       expr: 100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) >
-        5) / blackbox_node_count > 50
+        5) / blackbox_node_count >= 50
       for: 5m
       labels:
         severity: critical
@@ -1527,7 +1380,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
         summary: Target {{$labels.target}} is down
       expr: 100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count
-        > 50
+        >= 50
       for: 5m
       labels:
         severity: critical
@@ -1893,38 +1746,20 @@ spec:
       for: 2m
       labels:
         severity: critical
-  - name: kubernetes-resources.alerts
+  - name: git-sync.alerts
     rules:
-    - alert: KubeCPUOvercommit
+    - alert: GitSyncFailing
       annotations:
-        message: Cluster has overcommitted CPU resource requests for Pods and cannot
-          tolerate node failure.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
-      expr: |
-        sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)
-          /
-        sum(node:node_num_cpu:sum)
-          >
-        (count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)
+        description: Git-sync sidecar in the pod {{ $labels.pod }} has failed 45 times
+          during the last hour.
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/GitSyncFailing.md
+        summary: Git-sync failing to pull git repos
+      expr: increase(git_sync_count_total{status="error"}[60m]) > 45
       for: 5m
       labels:
         severity: warning
-    - alert: KubeMemOvercommit
-      annotations:
-        message: Cluster has overcommitted memory resource requests for Pods and cannot
-          tolerate node failure.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
-      expr: |
-        sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)
-          /
-        sum(node_memory_MemTotal_bytes)
-          >
-        (count(node:node_num_cpu:sum)-1)
-          /
-        count(node:node_num_cpu:sum)
-      for: 5m
-      labels:
-        severity: warning
+  - name: kubernetes-resources-mintel.alerts
+    rules:
     - alert: KubeCPUOvercommit
       annotations:
         message: Cluster has overcommitted CPU resource requests for Namespaces.
@@ -1933,7 +1768,7 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.cpu"})
           /
         sum(node:node_num_cpu:sum)
-          > 1.5
+          > 3
       for: 5m
       labels:
         severity: warning
@@ -1945,8 +1780,21 @@ spec:
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
           /
         sum(node_memory_MemTotal_bytes{job="node-exporter"})
-          > 1.5
+          > 3
       for: 5m
+      labels:
+        severity: warning
+    - alert: KubePodDistributionUnbalanced
+      annotations:
+        description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}}
+          , {{ $value }}% are on node {{ $labels.node }}'
+        message: Pod Distribution for pods is unbalanced
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalanced.md
+      expr: "100 * (\n  (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~\"<none>|Job\"})
+        > 1) \n  / \n  ignoring(node) \n    group_left(created_by_kind, created_by_name)
+        \n      count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
+        > 51\n"
+      for: 15m
       labels:
         severity: warning
   - name: mintel-containers.alerts
@@ -2062,3 +1910,54 @@ spec:
       for: 1m
       labels:
         severity: critical
+  - name: flux.alerts
+    rules:
+    - alert: FluxDaemonGeneralSyncError
+      annotations:
+        description: General flux sync errors
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxdaemongeneralsyncerror
+        summary: General Flux Daemon sync error
+      expr: delta(flux_daemon_sync_duration_seconds_count{job="flux",success="true"}[6m])
+        < 1
+      for: 120m
+      labels:
+        severity: warning
+    - alert: FluxManifestsSyncError
+      annotations:
+        description: Flux manifests sync errors
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxmanifestssyncerror
+        summary: Flux Manifests sync error
+      expr: flux_daemon_sync_manifests{job="flux",success="false"} > 0
+      for: 60m
+      labels:
+        severity: warning
+    - alert: FluxMemCacheErrors
+      annotations:
+        description: Flux Errors talking to memcached
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxmemcacheerrors
+        summary: Flux Errors talking to memcached
+      expr: delta(flux_cache_request_duration_seconds_count{job="flux",success="false"}[12m])
+        > 0
+      for: 60m
+      labels:
+        severity: warning
+    - alert: FluxRemoteFetchErrors
+      annotations:
+        description: Flux errors fetching from remote registry
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxremotefetcherrors
+        summary: Flux errors fetching from remote registry
+      expr: delta(flux_client_fetch_duration_seconds_count{job="flux",success="false"}[12m])
+        > 0
+      for: 240m
+      labels:
+        severity: warning
+    - alert: FluxReleaseErrors
+      annotations:
+        description: Flux image release errors
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxreleaseerrors
+        summary: Flux release errors
+      expr: delta(flux_fluxsvc_release_duration_seconds_count{job="flux",success="false"}[6m])
+        > 0
+      for: 10m
+      labels:
+        severity: warning

@@ -4,6 +4,7 @@
 (import './alerts/elasticsearch.libsonnet') +
 (import './alerts/haproxy-ingress.libsonnet') +
 (import './alerts/image-service.libsonnet') +
+(import './alerts/git-sync.libsonnet') +
 (import './alerts/kubernetes-resources.libsonnet') +
 (import './alerts/mintel-containers.libsonnet') +
 (import './alerts/mintel-disks.libsonnet') +
@@ -11,6 +12,7 @@
 (import './alerts/mintel-overcommit.libsonnet') +
 (import './alerts/mintel-pod.libsonnet') +
 (import './alerts/mintel-web-frontend.libsonnet') +
+(import './alerts/flux.libsonnet') +
 
 (import './rules/blackbox.libsonnet') +
 (import './rules/elasticsearch.libsonnet') +
