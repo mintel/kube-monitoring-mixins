@@ -21,6 +21,13 @@ local ignore_groups = [
   'prometheus.rules',
 ];
 
+// Map of alertname to FOR override
+// overrides the for field for the specified alertname
+local for_overrides = {
+  KubePersistentVolumeErrors: '15m',
+  KubePersistentVolumeFullInFourDays: '1h',
+};
+
 // Define a list of rules to downgrade severity for
 local downgrade_severity_rules = [];
 
@@ -122,6 +129,25 @@ local filter_out_rule(group) =
     ),
   };
 
+// Override for field for alertname
+local override_for_field_for_rule(group) =
+  group {
+    rules: std.map(
+      function(rule)
+        if std.objectHas(rule, 'alert') then
+          if std.objectHas(for_overrides, rule.alert) then
+            rule {
+              'for': for_overrides[rule.alert],
+            }
+          else
+            rule
+        else
+          rule,
+      group.rules
+    ),
+  };
+
+
 // Override expressions (take into account both alert and records)
 local override_expression_for_rule(group) =
   group {
@@ -189,6 +215,10 @@ local override_expression_for_rule(group) =
     {
       // Override Expressions on per rule basis
       groups: std.map(override_expression_for_rule, super.groups),
+    } +
+    {
+      // Override for field on per rule basis
+      groups: std.map(override_for_field_for_rule, super.groups),
     } +
     {
       // Set Paging label on severity:critical alerts
