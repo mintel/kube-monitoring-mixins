@@ -34,7 +34,13 @@ local expr_overrides = {};
 
 // Define a mapping of alertname to label page:false
 // It will add a label `page:false` else it will add a `page:true`
-local page_false_critical = [];
+local page_false_critical = [
+  'ContainerCombinedIoHighOverTime',
+  'PrometheusBadConfig',
+  'PrometheusRuleFailures',
+  'PrometheusRemoteStorageFailures',
+  'PrometheusRemoteWriteBehind',
+];
 
 
 // Filtering Functions
@@ -150,7 +156,7 @@ local override_expression_for_rule(group) =
     } +
     {
       // Set Paging label on severity:critical alerts
-      // groups: std.map(set_page_label, super.groups),
+      groups: std.map(set_page_label, super.groups),
     },
 
   // Override grafana dashboards

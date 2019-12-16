@@ -501,6 +501,7 @@ spec:
         )
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: NodeFilesystemAlmostOutOfSpace
       annotations:
@@ -531,6 +532,7 @@ spec:
         )
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: NodeFilesystemFilesFillingUp
       annotations:
@@ -567,6 +569,7 @@ spec:
         )
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: NodeFilesystemAlmostOutOfFiles
       annotations:
@@ -597,6 +600,7 @@ spec:
         )
       for: 1h
       labels:
+        page: "true"
         severity: critical
   - name: alertmanager.rules
     rules:
@@ -609,6 +613,7 @@ spec:
         count_values("config_hash", alertmanager_config_hash{job="alertmanager-main",namespace="monitoring"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: AlertmanagerFailedReload
       annotations:
@@ -630,6 +635,7 @@ spec:
         count by (service) (alertmanager_cluster_members{job="alertmanager-main",namespace="monitoring"})
       for: 5m
       labels:
+        page: "true"
         severity: critical
   - name: general.rules
     rules:
@@ -674,6 +680,7 @@ spec:
         (node:node_filesystem_usage: > 0.85) and (predict_linear(node:node_filesystem_avail:[30m], 3600 * 2) < 0)
       for: 10m
       labels:
+        page: "true"
         severity: critical
   - name: node-time
     rules:
@@ -750,6 +757,7 @@ spec:
         absent(up{job="alertmanager-main",namespace="monitoring"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: CoreDNSDown
       annotations:
@@ -759,6 +767,7 @@ spec:
         absent(up{job="kube-dns"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: HaproxyIngressDown
       annotations:
@@ -768,6 +777,7 @@ spec:
         absent(up{job="haproxy-exporter"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeAPIDown
       annotations:
@@ -777,6 +787,7 @@ spec:
         absent(up{job="apiserver"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeStateMetricsDown
       annotations:
@@ -786,6 +797,7 @@ spec:
         absent(up{job="kube-state-metrics"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeletDown
       annotations:
@@ -795,6 +807,7 @@ spec:
         absent(up{job="kubelet"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: NodeExporterDown
       annotations:
@@ -804,6 +817,7 @@ spec:
         absent(up{job="node-exporter"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: PrometheusDown
       annotations:
@@ -813,6 +827,7 @@ spec:
         absent(up{job="prometheus-k8s",namespace="monitoring"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: PrometheusOperatorDown
       annotations:
@@ -822,6 +837,7 @@ spec:
         absent(up{job="prometheus-operator",namespace="monitoring"} == 1)
       for: 15m
       labels:
+        page: "true"
         severity: critical
   - name: kubernetes-apps
     rules:
@@ -834,6 +850,7 @@ spec:
         rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[15m]) * 60 * 5 > 0
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: KubePodNotReady
       annotations:
@@ -844,6 +861,7 @@ spec:
         sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}) > 0
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: KubeDeploymentGenerationMismatch
       annotations:
@@ -857,6 +875,7 @@ spec:
         kube_deployment_metadata_generation{job="kube-state-metrics"}
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeDeploymentReplicasMismatch
       annotations:
@@ -869,6 +888,7 @@ spec:
         kube_deployment_status_replicas_available{job="kube-state-metrics"}
       for: 1h
       labels:
+        page: "true"
         severity: critical
     - alert: KubeStatefulSetReplicasMismatch
       annotations:
@@ -881,6 +901,7 @@ spec:
         kube_statefulset_status_replicas{job="kube-state-metrics"}
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeStatefulSetGenerationMismatch
       annotations:
@@ -894,6 +915,7 @@ spec:
         kube_statefulset_metadata_generation{job="kube-state-metrics"}
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeStatefulSetUpdateNotRolledOut
       annotations:
@@ -914,6 +936,7 @@ spec:
         )
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeDaemonSetRolloutStuck
       annotations:
@@ -926,6 +949,7 @@ spec:
         kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"} * 100 < 100
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: KubeDaemonSetNotScheduled
       annotations:
@@ -1075,6 +1099,7 @@ spec:
           < 3
       for: 1m
       labels:
+        page: "true"
         severity: critical
     - alert: KubePersistentVolumeFullInFourDays
       annotations:
@@ -1092,6 +1117,7 @@ spec:
         predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 24 * 3600) < 0
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: KubePersistentVolumeErrors
       annotations:
@@ -1102,6 +1128,7 @@ spec:
         kube_persistentvolume_status_phase{phase=~"Failed|Pending",job="kube-state-metrics"} > 0
       for: 5m
       labels:
+        page: "true"
         severity: critical
   - name: kubernetes-system
     rules:
@@ -1147,6 +1174,7 @@ spec:
         max_over_time(prometheus_config_last_reload_successful{job="prometheus-k8s",namespace="monitoring"}[5m]) == 0
       for: 10m
       labels:
+        page: "false"
         severity: critical
     - alert: PrometheusNotificationQueueRunningFull
       annotations:
@@ -1197,6 +1225,7 @@ spec:
         > 3
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: PrometheusNotConnectedToAlertmanagers
       annotations:
@@ -1280,6 +1309,7 @@ spec:
         > 1
       for: 15m
       labels:
+        page: "false"
         severity: critical
     - alert: PrometheusRemoteWriteBehind
       annotations:
@@ -1297,6 +1327,7 @@ spec:
         > 120
       for: 15m
       labels:
+        page: "false"
         severity: critical
     - alert: PrometheusRemoteWriteDesiredShards
       annotations:
@@ -1326,6 +1357,7 @@ spec:
         increase(prometheus_rule_evaluation_failures_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
+        page: "false"
         severity: critical
     - alert: PrometheusMissingRuleEvaluations
       annotations:
@@ -1360,6 +1392,7 @@ spec:
         > 50
       for: 3m
       labels:
+        page: "true"
         severity: critical
     - alert: SiteStatusIsFlapping
       annotations:
@@ -1372,6 +1405,7 @@ spec:
         5) / blackbox_node_count > 50
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: TargetIsDown
       annotations:
@@ -1383,6 +1417,7 @@ spec:
         > 50
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: TargetSSLCertExpireNear
       annotations:
@@ -1407,6 +1442,7 @@ spec:
         / 24 < 14
       for: 1h
       labels:
+        page: "true"
         severity: critical
   - name: elasticsearch.alerts
     rules:
@@ -1419,6 +1455,7 @@ spec:
       expr: elasticsearch_cluster_health_number_of_nodes < 3
       for: 10m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchTooFewMastersRunning
       annotations:
@@ -1429,6 +1466,7 @@ spec:
       expr: elasticsearch_cluster_number_of_master_nodes < 3
       for: 10m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchHeapTooHigh
       annotations:
@@ -1451,6 +1489,7 @@ spec:
         > 0.9
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchLowDiskFree
       annotations:
@@ -1471,6 +1510,7 @@ spec:
       expr: elasticsearch_filesystem_data_free_percent < 15
       for: 15m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchClusterHealthRED
       annotations:
@@ -1481,6 +1521,7 @@ spec:
       expr: elasticsearch_cluster_health_status{color="red"}==1
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchClusterHealthYELLOW
       annotations:
@@ -1501,6 +1542,7 @@ spec:
       expr: elasticsearch_cluster_health_status{color="yellow"}==1
       for: 120m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchClusterHealthUp
       annotations:
@@ -1523,6 +1565,7 @@ spec:
       expr: elasticsearch_cluster_health_up !=1
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: ElasticsearchGCRunsCount
       annotations:
@@ -1599,6 +1642,7 @@ spec:
       expr: sum by (frontend) (haproxy_frontend_current_sessions) / sum by (frontend)
         (haproxy_frontend_limit_sessions) * 100 >= 90
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyFrontendRequestErrors
       annotations:
@@ -1621,6 +1665,7 @@ spec:
         5
       for: 3m
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyBackendRequestQueued
       annotations:
@@ -1641,6 +1686,7 @@ spec:
         > 100
       for: 2m
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyBackendRequestQueuedTime
       annotations:
@@ -1659,6 +1705,7 @@ spec:
       expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5
       for: 2m
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyBackendResponseErrors
       annotations:
@@ -1679,6 +1726,7 @@ spec:
         > 10
       for: 2m
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyBackendResponseErrors5xx
       annotations:
@@ -1707,6 +1755,7 @@ spec:
         ) * 100 > 10
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: HAProxyBackendDown
       annotations:
@@ -1717,6 +1766,7 @@ spec:
         == 0
       for: 1m
       labels:
+        page: "true"
         severity: critical
   - name: image-service.alerts
     rules:
@@ -1745,6 +1795,7 @@ spec:
         * 100 > 5
       for: 2m
       labels:
+        page: "true"
         severity: critical
   - name: git-sync.alerts
     rules:
@@ -1813,6 +1864,7 @@ spec:
         > 20000000
       for: 12h
       labels:
+        page: "false"
         severity: critical
   - name: mintel-disks.alerts
     rules:
@@ -1828,6 +1880,7 @@ spec:
         mintel:pvc:inodes_free:percentage <= 5
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: KubePersistentVolumeInodePredictedUsageCritical
       annotations:
@@ -1841,6 +1894,7 @@ spec:
         predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
       for: 10m
       labels:
+        page: "true"
         severity: critical
   - name: mintel-node.alerts
     rules:
@@ -1851,9 +1905,21 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NodeFreeConntrackEntriesLow.md
         summary: Free Conntrack entries is less than 10% on this node
       expr: node:conntrack_entries_free:percentage < 10
-      for: 20m
+      for: 30m
       labels:
         context: node
+        severity: warning
+    - alert: NodeFreeConntrackEntriesLow
+      annotations:
+        description: 'Free Conntrack entries is less than 5% on this node: {{ $labels.instance
+          }} : {{ $value }}%'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NodeFreeConntrackEntriesLow.md
+        summary: Free Conntrack entries is less than 5% on this node
+      expr: node:conntrack_entries_free:percentage < 5
+      for: 30m
+      labels:
+        context: node
+        page: "true"
         severity: critical
   - name: mintel-overcommit.alerts
     rules:
@@ -1868,6 +1934,7 @@ spec:
       for: 30m
       labels:
         context: cluster
+        page: "true"
         severity: critical
   - name: mintel-pod.alerts
     rules:
@@ -1881,6 +1948,7 @@ spec:
         > 3
       for: 5m
       labels:
+        page: "true"
         severity: critical
     - alert: KubePodFailed
       annotations:
@@ -1891,6 +1959,7 @@ spec:
         sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0
       for: 1h
       labels:
+        page: "true"
         severity: critical
   - name: mintel-web-frontend.alerts
     rules:
@@ -1901,6 +1970,7 @@ spec:
       expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 0
       for: 1m
       labels:
+        page: "true"
         severity: critical
     - alert: MintelReducedService
       annotations:
@@ -1909,6 +1979,7 @@ spec:
       expr: count(mintel:web_frontend:check_up) by (job, namespace, service) == 1
       for: 1m
       labels:
+        page: "true"
         severity: critical
   - name: flux.alerts
     rules:

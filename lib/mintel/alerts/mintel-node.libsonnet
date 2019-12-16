@@ -40,7 +40,21 @@
               runbook_url: '%(runBookBaseURL)s/core/NodeFreeConntrackEntriesLow.md' % $._config,
             },
             expr: 'node:conntrack_entries_free:percentage < 10',
-            'for': '20m',
+            'for': '30m',
+            labels: {
+              context: 'node',
+              severity: 'warning',
+            },
+          },
+          {
+            alert: 'NodeFreeConntrackEntriesLow',
+            annotations: {
+              description: 'Free Conntrack entries is less than 5% on this node: {{ $labels.instance }} : {{ $value }}%',
+              summary: 'Free Conntrack entries is less than 5% on this node',
+              runbook_url: '%(runBookBaseURL)s/core/NodeFreeConntrackEntriesLow.md' % $._config,
+            },
+            expr: 'node:conntrack_entries_free:percentage < 5',
+            'for': '30m',
             labels: {
               context: 'node',
               severity: 'critical',
