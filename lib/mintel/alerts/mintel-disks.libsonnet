@@ -34,6 +34,28 @@
               summary: 'Persistent Volume inodes predicted to fill up',
             },
           },
+
+          {
+            alert: 'KubePersistentVolumeFullInFourHours',
+            expr: |||
+              100 * (
+                kubelet_volume_stats_available_bytes{%(prefixedNamespaceSelector)s%(kubeletSelector)s}
+                  /
+                kubelet_volume_stats_capacity_bytes{%(prefixedNamespaceSelector)s%(kubeletSelector)s}
+              ) < 20
+              and
+              predict_linear(kubelet_volume_stats_available_bytes{%(prefixedNamespaceSelector)s%(kubeletSelector)s}[%(volumeFullPredictionSampleTime)s], 4 * 60 * 60) < 0
+            ||| % $._config,
+            'for': '15m',
+            labels: {
+              severity: 'critical',
+            },
+            annotations: {
+              message: 'Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} is expected to fill up within four hours. Currently {{ printf "%0.2f" $value }}% is available.',
+            },
+          },
+
+
         ],
       },
     ],

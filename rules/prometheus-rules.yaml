@@ -1120,7 +1120,7 @@ spec:
         predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 24 * 3600) < 0
       for: 1h
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: KubePersistentVolumeErrors
       annotations:
@@ -1896,6 +1896,23 @@ spec:
       expr: |
         predict_linear(mintel:pvc:inodes_free:percentage[4h], 4 * 24 * 3600) <= 0
       for: 10m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: KubePersistentVolumeFullInFourHours
+      annotations:
+        message: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim
+          }} in Namespace {{ $labels.namespace }} is expected to fill up within four
+          hours. Currently {{ printf "%0.2f" $value }}% is available.
+      expr: |
+        100 * (
+          kubelet_volume_stats_available_bytes{job="kubelet"}
+            /
+          kubelet_volume_stats_capacity_bytes{job="kubelet"}
+        ) < 20
+        and
+        predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 60 * 60) < 0
+      for: 15m
       labels:
         page: "true"
         severity: critical
