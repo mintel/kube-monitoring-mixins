@@ -337,7 +337,7 @@ spec:
       record: 'node:node_inodes_free:'
   - name: blackbox.rules
     rules:
-    - expr: topk(1, count by (target) (up{job="blackbox"}))
+    - expr: count by (target) (up{job="blackbox"})
       record: blackbox_node_count
   - name: elasticsearch.rules
     rules:
@@ -1346,7 +1346,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
       expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        > 50
+        >= 50
       for: 1m
       labels:
         severity: warning
@@ -1357,7 +1357,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
       expr: 100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        > 50
+        >= 50
       for: 3m
       labels:
         severity: critical
@@ -1369,7 +1369,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteStatusIsFlapping.md
         summary: Site {{$labels.target}} status (non 2xx code) is flapping
       expr: 100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) >
-        5) / blackbox_node_count > 50
+        5) / blackbox_node_count >= 50
       for: 5m
       labels:
         severity: critical
@@ -1380,7 +1380,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
         summary: Target {{$labels.target}} is down
       expr: 100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count
-        > 50
+        >= 50
       for: 5m
       labels:
         severity: critical
