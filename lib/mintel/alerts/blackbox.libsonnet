@@ -11,7 +11,7 @@
               summary: 'Site {{$labels.target}} is down (non 2xx code)',
               runbook_url: '%(runBookBaseURL)s/core/SiteIsDown.md' % $._config,
             },
-            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count > 50',
+            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
             'for': '1m',
             labels: {
               severity: 'warning',
@@ -24,7 +24,7 @@
               summary: 'Site {{$labels.target}} is down (non 2xx code)',
               runbook_url: '%(runBookBaseURL)s/core/SiteIsDown.md' % $._config,
             },
-            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count > 50',
+            expr: '100 * count by (target) (probe_success{job="blackbox"} < 1) / blackbox_node_count >= 50',
             'for': '3m',
             labels: {
               severity: 'critical',
@@ -37,7 +37,7 @@
               summary: 'Site {{$labels.target}} status (non 2xx code) is flapping',
               runbook_url: '%(runBookBaseURL)s/core/SiteStatusIsFlapping.md' % $._config,
             },
-            expr: '100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) > 5) / blackbox_node_count > 50',
+            expr: '100 * count by (target) (changes(probe_success{job="blackbox"}[10m]) > 5) / blackbox_node_count >= 50',
             'for': '5m',
             labels: {
               severity: 'critical',
@@ -51,7 +51,7 @@
               runbook_url: '%(runBookBaseURL)s/core/TargetIsDown.md' % $._config,
 
             },
-            expr: '100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count > 50',
+            expr: '100 * count by (target) (up{job="blackbox"} == 0) / blackbox_node_count >= 50',
             'for': '5m',
             labels: {
               severity: 'critical',
