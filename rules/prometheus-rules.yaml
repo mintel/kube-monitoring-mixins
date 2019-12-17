@@ -662,8 +662,6 @@ spec:
       expr: vector(1)
       labels:
         severity: none
-  - name: kube-prometheus-node-alerting.rules
-    rules: []
   - name: node-time
     rules:
     - alert: ClockSkewDetected
