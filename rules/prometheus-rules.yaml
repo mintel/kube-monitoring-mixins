@@ -1720,7 +1720,7 @@ spec:
         severity: critical
   - name: image-service.alerts
     rules:
-    - alert: HAProxyBackendResponseTime
+    - alert: ImageServiceHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
         summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
@@ -1730,7 +1730,7 @@ spec:
       for: 2m
       labels:
         severity: critical
-    - alert: HAProxyBackendResponseTime
+    - alert: ImageServiceHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
         summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
