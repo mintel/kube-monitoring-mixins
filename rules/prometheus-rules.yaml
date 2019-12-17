@@ -663,28 +663,7 @@ spec:
       labels:
         severity: none
   - name: kube-prometheus-node-alerting.rules
-    rules:
-    - alert: NodeDiskRunningFull
-      annotations:
-        message: Device {{ $labels.device }} of node-exporter {{ $labels.namespace
-          }}/{{ $labels.pod }} will be full within the next 24 hours.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodediskrunningfull
-      expr: |
-        (node:node_filesystem_usage: > 0.85) and (predict_linear(node:node_filesystem_avail:[6h], 3600 * 24) < 0)
-      for: 30m
-      labels:
-        severity: warning
-    - alert: NodeDiskRunningFull
-      annotations:
-        message: Device {{ $labels.device }} of node-exporter {{ $labels.namespace
-          }}/{{ $labels.pod }} will be full within the next 2 hours.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodediskrunningfull
-      expr: |
-        (node:node_filesystem_usage: > 0.85) and (predict_linear(node:node_filesystem_avail:[30m], 3600 * 2) < 0)
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
+    rules: []
   - name: node-time
     rules:
     - alert: ClockSkewDetected
@@ -1959,7 +1938,7 @@ spec:
       for: 30m
       labels:
         context: cluster
-        page: "true"
+        page: "false"
         severity: critical
   - name: mintel-pod.alerts
     rules:
@@ -1996,7 +1975,7 @@ spec:
         environment, label_app_mintel_com_owner) == 0
       for: 3m
       labels:
-        page: "false"
+        page: "true"
         severity: critical
     - alert: MintelWebServiceDown
       annotations:
@@ -2015,7 +1994,7 @@ spec:
         environment, label_app_mintel_com_owner) == 1
       for: 3m
       labels:
-        page: "false"
+        page: "true"
         severity: critical
     - alert: MintelReducedService
       annotations:
