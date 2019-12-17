@@ -1726,7 +1726,7 @@ spec:
         summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
           }} backend.'
       expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-app.*"} > 5
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-app-.*"} > 5
       for: 2m
       labels:
         severity: critical
@@ -1736,7 +1736,7 @@ spec:
         summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
           }} backend.'
       expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-app.*"} > 1
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-.*"} > 1
       for: 5m
       labels:
         severity: warning
@@ -1746,9 +1746,9 @@ spec:
           }}% of requests (2% threshold)
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
       expr: |
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
           /
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
         * 100 > 2
       for: 5m
       labels:
@@ -1759,9 +1759,9 @@ spec:
           }}% of requests (5% threshold)
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
       expr: |
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
           /
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
         * 100 > 5
       for: 2m
       labels:
