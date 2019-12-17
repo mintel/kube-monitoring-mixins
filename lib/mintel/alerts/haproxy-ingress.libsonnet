@@ -56,7 +56,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued' % $._config,
               summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled) > 10',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled) > 10',
             'for': '2m',
             labels: {
               severity: 'warning',
@@ -68,7 +68,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued' % $._config,
               summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled) > 100',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled) > 100',
             'for': '2m',
             labels: {
               severity: 'critical',
@@ -104,7 +104,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors' % $._config,
               summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 1',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 1',
             'for': '2m',
             labels: {
               severity: 'warning',
@@ -116,7 +116,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors' % $._config,
               summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 10',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 10',
             'for': '2m',
             labels: {
               severity: 'critical',
@@ -130,9 +130,9 @@
             },
             expr: |||
               (
-              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
               /
-              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
               ) * 100 > 1
             |||,
             'for': '5m',
@@ -148,9 +148,9 @@
             },
             expr: |||
               (
-              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
               /
-              sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
               ) * 100 > 10
             |||,
             'for': '5m',
@@ -164,7 +164,7 @@
               description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down for at least 1m',
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendDown' % $._config,
             },
-            expr: 'sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled) == 0',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:labeled) == 0',
             'for': '1m',
             labels: {
               severity: 'critical',
