@@ -337,7 +337,7 @@ spec:
       record: 'node:node_inodes_free:'
   - name: blackbox.rules
     rules:
-    - expr: count by (target,job) (up{job="blackbox"})
+    - expr: count by (target,job,app_mintel_com_owner) (up{job="blackbox"})
       record: blackbox_node_count
   - name: elasticsearch.rules
     rules:
@@ -359,76 +359,76 @@ spec:
     - expr: |
         label_replace(
         label_replace(http_backend_response_wait_seconds_bucket{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-        * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+        * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:http_backend_response_wait_seconds_bucket:labeled
     - expr: |
         label_replace(
         label_replace(http_backend_queue_time_seconds_bucket{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:http_backend_queue_time_seconds_bucket:labeled
     - expr: |
         label_replace(
         label_replace(haproxy_backend_current_queue{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:haproxy_backend_current_queue:labeled
     - expr: |
         label_replace(
         label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:haproxy_backend_response_errors_total:labeled
     - expr: |
         label_replace(
         label_replace(haproxy_backend_http_responses_total{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:haproxy_backend_http_responses_total:labeled
     - expr: |
         label_replace(
         label_replace(haproxy_backend_up{backend!~"(error|stats|httpback|upstream).*"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_kubernetes_io_owner)
+          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
           label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         "satoshi",
-        "label_app_kubernetes_io_owner",
+        "label_app_mintel_com_owner",
         ""
         )
       record: haproxy:haproxy_backend_up:labeled
     - expr: |
-        histogram_quantile(0.95, sum(rate(haproxy:http_backend_response_wait_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_kubernetes_io_owner))
+        histogram_quantile(0.95, sum(rate(haproxy:http_backend_response_wait_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_mintel_com_owner))
       labels:
         quantile: "0.95"
       record: haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile
     - expr: |
-        histogram_quantile(0.95, sum(rate(haproxy:http_backend_queue_time_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_kubernetes_io_owner))
+        histogram_quantile(0.95, sum(rate(haproxy:http_backend_queue_time_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_mintel_com_owner))
       labels:
         quantile: "0.95"
       record: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile
@@ -1380,8 +1380,8 @@ spec:
           according to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
-      expr: 100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        >= 50
+      expr: 100 * count by (target,job,app_mintel_com_owner) (probe_success{job="blackbox"}
+        < 1) / blackbox_node_count >= 50
       for: 1m
       labels:
         severity: warning
@@ -1391,8 +1391,8 @@ spec:
           than 3 minutes according to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteIsDown.md
         summary: Site {{$labels.target}} is down (non 2xx code)
-      expr: 100 * count by (target,job) (probe_success{job="blackbox"} < 1) / blackbox_node_count
-        >= 50
+      expr: 100 * count by (target,job,app_mintel_com_owner) (probe_success{job="blackbox"}
+        < 1) / blackbox_node_count >= 50
       for: 3m
       labels:
         page: "true"
@@ -1404,7 +1404,7 @@ spec:
           probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/SiteStatusIsFlapping.md
         summary: Site {{$labels.target}} status (non 2xx code) is flapping
-      expr: 100 * count by (target,job) (changes(probe_success{job="blackbox"}[10m])
+      expr: 100 * count by (target,job,app_mintel_com_owner) (changes(probe_success{job="blackbox"}[10m])
         > 5) / blackbox_node_count >= 50
       for: 5m
       labels:
@@ -1416,8 +1416,8 @@ spec:
           to {{ $value }}% of Blackbox probes
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
         summary: Target {{$labels.target}} is down
-      expr: 100 * count by (target,job) (up{job="blackbox"} == 0) / blackbox_node_count
-        >= 50
+      expr: 100 * count by (target,job,app_mintel_com_owner) (up{job="blackbox"} ==
+        0) / blackbox_node_count >= 50
       for: 5m
       labels:
         page: "true"
@@ -1429,8 +1429,8 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
         summary: Target {{$labels.target}} SSL Certificate is due to expire in less
           than 45 days
-      expr: (min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60
-        / 60 / 24 < 45
+      expr: (min by(target,job,app_mintel_com_owner) (probe_ssl_earliest_cert_expiry{}
+        - time()) ) / 60 / 60 / 24 < 45
       for: 24h
       labels:
         severity: warning
@@ -1441,8 +1441,8 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetSSLCertExpireNear.md
         summary: Target {{$labels.target}} SSL Certificate is due to expire in less
           than 14 days
-      expr: (min by(target,job) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60
-        / 60 / 24 < 14
+      expr: (min by(target,job,app_mintel_com_owner) (probe_ssl_earliest_cert_expiry{}
+        - time()) ) / 60 / 60 / 24 < 14
       for: 1h
       labels:
         page: "true"
@@ -1644,7 +1644,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
         summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
         > 10
       for: 2m
       labels:
@@ -1654,7 +1654,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
         summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_current_queue:labeled)
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
         > 100
       for: 2m
       labels:
@@ -1684,7 +1684,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
         > 1
       for: 2m
       labels:
@@ -1694,7 +1694,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
         > 10
       for: 2m
       labels:
@@ -1707,9 +1707,9 @@ spec:
           }} service'
       expr: |
         (
-        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
         /
-        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
         ) * 100 > 1
       for: 5m
       labels:
@@ -1721,9 +1721,9 @@ spec:
           }} service'
       expr: |
         (
-        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
+        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
         /
-        sum by (mintel_com_service, label_app_kubernetes_io_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
+        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
         ) * 100 > 10
       for: 5m
       labels:
@@ -1734,7 +1734,7 @@ spec:
         description: 'HAProxy: {{ $labels.mintel_com_service }} service has been down
           for at least 1m'
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
-      expr: sum by (mintel_com_service, label_app_kubernetes_io_owner) (haproxy:haproxy_backend_up:labeled)
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:labeled)
         == 0
       for: 1m
       labels:
@@ -1742,15 +1742,36 @@ spec:
         severity: critical
   - name: image-service.alerts
     rules:
+    - alert: ImageServiceHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-app-.*"} > 5
+      for: 2m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: ImageServiceHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-.*"} > 1
+      for: 5m
+      labels:
+        severity: warning
     - alert: ImageServiceAuthIssues
       annotations:
         message: Service {{ $labels.service }} is returning auth issues fo {{ $value
           }}% of requests (2% threshold)
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
       expr: |
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
           /
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
         * 100 > 2
       for: 5m
       labels:
@@ -1761,9 +1782,9 @@ spec:
           }}% of requests (5% threshold)
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/image-service/ImageServiceAuthIssues.md
       expr: |
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
           /
-        sum(rate(thumbor_response_status_total{service=~"image-service-.*"}[5m])) by (service, app_kubernetes_io_owner)
+        sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
         * 100 > 5
       for: 2m
       labels:
