@@ -9,6 +9,7 @@ local ignore_alerts = [
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
   'KubeSchedulerDown',
+  'NodeDiskRunningFull',
   'NodeNetworkReceiveErrs',
   'NodeNetworkTransmitErrs',
 ];
@@ -50,11 +51,10 @@ local expr_overrides = {};
 local page_false_critical = [
   'AlertmanagerConfigInconsistent',
   'ContainerCombinedIoHighOverTime',
+  'ClusterLowMemoryAvailable',
   'ElasticsearchLowDiskFree',
   'KubePersistentVolumeInodeUsageCritical',
   'KubePersistentVolumeFullInFourDays',
-  'MintelReducedService',
-  'MintelWebServiceDown',
   'PrometheusBadConfig',
   'PrometheusErrorSendingAlertsToAnyAlertmanager',
   'PrometheusRuleFailures',
