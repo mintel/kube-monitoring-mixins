@@ -50,7 +50,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendRequestErrors' % $._config,
               summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend }} frontend',
             },
-            expr: 'sum by (frontend) (rate(haproxy_frontend_request_errors_total{frontend!~"stats|healthz|error503noendpoints"}[2m])) / sum by (frontend) (rate(haproxy_frontend_http_requests_total[2m])) * 100 > 1',
+            expr: 'sum by (frontend) (rate(haproxy_frontend_request_errors_total{frontend!~"stats|healthz|error503noendpoints|.*default-backend"}[2m])) / sum by (frontend) (rate(haproxy_frontend_http_requests_total[2m])) * 100 > 1',
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -62,7 +62,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendRequestErrors' % $._config,
               summary: 'HAProxy: Request error rate increase detected on {{ $labels.frontend }} frontend',
             },
-            expr: 'sum by (frontend) (rate(haproxy_frontend_request_errors_total{frontend!~"stats|healthz|error503noendpoints"}[2m])) / sum by (frontend) (rate(haproxy_frontend_http_requests_total[2m])) * 100 > 5',
+            expr: 'sum by (frontend) (rate(haproxy_frontend_request_errors_total{frontend!~"stats|healthz|error503noendpoints|.*default-backend"}[2m])) / sum by (frontend) (rate(haproxy_frontend_http_requests_total[2m])) * 100 > 5',
             'for': '5m',
             labels: {
               severity: 'critical',
@@ -224,6 +224,26 @@
               severity: 'critical',
             },
           },
+          {
+            alert: 'HAProxyFrontendIncreasedRequests',
+            annotations: {
+              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendIncreasedRequests' % $._config,
+              summary: 'HAProxy: The number of requests on frontend {{ $labels.frontend }} has increades by {{ $value }} in the last %(haProxyFrontendIncreaseRequestsRateInterval)s minutes compared to the %(haProxyFrontendIncreaseRequestsQuantileValue)s quantile over the last %(haProxyFrontendIncreaseRequestsQuantileRange)s' % $._config,
+            },
+            expr: |||
+              100 * 
+              avg by (frontend) ( 
+                rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[%(haProxyFrontendIncreaseRequestsRateInterval)s]) /
+                quantile_over_time(%(haProxyFrontendIncreaseRequestsQuantileValue)s, rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[%(haProxyFrontendIncreaseRequestsRateInterval)s])[%(haProxyFrontendIncreaseRequestsQuantileRange)s:%(haProxyFrontendIncreaseRequestsRateInterval)s])
+              ) > %(haProxyFrontendIncreaseRequestsPercentageThreshold)s
+            ||| % $._config,
+            'for': '5m',
+            labels: {
+              severity: 'warning',
+            },
+          },
+
+
         ],
       },
     ],
