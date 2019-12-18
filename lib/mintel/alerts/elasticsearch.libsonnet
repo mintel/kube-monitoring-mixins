@@ -12,7 +12,7 @@
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchTooFewNodesRunning.md' % $._config,
             },
             expr: 'elasticsearch_cluster_health_number_of_nodes < 3',
-            'for': '10m',
+            'for': '30m',
             labels: {
               severity: 'critical',
             },
@@ -103,19 +103,6 @@
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchClusterHealthYELLOW.md' % $._config,
             },
             expr: 'elasticsearch_cluster_health_status{color="yellow"}==1',
-            'for': '15m',
-            labels: {
-              severity: 'warning',
-            },
-          },
-          {
-            alert: 'ElasticsearchClusterHealthYELLOW',
-            annotations: {
-              description: 'Cluster is YELLOW: not all replica shards are allocated in elasticsearch cluster {{ $labels.cluster }}',
-              summary: 'Cluster {{ $labels.cluster }} health is YELLOW',
-              runbook_url: '%(runBookBaseURL)s/core/ElasticsearchClusterHealthYELLOW.md' % $._config,
-            },
-            expr: 'elasticsearch_cluster_health_status{color="yellow"}==1',
             'for': '120m',
             labels: {
               severity: 'critical',
@@ -129,7 +116,7 @@
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchClusterHealthUp.md' % $._config,
             },
             expr: 'elasticsearch_cluster_health_up !=1',
-            'for': '1m',
+            'for': '3m',
             labels: {
               severity: 'warning',
             },
@@ -155,7 +142,7 @@
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchGCRunsCount.md' % $._config,
             },
             expr: 'rate(elasticsearch_jvm_gc_collection_seconds_count{}[5m])>7',
-            'for': '1m',
+            'for': '3m',
             labels: {
               severity: 'warning',
             },
@@ -168,7 +155,7 @@
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchGCRunTime.md' % $._config,
             },
             expr: 'rate(elasticsearch_jvm_gc_collection_seconds_sum[5m])>0.3',
-            'for': '1m',
+            'for': '3m',
             labels: {
               severity: 'warning',
             },
@@ -181,7 +168,7 @@
               runbook_url: '%(runBookBaseURL)s/core/Elasticsearch_breakers_tripped.md' % $._config,
             },
             expr: 'rate(elasticsearch_breakers_tripped{}[5m])>0',
-            'for': '1m',
+            'for': '3m',
             labels: {
               severity: 'warning',
             },
@@ -194,7 +181,7 @@
               runbook_url: '%(runBookBaseURL)s/core/Elasticsearch_health_timed_out.md' % $._config,
             },
             expr: 'elasticsearch_cluster_health_timed_out>0',
-            'for': '1m',
+            'for': '3m',
             labels: {
               severity: 'warning',
             },
@@ -208,6 +195,7 @@
 
             },
             expr: 'increase(elasticsearch_cluster_health_json_parse_failures[1h]) > 3',
+            'for': '5m',
             labels: {
               severity: 'warning',
             },
