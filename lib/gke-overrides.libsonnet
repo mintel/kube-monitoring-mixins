@@ -11,6 +11,8 @@ local ignore_alerts = [
   'KubeSchedulerDown',
   'NodeNetworkReceiveErrs',
   'NodeNetworkTransmitErrs',
+  'PrometheusRemoteStorageFailures',
+  'PrometheusRemoteWriteBehind',
 ];
 
 // Define a list of record rules to ignore
@@ -65,8 +67,6 @@ local page_false_critical = [
   'PrometheusBadConfig',
   'PrometheusErrorSendingAlertsToAnyAlertmanager',
   'PrometheusRuleFailures',
-  'PrometheusRemoteStorageFailures',
-  'PrometheusRemoteWriteBehind',
 ];
 
 
