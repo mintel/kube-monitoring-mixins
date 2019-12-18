@@ -10,7 +10,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#haproxybackendresponsetime' % $._config,
               summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service }} backend.',
             },
-            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-app-.*"} > 5',
+            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 5\n',
             'for': '2m',
             labels: {
               severity: 'critical',
@@ -22,7 +22,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#haproxybackendresponsetime' % $._config,
               summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service }} backend.',
             },
-            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service-.*"} > 1',
+            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 1\n',
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -35,9 +35,9 @@
               runbook_url: '%(runBookBaseURL)s/image-service/ImageServiceAuthIssues.md' % $._config,
             },
             expr: |||
-              sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
+              sum(rate(thumbor_response_status_total{service=~".*image-service.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
               /
-              sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
+              sum(rate(thumbor_response_status_total{service=~".*image-service.*"}[5m])) by (service, app_mintel_com_owner)
               * 100 > 2
             |||,
             'for': '5m',
@@ -52,9 +52,9 @@
               runbook_url: '%(runBookBaseURL)s/image-service/ImageServiceAuthIssues.md' % $._config,
             },
             expr: |||
-              sum(rate(thumbor_response_status_total{service=~".*image-service-.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
+              sum(rate(thumbor_response_status_total{service=~".*image-service.*", statuscode=~"^(403)$"}[5m])) by (service, app_mintel_com_owner)
               /
-              sum(rate(thumbor_response_status_total{service=~".*image-service-.*"}[5m])) by (service, app_mintel_com_owner)
+              sum(rate(thumbor_response_status_total{service=~".*image-service.*"}[5m])) by (service, app_mintel_com_owner)
               * 100 > 5
             |||,
             'for': '2m',
