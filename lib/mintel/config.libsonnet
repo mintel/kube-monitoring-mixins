@@ -2,7 +2,10 @@
   _config+:: {
     local this = self,
     // Selectors are inserted between {} in Prometheus queries.
+    namespaceSelector: null,
+    prefixedNamespaceSelector: if self.namespaceSelector != null then self.namespaceSelector + ',' else '',
 
+    nodeExporterSelector: 'job="node-exporter"',
     // Select the metrics coming from the cadvisor job
     cadvisorSelector: 'job="kubelet"',
     // Select the metrics coming from the kube-state-metrics job
@@ -39,5 +42,13 @@
     fluxJobSelector: 'job="flux"',
     fluxDeltaIntervalMinutes: 6,
     fluxDeltaDoubleIntervalMinutes: 2 * this.fluxDeltaIntervalMinutes,
+
+    // Detect Increases in requests to frontend
+    // THIS IS  A TEST AT anomaly detection using prometheus subqueries
+    // https://medium.com/@valyala/prometheus-subqueries-in-victoriametrics-9b1492b720b3
+    haProxyFrontendIncreaseRequestsRateInterval: '10m',
+    haProxyFrontendIncreaseRequestsQuantileValue: '0.9',
+    haProxyFrontendIncreaseRequestsQuantileRange: '24h',
+    haProxyFrontendIncreaseRequestsPercentageThreshold: 500,
   },
 }
