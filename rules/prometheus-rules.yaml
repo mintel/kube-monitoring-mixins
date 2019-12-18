@@ -2013,7 +2013,7 @@ spec:
         > 3
       for: 5m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: KubePodFailed
       annotations:
