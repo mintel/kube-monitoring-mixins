@@ -62,6 +62,15 @@ local statusDotPanel = {
   },
 };
 
+local graph =
+  graphPanel.new(
+    '',
+    datasource='Prometheus',
+    span=2,
+    legend_show=false,
+    linewidth=2,
+  );
+
 
 {
   grafanaDashboards+:: {
@@ -69,22 +78,66 @@ local statusDotPanel = {
       local cpuCoresRequests = commonGauge {
         title: 'CPU Cores Requests - Usage',
         description: 'Percentage of Allocatable cpu cores already requested by pods',
-      }.addTarget(prometheus.target('sum(kube_pod_container_resource_requests_cpu_cores{%(nodeSelector)s}) / sum(kube_node_status_allocatable_cpu_cores{%(nodeSelector)s})' % $._config, instant=true) { step: 240 });
+      }.addTarget(prometheus.target('sum(kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s}) / sum(kube_node_status_allocatable_cpu_cores{node=~%(nodeSelectorRegex)s})' % $._config, instant=true) { step: 240 });
 
       local cpuStatusDotPanel = statusDotPanel {
         title: 'CPU requested per node',
         description: 'Requested cpu per Node',
-      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_cpu_cores{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_cpu_cores{%(nodeSelector)s}))' % $._config, instant=true));
+      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s}) / sum by (node) (kube_node_status_allocatable_cpu_cores{node=~%(nodeSelectorRegex)s}))' % $._config, instant=true));
+
+      local cpuIdlePanel = graph {
+        title: 'Idle CPU',
+        description: 'IDLE cpu in the cluster',
+        span: 4,
+        yaxes: [
+          {
+            format: 'percent',
+            label: 'cpu usage',
+            logBase: 1,
+            min: 0,
+            show: true,
+          },
+          {
+            format: 'short',
+            logBase: 1,
+            show: true,
+          },
+        ],
+      }.addTarget(prometheus.target('avg(rate(node_cpu_seconds_total{mode="idle"}[2m]) * on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100) by (mode)' % $._config, intervalFactor=10, legendFormat='% Idle') {
+        step: 50,
+      });
+
+      local memoryUsagePanel = graph {
+        title: 'Memory Free',
+        description: 'Memory Usage in the Cluster',
+        span: 4,
+        yaxes: [
+          {
+            format: 'percent',
+            label: 'memory usage',
+            logBase: 1,
+            min: 0,
+            show: true,
+          },
+          {
+            format: 'short',
+            logBase: 1,
+            show: true,
+          },
+        ],
+      }.addTarget(prometheus.target('100 * (1 - ((sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) / sum(node_memory_MemTotal_bytes)))' % $._config, intervalFactor=10, legendFormat='% Free') {
+        step: 50,
+      });
 
       local memoryRequests = commonGauge {
         title: 'Memory Requests - Usage',
         description: 'Percentage of Allocatable Memory already requested by pods',
-      }.addTarget(prometheus.target('sum(kube_pod_container_resource_requests_memory_bytes{%(nodeSelector)s}) / sum(kube_node_status_allocatable_memory_bytes{%(nodeSelector)s})' % $._config, instant=true) { step: 240 });
+      }.addTarget(prometheus.target('sum(kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) / sum(kube_node_status_allocatable_memory_bytes{node=~%(nodeSelectorRegex)s})' % $._config, instant=true) { step: 240 });
 
       local memoryStatusDotPanel = statusDotPanel {
         title: 'Memory requested per node',
         description: 'Requested memory per Node',
-      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_memory_bytes{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_memory_bytes{%(nodeSelector)s}))' % $._config, instant=true));
+      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) / sum by (node) (kube_node_status_allocatable_memory_bytes{node=~%(nodeSelectorRegex)s}))' % $._config, instant=true));
 
       local ephemeralDiskUsage = commonGauge {
         title: 'Ephemeral Disk - Usage',
@@ -94,12 +147,12 @@ local statusDotPanel = {
       local ephemeralStatusDotPanel = statusDotPanel {
         title: 'Ephemeral Disk usage per node',
         description: 'Percentage of ephemeral disk usage per node',
-      }.addTarget(prometheus.target('100 * avg(node:node_filesystem_usage: * on(instance) group_left(nodename) node_uname_info{nodename=~"^gke.*"}) by (nodename)', instant=true));
+      }.addTarget(prometheus.target('100 * avg(node:node_filesystem_usage: * on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s}) by (nodename)' % $._config, instant=true));
 
 
       dashboard.new(
         '%(dashboardNamePrefix)sCapacity Planning' % $._config.grafanaK8s,
-        time_from='now-5m',
+        time_from='now-3h',
         uid=($._config.grafanaDashboardIDs['capacity.json']),
         tags=($._config.grafanaK8s.dashboardTags) + ['capacity', 'resources'],
         description='A Dashboard to highlight current capacity usage and growth for your cluster'
@@ -111,6 +164,8 @@ local statusDotPanel = {
         .addPanel(memoryStatusDotPanel)
         .addPanel(ephemeralDiskUsage)
         .addPanel(ephemeralStatusDotPanel)
+        .addPanel(cpuIdlePanel)
+        .addPanel(memoryUsagePanel)
       ),
   },
 }

@@ -67,7 +67,7 @@
       linkPrefix: '.',
     },
 
-    nodeSelector: 'node=~"^gke.*"',
+    nodeSelectorRegex: '"^gke.*"',
 
   },
 }
