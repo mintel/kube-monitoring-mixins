@@ -7,6 +7,9 @@ local graphPanel = grafana.graphPanel;
 local tablePanel = grafana.tablePanel;
 local singlestat = grafana.singlestat;
 
+local singlestatHeight = 100;
+local singlestatGuageHeight = 150;
+
 
 local commonGauge =
   singlestat.new(
@@ -199,8 +202,107 @@ local graph =
         uid=($._config.grafanaDashboardIDs['capacity.json']),
         tags=($._config.grafanaK8s.dashboardTags) + ['capacity', 'resources'],
         description='A Dashboard to highlight current capacity usage and growth for your cluster'
+      )
+
+      .addTemplate(
+        grafana.template.datasource(
+          'datasource',
+          'prometheus',
+          '',
+        )
+
       ).addRow(
-        row.new('At a Glance')
+        grafana.row.new(
+          title='Node',
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Number of Nodes',
+            datasource='$datasource',
+            height=singlestatHeight,
+            sparklineShow=true,
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'sum(kube_node_info)',
+            )
+          )
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Nodes Out of Disk',
+            colorBackground=true,
+            datasource='$datasource',
+            height=singlestatHeight,
+            thresholds='1',
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'sum(kube_node_status_condition{condition="OutOfDisk", status="true"})',
+            )
+          )
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Nodes Unavailable',
+            colorBackground=true,
+            datasource='$datasource',
+            height=singlestatHeight,
+            thresholds='1',
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'sum(kube_node_spec_unschedulable)',
+            )
+          )
+        )
+        .addPanel(
+          grafana.tablePanel.new(
+            'Node Info',
+            datasource='$datasource',
+            span=12,
+            styles=[
+
+              { alias: 'Instance', pattern: 'instance' },
+              { alias: 'Instance Type', pattern: 'beta_kubernetes_io_instance_type' },
+              { alias: 'Node Pool', pattern: 'cloud_google_com_gke_nodepool' },
+              { alias: 'Region', pattern: 'failure_domain_beta_kubernetes_io_region' },
+              { alias: 'Zone', pattern: 'failure_domain_beta_kubernetes_io_zone' },
+              {
+                alias: 'Status',
+                pattern: 'Value',
+                colorMode: 'cell',
+                colors: ['rgba(245, 54, 54, 0.9)', 'rgba(237, 129, 40, 0.89)', 'rgba(50, 172, 45, 0.97)'],
+                thresholds: ['0', '1'],
+                type: 'string',
+                unit: 'short',
+                valueMaps: [{ text: 'OK', value: '1' }, { text: 'Down', value: '0' }],
+              },
+
+              // Hide these columns
+              { pattern: 'Time', type: 'hidden' },
+              { pattern: '__name__', type: 'hidden' },
+              { pattern: 'beta_kubernetes_io_arch', type: 'hidden' },
+              { pattern: 'beta_kubernetes_io_fluentd_ds_ready', type: 'hidden' },
+              { pattern: 'beta_kubernetes_io_os', type: 'hidden' },
+              { pattern: 'cloud_google_com_gke_os_distribution', type: 'hidden' },
+              { pattern: 'job', type: 'hidden' },
+              { pattern: 'kubernetes_io_hostname', type: 'hidden' },
+              { pattern: 'service', type: 'hidden' },
+            ],
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'up{job="kubernetes-nodes"}',
+              format='table',
+              intervalFactor=1,
+              instant=true,
+              legendFormat='{{ beta_kubernetes_io_arch }}',
+            )
+          )
+        )
+      ).addRow(
+        row.new('Capacity at a Glance')
         .addPanel(cpuCoresRequests)
         .addPanel(cpuStatusDotPanel)
         .addPanel(memoryRequests)
