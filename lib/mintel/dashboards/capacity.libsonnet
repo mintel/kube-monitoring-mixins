@@ -41,15 +41,15 @@ local statusDotPanel = {
   thresholds: [
     {
       color: 'rgb(255, 142, 65)',
-      value: '0.7',
+      value: '70',
     },
     {
       color: 'rgb(227, 228, 47)',
-      value: '0.6',
+      value: '40',
     },
     {
       color: 'rgb(255, 0, 0)',
-      value: '0.8',
+      value: '85',
     },
   ],
   type: 'btplc-status-dot-panel',
@@ -74,7 +74,7 @@ local statusDotPanel = {
       local cpuStatusDotPanel = statusDotPanel {
         title: 'CPU requested per node',
         description: 'Requested cpu per Node',
-      }.addTarget(prometheus.target('sum by (node) (kube_pod_container_resource_requests_cpu_cores{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_cpu_cores{%(nodeSelector)s})' % $._config, instant=true));
+      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_cpu_cores{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_cpu_cores{%(nodeSelector)s}))' % $._config, instant=true));
 
       local memoryRequests = commonGauge {
         title: 'Memory Requests - Usage',
@@ -84,7 +84,7 @@ local statusDotPanel = {
       local memoryStatusDotPanel = statusDotPanel {
         title: 'Memory requested per node',
         description: 'Requested memory per Node',
-      }.addTarget(prometheus.target('sum by (node) (kube_pod_container_resource_requests_memory_bytes{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_memory_bytes{%(nodeSelector)s})' % $._config, instant=true));
+      }.addTarget(prometheus.target('100 * (sum by (node) (kube_pod_container_resource_requests_memory_bytes{%(nodeSelector)s}) / sum by (node) (kube_node_status_allocatable_memory_bytes{%(nodeSelector)s}))' % $._config, instant=true));
 
       local ephemeralDiskUsage = commonGauge {
         title: 'Ephemeral Disk - Usage',
@@ -94,20 +94,6 @@ local statusDotPanel = {
       local ephemeralStatusDotPanel = statusDotPanel {
         title: 'Ephemeral Disk usage per node',
         description: 'Percentage of ephemeral disk usage per node',
-        thresholds: [
-          {
-            color: 'rgb(255, 142, 65)',
-            value: '50',
-          },
-          {
-            color: 'rgb(227, 228, 47)',
-            value: '30',
-          },
-          {
-            color: 'rgb(255, 0, 0)',
-            value: '70',
-          },
-        ],
       }.addTarget(prometheus.target('100 * avg(node:node_filesystem_usage: * on(instance) group_left(nodename) node_uname_info{nodename=~"^gke.*"}) by (nodename)', instant=true));
 
 
