@@ -197,10 +197,10 @@ local graph =
 
 
       dashboard.new(
-        '%(dashboardNamePrefix)sCapacity Planning' % $._config.grafanaK8s,
+        '%(dashboardNamePrefix)sCapacity Planning' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
-        uid=($._config.grafanaDashboardIDs['capacity.json']),
-        tags=($._config.grafanaK8s.dashboardTags) + ['capacity', 'resources'],
+        uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['capacity.json']),
+        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['capacity', 'resources'],
         description='A Dashboard to highlight current capacity usage and growth for your cluster'
       )
 

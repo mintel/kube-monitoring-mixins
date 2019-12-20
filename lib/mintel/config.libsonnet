@@ -53,15 +53,16 @@
 
     volumeFullPredictionSampleTime: '6h',
 
-    // Grafana Dashboards IDs
-    grafanaDashboardIDs: {
-      'capacity.json': 'dbf659be3c9ce97fe0606994e8f8941bb268b5ac',
-    },
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
-    grafanaK8s: {
+    mintelGrafanaK8s: {
       dashboardNamePrefix: 'MINTEL / ',
       dashboardTags: ['mintel'],
+
+      // Grafana Dashboards IDs
+      grafanaDashboardIDs: {
+        'capacity.json': 'dbf659be3c9ce97fe0606994e8f8941bb268b5ac',
+      },
 
       // For links between grafana dashboards, you need to tell us if your grafana
       // servers under some non-root path.
