@@ -149,6 +149,49 @@ local graph =
         description: 'Percentage of ephemeral disk usage per node',
       }.addTarget(prometheus.target('100 * avg(node:node_filesystem_usage: * on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s}) by (nodename)' % $._config, instant=true));
 
+      local ephemeralDiskIOPanel = graph {
+        title: 'Ephemeral Disk IO',
+        description: 'Ephemeral Disk IO',
+        span: 4,
+        legend: {
+          alignAsTable: false,
+          avg: false,
+          current: false,
+          hideEmpty: false,
+          hideZero: false,
+          max: false,
+          min: false,
+          rightSide: false,
+          show: true,
+          total: false,
+          values: false,
+        },
+        seriesOverrides: [
+          {
+            alias: 'read',
+            yaxis: 1,
+          },
+          {
+            alias: 'io time',
+            yaxis: 2,
+          },
+        ],
+        yaxes: [
+          {
+            format: 'bytes',
+            logBase: 1,
+            show: true,
+          },
+          {
+            format: 's',
+            logBase: 1,
+            show: true,
+          },
+        ],
+      }.addTarget(prometheus.target('sum(rate(node_disk_read_bytes_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='read') { step: 20 })
+                                   .addTarget(prometheus.target('sum(rate(node_disk_written_bytes_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='written') { step: 20 })
+                                   .addTarget(prometheus.target('sum(rate(node_disk_io_time_seconds_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='io time') { step: 20 });
+
 
       dashboard.new(
         '%(dashboardNamePrefix)sCapacity Planning' % $._config.grafanaK8s,
@@ -166,6 +209,7 @@ local graph =
         .addPanel(ephemeralStatusDotPanel)
         .addPanel(cpuIdlePanel)
         .addPanel(memoryUsagePanel)
+        .addPanel(ephemeralDiskIOPanel)
       ),
   },
 }
