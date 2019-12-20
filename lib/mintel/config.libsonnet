@@ -51,6 +51,7 @@
     haProxyFrontendIncreaseRequestsQuantileRange: '24h',
     haProxyFrontendIncreaseRequestsPercentageThreshold: 500,
 
+    volumeFullPredictionSampleTime: '6h',
 
     // Grafana Dashboards IDs
     grafanaDashboardIDs: {
