@@ -230,7 +230,7 @@ local graph =
         )
         .addPanel(
           grafana.singlestat.new(
-            'Nodes Out of Disk',
+            'Nodes Disk Pressure',
             colorBackground=true,
             datasource='$datasource',
             height=singlestatHeight,
@@ -238,7 +238,7 @@ local graph =
           )
           .addTarget(
             grafana.prometheus.target(
-              'sum(kube_node_status_condition{condition="OutOfDisk", status="true"})',
+              'sum(kube_node_status_condition{condition="DiskPressure", status="true"})',
             )
           )
         )
@@ -293,7 +293,7 @@ local graph =
           )
           .addTarget(
             grafana.prometheus.target(
-              'up{job="kubernetes-nodes"}',
+              'kube_node_labels{job="kube-state-metrics"}',
               format='table',
               intervalFactor=1,
               instant=true,
