@@ -15,7 +15,7 @@ local commonGauge =
   singlestat.new(
     '',
     format='percentunit',
-    datasource='Prometheus',
+    datasource='$datasource',
     span=2,
     valueName='avg',
     valueFontSize='110%',
@@ -32,7 +32,7 @@ local commonGauge =
   );
 
 local statusDotPanel = {
-  datasource: 'Prometheus',
+  datasource: '$datasource',
   decimals: 2,
   defaultColor: 'rgb(0, 172, 64)',
   format: 'none',
@@ -68,7 +68,7 @@ local statusDotPanel = {
 local graph =
   graphPanel.new(
     '',
-    datasource='Prometheus',
+    datasource='$datasource',
     span=2,
     legend_show=false,
     linewidth=2,
@@ -293,7 +293,7 @@ local graph =
           )
           .addTarget(
             grafana.prometheus.target(
-              'kube_node_labels{job="kube-state-metrics"}',
+              'kube_node_info{job="kube-state-metrics"}',
               format='table',
               intervalFactor=1,
               instant=true,
