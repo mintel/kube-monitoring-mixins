@@ -348,6 +348,8 @@
                      "refId": "A"
                   }
                ],
+               "timeFrom": null,
+               "timeShift": null,
                "title": "Node Info",
                "type": "table"
             }
