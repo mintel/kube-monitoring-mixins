@@ -11,7 +11,7 @@ local panelsHeight = 300;
 
 {
   grafanaDashboards+:: {
-    'mintel/capacity.json':
+    'cluster-capacity.json':
       dashboard.new(
         '%(dashboardNamePrefix)s Capacity / Planning' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
