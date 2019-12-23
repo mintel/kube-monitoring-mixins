@@ -221,10 +221,39 @@ local graph =
             datasource='$datasource',
             height=singlestatHeight,
             sparklineShow=true,
+            span=2,
           )
           .addTarget(
             grafana.prometheus.target(
               'sum(kube_node_info)',
+            )
+          )
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Number of NodePools',
+            datasource='$datasource',
+            height=singlestatHeight,
+            sparklineShow=true,
+            span=2,
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'count (count by (label_cloud_google_com_gke_nodepool) (kube_node_labels))',
+            )
+          )
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Pods Allocatable Slots',
+            datasource='$datasource',
+            height=singlestatHeight,
+            sparklineShow=true,
+            span=2,
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'sum (kube_node_status_allocatable_pods) - sum(kube_pod_status_phase{phase="Running"})',
             )
           )
         )
@@ -235,10 +264,26 @@ local graph =
             datasource='$datasource',
             height=singlestatHeight,
             thresholds='1',
+            span=2,
           )
           .addTarget(
             grafana.prometheus.target(
               'sum(kube_node_status_condition{condition="DiskPressure", status="true"})',
+            )
+          )
+        )
+        .addPanel(
+          grafana.singlestat.new(
+            'Nodes Not Ready',
+            colorBackground=true,
+            datasource='$datasource',
+            height=singlestatHeight,
+            thresholds='1',
+            span=2,
+          )
+          .addTarget(
+            grafana.prometheus.target(
+              'sum(kube_node_status_condition{condition="Ready", status="false"})',
             )
           )
         )
@@ -249,55 +294,11 @@ local graph =
             datasource='$datasource',
             height=singlestatHeight,
             thresholds='1',
+            span=2,
           )
           .addTarget(
             grafana.prometheus.target(
               'sum(kube_node_spec_unschedulable)',
-            )
-          )
-        )
-        .addPanel(
-          grafana.tablePanel.new(
-            'Node Info',
-            datasource='$datasource',
-            span=12,
-            styles=[
-
-              { alias: 'Instance', pattern: 'instance' },
-              { alias: 'Instance Type', pattern: 'beta_kubernetes_io_instance_type' },
-              { alias: 'Node Pool', pattern: 'cloud_google_com_gke_nodepool' },
-              { alias: 'Region', pattern: 'failure_domain_beta_kubernetes_io_region' },
-              { alias: 'Zone', pattern: 'failure_domain_beta_kubernetes_io_zone' },
-              {
-                alias: 'Status',
-                pattern: 'Value',
-                colorMode: 'cell',
-                colors: ['rgba(245, 54, 54, 0.9)', 'rgba(237, 129, 40, 0.89)', 'rgba(50, 172, 45, 0.97)'],
-                thresholds: ['0', '1'],
-                type: 'string',
-                unit: 'short',
-                valueMaps: [{ text: 'OK', value: '1' }, { text: 'Down', value: '0' }],
-              },
-
-              // Hide these columns
-              { pattern: 'Time', type: 'hidden' },
-              { pattern: '__name__', type: 'hidden' },
-              { pattern: 'beta_kubernetes_io_arch', type: 'hidden' },
-              { pattern: 'beta_kubernetes_io_fluentd_ds_ready', type: 'hidden' },
-              { pattern: 'beta_kubernetes_io_os', type: 'hidden' },
-              { pattern: 'cloud_google_com_gke_os_distribution', type: 'hidden' },
-              { pattern: 'job', type: 'hidden' },
-              { pattern: 'kubernetes_io_hostname', type: 'hidden' },
-              { pattern: 'service', type: 'hidden' },
-            ],
-          )
-          .addTarget(
-            grafana.prometheus.target(
-              'kube_node_info{job="kube-state-metrics"}',
-              format='table',
-              intervalFactor=1,
-              instant=true,
-              legendFormat='{{ beta_kubernetes_io_arch }}',
             )
           )
         )
