@@ -13,10 +13,10 @@ local panelsHeight = 300;
   grafanaDashboards+:: {
     'mintel/capacity.json':
       dashboard.new(
-        '%(dashboardNamePrefix)sCapacity Planning' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s / Capacity / Planning' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['capacity.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['capacity', 'resources'],
+        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['capacity', 'resources', 'kubernetes'],
         description='A Dashboard to highlight current capacity usage and growth for your cluster'
       )
 
