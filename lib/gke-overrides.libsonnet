@@ -69,6 +69,11 @@ local page_false_critical = [
   'PrometheusRuleFailures',
 ];
 
+// Map dashboards to directories
+local dashboards_dir = {
+  prometheus: ['prometheus.json', 'prometheus-remote-write.json'],
+};
+
 
 // Downgrade severity for a rule
 // critical -> warning , warning -> info
@@ -189,6 +194,12 @@ local override_expression_for_rule(group) =
     ),
   };
 
+local set_dashboards_dir(name) =
+  if std.count(dashboards_dir.prometheus, name) > 0 then
+    std.format('prometheus/%s', name)
+  else
+    name;
+
 
 // #####################
 // Now perform overrides
@@ -247,7 +258,7 @@ local override_expression_for_rule(group) =
   // Override grafana dashboards
   grafana+: {
     dashboardDefinitions: {
-      [name]: $._config.grafana.dashboards[name]
+      [set_dashboards_dir(name)]: $._config.grafana.dashboards[name]
       for name in std.objectFields($._config.grafana.dashboards)
       if std.count(ignore_dashboards, name) == 0
     },

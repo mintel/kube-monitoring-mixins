@@ -20,9 +20,9 @@ rules:
 		| gojsontoyaml > {}.yaml; rm -f {}' -- {}
 
 dashboards:
-	@mkdir -p $(RENDERED_DASHBOARDS)/kube-prometheus
-	@rm -rf $(RENDERED_DASHBOARDS)/kube-prometheus/*.json
-	$(JSONNET_CMD) -m $(RENDERED_DASHBOARDS)/kube-prometheus dashboards.jsonnet
+	@mkdir -p $(RENDERED_DASHBOARDS)/rendered/{kube-prometheus,mintel,prometheus}
+	@rm -rf $(RENDERED_DASHBOARDS)/rendered/{kube-prometheus,mintel,prometheus}/*.json
+	$(JSONNET_CMD) -m $(RENDERED_DASHBOARDS)/rendered dashboards.jsonnet
 
 test:
 	@cd tests; \
