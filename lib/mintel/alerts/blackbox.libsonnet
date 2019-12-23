@@ -60,11 +60,11 @@
           {
             alert: 'TargetSSLCertExpireNear',
             annotations: {
-              description: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 45 days',
-              summary: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 45 days',
+              description: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 29 days',
+              summary: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 29 days',
               runbook_url: '%(runBookBaseURL)s/core/TargetSSLCertExpireNear.md' % $._config,
             },
-            expr: '(min by(target,job,app_mintel_com_owner) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 45',
+            expr: '(min by(target,job,app_mintel_com_owner) (probe_ssl_earliest_cert_expiry{} - time()) ) / 60 / 60 / 24 < 29',
             'for': '24h',
             labels: {
               severity: 'warning',
