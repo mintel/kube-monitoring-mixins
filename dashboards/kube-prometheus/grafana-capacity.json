@@ -75,7 +75,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_info)",
+                     "expr": "sum(kube_node_info{node=~\"^gke.*\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -153,7 +153,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "count (count by (label_cloud_google_com_gke_nodepool) (kube_node_labels))",
+                     "expr": "count (count by (label_cloud_google_com_gke_nodepool) (kube_node_labels{node=~\"^gke.*\"}))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -231,7 +231,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum (kube_node_status_allocatable_pods) - sum(kube_pod_status_phase{phase=\"Running\"})",
+                     "expr": "sum (kube_node_status_allocatable_pods{node=~\"^gke.*\"}) - sum(kube_pod_status_phase{phase=\"Running\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -239,7 +239,7 @@
                   }
                ],
                "thresholds": "",
-               "title": "Pods Allocatable Slots",
+               "title": "Pods Allocatables Slots",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -304,12 +304,12 @@
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
                   "lineColor": "rgb(31, 120, 193)",
-                  "show": false
+                  "show": true
                },
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_condition{condition=\"DiskPressure\", status=\"true\"})",
+                     "expr": "sum(kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -317,7 +317,7 @@
                   }
                ],
                "thresholds": "1",
-               "title": "Nodes Disk Pressure",
+               "title": "Nodes Disk Pressures",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -382,12 +382,12 @@
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
                   "lineColor": "rgb(31, 120, 193)",
-                  "show": false
+                  "show": true
                },
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_condition{condition=\"Ready\", status=\"false\"})",
+                     "expr": "sum(kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -460,12 +460,12 @@
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
                   "lineColor": "rgb(31, 120, 193)",
-                  "show": false
+                  "show": true
                },
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_spec_unschedulable)",
+                     "expr": "sum(kube_node_spec_unschedulable{node=~\"^gke.*\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -490,7 +490,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Node",
+         "title": "Nodes",
          "titleSize": "h6",
          "type": "row"
       },
@@ -518,6 +518,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
+               "height": 300,
                "id": 8,
                "interval": null,
                "links": [ ],
@@ -586,6 +587,7 @@
                "description": "Requested cpu per Node",
                "format": "none",
                "gridPos": { },
+               "height": 300,
                "id": 9,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -639,6 +641,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
+               "height": 300,
                "id": 10,
                "interval": null,
                "links": [ ],
@@ -707,6 +710,7 @@
                "description": "Requested memory per Node",
                "format": "none",
                "gridPos": { },
+               "height": 300,
                "id": 11,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -760,6 +764,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
+               "height": 300,
                "id": 12,
                "interval": null,
                "links": [ ],
@@ -828,6 +833,7 @@
                "description": "Percentage of ephemeral disk usage per node",
                "format": "none",
                "gridPos": { },
+               "height": 300,
                "id": 13,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -870,6 +876,7 @@
                "description": "IDLE cpu in the cluster",
                "fill": 1,
                "gridPos": { },
+               "height": 300,
                "id": 14,
                "legend": {
                   "alignAsTable": false,
@@ -947,6 +954,7 @@
                "description": "Memory Usage in the Cluster",
                "fill": 1,
                "gridPos": { },
+               "height": 300,
                "id": 15,
                "legend": {
                   "alignAsTable": false,
@@ -1024,6 +1032,7 @@
                "description": "Ephemeral Disk IO",
                "fill": 1,
                "gridPos": { },
+               "height": 300,
                "id": 16,
                "legend": {
                   "alignAsTable": false,
