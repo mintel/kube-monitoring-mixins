@@ -7,4 +7,4 @@ local kp =
     },
   };
 
-{ ['grafana-' + name]: kp.grafana.dashboardDefinitions[name] for name in std.objectFields(kp.grafana.dashboardDefinitions) }
+{ [name]: kp.grafana.dashboardDefinitions[name] for name in std.objectFields(kp.grafana.dashboardDefinitions) }

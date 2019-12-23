@@ -21,4 +21,6 @@
 (import './rules/mintel-node.libsonnet') +
 (import './rules/mintel-overcommit.libsonnet') +
 (import './rules/mintel-pod.libsonnet') +
-(import './rules/mintel-web-frontend.libsonnet')
+(import './rules/mintel-web-frontend.libsonnet') +
+
+(import './dashboards/dashboards.libsonnet')
