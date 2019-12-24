@@ -69,7 +69,6 @@ local page_false_critical = [
   'PrometheusRuleFailures',
 ];
 
-
 // Downgrade severity for a rule
 // critical -> warning , warning -> info
 local downgrade_severity(group) =
@@ -188,7 +187,6 @@ local override_expression_for_rule(group) =
       group.rules
     ),
   };
-
 
 // #####################
 // Now perform overrides
