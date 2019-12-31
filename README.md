@@ -1,5 +1,7 @@
 # kube-monitoring-mixins
 
+[![CircleCI](https://circleci.com/gh/mintel/kube-monitoring-mixins.svg?style=svg)](https://circleci.com/gh/mintel/kube-monitoring-mixins)
+
 ## Overview
 
 These mixins extend functionality of [Kubernetes Mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin) and provide options to override prometheus rules/alerts and grafana dashboards.
