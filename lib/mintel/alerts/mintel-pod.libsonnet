@@ -29,6 +29,28 @@
               severity: 'critical',
             },
           },
+          {
+            alert: 'KubePodImageMismatch',
+            annotations: {
+              message: 'Workload {{ $labels.namespace }}/{{ $labels.created_by_kind }}/{{ $labels.created_by_name }} has {{ $value }} pods running different image verisons',
+              runbook_url: '%(runBookBaseURL)s/core/KubePodImageMismatch.md' % $._config,
+            },
+            expr: |||
+              count(
+                count(
+                  (kube_pod_container_info) * on(pod)
+                  group_left(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+                )
+                by (created_by_kind, created_by_name, image_id, container, namespace)
+              )
+              by (created_by_kind, created_by_name, container, namespace)
+              > 1
+            |||,
+            'for': '30m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
