@@ -1987,6 +1987,24 @@ spec:
       labels:
         page: "true"
         severity: critical
+    - alert: KubePodImageMismatch
+      annotations:
+        message: Workload {{ $labels.namespace }}/{{ $labels.created_by_kind }}/{{
+          $labels.created_by_name }} has {{ $value }} different image versions running
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodImageMismatch.md
+      expr: |
+        count(
+          count(
+            (kube_pod_container_info) * on(pod)
+            group_left(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+          )
+          by (created_by_kind, created_by_name, image_id, container, namespace)
+        )
+        by (created_by_kind, created_by_name, container, namespace)
+        > 1
+      for: 30m
+      labels:
+        severity: warning
   - name: mintel-web-frontend.alerts
     rules:
     - alert: MintelWebServiceDown
