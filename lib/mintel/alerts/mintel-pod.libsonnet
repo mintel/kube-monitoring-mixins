@@ -32,7 +32,7 @@
           {
             alert: 'KubePodImageMismatch',
             annotations: {
-              message: 'Workload {{ $labels.namespace }}/{{ $labels.created_by_kind }}/{{ $labels.created_by_name }} has {{ $value }} pods running different image verisons',
+              message: 'Workload {{ $labels.namespace }}/{{ $labels.created_by_kind }}/{{ $labels.created_by_name }} has {{ $value }} different image versions running',
               runbook_url: '%(runBookBaseURL)s/core/KubePodImageMismatch.md' % $._config,
             },
             expr: |||

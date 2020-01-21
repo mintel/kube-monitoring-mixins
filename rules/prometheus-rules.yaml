@@ -1990,8 +1990,7 @@ spec:
     - alert: KubePodImageMismatch
       annotations:
         message: Workload {{ $labels.namespace }}/{{ $labels.created_by_kind }}/{{
-          $labels.created_by_name }} has {{ $value }} pods running different image
-          verisons
+          $labels.created_by_name }} has {{ $value }} different image versions running
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodImageMismatch.md
       expr: |
         count(
