@@ -8,7 +8,7 @@
           "subdir": "jsonnet/kube-prometheus"
         }
       },
-      "version": "5e1758c45380093f412c751aa6781ca88f02b59e"
+      "version": "v0.3.0"
     },
     {
       "name": "node-mixin",
