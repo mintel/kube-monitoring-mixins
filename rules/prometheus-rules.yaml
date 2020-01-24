@@ -37,12 +37,8 @@ spec:
         )
       record: instance:node_memory_utilisation:ratio
     - expr: |
-        (
-          rate(node_vmstat_pgpgin{job="node-exporter"}[1m])
-        +
-          rate(node_vmstat_pgpgout{job="node-exporter"}[1m])
-        )
-      record: instance:node_memory_swap_io_pages:rate1m
+        rate(node_vmstat_pgmajfault{job="node-exporter"}[1m])
+      record: instance:node_vmstat_pgmajfault:rate1m
     - expr: |
         rate(node_disk_io_time_seconds_total{job="node-exporter", device=~"/dev/sda1"}[1m])
       record: instance_device:node_disk_io_time_seconds:rate1m
@@ -1266,8 +1262,8 @@ spec:
     - alert: PrometheusRemoteWriteDesiredShards
       annotations:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write
-          desired shards calculation wants to run {{ printf $value }} shards, which
-          is more than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="prometheus-k8s",namespace="monitoring"}`
+          desired shards calculation wants to run {{ $value }} shards, which is more
+          than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="prometheus-k8s",namespace="monitoring"}`
           $labels.instance | query | first | value }}.
         summary: Prometheus remote write desired shards calculation wants to run more
           than configured max shards.
@@ -1276,7 +1272,7 @@ spec:
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
           max_over_time(prometheus_remote_storage_shards_desired{job="prometheus-k8s",namespace="monitoring"}[5m])
-        > on(job, instance) group_right
+        >
           max_over_time(prometheus_remote_storage_shards_max{job="prometheus-k8s",namespace="monitoring"}[5m])
         )
       for: 15m
