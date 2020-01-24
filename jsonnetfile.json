@@ -18,7 +18,7 @@
           "subdir": "docs/node-mixin"
         }
       },
-      "version": "855a1f1d18b82f24c1e517da44ef36f2ffa35b19"
+      "version": "40570924b1c23883237c8d55efdf81858dbeee92"
     },
     {
       "name": "prometheus",
@@ -28,7 +28,7 @@
           "subdir": "documentation/prometheus-mixin"
         }
       },
-      "version": "08c55c119f39093e18b2bb9cba5c5619dc4ea0e1"
+      "version": "7321f1d227218bd498ecd446c4ec2bec34cf740f"
     },
     {
       "name": "prometheus-operator",
@@ -38,7 +38,7 @@
           "subdir": "jsonnet/prometheus-operator"
         }
       },
-      "version": "18fbf558ab7f8809fd610a3dc50bf483508dc1bb"
+      "version": "c41e6fad7235528f115ad307bff36c057a5adfc1"
     }
   ]
 }
