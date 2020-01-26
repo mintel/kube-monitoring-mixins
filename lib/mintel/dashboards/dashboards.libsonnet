@@ -1,2 +1,2 @@
-(import './widgets.libsonnet') +
+(import './panels.libsonnet') +
 (import 'capacity.libsonnet')

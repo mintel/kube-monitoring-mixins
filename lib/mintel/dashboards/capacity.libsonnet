@@ -29,23 +29,23 @@ local panelsHeight = 300;
 
       ).addRow(
         grafana.row.new('Nodes')
-        .addPanel($.widgets.numberOfNodes)
-        .addPanel($.widgets.numberOfNodePools)
-        .addPanel($.widgets.podsAvailableSlots)
-        .addPanel($.widgets.nodesWithDiskPressure)
-        .addPanel($.widgets.nodesNotReady)
-        .addPanel($.widgets.nodesUnavailable)
+        .addPanel($.panels.numberOfNodes)
+        .addPanel($.panels.numberOfNodePools)
+        .addPanel($.panels.podsAvailableSlots)
+        .addPanel($.panels.nodesWithDiskPressure)
+        .addPanel($.panels.nodesNotReady)
+        .addPanel($.panels.nodesUnavailable)
       ).addRow(
         row.new('Capacity at a Glance')
-        .addPanel($.widgets.cpuCoresRequestsGauge { height: panelsHeight })
-        .addPanel($.widgets.cpuCoresRequestsDotPanel { height: panelsHeight })
-        .addPanel($.widgets.memoryRequestsGauge { height: panelsHeight })
-        .addPanel($.widgets.memoryRequestsDotPanel { height: panelsHeight })
-        .addPanel($.widgets.ephemeralDiskUsageGauge { height: panelsHeight })
-        .addPanel($.widgets.ephemeralDiskUsageDotPanel { height: panelsHeight })
-        .addPanel($.widgets.cpuIdleGraphPanel { height: panelsHeight })
-        .addPanel($.widgets.memoryFreeGraphPanel { height: panelsHeight })
-        .addPanel($.widgets.ephemeralDiskIOPanel { height: panelsHeight })
+        .addPanel($.panels.cpuCoresRequestsGauge { height: panelsHeight })
+        .addPanel($.panels.cpuCoresRequestsDotPanel { height: panelsHeight })
+        .addPanel($.panels.memoryRequestsGauge { height: panelsHeight })
+        .addPanel($.panels.memoryRequestsDotPanel { height: panelsHeight })
+        .addPanel($.panels.ephemeralDiskUsageGauge { height: panelsHeight })
+        .addPanel($.panels.ephemeralDiskUsageDotPanel { height: panelsHeight })
+        .addPanel($.panels.cpuIdleGraphPanel { height: panelsHeight })
+        .addPanel($.panels.memoryFreeGraphPanel { height: panelsHeight })
+        .addPanel($.panels.ephemeralDiskIOPanel { height: panelsHeight })
       ),
   },
 }

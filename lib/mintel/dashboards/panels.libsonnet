@@ -85,7 +85,7 @@ local commonGraph =
 
 {
 
-  widgets:: {
+  panels:: {
     cpuCoresRequestsGauge: commonGauge {
       title: 'CPU Cores Requests - Usage',
       description: 'Percentage of Allocatable cpu cores already requested by pods',
