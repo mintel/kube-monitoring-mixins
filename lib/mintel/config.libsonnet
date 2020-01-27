@@ -53,15 +53,16 @@
 
     volumeFullPredictionSampleTime: '6h',
 
-
     // Config for the Grafana dashboards in the Kubernetes Mixin
     mintelGrafanaK8s: {
-      dashboardNamePrefix: 'MINTEL / ',
+      dashboardNamePrefix: 'Mintel / ',
       dashboardTags: ['mintel'],
 
-      // Grafana Dashboards IDs
+      // Grafana Dashboards IDs (name | sha1sum)
+      // TODO: Autogenerate this
       grafanaDashboardIDs: {
         'capacity.json': 'dbf659be3c9ce97fe0606994e8f8941bb268b5ac',
+        'portal-overview.json': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
       },
 
       // For links between grafana dashboards, you need to tell us if your grafana
