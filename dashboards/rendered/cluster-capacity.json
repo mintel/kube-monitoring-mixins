@@ -26,7 +26,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -104,7 +104,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -182,7 +182,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -260,7 +260,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -338,7 +338,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -416,7 +416,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -507,7 +507,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "Percentage of Allocatable cpu cores already requested by pods",
                "format": "percentunit",
                "gauge": {
@@ -581,7 +581,7 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
                "description": "Requested cpu per Node",
@@ -630,7 +630,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "Percentage of Allocatable Memory already requested by pods",
                "format": "percentunit",
                "gauge": {
@@ -704,7 +704,7 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
                "description": "Requested memory per Node",
@@ -753,7 +753,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "Percentage of ephemeral disk in use",
                "format": "percentunit",
                "gauge": {
@@ -827,7 +827,7 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
                "description": "Percentage of ephemeral disk usage per node",
@@ -872,7 +872,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "IDLE cpu in the cluster",
                "fill": 1,
                "gridPos": { },
@@ -950,7 +950,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "Memory Usage in the Cluster",
                "fill": 1,
                "gridPos": { },
@@ -1028,7 +1028,7 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "description": "Ephemeral Disk IO",
                "fill": 1,
                "gridPos": { },
@@ -1148,12 +1148,12 @@
       "list": [
          {
             "current": {
-               "text": "",
-               "value": ""
+               "text": "Prometheus",
+               "value": "Prometheus"
             },
-            "hide": 0,
+            "hide": 2,
             "label": null,
-            "name": "datasource",
+            "name": "ds",
             "options": [ ],
             "query": "prometheus",
             "refresh": 1,
@@ -1192,7 +1192,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "MINTEL /  Capacity / Planning",
+   "title": "Mintel /  Capacity / Planning",
    "uid": "dbf659be3c9ce97fe0606994e8f8941bb268b5ac",
    "version": 0
 }
