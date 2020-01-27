@@ -23,9 +23,26 @@ local panelsHeight = 200;
       .addRow(
         row.new('Overview')
         .addPanel($.panels.commonPodsAvailableSlots{ height: panelsHeight })
+        .addPanel($.panels.djangoResponseStat('2xx', '2.+') { height: panelsHeight })
+        .addPanel($.panels.djangoResponseStat('3xx', '3.+') { height: panelsHeight })
+        .addPanel($.panels.djangoResponseStat('4xx', '4.+') { height: panelsHeight })
+        .addPanel($.panels.djangoResponseStat('5xx', '5.+') { height: panelsHeight })
+      )
+      .addRow(
+        row.new('Request / Response')
         .addPanel($.panels.djangoRequestLatency{ height: panelsHeight })
         .addPanel($.panels.djangoResponseStatus{ height: panelsHeight })
+        .addPanel($.panels.djangoRequestsByMethodView{ height: panelsHeight })
+      )
+      .addRow(
+        row.new('Resources')
+        .addPanel($.panels.commonContainerMemoryUsage{ height: panelsHeight },)  
+        .addPanel($.panels.commonContainerCPUUsage{ height: panelsHeight },)  
+      )
+      .addRow(
+        row.new('Database')
+        .addPanel($.panels.djangoDatabaseOps{ height: panelsHeight },)  
+      )
 
-      ),
   },
 }
