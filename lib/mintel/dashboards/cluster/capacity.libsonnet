@@ -1,8 +1,7 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
-local template = grafana.template;
-
+local templates = import '_templates/utils/templates.libsonnet';
 local panelsHeight = 300;
 
 (import '_templates/panels/capacity.libsonnet') +
@@ -17,14 +16,8 @@ local panelsHeight = 300;
         description='A Dashboard to highlight current capacity usage and growth for your cluster'
       )
 
-      .addTemplate(
-        grafana.template.datasource(
-          'datasource',
-          'prometheus',
-          '',
-        )
-
-      ).addRow(
+      .addTemplate(templates.ds)
+      .addRow(
         grafana.row.new('Nodes')
         .addPanel($.panels.numberOfNodes)
         .addPanel($.panels.numberOfNodePools)

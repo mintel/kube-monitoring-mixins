@@ -2,21 +2,18 @@ local grafana = import 'grafonnet/grafana.libsonnet';
 local template = grafana.template;
 
 {
-  namespace:: template.new(
-    'namespace',
-    '$PROMETHEUS_DS',
-    'label_values(kube_pod_container_info,namespace)',
-    refresh='load',
-  ),
+
   ds:: template.datasource(
-    'PROMETHEUS_DS',
+    'ds',
     'prometheus',
-    'Prometheus'
+    'Prometheus',
+    hide=true,
   ),
-  Node:: template.new(
-    'Node',
-    '$PROMETHEUS_DS',
+  node:: template.new(
+    'node',
+    'Prometheus',
     'query_result(count(count_over_time(kube_node_labels{cluster="$cluster"}[1w])) by (label_kubernetes_io_hostname))',
+    label='Node',
     allValues='.*',
     current='',
     includeAll=true,
@@ -24,13 +21,18 @@ local template = grafana.template;
     regex='/.*="(.*)".*/',
     sort=0,
   ),
-  fqdn(query, current):: template.new(
-    'fqdn',
-    '$PROMETHEUS_DS',
-    'label_values(' + query + ', fqdn)',
-    current=current,
-    multi=true,
+  namespace:: template.new(
+    'namespace',
+    'Prometheus',
+    'label_values(kube_pod_container_info,namespace)',
+    label='Namespace',
     refresh='load',
-    sort=1,
+  ),
+  app_service:: template.new(
+    'service',
+    'Prometheus',
+    'label_values(kube_service_labels, label_app_kubernetes_io_instance)',
+    label='Service',
+    refresh='load',
   ),
 }

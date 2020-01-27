@@ -7,7 +7,7 @@ local singlestat = grafana.singlestat;
     singlestat.new(
       '',
       format='percentunit',
-      datasource='$datasource',
+      datasource='$ds',
       span=2,
       height=150,
       valueName='avg',
@@ -27,7 +27,7 @@ local singlestat = grafana.singlestat;
   singlestat::
     singlestat.new(
       '',
-      datasource='$datasource',
+      datasource='$ds',
       height=100,
       sparklineShow=true,
       span=2,
@@ -36,7 +36,7 @@ local singlestat = grafana.singlestat;
   graphPanel::
     graphPanel.new(
       '',
-      datasource='$datasource',
+      datasource='$ds',
       span=2,
       legend_show=false,
       linewidth=2,
@@ -44,7 +44,7 @@ local singlestat = grafana.singlestat;
     ),
 
   statusDotPanel:: {
-    datasource: '$datasource',
+    datasource: '$ds',
     decimals: 2,
     defaultColor: 'rgb(0, 172, 64)',
     format: 'none',

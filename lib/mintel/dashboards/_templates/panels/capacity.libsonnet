@@ -4,7 +4,7 @@ local common = import 'common.libsonnet';
 
 {
 
-  panels:: {
+  panels+:: {
     cpuCoresRequestsGauge: common.gauge {
       title: 'CPU Cores Requests - Usage',
       description: 'Percentage of Allocatable cpu cores already requested by pods',

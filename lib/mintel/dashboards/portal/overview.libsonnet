@@ -1,7 +1,8 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
-local template = grafana.template;
+
+local templates = import '_templates/utils/templates.libsonnet';
 
 local panelsHeight = 300;
 
@@ -16,17 +17,12 @@ local panelsHeight = 300;
         tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'part-of/portal', 'component/portal-web'],
         description='A Dashboard providing an overview of the portal stack'
       )
-
-      .addTemplate(
-        grafana.template.datasource(
-          'datasource',
-          'prometheus',
-          '',
-        )
-      ).addRow(
-        row.new('Capacity at a Glance')
-        .addPanel($.panels.cpuCoresRequestsGauge { height: panelsHeight })
-        .addPanel($.panels.ephemeralDiskIOPanel { height: panelsHeight })
+      .addTemplate(templates.ds)
+      .addTemplate(templates.namespace)
+      .addTemplate(templates.app_service)
+      .addRow(
+        row.new('Overview')
+        .addPanel($.panels.requestLatency{ height: panelsHeight })
       ),
   },
 }
