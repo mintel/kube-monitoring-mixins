@@ -1,11 +1,7 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
-local prometheus = grafana.prometheus;
 local template = grafana.template;
-local graphPanel = grafana.graphPanel;
-local tablePanel = grafana.tablePanel;
-local singlestat = grafana.singlestat;
 
 local panelsHeight = 300;
 
