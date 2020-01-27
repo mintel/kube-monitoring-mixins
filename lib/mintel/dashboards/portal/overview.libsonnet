@@ -7,6 +7,8 @@ local templates = import '_templates/utils/templates.libsonnet';
 local panelsHeight = 200;
 
 (import '_templates/panels/django.libsonnet') +
+(import '_templates/panels/celery.libsonnet') +
+
 {
   grafanaDashboards+:: {
     'portal-overview.json':
@@ -20,6 +22,8 @@ local panelsHeight = 200;
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('portal'))
       .addTemplate(templates.app_service)
+      .addTemplate(templates.celery_task_name)
+      .addTemplate(templates.celery_task_state)
       .addRow(
         row.new('Overview')
         .addPanel($.panels.commonPodsAvailableSlots{ height: panelsHeight })
@@ -43,6 +47,13 @@ local panelsHeight = 200;
         row.new('Database')
         .addPanel($.panels.djangoDatabaseOps{ height: panelsHeight },)  
       )
-
+      .addRow(
+        row.new('Background Tasks')
+        .addPanel($.panels.celeryTasksRate{ height: panelsHeight },)  
+        .addPanel($.panels.celeryTasksRuntimeRate{ height: panelsHeight },)  
+        .addPanel($.panels.celeryTasksLatency{ height: panelsHeight },)  
+        .addPanel($.panels.celeryNumWorkers{ height: panelsHeight },)  
+        .addPanel($.panels.celeryTopTasks { height: panelsHeight },)  
+      )
   },
 }

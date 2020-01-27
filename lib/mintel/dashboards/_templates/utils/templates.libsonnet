@@ -36,4 +36,21 @@ local template = grafana.template;
     label='Service',
     refresh='load',
   ),
+
+  celery_task_name:: template.new(
+    'celery_task_name',
+    'Prometheus',
+    'label_values(celery_tasks_total,name)',
+    label='Celery Task Name',
+    refresh='load',
+  ),
+
+  celery_task_state:: template.new(
+    'celery_task_state',
+    'Prometheus',
+    'label_values(celery_tasks_total,state)',
+    label='Celery Task State',
+    refresh='load',
+  ),
+
 }

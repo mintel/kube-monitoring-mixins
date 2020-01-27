@@ -1,9 +1,8 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local prometheus = grafana.prometheus;
 local common = import 'common.libsonnet';
-
 {
-
+  
   panels+:: {
 
     djangoRequestLatency: common.graphPanel {
