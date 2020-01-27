@@ -9,6 +9,7 @@ local singlestat = grafana.singlestat;
 
 local panelsHeight = 300;
 
+(import '_templates/panels/capacity.libsonnet') +
 {
   grafanaDashboards+:: {
     'cluster-capacity.json':
