@@ -11,7 +11,7 @@ local panelsHeight = 300;
   grafanaDashboards+:: {
     'portal-overview.json':
       dashboard.new(
-        '%(dashboardNamePrefix)s Portal Overview' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s Portal' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['portal-overview.json']),
         tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'part-of/portal', 'component/portal-web'],
@@ -22,6 +22,7 @@ local panelsHeight = 300;
       .addTemplate(templates.app_service)
       .addRow(
         row.new('Overview')
+        .addPanel($.panels.podsAvailableSlots)
         .addPanel($.panels.requestLatency{ height: panelsHeight })
       ),
   },

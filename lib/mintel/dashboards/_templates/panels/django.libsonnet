@@ -47,7 +47,7 @@ local common = import 'common.libsonnet';
     }.addTarget(
       grafana.prometheus.target(
         |||
-          sum(up{service="$service", namespace="$namespace"})'
+          sum(up{service="$service", namespace="$namespace"})
         |||
       )
     ),
