@@ -4,7 +4,7 @@ local row = grafana.row;
 
 local templates = import '_templates/utils/templates.libsonnet';
 
-local panelsHeight = 300;
+local panelsHeight = 200;
 
 (import '_templates/panels/django.libsonnet') +
 {
@@ -18,12 +18,14 @@ local panelsHeight = 300;
         description='A Dashboard providing an overview of the portal stack'
       )
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace)
+      .addTemplate(templates.namespace('portal'))
       .addTemplate(templates.app_service)
       .addRow(
         row.new('Overview')
-        .addPanel($.panels.podsAvailableSlots)
-        .addPanel($.panels.requestLatency{ height: panelsHeight })
+        .addPanel($.panels.commonPodsAvailableSlots{ height: panelsHeight })
+        .addPanel($.panels.djangoRequestLatency{ height: panelsHeight })
+        .addPanel($.panels.djangoResponseStatus{ height: panelsHeight })
+
       ),
   },
 }
