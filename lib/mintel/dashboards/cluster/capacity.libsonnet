@@ -12,7 +12,7 @@ local panelsHeight = 200;
   grafanaDashboards+:: {
     'cluster-capacity.json':
       dashboard.new(
-        '%(dashboardNamePrefix)s Portal' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s Cluster Capacity' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['cluster-capacity.json']),
         tags=($._config.mintelGrafanaK8s.dashboardTags) + ['capacity', 'resources', 'kubernetes'],
@@ -20,28 +20,30 @@ local panelsHeight = 200;
       )
       .addTemplate(templates.ds)
       .addRow(
-        row.new('Nodes', height=5)
-        .addPanels(django.overview(serviceType='', startRow=1))
-        .addPanel(capacity.numberOfNodes)
-        .addPanel(capacity.numberOfNodePools)
-        .addPanel(capacity.podsAvailableSlots)
-        .addPanel(capacity.nodesWithDiskPressure)
-        .addPanel(capacity.nodesNotReady)
-        .addPanel(capacity.nodesUnavailable)
-
+        row.new('Nodes Overview', height=5)
+        .addPanel(capacity.numberOfNodes($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.numberOfNodePools($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.podsAvailableSlots($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.nodesWithDiskPressure($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.nodesNotReady($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.nodesUnavailable($._config.nodeSelectorRegex, startRow=1001))
       )
       .addRow(
-        row.new('Capacity')
-        .addPanels(django.requestResponsePanels(serviceType='', startRow=1001))
-        .addPanel(capacity.cpuCoresRequestsGauge)
-        .addPanel(capacity.cpuCoresRequestsDotPanel)
-        .addPanel(capacity.memoryRequestsGauge)
-        .addPanel(capacity.memoryRequestsDotPanel)
-        .addPanel(capacity.ephemeralDiskUsageGauge)
-        .addPanel(capacity.ephemeralDiskUsageDotPanel)
-        .addPanel(capacity.cpuIdleGraphPanel)
-        .addPanel(capacity.memoryFreeGraphPanel)
-        .addPanel(capacity.ephemeralDiskIOPanel)
-       
+        row.new('Capacity Overview')
+        .addPanel(capacity.cpuCoresRequests($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.cpuCoresRequestsStatusDots($._config.nodeSelectorRegex, startRow=1001))
+
+        .addPanel(capacity.cpuIdle($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.memoryFree($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.memoryRequests($._config.nodeSelectorRegex, startRow=1001))
+
+
+        .addPanel(capacity.ephemeralDiskUsageGauge($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.ephemeralDiskIO($._config.nodeSelectorRegex, startRow=1001))
+
+      )
+        // .addPanel(capacity.cpuCoresRequestsDotPanel)
+        // .addPanel(capacity.memoryRequestsDotPanel)
+        // .addPanel(capacity.ephemeralDiskUsageDotPanel)       
   },
 }

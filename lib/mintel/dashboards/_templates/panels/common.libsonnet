@@ -49,6 +49,47 @@ local templates = import '_templates/utils/templates.libsonnet';
     )
     .addTarget(promQuery.target(query, instant)),
 
+  gauge(
+    title='Gauge',
+    description='',
+    query='',
+    colors=[
+      'rgba(50, 172, 45, 0.97)',
+      'rgba(237, 129, 40, 0.89)',
+      'rgba(245, 54, 54, 0.9)',
+    ],
+    thresholds='.8, .9',
+    legendFormat='',
+    format='percentunit',
+    gaugeShow=true,
+    gaugeMinValue=0,
+    gaugeMaxValue=1,
+    instant=true,
+    height=150,
+    valueFontSize='110%',
+    transparent=true,
+    interval='1m',
+    intervalFactor=3,
+    postfix=null,
+    yAxisLabel='',
+    legend_show=true,
+    linewidth=2,
+    valueName='avg',
+  )::
+    singlestatPanel.new(
+      title,
+      description=description,
+      datasource='$ds',
+      colors=colors,
+      format=format,
+      gaugeMaxValue=gaugeMaxValue,
+      gaugeShow=gaugeShow,
+      postfix=postfix,
+      thresholds=thresholds,
+      valueName=valueName,
+    )
+    .addTarget(promQuery.target(query, instant)),
+
   table(
     title='Table',
     description='',
@@ -312,4 +353,49 @@ local templates = import '_templates/utils/templates.libsonnet';
       min=0,
       show=false,
     ),
+
+  statusDots(
+    title='Status Dots',
+    description='',
+    query='',
+    datasource='$ds',
+    decimals=2,
+    defaultColor='rgb(0, 172, 64)',
+    format='none',
+    height=150,
+    span=2,
+    mathColorValue='data[end]',
+    mathDisplayValue='data[end]',
+    mathScratchPad='data = size(data)[1] == 0 ? [NaN] : data',
+    radius='30px',
+  )::
+    new(
+      title,
+      description=description,
+      decimals=decimals,
+      defaultColor='rgb(0, 172, 64)',
+      format='none',
+      height=150,
+      span=2,
+      mathColorValue='data[end]',
+      mathDisplayValue='data[end]',
+      mathScratchPad='data = size(data)[1] == 0 ? [NaN] : data',
+      radius='30px',
+      thresholds= [
+        {
+          color: 'rgb(255, 142, 65)',
+          value: '70',
+        },
+        {
+          color: 'rgb(227, 228, 47)',
+          value: '40',
+        },
+        {
+          color: 'rgb(255, 0, 0)',
+          value: '85',
+        },
+      ],
+      type='btplc-status-dot-panel',
+    )
+    .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor)),
 }

@@ -61,7 +61,7 @@
       // Grafana Dashboards IDs (name | sha1sum)
       // TODO: Autogenerate this
       grafanaDashboardIDs: {
-        'capacity.json': 'dbf659be3c9ce97fe0606994e8f8941bb268b5ac',
+        'cluster-capacity.json': 'xdbf659be3c9ce97fe0606994e8f8941bb268b5ac',
         'portal-overview.json': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
       },
 
