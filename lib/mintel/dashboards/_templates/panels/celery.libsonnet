@@ -14,8 +14,8 @@ local common = import 'common.libsonnet';
         |||
           sum(
             rate(
-                celery_tasks_total{namespace=~"^namespace$", name=~"^$celery_task_name$", state=~"^$celery_task_state$"}[5m] ) ) by (name, state)
-          )
+              celery_tasks_total{namespace=~"^namespace$", name=~"^$celery_task_name$", state=~"^$celery_task_state$"}[5m]))
+          by (name, state)
         ||| % $._config,
           format='time_series',
           hide=false,
@@ -33,8 +33,8 @@ local common = import 'common.libsonnet';
         |||
           sum(
             rate(
-              celery_tasks_runtime_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m] ) ) by (le)
-          )
+              celery_tasks_runtime_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m]))
+          by (le)
         ||| % $._config,
           format='time_series',
           hide=false,
@@ -52,7 +52,8 @@ local common = import 'common.libsonnet';
         |||
           sum(
             rate(
-              celery_tasks_latency_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m] ) ) by (le)
+              celery_tasks_latency_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m]))
+          by (le)
         ||| % $._config,
           format='time_series',
           hide=false,
@@ -70,8 +71,9 @@ local common = import 'common.libsonnet';
         |||
           topk(15,
             sum(
-              irate(
-                celery_tasks_total{namespace=~"^$namespace$", name=~"^$celery_task_name$", state=~"$celery_task_state"}[5m] ) ) by (name))
+              rate(
+                celery_tasks_total{namespace=~"^$namespace$"}[5m])))
+            by (name)
         ||| % $._config,
           format='time_series',
           hide=false,
