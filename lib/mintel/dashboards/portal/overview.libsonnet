@@ -3,11 +3,11 @@ local dashboard = grafana.dashboard;
 local row = grafana.row;
 
 local templates = import '_templates/utils/templates.libsonnet';
+local redis = import '_templates/panels/redis.libsonnet';
+local django = import '_templates/panels/django.libsonnet';
+local celery = import '_templates/panels/celery.libsonnet';
 
 local panelsHeight = 200;
-
-(import '_templates/panels/django.libsonnet') +
-(import '_templates/panels/celery.libsonnet') +
 
 {
   grafanaDashboards+:: {
@@ -16,7 +16,7 @@ local panelsHeight = 200;
         '%(dashboardNamePrefix)s Portal' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['portal-overview.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'part-of/portal', 'component/portal-web'],
+        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'portal'],
         description='A Dashboard providing an overview of the portal stack'
       )
       .addTemplate(templates.ds)
@@ -25,35 +25,33 @@ local panelsHeight = 200;
       .addTemplate(templates.celery_task_name)
       .addTemplate(templates.celery_task_state)
       .addRow(
-        row.new('Overview')
-        .addPanel($.panels.commonPodsAvailableSlots{ height: panelsHeight })
-        .addPanel($.panels.djangoResponseStat('2xx', '2.+') { height: panelsHeight })
-        .addPanel($.panels.djangoResponseStat('3xx', '3.+') { height: panelsHeight })
-        .addPanel($.panels.djangoResponseStat('4xx', '4.+') { height: panelsHeight })
-        .addPanel($.panels.djangoResponseStat('5xx', '5.+') { height: panelsHeight })
+        row.new('Overview', height=5)
+        .addPanels(django.overview(serviceType='', startRow=1))
       )
       .addRow(
         row.new('Request / Response')
-        .addPanel($.panels.djangoRequestLatency{ height: panelsHeight })
-        .addPanel($.panels.djangoResponseStatus{ height: panelsHeight })
-        .addPanel($.panels.djangoRequestsByMethodView{ height: panelsHeight })
+        .addPanels(django.requestResponsePanels(serviceType='', startRow=1001))
       )
       .addRow(
         row.new('Resources')
-        .addPanel($.panels.commonContainerMemoryUsage{ height: panelsHeight },)  
-        .addPanel($.panels.commonContainerCPUUsage{ height: panelsHeight },)  
+        .addPanels(django.resourcePanels(serviceType='', startRow=1001))  
       )
       .addRow(
         row.new('Database')
-        .addPanel($.panels.djangoDatabaseOps{ height: panelsHeight },)  
+        .addPanels(django.databaseOps(serviceType='', startRow=1001))  
       )
       .addRow(
-        row.new('Background Tasks')
-        .addPanel($.panels.celeryTasksRate{ height: panelsHeight },)  
-        .addPanel($.panels.celeryTasksRuntimeRate{ height: panelsHeight },)  
-        .addPanel($.panels.celeryTasksLatency{ height: panelsHeight },)  
-        .addPanel($.panels.celeryNumWorkers{ height: panelsHeight },)  
-        .addPanel($.panels.celeryTopTasks { height: panelsHeight },)  
+        row.new('Celery')
+        // .addPanel($.panels.celeryTasksRate{ height: panelsHeight },)  
+        // .addPanel($.panels.celeryTasksRuntimeRate{ height: panelsHeight },)  
+        // .addPanel($.panels.celeryTasksLatency{ height: panelsHeight },)  
+        // .addPanel($.panels.celeryNumWorkers{ height: panelsHeight },)  
+        // .addPanel($.panels.celeryTopTasks { height: panelsHeight },)  
       )
+       .addRow(
+        row.new('Redis')
+        .addPanels(redis.clientPanels(serviceType='dev-redis-cluster-portal-web', startRow=1001))
+      )
+
   },
 }
