@@ -42,16 +42,14 @@ local panelsHeight = 200;
       )
       .addRow(
         row.new('Celery')
-        // .addPanel($.panels.celeryTasksRate{ height: panelsHeight },)  
-        // .addPanel($.panels.celeryTasksRuntimeRate{ height: panelsHeight },)  
-        // .addPanel($.panels.celeryTasksLatency{ height: panelsHeight },)  
-        // .addPanel($.panels.celeryNumWorkers{ height: panelsHeight },)  
-        // .addPanel($.panels.celeryTopTasks { height: panelsHeight },)  
+        .addPanels(celery.celeryPanels(serviceType='', startRow=10001))
       )
        .addRow(
         row.new('Redis')
         .addPanels(redis.clientPanels(serviceType='dev-redis-cluster-portal-web', startRow=1001))
+        .addPanels(redis.workload(serviceType='dev-redis-cluster-portal-web', startRow=1001))
+        .addPanels(redis.data(serviceType='dev-redis-cluster-portal-web', startRow=1001))
+        .addPanels(redis.replication(serviceType='dev-redis-cluster-portal-web', startRow=1001))
       )
-
   },
 }
