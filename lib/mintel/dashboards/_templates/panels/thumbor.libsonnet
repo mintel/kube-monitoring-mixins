@@ -10,11 +10,20 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     layout.grid([
       commonPanels.timeseries(
         title='Pods Available',
-        span=4,
+        span=2,
         query=|||
           sum(up{job="$deployment", namespace="$namespace"})
       ||| % config,
       ),
+
+      commonPanels.singlestat(
+        title='QPS',
+        span=2,
+        query=|||
+          sum(rate(thumbor_response_time_count{namespace="$namespace", job="$deployment"}[5m]))
+      ||| % config,
+      ),
+
       commonPanels.singlestat(
         title='2xx Responses',
         span=2,
@@ -51,17 +60,14 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       serviceType: serviceType,
     };
     layout.grid([
-      commonPanels.timeseries(
-        title='Request Latency',
+      commonPanels.latencyTimeseries(
+        title='Response Time',
         yAxisLabel='Time',
         query=|||
-          histogram_quantile(0.50, 
-            sum(rate(
-              django_http_requests_latency_seconds_by_view_method_bucket{namespace=~"$namespace", job="^$deployment$",view!~"prometheus-django-metrics|healthcheck"}[5m])
-            ) by (job, le)
-          )
+          rate(
+            thumbor_response_time_sum{namespace="$namespace", job="$deployment", statuscode_extension="response.time"}[5m])
         ||| % config,
-        legendFormat='{{ quantile=50 }}',
+        legendFormat='{{ pod }}',
         intervalFactor=2,
       ),
 
@@ -71,21 +77,9 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
         query=|||
          sum(
             rate(
-                thumbor_response_status_total{namespace=~"$namespace", job="^$deployment$", view!~"prometheus-django-metrics|healthcheck"}[5m])) by(status)
+                thumbor_response_status_total{namespace=~"$namespace", job="$deployment"}[5m])) by(status)
         ||| % config,
         legendFormat='{{ status }}',
-        intervalFactor=2,
-      ),
-      commonPanels.timeseries(
-        title='Requests by Method',
-        yAxisLabel='Num REquests',
-        query=|||
-         sum(
-            irate(
-              django_http_requests_total_by_view_transport_method_total{namespace=~"$namespace", job="^$deployment$",view!~"prometheus-django-metrics|healthcheck"}[5m]))
-          by(method, view)
-       ||| % config,
-        legendFormat='{{ method }}/{{ view }}',
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),

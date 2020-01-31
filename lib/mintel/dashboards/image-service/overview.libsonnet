@@ -29,6 +29,11 @@ local panelsHeight = 200;
         .addPanels(thumbor.resourcePanels(serviceType='', startRow=1001))  
       )
       .addRow(
+        row.new('Request / Response')
+        .addPanels(thumbor.requestResponsePanels(serviceType='', startRow=1001))  
+      )
+
+      .addRow(
         row.new('Storage')
         .addPanels(thumbor.storagePanels(serviceType='', startRow=1001))
       )
