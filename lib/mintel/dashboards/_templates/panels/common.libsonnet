@@ -44,6 +44,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legend_show=true,
     linewidth=2,
     valueName='current',
+    span=2,
+    height=100
   )::
     singlestatPanel.new(
       title,
@@ -56,6 +58,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       postfix=postfix,
       thresholds=thresholds,
       valueName=valueName,
+      span=span,
+      height=height
     )
     .addTarget(promQuery.target(query, instant)),
 
