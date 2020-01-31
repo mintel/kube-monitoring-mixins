@@ -11,7 +11,7 @@
               summary: 'ElasticSearch Operator failing to reconcile controller {{ $labels.controller }}',
               runbook_url: '%(runBookBaseURL)s/core/ElasticsearchOperatorReconcileErrors.md' % $._config,
             },
-            expr: 'increase(controller_runtime_reconcile_errors_total{%(eckOperatorFilter)s}[30m])' % $._config,
+            expr: 'increase(controller_runtime_reconcile_errors_total{%(eckOperatorFilter)s}[30m]) >0' % $._config,
             'for': '30m',
             labels: {
               severity: 'warning',
