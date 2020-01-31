@@ -31,10 +31,11 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       '#d44a3a',
     ],
     legendFormat='',
-    format='percentunit',
+    format='none',
     gaugeMinValue=0,
     gaugeMaxValue=100,
     gaugeShow=false,
+    sparklineShow=true,
     instant=true,
     interval='1m',
     intervalFactor=3,
@@ -45,7 +46,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     linewidth=2,
     valueName='current',
     span=2,
-    height=100
+    height=100,
+    colorBackground=false,
   )::
     singlestatPanel.new(
       title,
@@ -59,7 +61,9 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       thresholds=thresholds,
       valueName=valueName,
       span=span,
-      height=height
+      height=height,
+      sparklineShow=sparklineShow,
+      colorBackground=colorBackground,
     )
     .addTarget(promQuery.target(query, instant)),
 

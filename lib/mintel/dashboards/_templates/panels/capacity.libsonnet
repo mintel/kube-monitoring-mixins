@@ -225,6 +225,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
 
     commonPanels.singlestat(
       title='Node Disk Pressures',
+      colorBackground=true,
+      thresholds='1',
       query=|||
         sum(
           kube_node_status_condition{condition="DiskPressure", node=~%(nodeSelectorRegex)s, status="true"})
@@ -233,15 +235,14 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
 
 
   nodesNotReady(nodeSelectorRegex, startRow)::
-  // colorBackground: true,
-  // thresholds: '1',
-  // FIXME
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
     commonPanels.singlestat(
       title='Nodes Not Ready',
+      colorBackground=true,
+      thresholds='1',
       query=|||
         sum(
           kube_node_status_condition{condition="Ready", node=~%(nodeSelectorRegex)s, status="false"})
@@ -249,15 +250,14 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     ),
 
   nodesUnavailable(nodeSelectorRegex, startRow)::
-  // colorBackground: true,
-  // thresholds: '1',
-  // FIXME
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
     commonPanels.singlestat(
       title='Nodes Unavailable',
+      colorBackground=true,
+      thresholds='1',
       query=|||
         sum(
           kube_node_spec_unschedulable{node=~%(nodeSelectorRegex)s})
