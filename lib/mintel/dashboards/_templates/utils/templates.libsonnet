@@ -37,6 +37,14 @@ local template = grafana.template;
     refresh='load',
   ),
 
+  app_deployment:: template.new(
+    'deployment',
+    'Prometheus',
+    'label_values(kube_deployment_labels{namespace="$namespace"}, deployment)',
+    label='Deployment',
+    refresh='load',
+  ),
+
   celery_task_name:: template.new(
     'celery_task_name',
     'Prometheus',
