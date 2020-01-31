@@ -1,4 +1,5 @@
 local commonPanels = import '_templates/panels/common.libsonnet';
+local statusdotsPanel = commonPanels.statusdots;
 
 local layout = import '_templates/utils/layout.libsonnet';
 local promQuery = import '_templates/utils/prom_query.libsonnet';
@@ -46,13 +47,9 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
-    commonPanels.statusDots(
+    commonPanels.statusdots(
       title='Idle CPU',
       description='IDLE cpu in the cluster',
-
-      title='Memory requested per node',
-      description='Requested memory per Node',
-
       query=|||
         avg(
           rate(
@@ -61,7 +58,6 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
             on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100)
         by (mode)
       ||| % config,
-      legendFormat='% Idle'
     ),
 
   memoryFree(nodeSelectorRegex, startRow)::
@@ -106,7 +102,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
-    commonPanels.statusDots(
+    commonPanels.statusdots(
       title='Memory requested per node',
       description='Requested memory per Node',
 

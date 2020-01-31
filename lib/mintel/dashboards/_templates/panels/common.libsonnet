@@ -4,13 +4,23 @@ local singlestatPanel = grafana.singlestat;
 local tablePanel = grafana.tablePanel;
 local row = grafana.row;
 local text = grafana.text;
-
 local promQuery = import '_templates/utils/prom_query.libsonnet';
 local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
 local templates = import '_templates/utils/templates.libsonnet';
-
+local statusdotsPanel = import 'statusdots_panel.libsonnet';
 {
+  statusdots(
+    title='StatusDotPanel',
+    description='',
+    query='',
+  )::
+    statusdotsPanel.new(
+      title,
+      description=description,
+    )
+    .addTarget(promQuery.target(query)),
+
   singlestat(
     title='SingleStat',
     description='',
@@ -353,49 +363,4 @@ local templates = import '_templates/utils/templates.libsonnet';
       min=0,
       show=false,
     ),
-
-  statusDots(
-    title='Status Dots',
-    description='',
-    query='',
-    datasource='$ds',
-    decimals=2,
-    defaultColor='rgb(0, 172, 64)',
-    format='none',
-    height=150,
-    span=2,
-    mathColorValue='data[end]',
-    mathDisplayValue='data[end]',
-    mathScratchPad='data = size(data)[1] == 0 ? [NaN] : data',
-    radius='30px',
-  )::
-    new(
-      title,
-      description=description,
-      decimals=decimals,
-      defaultColor='rgb(0, 172, 64)',
-      format='none',
-      height=150,
-      span=2,
-      mathColorValue='data[end]',
-      mathDisplayValue='data[end]',
-      mathScratchPad='data = size(data)[1] == 0 ? [NaN] : data',
-      radius='30px',
-      thresholds= [
-        {
-          color: 'rgb(255, 142, 65)',
-          value: '70',
-        },
-        {
-          color: 'rgb(227, 228, 47)',
-          value: '40',
-        },
-        {
-          color: 'rgb(255, 0, 0)',
-          value: '85',
-        },
-      ],
-      type='btplc-status-dot-panel',
-    )
-    .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor)),
 }
