@@ -53,6 +53,8 @@
 
     volumeFullPredictionSampleTime: '6h',
 
+    // Fluentd Rules excluded types
+    fluentdRulesExcludedTypes: 'type!~"^(null|rewrite_tag_filter|detect_exceptions)$"',
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
     mintelGrafanaK8s: {
