@@ -12,6 +12,8 @@
     title,
     description,
     query='',
+    span=null,
+    height=250
   ):: {
     title: title,
     [if description != null then 'description']: description,
@@ -19,8 +21,8 @@
     decimals: 2,
     defaultColor: 'rgb(0, 172, 64)',
     format: 'none',
-    height: 150,
-    span: 2,
+    height: height,
+    span: span,
     mathColorValue: 'data[end]',
     mathDisplayValue: 'data[end]',
     mathScratchPad: 'data = size(data)[1] == 0 ? [NaN] : data',

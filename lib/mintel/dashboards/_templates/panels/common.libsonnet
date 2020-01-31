@@ -14,10 +14,14 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     title='StatusDotPanel',
     description='',
     query='',
+    height=250,
+    span=null,
   )::
     statusdotsPanel.new(
       title,
       description=description,
+      height=height,
+      span=span
     )
     .addTarget(promQuery.target(query)),
 
@@ -45,8 +49,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legend_show=true,
     linewidth=2,
     valueName='current',
-    span=2,
-    height=100,
+    span=null,
+    height=250,
     colorBackground=false,
   )::
     singlestatPanel.new(
@@ -77,34 +81,33 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       'rgba(245, 54, 54, 0.9)',
     ],
     thresholds='.8, .9',
-    legendFormat='',
     format='percentunit',
-    gaugeShow=true,
     gaugeMinValue=0,
     gaugeMaxValue=1,
     instant=true,
-    height=150,
-    valueFontSize='110%',
+    height=250,
+    valueFontSize='100%',
     transparent=true,
     interval='1m',
-    intervalFactor=3,
     postfix=null,
-    yAxisLabel='',
-    legend_show=true,
-    linewidth=2,
     valueName='avg',
+    span=null,
   )::
     singlestatPanel.new(
-      title,
+      title=title,
       description=description,
-      datasource='$ds',
       colors=colors,
-      format=format,
-      gaugeMaxValue=gaugeMaxValue,
-      gaugeShow=gaugeShow,
-      postfix=postfix,
       thresholds=thresholds,
-      valueName=valueName,
+      format=format,
+      gaugeShow=true,
+      gaugeMinValue=gaugeMinValue,
+      gaugeMaxValue=gaugeMaxValue,
+      height=height,
+      valueFontSize=valueFontSize,
+      transparent=transparent,
+      interval=interval,
+      postfix=postfix,
+      span=span,
     )
     .addTarget(promQuery.target(query, instant)),
 
@@ -140,6 +143,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legend_rightSide=false,
     linewidth=2,
     max=null,
+    height=250,
+    span=null,
   )::
     graphPanel.new(
       title,
@@ -159,6 +164,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       legend_avg=true,
       legend_alignAsTable=true,
       legend_hideEmpty=true,
+      height=height,
+      span=span
     )
     .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
     .resetYaxes()

@@ -1,12 +1,9 @@
 local commonPanels = import '_templates/panels/common.libsonnet';
 local statusdotsPanel = commonPanels.statusdots;
 
-local layout = import '_templates/utils/layout.libsonnet';
-local promQuery = import '_templates/utils/prom_query.libsonnet';
-local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
 {
 
-  cpuCoresRequests(nodeSelectorRegex, startRow)::
+  cpuCoresRequests(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -14,6 +11,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.gauge(
       title='CPU Cores Requests - Usage',
       description='Percentage of Allocatable cpu cores already requested by pods',
+      span=span,
       query=|||
         sum(
           kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s}) 
@@ -22,7 +20,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  cpuIdle(nodeSelectorRegex, startRow)::
+  cpuIdle(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -31,6 +29,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Idle CPU',
       description='Idle CPU in the Cluster',
       yAxisLabel='CPU Usage',
+      span=span,
       query=|||
         avg(
           rate(
@@ -42,7 +41,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       legendFormat='% Idle',
     ),
 
-  cpuCoresRequestsStatusDots(nodeSelectorRegex, startRow)::
+  cpuCoresRequestsStatusDots(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -50,7 +49,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.statusdots(
       title='CPU requested per node',
       description='Requested CPU per node',
-
+      span=span,
       query=|||
         100 * (
           sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s})
@@ -60,7 +59,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     ),
 
 
-  memoryFree(nodeSelectorRegex, startRow)::
+  memoryFree(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -69,6 +68,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Memory Free',
       description='Memory usage in the Cluster',
       yAxisLabel='Memory Usage',
+      span=span,
       query=|||
         100 * (1 - ((
                       sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) 
@@ -78,7 +78,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       legendFormat='% Free',
     ),
 
-  memoryRequests(nodeSelectorRegex, startRow)::
+  memoryRequests(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -86,7 +86,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.gauge(
       title='Memory Requests - Usage',
       description='Percentage of Allocatable Memory already requested by pods',
-
+      span=span,
       query=|||
         sum(
           kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) 
@@ -96,7 +96,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  memoryRequestsStatusDots(nodeSelectorRegex, startRow)::
+  memoryRequestsStatusDots(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -104,7 +104,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.statusdots(
       title='Memory requested per node',
       description='Requested memory per Node',
-
+      span=span,
       query=|||
         100 * (
           sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) 
@@ -113,7 +113,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  ephemeralDiskUsageGauge(nodeSelectorRegex, startRow)::
+  ephemeralDiskUsageGauge(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -121,7 +121,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.gauge(
       title='Ephemeral Disk - Usage',
       description='Percentage of ephemeral disk in use',
-
+      span=span,
       query=|||
         1 - sum(
           node:node_filesystem_avail: - node:node_filesystem_usage:) 
@@ -130,7 +130,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  ephemeralDiskUsageStatusDots(nodeSelectorRegex, startRow)::
+  ephemeralDiskUsageStatusDots(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -138,8 +138,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.statusdots(
       title='Ephemeral Disk usage per node',
       description='Percentage of ephemeral disk usage per node',
-
-
+      span=span,
       query=|||
         100 * avg(
           node:node_filesystem_usage: * on(instance) 
@@ -148,7 +147,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  ephemeralDiskIO(nodeSelectorRegex, startRow)::
+  ephemeralDiskIO(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -156,7 +155,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     commonPanels.timeseries(
       title='Ephemeral Disk IO',
       description='Ephemeral Disk IO',
-
+      span=span,
       yAxisLabel='read',
       // io time
       // bytes
@@ -174,28 +173,30 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     //.addTarget(prometheus.target('sum(rate(node_disk_io_time_seconds_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='io time') { step: 20 }),
 
 
-  numberOfNodes(nodeSelectorRegex, startRow)::
+  numberOfNodes(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
     commonPanels.singlestat(
       title='Number of Nodes',
-
+      span=span,
+      height=100,
       query=|||
         sum(
           kube_node_info{node=~%(nodeSelectorRegex)s})
       ||| % config,
     ),
 
-  numberOfNodePools(nodeSelectorRegex, startRow)::
+  numberOfNodePools(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
     commonPanels.singlestat(
       title='Number of NodePools',
-
+      span=span,
+      height=100,
       query=|||
         count (
           count by (
@@ -203,13 +204,15 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  podsAvailableSlots(nodeSelectorRegex, startRow)::
+  podsAvailableSlots(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
     commonPanels.singlestat(
       title='Pods Allocatables Slots',
+      span=span,
+      height=100,
       query=|||
         sum (
           kube_node_status_allocatable_pods{node=~%(nodeSelectorRegex)s}) 
@@ -218,7 +221,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  nodesWithDiskPressure(nodeSelectorRegex, startRow)::
+  nodesWithDiskPressure(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -227,6 +230,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Node Disk Pressures',
       colorBackground=true,
       thresholds='1',
+      span=2,
+      height=100,
       query=|||
         sum(
           kube_node_status_condition{condition="DiskPressure", node=~%(nodeSelectorRegex)s, status="true"})
@@ -234,7 +239,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     ),
 
 
-  nodesNotReady(nodeSelectorRegex, startRow)::
+  nodesNotReady(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -243,13 +248,15 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Nodes Not Ready',
       colorBackground=true,
       thresholds='1',
+      span=span,
+      height=100,
       query=|||
         sum(
           kube_node_status_condition{condition="Ready", node=~%(nodeSelectorRegex)s, status="false"})
       ||| % config,
     ),
 
-  nodesUnavailable(nodeSelectorRegex, startRow)::
+  nodesUnavailable(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -258,6 +265,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Nodes Unavailable',
       colorBackground=true,
       thresholds='1',
+      span=span,
+      height=100,
       query=|||
         sum(
           kube_node_spec_unschedulable{node=~%(nodeSelectorRegex)s})
