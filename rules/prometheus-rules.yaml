@@ -2096,3 +2096,15 @@ spec:
       for: 10m
       labels:
         severity: warning
+  - name: fluentd.alerts
+    rules:
+    - alert: FluentdHighOutputRetry
+      annotations:
+        description: Fluentd number of output retry has been increasing for 1h
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FLuentdHighOutputRetry.md
+        summary: Fluentd number of output retry has been increasing for 1h
+      expr: sum by (service,pod,type) (increase(fluentd_output_status_retry_count{type!~"^(null|rewrite_tag_filter|detect_exceptions)$"}[5m]))
+        >0
+      for: 1h
+      labels:
+        severity: warning
