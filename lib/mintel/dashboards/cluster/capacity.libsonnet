@@ -32,14 +32,15 @@ local panelsHeight = 200;
         row.new('Capacity Overview')
         .addPanel(capacity.cpuCoresRequests($._config.nodeSelectorRegex, startRow=1001))
         .addPanel(capacity.cpuCoresRequestsStatusDots($._config.nodeSelectorRegex, startRow=1001))
-
         .addPanel(capacity.cpuIdle($._config.nodeSelectorRegex, startRow=1001))
+
         .addPanel(capacity.memoryFree($._config.nodeSelectorRegex, startRow=1001))
         .addPanel(capacity.memoryRequests($._config.nodeSelectorRegex, startRow=1001))
-
+        .addPanel(capacity.memoryRequestsStatusDots($._config.nodeSelectorRegex, startRow=1001))
 
         .addPanel(capacity.ephemeralDiskUsageGauge($._config.nodeSelectorRegex, startRow=1001))
         .addPanel(capacity.ephemeralDiskIO($._config.nodeSelectorRegex, startRow=1001))
+        .addPanel(capacity.ephemeralDiskUsageStatusDots($._config.nodeSelectorRegex, startRow=1001))
 
       )
         // .addPanel(capacity.cpuCoresRequestsDotPanel)

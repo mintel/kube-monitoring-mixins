@@ -48,17 +48,17 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     };
 
     commonPanels.statusdots(
-      title='Idle CPU',
-      description='IDLE cpu in the cluster',
+      title='CPU requested per node',
+      description='Requested CPU per node',
+
       query=|||
-        avg(
-          rate(
-            node_cpu_seconds_total{mode="idle"}[2m]) 
-            *
-            on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100)
-        by (mode)
+        100 * (
+          sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s})
+          /
+          sum by (node) (kube_node_status_allocatable_cpu_cores{node=~%(nodeSelectorRegex)s}))
       ||| % config,
     ),
+
 
   memoryFree(nodeSelectorRegex, startRow)::
     local config = {
@@ -95,7 +95,6 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
             kube_node_status_allocatable_memory_bytes{node=~%(nodeSelectorRegex)s})
       ||| % config,
     ),
-
 
   memoryRequestsStatusDots(nodeSelectorRegex, startRow)::
     local config = {
@@ -136,7 +135,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       nodeSelectorRegex: nodeSelectorRegex,
     };
 
-    commonPanels.gauge(
+    commonPanels.statusdots(
       title='Ephemeral Disk usage per node',
       description='Percentage of ephemeral disk usage per node',
 
