@@ -227,7 +227,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       title='Node Disk Pressures',
       query=|||
         sum(
-          kube_node_status_condition{condition="DiskPressure", node=~%(nodeSelectorRegex)s, status="true"})'
+          kube_node_status_condition{condition="DiskPressure", node=~%(nodeSelectorRegex)s, status="true"})
       ||| % config,
     ),
 
