@@ -56,6 +56,9 @@
     // Fluentd Rules excluded types
     fluentdRulesExcludedTypes: 'type!~"^(null|rewrite_tag_filter|detect_exceptions)$"',
 
+    // Prometheus Operator
+    prometheusOperatorJobFilter: 'job="prometheus-operator"',
+
     // Config for the Grafana dashboards in the Kubernetes Mixin
     mintelGrafanaK8s: {
       dashboardNamePrefix: 'MINTEL / ',
