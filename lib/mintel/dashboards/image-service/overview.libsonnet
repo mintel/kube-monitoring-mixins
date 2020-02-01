@@ -1,6 +1,7 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
+local link = grafana.link;
 
 local annotations = import '_templates/utils/annotations.libsonnet';
 
@@ -20,11 +21,22 @@ local panelsHeight = 200;
         tags=($._config.mintelGrafanaK8s.dashboardTags) + ['image-service'],
         description='A Dashboard providing an overview of the image-service stack'
       )
+
+      .addLink(link.dashboards(tags="",
+        type="link",
+        title="Workload",
+        url="d/a164a7f0339f99e89cea5cb47e9be617/",
+        includeVars=true,
+        keepTime=true,
+        asDropdown=false,
+        targetBlank=true))
       .addAnnotation(annotations.fluxRelease)
       .addAnnotation(annotations.fluxAutoRelease)
+
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('image-service'))
       .addTemplate(templates.app_deployment)
+
       .addRow(
         row.new('Overview', height=5)
         .addPanels(thumbor.overview(serviceType='', startRow=1))
