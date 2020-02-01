@@ -44,31 +44,31 @@ local panelsHeight = 200;
 
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(django.overview(serviceType='', startRow=1))
-        .addPanels(haproxy.overview(serviceType='', startRow=1))
+        .addPanels(django.overview())
+        .addPanels(haproxy.overview(serviceSelectorKey="service", serviceSelectorValue="$service"))
       )
       .addRow(
         row.new('Request / Response')
-        .addPanels(django.requestResponsePanels(serviceType='', startRow=1001))
+        .addPanels(django.requestResponsePanels())
       )
       .addRow(
         row.new('Resources')
-        .addPanels(django.resourcePanels(serviceType='', startRow=1001))  
+        .addPanels(django.resourcePanels())  
       )
       .addRow(
         row.new('Database', collapse=true)
-        .addPanels(django.databaseOps(serviceType='', startRow=1001))  
+        .addPanels(django.databaseOps())  
       )
       .addRow(
         row.new('Celery', collapse=true)
-        .addPanels(celery.celeryPanels(serviceType='', startRow=10001))
+        .addPanels(celery.celeryPanels(serviceType='', startRow=1001))
       )
        .addRow(
         row.new('Redis', collapse=true)
-        .addPanels(redis.clientPanels(serviceType='dev-redis-cluster-portal-web', startRow=1001))
-        .addPanels(redis.workload(serviceType='dev-redis-cluster-portal-web', startRow=1001))
-        .addPanels(redis.data(serviceType='dev-redis-cluster-portal-web', startRow=1001))
-        .addPanels(redis.replication(serviceType='dev-redis-cluster-portal-web', startRow=1001))
+        .addPanels(redis.clientPanels(serviceType='dev-redis-cluster-portal-web', startRow=1002))
+        .addPanels(redis.workload(serviceType='dev-redis-cluster-portal-web', startRow=1002))
+        .addPanels(redis.data(serviceType='dev-redis-cluster-portal-web', startRow=1002))
+        .addPanels(redis.replication(serviceType='dev-redis-cluster-portal-web', startRow=1002))
       )
   },
 }

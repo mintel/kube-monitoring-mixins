@@ -39,21 +39,21 @@ local panelsHeight = 200;
 
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(thumbor.overview(serviceType='', startRow=1))
-        .addPanels(haproxy.overview(serviceType='', startRow=1))
+        .addPanels(thumbor.overview())
+        .addPanels(haproxy.overview(serviceSelectorKey="deployment", serviceSelectorValue="$deployment"))
       )
       .addRow(
         row.new('Resources')
-        .addPanels(thumbor.resourcePanels(serviceType='', startRow=1001))
+        .addPanels(thumbor.resourcePanels())
       )
       .addRow(
         row.new('Request / Response')
-        .addPanels(thumbor.requestResponsePanels(serviceType='', startRow=1001))
+        .addPanels(thumbor.requestResponsePanels())
       )
 
       .addRow(
         row.new('Storage')
-        .addPanels(thumbor.storagePanels(serviceType='', startRow=1001))
+        .addPanels(thumbor.storagePanels())
       ),
 
   },
