@@ -2,6 +2,8 @@ local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
 
+local annotations = import '_templates/utils/annotations.libsonnet';
+
 local templates = import '_templates/utils/templates.libsonnet';
 local thumbor = import '_templates/panels/thumbor.libsonnet';
 local haproxy = import '_templates/panels/haproxy.libsonnet';
@@ -18,6 +20,8 @@ local panelsHeight = 200;
         tags=($._config.mintelGrafanaK8s.dashboardTags) + ['image-service'],
         description='A Dashboard providing an overview of the image-service stack'
       )
+      .addAnnotation(annotations.fluxRelease)
+      .addAnnotation(annotations.fluxAutoRelease)
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('image-service'))
       .addTemplate(templates.app_deployment)
