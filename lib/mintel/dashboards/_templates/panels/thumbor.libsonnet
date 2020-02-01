@@ -63,6 +63,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.latencyTimeseries(
         title='Response Time',
         yAxisLabel='Time',
+        span=6,
         query=|||
           rate(
             thumbor_response_time_sum{namespace="$namespace", job="$deployment", statuscode_extension="response.time"}[5m])
@@ -74,6 +75,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Response Status',
         yAxisLabel='Num Responses',
+        span=6,
         query=|||
          sum(
             rate(
@@ -93,6 +95,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Per Instance CPU',
         yAxisLabel='CPU Usage',
+        span=6,
+        legend_show=false,
         query=|||
           sum(
             rate(
@@ -105,13 +109,15 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
+        span=6,
+        legend_show=false,
         query=|||
           sum(container_memory_usage_bytes{namespace="$namespace", pod_name=~"$deployment-.*"}) by (pod_name)
         ||| % config,
         legendFormat='{{ pod_name }}',
         intervalFactor=2,
       ),
-    ], cols=2, rowHeight=10, startRow=startRow),
+    ], cols=2, rowHeight=200, startRow=startRow),
 
   storagePanels(serviceType, startRow)::
     local config = {
@@ -121,6 +127,7 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.latencyTimeseries(
         title='Storage Read / Write Latency',
         yAxisLabel='',
+        span=12,
         query=|||
          rate(thumbor_gcs_fetch_sum{job="$deployment"}[$__interval])
           /
@@ -129,6 +136,6 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
         legendFormat='{{ pod }}',
         intervalFactor=2,
       ),
-  ], cols=2, rowHeight=10, startRow=startRow),
+  ], cols=1, rowHeight=10, startRow=startRow),
 
 }

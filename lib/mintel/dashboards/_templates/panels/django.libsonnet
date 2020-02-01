@@ -92,6 +92,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Per Instance CPU',
         yAxisLabel='CPU Usage',
+        span=6,
+        legend_show=false,
         query=|||
           sum(
             rate(
@@ -104,6 +106,8 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
+        span=6,
+        legend_show=false,
         query=|||
           container_memory_usage_bytes{container_name="main", pod_name=~"$service-.*"}
         ||| % config,

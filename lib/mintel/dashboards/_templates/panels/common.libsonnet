@@ -14,7 +14,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     title='StatusDotPanel',
     description='',
     query='',
-    height=250,
+    height=200,
     span=null,
   )::
     statusdotsPanel.new(
@@ -50,7 +50,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     linewidth=2,
     valueName='current',
     span=null,
-    height=250,
+    height=200,
     colorBackground=false,
   )::
     singlestatPanel.new(
@@ -85,7 +85,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     gaugeMinValue=0,
     gaugeMaxValue=1,
     instant=true,
-    height=250,
+    height=200,
     valueFontSize='100%',
     transparent=true,
     interval='1m',
@@ -143,7 +143,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legend_rightSide=false,
     linewidth=2,
     max=null,
-    height=250,
+    height=200,
     span=null,
   )::
     graphPanel.new(
@@ -239,7 +239,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     decimals=2,
     linewidth=2,
     min=0,
-    height=250,
+    height=200,
     span=null,
   )::
     graphPanel.new(
