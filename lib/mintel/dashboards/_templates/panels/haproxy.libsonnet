@@ -11,6 +11,7 @@ local promQuery = import '_templates/utils/prom_query.libsonnet';
         title='Latency',
         description='Percentile Latency',
         yAxisLabel='Time',
+        format='s',
         span=12,
         legend_show=false,
         height=200,

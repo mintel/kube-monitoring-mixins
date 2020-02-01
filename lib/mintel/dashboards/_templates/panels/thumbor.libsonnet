@@ -54,11 +54,14 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     layout.grid([
       commonPanels.latencyTimeseries(
         title='Response Time',
-        yAxisLabel='Time',
+        yAxisLabel='Time (avg)',
         span=6,
         query=|||
           rate(
             thumbor_response_time_sum{namespace="$namespace", job="$deployment", statuscode_extension="response.time"}[5m])
+            /
+            rate(
+              thumbor_response_time_count{namespace="$namespace", job="$deployment", statuscode_extension="response.time"}[5m])
         ||| % config,
         legendFormat='{{ pod }}',
         intervalFactor=2,
