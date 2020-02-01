@@ -1,5 +1,6 @@
 local commonPanels = import '_templates/panels/common.libsonnet';
 local layout = import '_templates/utils/layout.libsonnet';
+local promQuery = import '_templates/utils/prom_query.libsonnet';
 {
   overview(serviceType, startRow)::
     local config = {
@@ -8,6 +9,7 @@ local layout = import '_templates/utils/layout.libsonnet';
     layout.grid([
       commonPanels.latencyTimeseries(
         title='Latency',
+        description='Percentile Latency',
         yAxisLabel='Time',
         span=12,
         legend_show=false,
@@ -19,9 +21,21 @@ local layout = import '_templates/utils/layout.libsonnet';
                 http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*$deployment-[0-9].*"}[5m]))
           by (backend,job,le))
         ||| % config,
-      legendFormat='{{ backend }} - 95p',
+      legendFormat='p95 {{ backend }}',
       intervalFactor=2,
+      )
+      .addTarget(
+        promQuery.target(
+          |||
+            histogram_quantile(0.50,
+            sum(
+              rate(
+                http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*$deployment-[0-9].*"}[5m]))
+            by (backend,job,le))
+          |||,
+          legendFormat='p50 {{ backend }}',
+          intervalFactor=2,
+        )
       ),
-
     ], cols=1, rowHeight=250, startRow=startRow+1)
 }
