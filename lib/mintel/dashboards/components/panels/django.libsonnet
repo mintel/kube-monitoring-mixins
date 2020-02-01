@@ -137,6 +137,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Database Operations',
         yAxisLabel='Num Operations',
+        span=12,
         query=|||
           sum(rate(django_db_execute_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[1m])) by (vendor)
         ||| % config,
