@@ -16,7 +16,7 @@ local panelsHeight = 200;
         '%(dashboardNamePrefix)s Portal' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['portal-overview.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'portal'],
+        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['portal'],
         description='A Dashboard providing an overview of the portal stack'
       )
       .addTemplate(templates.ds)

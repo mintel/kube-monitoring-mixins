@@ -15,7 +15,7 @@ local panelsHeight = 200;
         '%(dashboardNamePrefix)s Image Service' % $._config.mintelGrafanaK8s,
         time_from='now-3h',
         uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['image-service-overview.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['overview', 'image-service'],
+        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['image-service'],
         description='A Dashboard providing an overview of the image-service stack'
       )
       .addTemplate(templates.ds)
