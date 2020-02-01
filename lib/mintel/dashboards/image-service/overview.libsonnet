@@ -4,6 +4,7 @@ local row = grafana.row;
 
 local templates = import '_templates/utils/templates.libsonnet';
 local thumbor = import '_templates/panels/thumbor.libsonnet';
+local haproxy = import '_templates/panels/haproxy.libsonnet';
 
 local panelsHeight = 200;
 
@@ -23,20 +24,21 @@ local panelsHeight = 200;
       .addRow(
         row.new('Overview', height=5)
         .addPanels(thumbor.overview(serviceType='', startRow=1))
+        .addPanels(haproxy.overview(serviceType='', startRow=1))
       )
       .addRow(
         row.new('Resources')
-        .addPanels(thumbor.resourcePanels(serviceType='', startRow=1001))  
+        .addPanels(thumbor.resourcePanels(serviceType='', startRow=1001))
       )
       .addRow(
         row.new('Request / Response')
-        .addPanels(thumbor.requestResponsePanels(serviceType='', startRow=1001))  
+        .addPanels(thumbor.requestResponsePanels(serviceType='', startRow=1001))
       )
 
       .addRow(
         row.new('Storage')
         .addPanels(thumbor.storagePanels(serviceType='', startRow=1001))
-      )
+      ),
 
   },
 }
