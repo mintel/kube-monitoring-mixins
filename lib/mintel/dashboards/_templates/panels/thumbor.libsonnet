@@ -10,43 +10,35 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
     layout.grid([
       commonPanels.timeseries(
         title='Pods Available',
-        span=2,
+        span=4,
         query=|||
           sum(up{job="$deployment", namespace="$namespace"})
       ||| % config,
       ),
 
       commonPanels.singlestat(
-        title='QPS',
-        span=2,
-        query=|||
-          sum(rate(thumbor_response_time_count{namespace="$namespace", job="$deployment"}[5m]))
-      ||| % config,
-      ),
-
-      commonPanels.singlestat(
-        title='2xx Responses',
+        title='2xx',
         span=2,
         query=|||
           sum(rate(thumbor_response_status_total{statuscode=~"2.+", namespace=~"$namespace", job="$deployment"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='3xx Responses',
+        title='3xx',
         span=2,
         query=|||
           sum(rate(thumbor_response_status_total{statuscode=~"3.+", namespace=~"$namespace", job="$deployment"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='4xx Responses',
+        title='4xx',
         span=2,
         query=|||
           sum(rate(thumbor_response_status_total{statuscode=~"4.+", namespace=~"$namespace", job="$deployment"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='5xx Responses',
+        title='5xx',
         span=2,
         query=|||
           sum(rate(thumbor_response_status_total{statuscode=~"5.+", namespace=~"$namespace", job="$deployment"}[5m]))
@@ -79,9 +71,9 @@ local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
         query=|||
          sum(
             rate(
-                thumbor_response_status_total{namespace=~"$namespace", job="$deployment"}[5m])) by(status)
+                thumbor_response_status_total{namespace=~"$namespace", job="$deployment"}[5m])) by(statuscode)
         ||| % config,
-        legendFormat='{{ status }}',
+        legendFormat='{{ statuscode }}',
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
