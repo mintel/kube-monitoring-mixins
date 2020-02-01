@@ -4,7 +4,7 @@
    "annotations": {
       "list": [ ]
    },
-   "description": "A Dashboard to highlight current capacity usage and growth for your cluster",
+   "description": "A Dashboard providing an overview of the image-service stack",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 0,
@@ -16,85 +16,96 @@
       {
          "collapse": false,
          "collapsed": false,
+         "height": 5,
          "panels": [
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
                "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 0,
+                  "y": 1
                },
-               "gridPos": { },
-               "height": 100,
+               "height": 250,
                "id": 2,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
                },
-               "tableColumn": "",
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 2,
+               "stack": false,
+               "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  kube_node_info{node=~\"^gke.*\"})\n",
-                     "format": true,
+                     "expr": "sum(up{job=\"$deployment\", namespace=\"$namespace\"})\n",
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
-               "title": "Number of Nodes",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Pods Available",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
                   {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
+                     "format": "short",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
-               ],
-               "valueName": "current"
+               ]
             },
             {
                "cacheTimeout": null,
@@ -114,8 +125,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 100,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 2,
+                  "y": 1
+               },
+               "height": 250,
                "id": 3,
                "interval": null,
                "links": [ ],
@@ -154,7 +170,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "count (\n  count by (\n    label_cloud_google_com_gke_nodepool) (kube_node_labels{node=~\"^gke.*\"}))\n",
+                     "expr": "sum(rate(thumbor_response_time_count{namespace=\"$namespace\", job=\"$deployment\"}[5m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -163,7 +179,7 @@
                   }
                ],
                "thresholds": "",
-               "title": "Number of NodePools",
+               "title": "QPS",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -193,8 +209,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 100,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 4,
+                  "y": 1
+               },
+               "height": 250,
                "id": 4,
                "interval": null,
                "links": [ ],
@@ -233,7 +254,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum (\n  kube_node_status_allocatable_pods{node=~\"^gke.*\"}) \n  - \n   sum(kube_pod_status_phase{phase=\"Running\"})\n",
+                     "expr": "sum(rate(thumbor_response_status_total{statuscode=~\"2.+\", namespace=~\"$namespace\", job=\"$deployment\"}[5m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -242,7 +263,7 @@
                   }
                ],
                "thresholds": "",
-               "title": "Pods Allocatables Slots",
+               "title": "2xx Responses",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -256,7 +277,7 @@
             },
             {
                "cacheTimeout": null,
-               "colorBackground": true,
+               "colorBackground": false,
                "colorValue": false,
                "colors": [
                   "#299c46",
@@ -272,8 +293,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 100,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 6,
+                  "y": 1
+               },
+               "height": 250,
                "id": 5,
                "interval": null,
                "links": [ ],
@@ -312,7 +338,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})\n",
+                     "expr": "sum(rate(thumbor_response_status_total{statuscode=~\"3.+\", namespace=~\"$namespace\", job=\"$deployment\"}[5m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -320,8 +346,8 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": "1",
-               "title": "Node Disk Pressures",
+               "thresholds": "",
+               "title": "3xx Responses",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -335,7 +361,7 @@
             },
             {
                "cacheTimeout": null,
-               "colorBackground": true,
+               "colorBackground": false,
                "colorValue": false,
                "colors": [
                   "#299c46",
@@ -351,8 +377,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 100,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 8,
+                  "y": 1
+               },
+               "height": 250,
                "id": 6,
                "interval": null,
                "links": [ ],
@@ -391,7 +422,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})\n",
+                     "expr": "sum(rate(thumbor_response_status_total{statuscode=~\"4.+\", namespace=~\"$namespace\", job=\"$deployment\"}[5m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -399,8 +430,8 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": "1",
-               "title": "Nodes Not Ready",
+               "thresholds": "",
+               "title": "4xx Responses",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -414,7 +445,7 @@
             },
             {
                "cacheTimeout": null,
-               "colorBackground": true,
+               "colorBackground": false,
                "colorValue": false,
                "colors": [
                   "#299c46",
@@ -430,8 +461,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 100,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 10,
+                  "y": 1
+               },
+               "height": 250,
                "id": 7,
                "interval": null,
                "links": [ ],
@@ -470,7 +506,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  kube_node_spec_unschedulable{node=~\"^gke.*\"})\n",
+                     "expr": "sum(rate(thumbor_response_status_total{statuscode=~\"5.+\", namespace=~\"$namespace\", job=\"$deployment\"}[5m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -478,8 +514,8 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": "1",
-               "title": "Nodes Unavailable",
+               "thresholds": "",
+               "title": "5xx Responses",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -496,7 +532,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Nodes Overview",
+         "title": "Overview",
          "titleSize": "h6",
          "type": "row"
       },
@@ -505,383 +541,22 @@
          "collapsed": false,
          "panels": [
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "rgba(50, 172, 45, 0.97)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(245, 54, 54, 0.9)"
-               ],
-               "datasource": null,
-               "description": "Percentage of Allocatable cpu cores already requested by pods",
-               "format": "percentunit",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": { },
-               "height": 250,
-               "id": 8,
-               "interval": "1m",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(\n  kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) \n    / \n  sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": ".8, .9",
-               "title": "CPU Cores Requests - Usage",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "100%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
-            },
-            {
-               "datasource": "$ds",
-               "decimals": 2,
-               "defaultColor": "rgb(0, 172, 64)",
-               "description": "Requested CPU per node",
-               "format": "none",
-               "gridPos": { },
-               "height": 250,
-               "id": 9,
-               "mathColorValue": "data[end]",
-               "mathDisplayValue": "data[end]",
-               "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
-               "radius": "30px",
-               "span": 2,
-               "targets": [
-                  {
-                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"})\n  /\n  sum by (node) (kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"}))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [
-                  {
-                     "color": "rgb(255, 142, 65)",
-                     "value": "70"
-                  },
-                  {
-                     "color": "rgb(227, 228, 47)",
-                     "value": "40"
-                  },
-                  {
-                     "color": "rgb(255, 0, 0)",
-                     "value": "85"
-                  }
-               ],
-               "title": "CPU requested per node",
-               "type": "btplc-status-dot-panel"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "rgba(50, 172, 45, 0.97)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(245, 54, 54, 0.9)"
-               ],
-               "datasource": null,
-               "description": "Percentage of Allocatable Memory already requested by pods",
-               "format": "percentunit",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": { },
-               "height": 250,
-               "id": 10,
-               "interval": "1m",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(\n  kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  /\n  sum(\n    kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": ".8, .9",
-               "title": "Memory Requests - Usage",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "100%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
-            },
-            {
-               "datasource": "$ds",
-               "decimals": 2,
-               "defaultColor": "rgb(0, 172, 64)",
-               "description": "Requested memory per Node",
-               "format": "none",
-               "gridPos": { },
-               "height": 250,
-               "id": 11,
-               "mathColorValue": "data[end]",
-               "mathDisplayValue": "data[end]",
-               "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
-               "radius": "30px",
-               "span": 2,
-               "targets": [
-                  {
-                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  / \n  sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [
-                  {
-                     "color": "rgb(255, 142, 65)",
-                     "value": "70"
-                  },
-                  {
-                     "color": "rgb(227, 228, 47)",
-                     "value": "40"
-                  },
-                  {
-                     "color": "rgb(255, 0, 0)",
-                     "value": "85"
-                  }
-               ],
-               "title": "Memory requested per node",
-               "type": "btplc-status-dot-panel"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "rgba(50, 172, 45, 0.97)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(245, 54, 54, 0.9)"
-               ],
-               "datasource": null,
-               "description": "Percentage of ephemeral disk in use",
-               "format": "percentunit",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": { },
-               "height": 250,
-               "id": 12,
-               "interval": "1m",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "1 - sum(\n  node:node_filesystem_avail: - node:node_filesystem_usage:) \n  /\n  sum(node:node_filesystem_avail:)\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": ".8, .9",
-               "title": "Ephemeral Disk - Usage",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "100%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
-            },
-            {
-               "datasource": "$ds",
-               "decimals": 2,
-               "defaultColor": "rgb(0, 172, 64)",
-               "description": "Percentage of ephemeral disk usage per node",
-               "format": "none",
-               "gridPos": { },
-               "height": 250,
-               "id": 13,
-               "mathColorValue": "data[end]",
-               "mathDisplayValue": "data[end]",
-               "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
-               "radius": "30px",
-               "span": 2,
-               "targets": [
-                  {
-                     "expr": "100 * avg(\n  node:node_filesystem_usage: * on(instance) \n  group_left(nodename) node_uname_info{nodename=~\"^gke.*\"}) \nby (nodename)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [
-                  {
-                     "color": "rgb(255, 142, 65)",
-                     "value": "70"
-                  },
-                  {
-                     "color": "rgb(227, 228, 47)",
-                     "value": "40"
-                  },
-                  {
-                     "color": "rgb(255, 0, 0)",
-                     "value": "85"
-                  }
-               ],
-               "title": "Ephemeral Disk usage per node",
-               "type": "btplc-status-dot-panel"
-            },
-            {
                "aliasColors": { },
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
                "decimals": 0,
-               "description": "Idle CPU in the Cluster",
+               "description": "",
                "fill": 0,
-               "gridPos": { },
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
                "height": 250,
-               "id": 14,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -905,23 +580,22 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
+                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod_name=~\"$deployment.*\"}[5m])) by (pod_name)\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "% Idle",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ pod_name }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Idle CPU",
+               "title": "Per Instance CPU",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -961,11 +635,16 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 0,
-               "description": "Memory usage in the Cluster",
+               "description": "",
                "fill": 0,
-               "gridPos": { },
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
                "height": 250,
-               "id": 15,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -989,23 +668,22 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) \n              /  \n              sum(node_memory_MemTotal_bytes)))\n",
+                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod_name=~\"$deployment-.*\"}) by (pod_name)\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "% Free",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ pod_name }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Memory Free",
+               "title": "Per Instance Memory",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -1037,19 +715,36 @@
                      "show": false
                   }
                ]
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Resources",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
             {
                "aliasColors": { },
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "decimals": 0,
-               "description": "Ephemeral Disk IO",
+               "decimals": 2,
+               "description": "",
                "fill": 0,
-               "gridPos": { },
-               "height": 250,
-               "id": 16,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1073,23 +768,110 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    node_disk_read_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
+                     "expr": "rate(\n  thumbor_response_time_sum{namespace=\"$namespace\", job=\"$deployment\", statuscode_extension=\"response.time\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "read",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ pod }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Ephemeral Disk IO",
+               "title": "Response Time",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": "Time",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 11,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(\n   rate(\n       thumbor_response_status_total{namespace=~\"$namespace\", job=\"$deployment\"}[5m])) by(status)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ status }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Response Status",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -1106,7 +888,7 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": "read",
+                     "label": "Num Responses",
                      "logBase": 1,
                      "max": null,
                      "min": 0,
@@ -1127,7 +909,107 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Capacity Overview",
+         "title": "Request / Response",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "id": 12,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "rate(thumbor_gcs_fetch_sum{job=\"$deployment\"}[$__interval])\n /\n rate(thumbor_gcs_fetch_count{job=\"$deployment\"}[$__interval])\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ pod }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Storage Read / Write Latency",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Storage",
          "titleSize": "h6",
          "type": "row"
       }
@@ -1136,9 +1018,8 @@
    "style": "dark",
    "tags": [
       "mintel",
-      "capacity",
-      "resources",
-      "kubernetes"
+      "overview",
+      "image-service"
    ],
    "templating": {
       "list": [
@@ -1155,6 +1036,49 @@
             "refresh": 1,
             "regex": "",
             "type": "datasource"
+         },
+         {
+            "allValue": null,
+            "current": {
+               "text": "image-service",
+               "value": "image-service"
+            },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Namespace",
+            "multi": false,
+            "name": "namespace",
+            "options": [ ],
+            "query": "label_values(kube_pod_container_info,namespace)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": { },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Deployment",
+            "multi": false,
+            "name": "deployment",
+            "options": [ ],
+            "query": "label_values(kube_deployment_labels{namespace=\"$namespace\"}, deployment)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
          }
       ]
    },
@@ -1188,7 +1112,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Cluster Capacity",
-   "uid": "xdbf659be3c9ce97fe0606994e8f8941bb268b5ac",
+   "title": "Mintel /  Image Service",
+   "uid": "1888d015986bc1e8227381f78c7f1c00074e6233",
    "version": 0
 }

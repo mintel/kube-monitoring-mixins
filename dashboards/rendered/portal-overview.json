@@ -16,87 +16,90 @@
       {
          "collapse": false,
          "collapsed": false,
+         "height": 5,
          "panels": [
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
                "datasource": "$ds",
-               "description": "Number of Pods up over time",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
-               "id": 2,
-               "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "rightSide": false,
+               "format": "none",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
                   "show": false,
-                  "total": false,
-                  "values": false
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
                },
-               "lines": true,
-               "linewidth": 2,
+               "gridPos": {
+                  "h": 5,
+                  "w": 4.7999999999999998,
+                  "x": 0,
+                  "y": 1
+               },
+               "height": 250,
+               "id": 2,
+               "interval": null,
                "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 2,
-               "stack": false,
-               "steppedLine": false,
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
                "targets": [
                   {
                      "expr": "sum(up{service=\"$service\", namespace=\"$namespace\"})\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Number of Pods",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 0,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
+               "thresholds": "",
+               "title": "Pods Available",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
                   {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
                   }
-               ]
+               ],
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -108,7 +111,6 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "description": "2xx Responses",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -117,8 +119,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 200,
+               "gridPos": {
+                  "h": 5,
+                  "w": 4.7999999999999998,
+                  "x": 4.7999999999999998,
+                  "y": 1
+               },
+               "height": 250,
                "id": 3,
                "interval": null,
                "links": [ ],
@@ -136,7 +143,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -147,7 +154,6 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -158,8 +164,9 @@
                "targets": [
                   {
                      "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"2.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -175,7 +182,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -187,7 +194,6 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "description": "3xx Responses",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -196,8 +202,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 200,
+               "gridPos": {
+                  "h": 5,
+                  "w": 4.7999999999999998,
+                  "x": 9.5999999999999996,
+                  "y": 1
+               },
+               "height": 250,
                "id": 4,
                "interval": null,
                "links": [ ],
@@ -215,7 +226,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -226,7 +237,6 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -237,8 +247,9 @@
                "targets": [
                   {
                      "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"3.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -254,7 +265,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -266,7 +277,6 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "description": "4xx Responses",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -275,8 +285,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 200,
+               "gridPos": {
+                  "h": 5,
+                  "w": 4.7999999999999998,
+                  "x": 14.399999999999999,
+                  "y": 1
+               },
+               "height": 250,
                "id": 5,
                "interval": null,
                "links": [ ],
@@ -294,7 +309,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -305,7 +320,6 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -316,8 +330,9 @@
                "targets": [
                   {
                      "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"4.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -333,7 +348,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -345,7 +360,6 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "description": "5xx Responses",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -354,8 +368,13 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
-               "height": 200,
+               "gridPos": {
+                  "h": 5,
+                  "w": 4.7999999999999998,
+                  "x": 19.199999999999999,
+                  "y": 1
+               },
+               "height": 250,
                "id": 6,
                "interval": null,
                "links": [ ],
@@ -373,7 +392,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -384,7 +403,6 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -395,8 +413,9 @@
                "targets": [
                   {
                      "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"5.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -412,7 +431,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             }
          ],
          "repeat": null,
@@ -433,21 +452,28 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "description": "Request Latency with Quantiles",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
                "id": 7,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -460,36 +486,16 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 5,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
                      "expr": "histogram_quantile(0.50, \n  sum(rate(\n    django_http_requests_latency_seconds_by_view_method_bucket{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m])\n  ) by (job, le)\n)\n",
                      "format": "time_series",
-                     "hide": false,
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "quantile=50",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ quantile=50 }}",
                      "refId": "A"
-                  },
-                  {
-                     "expr": "histogram_quantile(0.95, \n  sum(rate(\n    django_http_requests_latency_seconds_by_view_method_bucket{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m])\n  ) by (job, le)\n)\n",
-                     "format": "time_series",
-                     "hide": false,
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "quantile=95",
-                     "refId": "B"
-                  },
-                  {
-                     "expr": "histogram_quantile(0.99, \n  sum(rate(\n    django_http_requests_latency_seconds_by_view_method_bucket{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m])\n  ) by (job, le)\n)\n",
-                     "format": "time_series",
-                     "hide": false,
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "quantile=99",
-                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -498,7 +504,7 @@
                "title": "Request Latency",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -512,19 +518,19 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": null,
+                     "label": "Time",
                      "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             },
@@ -534,21 +540,28 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "description": "Responses by HTTP Status Code",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
                "id": 8,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -561,17 +574,15 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 5,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n      django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=~\"^$service$\", view!~\"prometheus-django-metrics|healthcheck\"}[5m])) by(status)\n",
+                     "expr": "sum(\n   rate(\n       django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=~\"^$service$\", view!~\"prometheus-django-metrics|healthcheck\"}[5m])) by(status)\n",
                      "format": "time_series",
-                     "hide": false,
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "{{status}}",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ status }}",
                      "refId": "A"
                   }
                ],
@@ -581,7 +592,7 @@
                "title": "Response Status",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -595,19 +606,19 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": null,
+                     "label": "Num Responses",
                      "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             },
@@ -617,21 +628,28 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "description": "Requests by Method/View over Time",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1011
+               },
+               "height": 250,
                "id": 9,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -644,27 +662,25 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 5,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  irate(\n    django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\nby(method, view)\n",
+                     "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\n by(method, view)\n",
                      "format": "time_series",
-                     "hide": false,
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "{{method}}/{{view}}",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ method }}/{{ view }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Requests by Method/View",
+               "title": "Requests by Method",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -678,19 +694,19 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": null,
+                     "label": "Num REquests",
                      "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             }
@@ -713,102 +729,28 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "description": "Per instance memory (showing only \"main\" container)",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
                "id": 10,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 5,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "container_memory_usage_bytes{container_name=\"main\", pod_name=~\"$service-.*\"}\n",
-                     "format": "time_series",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{pod_name}}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Per Instance Memory",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 0,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
                   "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "description": "Per instance CPU (showing only \"main\" container)",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
-               "id": 11,
-               "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "rightSide": false,
-                  "show": false,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -821,15 +763,15 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 5,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(container_cpu_usage_seconds_total{container_name=\"main\", pod_name=~\"$service.*\"}[5m])\n",
+                     "expr": "sum(\n  rate(\n    django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=~\"^$service$\", view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\nby(status)\n",
                      "format": "time_series",
+                     "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{pod_name}}",
+                     "legendFormat": "{{ status }}",
                      "refId": "A"
                   }
                ],
@@ -839,7 +781,7 @@
                "title": "Per Instance CPU",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -853,19 +795,107 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": null,
+                     "label": "CPU Usage",
                      "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
                      "label": null,
                      "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 11,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "container_memory_usage_bytes{container_name=\"main\", pod_name=~\"$service-.*\"}\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ pod_name }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Per Instance Memory",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Memory Usage",
+                     "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             }
@@ -888,21 +918,28 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "description": "Rate of Django Databases Operations",
-               "fill": 1,
-               "gridPos": { },
-               "height": 200,
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
                "id": 12,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -915,15 +952,15 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 5,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum(rate(django_db_execute_total{namespace=~\"$namespace\", service=~\"^$service$\"}[1m])) by (vendor)\n",
                      "format": "time_series",
+                     "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{vendor}}",
+                     "legendFormat": "{{ vendor }}",
                      "refId": "A"
                   }
                ],
@@ -933,7 +970,7 @@
                "title": "Database Operations",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -947,19 +984,19 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": null,
+                     "label": "Num Operations",
                      "logBase": 1,
                      "max": null,
-                     "min": null,
+                     "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             }
@@ -971,6 +1008,2142 @@
          "title": "Database",
          "titleSize": "h6",
          "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 10001
+               },
+               "height": 250,
+               "id": 13,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(avg_over_time(celery_workers{namespace=~\"^$namespace$\"}[5m]))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ name }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Num Workers",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Workers",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 10001
+               },
+               "height": 250,
+               "id": 14,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(\n  rate(\n    celery_tasks_total{namespace=~\"^namespace$\", name=~\"^$celery_task_name$\", state=~\"^$celery_task_state$\"}[5m]))\nby (name, state)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ name }}/{{ state }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Task Rate",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Tasks",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 10011
+               },
+               "height": 250,
+               "id": 15,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(\n  rate(\n    celery_tasks_runtime_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ name }}/{{ state }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Runtime Rate",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Tasks",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 10011
+               },
+               "height": 250,
+               "id": 16,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(\n  rate(\n    celery_tasks_latency_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ le }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Latency",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Tasks",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 10021
+               },
+               "height": 250,
+               "id": 17,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "topk(15,\n  sum(\n    rate(\n      celery_tasks_total{namespace=~\"^$namespace$\"}[5m])))\n  by (name)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ name }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Top 15 Tasks",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Tasks",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Celery",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 18,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(avg_over_time(redis_connected_clients[$__interval])) by (service)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ service }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Connected Clients",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Clients",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Blocked clients are waiting for a state change event using commands such as BLPOP. Blocked clients are not a sign of an issue on their own.",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 19,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(avg_over_time(redis_blocked_clients{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Blocked Clients",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Blocked Clients",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 20,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_connections_received_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Connections Received",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Connections",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 21,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Operation Rate",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Operations/sec",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 22,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_net_output_bytes_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Redis Network Out",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "Bps",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 23,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_net_input_bytes_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Redis Network In",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "Bps",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 24,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(changes(redis_slowlog_last_id{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 10,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Slowlog Events",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Events",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1021
+               },
+               "height": 250,
+               "id": 25,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ cmd }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Operation Rate per Command",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Operations/sec",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1021
+               },
+               "id": 26,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_commands_duration_seconds_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n/\nsum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ cmd }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Average Operation Latency",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": "Duration",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1031
+               },
+               "id": 27,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_commands_duration_seconds_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ cmd }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Total Operation Latency",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": "Duration",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 28,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "max_over_time(redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Memory Used",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "bytes",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 29,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Memory Used Rate of Change",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "Bps",
+                     "label": "Bytes/sec",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Depending on the memory allocator used, Redis may not return memory to the operating system at the same rate that applications release keys. RSS indicates the operating systems perspective of Redis memory usage. So, even if usage is low, if RSS is high, the OOM killer may terminate the Redis process",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 30,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "max_over_time(redis_memory_used_rss_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Redis RSS Usage",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "bytes",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "The fragmentation ratio in Redis should ideally be around 1.0 and generally below 1.5. The higher the value, the more wasted memory.",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 31,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "redis_memory_used_rss_bytes{job=\"dev-redis-cluster-portal-web\"} / redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Memory Fragmentation",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1021
+               },
+               "height": 250,
+               "id": 32,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_expired_keys_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Expired Keys",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Keys",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1021
+               },
+               "height": 250,
+               "id": 33,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(rate(redis_db_keys{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Keys Rate of Change",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Keys/sec",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 34,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(avg_over_time(redis_connected_slaves{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Connected Secondaries",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Secondaries",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1001
+               },
+               "height": 250,
+               "id": 35,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "redis_master_repl_offset{job=\"dev-redis-cluster-portal-web\"}\n- on(job) group_right\nredis_connected_slave_offset_bytes{job=\"dev-redis-cluster-portal-web\"}\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "secondary {{ slave_ip }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Replication Offset",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "bytes",
+                     "label": "Bytes",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 1011
+               },
+               "height": 250,
+               "id": 36,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum(changes(redis_slave_resync_total{job=\"dev-redis-cluster-portal-web\", job=~\"dev-redis-cluster-portal-web-\\\\\\\\d\\\\\\\\d.*\"}[$__interval])) by (job)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ job }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Resync Events",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": "Events",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Redis",
+         "titleSize": "h6",
+         "type": "row"
       }
    ],
    "schemaVersion": 14,
@@ -978,8 +3151,7 @@
    "tags": [
       "mintel",
       "overview",
-      "part-of/portal",
-      "component/portal-web"
+      "portal"
    ],
    "templating": {
       "list": [
@@ -1031,6 +3203,46 @@
             "name": "service",
             "options": [ ],
             "query": "label_values(kube_service_labels{namespace=\"$namespace\"}, label_app_kubernetes_io_instance)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": { },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Celery Task Name",
+            "multi": false,
+            "name": "celery_task_name",
+            "options": [ ],
+            "query": "label_values(celery_tasks_total,name)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": { },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Celery Task State",
+            "multi": false,
+            "name": "celery_task_state",
+            "options": [ ],
+            "query": "label_values(celery_tasks_total,state)",
             "refresh": 1,
             "regex": "",
             "sort": 0,
