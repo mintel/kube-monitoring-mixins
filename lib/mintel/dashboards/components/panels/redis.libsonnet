@@ -1,7 +1,7 @@
-local commonPanels = import '_templates/panels/common.libsonnet';
-local layout = import '_templates/utils/layout.libsonnet';
-local promQuery = import '_templates/utils/prom_query.libsonnet';
-local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
+local layout = import 'components/layout.libsonnet';
+local promQuery = import 'components/prom_query.libsonnet';
+local seriesOverrides = import 'components/series_overrides.libsonnet';
 {
   clientPanels(serviceType, startRow)::
     local config = {

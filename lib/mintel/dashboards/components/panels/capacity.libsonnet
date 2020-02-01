@@ -1,4 +1,4 @@
-local commonPanels = import '_templates/panels/common.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
 local statusdotsPanel = commonPanels.statusdots;
 
 {

@@ -2,9 +2,9 @@ local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
 
-local templates = import '_templates/utils/templates.libsonnet';
-local common = import '_templates/panels/common.libsonnet';
-local capacity = import '_templates/panels/capacity.libsonnet';
+local templates = import 'components/templates.libsonnet';
+local common = import 'components/panels/common.libsonnet';
+local capacity = import 'components/panels/capacity.libsonnet';
 
 
 // Will probably drop these soon as they aren't used (but may prove useful later)

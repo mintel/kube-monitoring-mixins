@@ -1,3 +1,3 @@
-(import './cluster/capacity.libsonnet') +
-(import './portal/overview.libsonnet') +
-(import './image-service/overview.libsonnet')
+(import './core-cluster/capacity.libsonnet') +
+(import './services/portal/overview.libsonnet') +
+(import './services/image-service/overview.libsonnet')

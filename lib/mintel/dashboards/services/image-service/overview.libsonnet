@@ -3,11 +3,11 @@ local dashboard = grafana.dashboard;
 local row = grafana.row;
 local link = grafana.link;
 
-local annotations = import '_templates/utils/annotations.libsonnet';
+local annotations = import 'components/annotations.libsonnet';
 
-local templates = import '_templates/utils/templates.libsonnet';
-local thumbor = import '_templates/panels/thumbor.libsonnet';
-local haproxy = import '_templates/panels/haproxy.libsonnet';
+local templates = import 'components/templates.libsonnet';
+local thumbor = import 'components/panels/thumbor.libsonnet';
+local haproxy = import 'components/panels/haproxy.libsonnet';
 
 local panelsHeight = 200;
 

@@ -1,6 +1,6 @@
-local commonPanels = import '_templates/panels/common.libsonnet';
-local layout = import '_templates/utils/layout.libsonnet';
-local promQuery = import '_templates/utils/prom_query.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
+local layout = import 'components/layout.libsonnet';
+local promQuery = import 'components/prom_query.libsonnet';
 {
   overview(serviceType, startRow)::
     local config = {

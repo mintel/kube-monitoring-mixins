@@ -2,10 +2,10 @@ local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
 
-local templates = import '_templates/utils/templates.libsonnet';
-local redis = import '_templates/panels/redis.libsonnet';
-local django = import '_templates/panels/django.libsonnet';
-local celery = import '_templates/panels/celery.libsonnet';
+local templates = import 'components/templates.libsonnet';
+local redis = import 'components/panels/redis.libsonnet';
+local django = import 'components/panels/django.libsonnet';
+local celery = import 'components/panels/celery.libsonnet';
 
 local panelsHeight = 200;
 

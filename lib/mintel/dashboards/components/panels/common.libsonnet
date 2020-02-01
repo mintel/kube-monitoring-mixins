@@ -4,10 +4,10 @@ local singlestatPanel = grafana.singlestat;
 local tablePanel = grafana.tablePanel;
 local row = grafana.row;
 local text = grafana.text;
-local promQuery = import '_templates/utils/prom_query.libsonnet';
-local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
+local promQuery = import 'components/prom_query.libsonnet';
+local seriesOverrides = import 'components/series_overrides.libsonnet';
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
-local templates = import '_templates/utils/templates.libsonnet';
+local templates = import 'components/templates.libsonnet';
 local statusdotsPanel = import 'statusdots_panel.libsonnet';
 {
   statusdots(

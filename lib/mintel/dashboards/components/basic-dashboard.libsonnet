@@ -1,14 +1,14 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
-local promQuery = import '_templates/utils/prom_query.libsonnet';
+local promQuery = import 'components/prom_query.libsonnet';
 local graphPanel = grafana.graphPanel;
 local grafana = import 'grafonnet/grafana.libsonnet';
 local row = grafana.row;
 local text = grafana.text;
-local seriesOverrides = import '_templates/utils/series_overrides.libsonnet';
+local seriesOverrides = import 'components/series_overrides.libsonnet';
 local singlestatPanel = grafana.singlestat;
 local tablePanel = grafana.tablePanel;
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
-local templates = import '_templates/utils/templates.libsonnet';
+local templates = import 'components/templates.libsonnet';
 
 {
   dashboard(
