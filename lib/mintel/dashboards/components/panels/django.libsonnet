@@ -8,38 +8,45 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       serviceType: serviceType,
     };
     layout.grid([
-      commonPanels.singlestat(
+
+      commonPanels.timeseries(
         title='Pods Available',
+        span=4,
         query=|||
           sum(up{service="$service", namespace="$namespace"})
       ||| % config,
       ),
+
       commonPanels.singlestat(
-        title='2xx Responses',
+        title='2xx',
+        span=2,
         query=|||
           sum(rate(django_http_responses_total_by_status_total{status=~"2.+", namespace=~"$namespace", service=~"^$service$"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='3xx Responses',
+        title='3xx',
+        span=2,
         query=|||
           sum(rate(django_http_responses_total_by_status_total{status=~"3.+", namespace=~"$namespace", service=~"^$service$"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='4xx Responses',
+        title='4xx',
+        span=2,
         query=|||
           sum(rate(django_http_responses_total_by_status_total{status=~"4.+", namespace=~"$namespace", service=~"^$service$"}[5m]))
       ||| % config,
       ),
       commonPanels.singlestat(
-        title='5xx Responses',
+        title='5xx',
+        span=2,
         query=|||
           sum(rate(django_http_responses_total_by_status_total{status=~"5.+", namespace=~"$namespace", service=~"^$service$"}[5m]))
       ||| % config,
       ),
 
-    ], cols=5, rowHeight=5, startRow=startRow),
+    ], cols=12, rowHeight=10, startRow=startRow),
 
   requestResponsePanels(serviceType, startRow)::
     local config = {
@@ -57,6 +64,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           )
         ||| % config,
         legendFormat='{{ quantile=50 }}',
+        legend_show=false,
         intervalFactor=2,
       ),
 
@@ -69,6 +77,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 django_http_responses_total_by_status_total{namespace=~"$namespace", service=~"^$service$", view!~"prometheus-django-metrics|healthcheck"}[5m])) by(status)
         ||| % config,
         legendFormat='{{ status }}',
+        legend_show=false,
         intervalFactor=2,
       ),
       commonPanels.timeseries(
@@ -81,6 +90,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           by(method, view)
        ||| % config,
         legendFormat='{{ method }}/{{ view }}',
+        legend_show=false,
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
