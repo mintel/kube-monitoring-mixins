@@ -27,6 +27,19 @@ local promQuery = import '_templates/utils/prom_query.libsonnet';
       .addTarget(
         promQuery.target(
           |||
+            histogram_quantile(0.75,
+            sum(
+              rate(
+                http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*$deployment-[0-9].*"}[5m]))
+            by (backend,job,le))
+          |||,
+          legendFormat='p75 {{ backend }}',
+          intervalFactor=2,
+        )
+      )
+      .addTarget(
+        promQuery.target(
+          |||
             histogram_quantile(0.50,
             sum(
               rate(
