@@ -1,12 +1,4 @@
 local grafana = import 'grafonnet/grafana.libsonnet';
-local promQuery = import 'components/prom_query.libsonnet';
-local graphPanel = grafana.graphPanel;
-local grafana = import 'grafonnet/grafana.libsonnet';
-local row = grafana.row;
-local text = grafana.text;
-local seriesOverrides = import 'components/series_overrides.libsonnet';
-local singlestatPanel = grafana.singlestat;
-local tablePanel = grafana.tablePanel;
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
 local templates = import 'components/templates.libsonnet';
 
@@ -22,12 +14,10 @@ local templates = import 'components/templates.libsonnet';
     graphTooltip='shared_crosshair',
     hideControls=false,
     description=null,
-    includeStandardEnvironmentAnnotations=true,
-    includeEnvironmentTemplate=true,
   )::
     local dashboard = grafana.dashboard.new(
       title,
-      style='light',
+      style='dark',
       schemaVersion=16,
       tags=tags,
       timezone='utc',

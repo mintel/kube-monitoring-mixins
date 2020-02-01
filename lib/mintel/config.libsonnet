@@ -54,21 +54,9 @@
     volumeFullPredictionSampleTime: '6h',
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
-    mintelGrafanaK8s: {
+    mintel: {
       dashboardNamePrefix: 'Mintel / ',
       dashboardTags: ['mintel'],
-
-      // Grafana Dashboards IDs (name | sha1sum)
-      // TODO: Autogenerate this
-      grafanaDashboardIDs: {
-        'cluster-capacity.json': 'xdbf659be3c9ce97fe0606994e8f8941bb268b5ac',
-        'portal-overview.json': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
-        'image-service-overview.json': '1888d015986bc1e8227381f78c7f1c00074e6233',
-      },
-
-      // For links between grafana dashboards, you need to tell us if your grafana
-      // servers under some non-root path.
-      linkPrefix: '.',
     },
 
     nodeSelectorRegex: '"^gke.*"',

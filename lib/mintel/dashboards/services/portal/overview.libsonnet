@@ -4,30 +4,40 @@ local row = grafana.row;
 local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
-
 local templates = import 'components/templates.libsonnet';
 local redis = import 'components/panels/redis.libsonnet';
 local django = import 'components/panels/django.libsonnet';
 local celery = import 'components/panels/celery.libsonnet';
 local haproxy = import 'components/panels/haproxy.libsonnet';
 
-local panelsHeight = 200;
+// Dashboard settings
+local dashboardTitle = 'Portal';
+local dashboardDescription = "Provides an overview of the Portal stack";
+local dashboardFile = 'portal-overview.json';
+local dashboardUID = std.md5(dashboardFile);
+local dashboardLink = '/d/%(uid)s/%(name)s' % { 
+  uid: dashboardUID,
+  name: dashboardFile
+};
+local dashboardTags = ['portal'];
+// End dashboard settings
 
 {
   grafanaDashboards+:: {
-    'portal-overview.json':
+    [std.format('%s', dashboardFile)]:
       dashboard.new(
-        '%(dashboardNamePrefix)s Portal' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s %(dashboardTitle)s' %
+           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
         time_from='now-3h',
-        uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['portal-overview.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['portal'],
-        description='A Dashboard providing an overview of the portal stack'
+        uid=dashboardUID,
+        tags=($._config.mintel.dashboardTags) + dashboardTags,
+        description=dashboardDescription,
       )
 
       .addLink(link.dashboards(tags="",
         type="link",
         title="Workload",
-        url="d/a164a7f0339f99e89cea5cb47e9be617/",
+        url=dashboardLink,
         includeVars=true,
         keepTime=true,
         asDropdown=false,

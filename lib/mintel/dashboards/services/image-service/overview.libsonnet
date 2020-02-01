@@ -9,23 +9,34 @@ local templates = import 'components/templates.libsonnet';
 local thumbor = import 'components/panels/thumbor.libsonnet';
 local haproxy = import 'components/panels/haproxy.libsonnet';
 
-local panelsHeight = 200;
+// Dashboard settings
+local dashboardTitle = 'Image Service';
+local dashboardDescription = "Provides an overview of the Image Service stack";
+local dashboardFile = 'image-service-overview.json';
+local dashboardUID = std.md5(dashboardFile);
+local dashboardLink = '/d/%(uid)s/%(name)s' % { 
+  uid: dashboardUID,
+  name: dashboardFile
+};
+local dashboardTags = ['image-service'];
+// End dashboard settings
 
 {
   grafanaDashboards+:: {
-    'image-service-overview.json':
+    [std.format('%s', dashboardFile)]:
       dashboard.new(
-        '%(dashboardNamePrefix)s Image Service' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s %(dashboardTitle)s' %
+           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
         time_from='now-3h',
-        uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['image-service-overview.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['image-service'],
-        description='A Dashboard providing an overview of the image-service stack'
+        uid=dashboardUID,
+        tags=($._config.mintel.dashboardTags) + dashboardTags,
+        description=dashboardDescription,
       )
 
       .addLink(link.dashboards(tags="",
         type="link",
         title="Workload",
-        url="d/a164a7f0339f99e89cea5cb47e9be617/",
+        url=dashboardLink,
         includeVars=true,
         keepTime=true,
         asDropdown=false,

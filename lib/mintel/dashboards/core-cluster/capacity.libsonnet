@@ -6,22 +6,37 @@ local templates = import 'components/templates.libsonnet';
 local common = import 'components/panels/common.libsonnet';
 local capacity = import 'components/panels/capacity.libsonnet';
 
-
 // Will probably drop these soon as they aren't used (but may prove useful later)
 local startRowNodesOverview=1000;
 local startRowCapacityOverview=1001;
 
+// Dashboard settings
+local dashboardTitle = 'Capacity Planning';
+local dashboardDescription = 'A Dashboard to highlight current capacity usage and growth for your cluster';
+local dashboardFile = 'cluster-capacity-planning.json';
+local dashboardUID = std.md5(dashboardFile);
+local dashboardLink = '/d/%(uid)s/%(name)s' % { 
+  uid: dashboardUID,
+  name: dashboardFile
+};
+local dashboardTags = ['capacity', 'resoruces'];
+
+// End dashboard settings
+
 {
   grafanaDashboards+:: {
-    'cluster-capacity.json':
+    [std.format('%s', dashboardFile)]:
       dashboard.new(
-        '%(dashboardNamePrefix)s Cluster Capacity' % $._config.mintelGrafanaK8s,
+        '%(dashboardNamePrefix)s %(dashboardTitle)s' %
+           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
         time_from='now-3h',
-        uid=($._config.mintelGrafanaK8s.grafanaDashboardIDs['cluster-capacity.json']),
-        tags=($._config.mintelGrafanaK8s.dashboardTags) + ['capacity', 'resources', 'kubernetes'],
-        description='A Dashboard to highlight current capacity usage and growth for your cluster'
+        uid=dashboardUID,
+        tags=($._config.mintel.dashboardTags) + dashboardTags,
+        description=dashboardDescription,
       )
+
       .addTemplate(templates.ds)
+
       .addRow(
         row.new('Nodes Overview')
         .addPanel(capacity.numberOfNodes($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
@@ -31,6 +46,7 @@ local startRowCapacityOverview=1001;
         .addPanel(capacity.nodesNotReady($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
         .addPanel(capacity.nodesUnavailable($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
       )
+
       .addRow(
         row.new('Capacity Overview')
         .addPanel(capacity.cpuCoresRequests($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
