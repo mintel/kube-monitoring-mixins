@@ -96,6 +96,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
+    
   resourcePanels(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
@@ -128,6 +129,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
+
   databaseOps(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
