@@ -13,6 +13,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       commonPanels.timeseries(
         title='Pods Available',
         span=4,
+        legend_show=false,
         query=|||
           sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
       ||| % config,

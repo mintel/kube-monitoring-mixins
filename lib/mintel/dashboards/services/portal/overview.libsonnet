@@ -14,11 +14,11 @@ local haproxy = import 'components/panels/haproxy.libsonnet';
 local dashboardTitle = 'Portal';
 local dashboardDescription = "Provides an overview of the Portal stack";
 local dashboardFile = 'portal-overview.json';
+
 local dashboardUID = std.md5(dashboardFile);
-local dashboardLink = '/d/%(uid)s/%(name)s' % { 
-  uid: dashboardUID,
-  name: dashboardFile
-};
+local dashboardLink = '/d/' + std.md5(dashboardFile);
+local dashboardWorkloadLink = '/d/a164a7f0339f99e89cea5cb47e9be617';
+
 local dashboardTags = ['portal'];
 // End dashboard settings
 
@@ -37,7 +37,7 @@ local dashboardTags = ['portal'];
       .addLink(link.dashboards(tags="",
         type="link",
         title="Workload",
-        url=dashboardLink,
+        url=dashboardWorkloadLink,
         includeVars=true,
         keepTime=true,
         asDropdown=false,
