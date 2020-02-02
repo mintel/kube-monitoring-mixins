@@ -19,6 +19,25 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
       ),
 
+      commonPanels.latencyTimeseries(
+        title='HTTP Responses',
+        description='HTTP Responses',
+        yAxisLabel='Time',
+        format='s',
+        span=8,
+        legend_show=false,
+        height=200,
+        query=|||
+          sum by (backend, code)
+            (irate(
+              haproxy_backend_http_responses_total{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",}[5m]))
+        ||| % config,
+      //legendFormat='p95 {{ backend }}',
+      intervalFactor=2,
+      )
+
+
+/*
       commonPanels.singlestat(
         title='2xx',
         span=2,
@@ -47,7 +66,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(rate(django_http_responses_total_by_status_total{status=~"5.+", namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
       ||| % config,
       ),
-
+*/
     ], cols=12, rowHeight=10, startRow=startRow),
 
   requestResponsePanels(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
