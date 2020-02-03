@@ -189,14 +189,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         ||| % config,
         legendFormat='io time',
       )
-    )
-    .addYaxis(
-      format='bytes',
-      logBase=1,
-    )
-    .addYaxis(
-      format='s',
-      logBase=1,
     ) + {
       seriesOverrides: [
         {
@@ -206,6 +198,18 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         {
           alias: 'io time',
           yaxis: 2,
+        },
+      ],
+      yaxes: [
+        {
+          format: 'bytes',
+          logBase: 1,
+          show: true,
+        },
+        {
+          format: 's',
+          logBase: 1,
+          show: true,
         },
       ],
     },
