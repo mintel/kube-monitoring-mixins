@@ -64,7 +64,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 0,
-               "description": "",
+               "description": "Number of instances running over time",
                "fill": 0,
                "gridPos": {
                   "h": 10,
@@ -97,7 +97,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -113,7 +113,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Pods Available",
+               "title": "Instances Runing (Over Time)",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -147,14 +147,24 @@
                ]
             },
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 2,
-               "description": "HTTP Responses",
-               "fill": 0,
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#d44a3a",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#299c46"
+               ],
+               "datasource": null,
+               "description": "Number of instances running as a percentage (should be 100%)",
+               "format": "percent",
+               "gauge": {
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "show": true,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -163,6 +173,82 @@
                },
                "height": 200,
                "id": 3,
+               "interval": "1m",
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "span": 2,
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": false
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$deployment\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$deployment\"}) \n without (instance, pod)\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": ".8, .9",
+               "title": "Instances Running",
+               "transparent": true,
+               "type": "singlestat",
+               "valueFontSize": "50%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "avg"
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "HAProxy HTTP Responses",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 4,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 4,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -186,7 +272,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 8,
+               "span": 7,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -202,7 +288,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "HTTP Responses",
+               "title": "HAProxy HTTP Responses",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -264,7 +350,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 4,
+               "id": 5,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -353,7 +439,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 5,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -455,7 +541,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 6,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -495,7 +581,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Response Time",
+               "title": "App Response Time",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -544,7 +630,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 7,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -584,7 +670,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Response Status",
+               "title": "App Response Status",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -646,7 +732,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 8,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -686,7 +772,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Storage Read / Write Latency",
+               "title": "Storage R/W Latency",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
