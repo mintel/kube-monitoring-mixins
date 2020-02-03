@@ -13,11 +13,11 @@ local webService = import 'components/panels/web-service.libsonnet';
 local dashboardTitle = 'Image Service';
 local dashboardDescription = "Provides an overview of the Image Service stack";
 local dashboardFile = 'image-service-overview.json';
+
 local dashboardUID = std.md5(dashboardFile);
-local dashboardLink = '/d/%(uid)s/%(name)s' % { 
-  uid: dashboardUID,
-  name: dashboardFile
-};
+local dashboardLink = '/d/' + std.md5(dashboardFile);
+local dashboardWorkloadLink = '/d/a164a7f0339f99e89cea5cb47e9be617';
+
 local dashboardTags = ['image-service'];
 // End dashboard settings
 
@@ -36,11 +36,12 @@ local dashboardTags = ['image-service'];
       .addLink(link.dashboards(tags="",
         type="link",
         title="Workload",
-        url=dashboardLink,
+        url=dashboardWorkloadLink,
         includeVars=true,
         keepTime=true,
         asDropdown=false,
         targetBlank=true))
+
       .addAnnotation(annotations.fluxRelease)
       .addAnnotation(annotations.fluxAutoRelease)
 
