@@ -32,6 +32,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       yAxisLabel='CPU Usage',
       height=300,
       span=span,
+      format='percent',
       query=|||
         avg(
           rate(
@@ -72,6 +73,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       yAxisLabel='Memory Usage',
       span=span,
       height=300,
+      format='percent',
       query=|||
         100 * (1 - ((
                       sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) 
@@ -211,7 +213,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         },
       ],
     },
-    
+
   numberOfNodes(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
