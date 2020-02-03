@@ -1,7 +1,6 @@
 local commonPanels = import 'components/panels/common.libsonnet';
 local layout = import 'components/layout.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
-local seriesOverrides = import 'components/series_overrides.libsonnet';
 {
   overview(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
     local config = {

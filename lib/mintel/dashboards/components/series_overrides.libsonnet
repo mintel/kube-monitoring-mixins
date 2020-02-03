@@ -136,14 +136,7 @@ local capacityComponentColors = {
     spaceLength: 4,
     hideTooltip: true,
   },
-  mainStage:: {
-    alias: 'main stage',
-    color: '#5794F2',
-  },
-  cnyStage:: {
-    alias: 'cny stage',
-    color: '#FADE2A',
-  },
+
   networkReceive:: {
     alias: '/receive .*/',
     transform: 'negative-Y',

@@ -1,7 +1,6 @@
 local commonPanels = import 'components/panels/common.libsonnet';
 local layout = import 'components/layout.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
-local seriesOverrides = import 'components/series_overrides.libsonnet';
 {
   celeryPanels(serviceType, startRow)::
     local config = {
