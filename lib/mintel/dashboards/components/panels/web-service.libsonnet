@@ -19,8 +19,8 @@ local layout = import 'components/layout.libsonnet';
       ),
 
       commonPanels.latencyTimeseries(
-        title='HTTP Responses',
-        description='HTTP Responses',
+        title='HAProxy HTTP Responses',
+        description='HAProxy HTTP Responses',
         yAxisLabel='Time',
         format='s',
         span=8,
