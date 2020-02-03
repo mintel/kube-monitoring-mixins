@@ -28,7 +28,7 @@ local dashboardTags = ['portal'];
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
            ($._config.mintel + {'dashboardTitle': dashboardTitle }),
-        time_from='now-3h',
+        time_from='now-1h',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
