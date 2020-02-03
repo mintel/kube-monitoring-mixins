@@ -8,7 +8,7 @@ local templates = import 'components/templates.libsonnet';
 local redis = import 'components/panels/redis.libsonnet';
 local django = import 'components/panels/django.libsonnet';
 local celery = import 'components/panels/celery.libsonnet';
-local haproxy = import 'components/panels/haproxy.libsonnet';
+local webService = import 'components/panels/web-service.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Portal';
@@ -54,8 +54,7 @@ local dashboardTags = ['portal'];
 
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(django.overview())
-        .addPanels(haproxy.overview(serviceSelectorKey="service", serviceSelectorValue="$service"))
+        .addPanels(webService.overview())
       )
       .addRow(
         row.new('Request / Response')

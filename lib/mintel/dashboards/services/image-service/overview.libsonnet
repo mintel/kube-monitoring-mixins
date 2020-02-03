@@ -7,7 +7,7 @@ local annotations = import 'components/annotations.libsonnet';
 
 local templates = import 'components/templates.libsonnet';
 local thumbor = import 'components/panels/thumbor.libsonnet';
-local haproxy = import 'components/panels/haproxy.libsonnet';
+local webService = import 'components/panels/web-service.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Image Service';
@@ -47,11 +47,9 @@ local dashboardTags = ['image-service'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('image-service'))
       .addTemplate(templates.app_deployment)
-
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(thumbor.overview())
-        .addPanels(haproxy.overview(serviceSelectorKey="deployment", serviceSelectorValue="$deployment"))
+        .addPanels(webService.overview(serviceSelectorKey="job", serviceSelectorValue="$deployment"))
       )
       .addRow(
         row.new('Resources')

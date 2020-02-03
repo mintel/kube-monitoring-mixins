@@ -2,51 +2,6 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local layout = import 'components/layout.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  overview(serviceSelectorKey="job", serviceSelectorValue="$deployment", startRow=1000)::
-    local config = {
-      serviceSelectorKey: serviceSelectorKey,
-      serviceSelectorValue: serviceSelectorValue
-    };
-    layout.grid([
-      commonPanels.timeseries(
-        title='Pods Available',
-        span=4,
-        query=|||
-          sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
-      ||| % config,
-      ),
-
-      commonPanels.singlestat(
-        title='2xx',
-        span=2,
-        query=|||
-          sum(rate(thumbor_response_status_total{statuscode=~"2.+", namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
-      ||| % config,
-      ),
-      commonPanels.singlestat(
-        title='3xx',
-        span=2,
-        query=|||
-          sum(rate(thumbor_response_status_total{statuscode=~"3.+", namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
-      ||| % config,
-      ),
-      commonPanels.singlestat(
-        title='4xx',
-        span=2,
-        query=|||
-          sum(rate(thumbor_response_status_total{statuscode=~"4.+", namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
-      ||| % config,
-      ),
-      commonPanels.singlestat(
-        title='5xx',
-        span=2,
-        query=|||
-          sum(rate(thumbor_response_status_total{statuscode=~"5.+", namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
-      ||| % config,
-      ),
-
-    ], cols=12, rowHeight=10, startRow=startRow),
-
   requestResponsePanels(serviceSelectorKey="job", serviceSelectorValue="$deployment", startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
