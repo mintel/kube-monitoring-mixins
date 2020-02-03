@@ -1,6 +1,7 @@
 local commonPanels = import 'components/panels/common.libsonnet';
 local statusdotsPanel = commonPanels.statusdots;
-
+local promQuery = import 'components/prom_query.libsonnet';
+local seriesOverrides = import 'components/series_overrides.libsonnet';
 {
 
   cpuCoresRequests(nodeSelectorRegex, startRow, span=2)::
@@ -29,6 +30,7 @@ local statusdotsPanel = commonPanels.statusdots;
       title='Idle CPU',
       description='Idle CPU in the Cluster',
       yAxisLabel='CPU Usage',
+      height=300,
       span=span,
       query=|||
         avg(
@@ -69,6 +71,7 @@ local statusdotsPanel = commonPanels.statusdots;
       description='Memory usage in the Cluster',
       yAxisLabel='Memory Usage',
       span=span,
+      height=300,
       query=|||
         100 * (1 - ((
                       sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) 
@@ -156,23 +159,59 @@ local statusdotsPanel = commonPanels.statusdots;
       title='Ephemeral Disk IO',
       description='Ephemeral Disk IO',
       span=span,
+      height=300,
       yAxisLabel='read',
-      // io time
-      // bytes
-      // FIXME
       query=|||
         sum(
           rate(
             node_disk_read_bytes_total{device=~"sd(a9|[b-z])"}[5m]))
       ||| % config,
       legendFormat='read',
-    ),
-
-    // FIXME: Multi-target
-    //    .addTarget(prometheus.target('sum(rate(node_disk_written_bytes_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='written') { step: 20 })
-    //.addTarget(prometheus.target('sum(rate(node_disk_io_time_seconds_total{device=~"sd(a9|[b-z])"}[5m]))' % $._config, intervalFactor=4, legendFormat='io time') { step: 20 }),
-
-
+    )
+    .addTarget(
+      promQuery.target(
+        |||
+          sum(
+            rate(
+              node_disk_written_bytes_total{device=~"sd(a9|[b-z])"}[5m]))
+        ||| % config,
+        legendFormat='written',
+      )
+    )
+    .addTarget(
+      promQuery.target(
+        |||
+          sum(
+            rate(
+              node_disk_io_time_seconds_total{device=~"sd(a9|[b-z])"}[5m]))
+        ||| % config,
+        legendFormat='io time',
+      )
+    ) + {
+      seriesOverrides: [
+        {
+          alias: 'read',
+          yaxis: 1,
+        },
+        {
+          alias: 'io time',
+          yaxis: 2,
+        },
+      ],
+      yaxes: [
+        {
+          format: 'bytes',
+          logBase: 1,
+          show: true,
+        },
+        {
+          format: 's',
+          logBase: 1,
+          show: true,
+        },
+      ],
+    },
+    
   numberOfNodes(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
