@@ -5,6 +5,19 @@
         name: 'elasticsearch.alerts',
         rules: [
           {
+            alert: 'ElasticsearchOperatorReconcileErrors',
+            annotations: {
+              description: 'ElasticSearch Operator failing to reconcile controller {{ $labels.controller }}',
+              summary: 'ElasticSearch Operator failing to reconcile controller {{ $labels.controller }}',
+              runbook_url: '%(runBookBaseURL)s/core/ElasticsearchOperatorReconcileErrors.md' % $._config,
+            },
+            expr: 'increase(controller_runtime_reconcile_errors_total{%(eckOperatorFilter)s}[30m]) >0' % $._config,
+            'for': '30m',
+            labels: {
+              severity: 'warning',
+            },
+          },
+          {
             alert: 'ElasticsearchTooFewNodesRunning',
             annotations: {
               description: 'There are only {{$value}} < 3 ElasticSearch nodes running in cluster {{$labels.cluster}}',
