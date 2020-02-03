@@ -524,7 +524,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 8,
                "interval": "1m",
                "links": [ ],
@@ -592,7 +592,7 @@
                "description": "Requested CPU per node",
                "format": "none",
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 9,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -646,7 +646,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 10,
                "interval": "1m",
                "links": [ ],
@@ -714,7 +714,7 @@
                "description": "Requested memory per Node",
                "format": "none",
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 11,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -768,7 +768,7 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 12,
                "interval": "1m",
                "links": [ ],
@@ -836,7 +836,7 @@
                "description": "Percentage of ephemeral disk usage per node",
                "format": "none",
                "gridPos": { },
-               "height": 250,
+               "height": 200,
                "id": 13,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -880,7 +880,7 @@
                "description": "Idle CPU in the Cluster",
                "fill": 0,
                "gridPos": { },
-               "height": 250,
+               "height": 300,
                "id": 14,
                "legend": {
                   "alignAsTable": true,
@@ -937,7 +937,7 @@
                },
                "yaxes": [
                   {
-                     "format": "short",
+                     "format": "percent",
                      "label": "CPU Usage",
                      "logBase": 1,
                      "max": null,
@@ -964,7 +964,7 @@
                "description": "Memory usage in the Cluster",
                "fill": 0,
                "gridPos": { },
-               "height": 250,
+               "height": 300,
                "id": 15,
                "legend": {
                   "alignAsTable": true,
@@ -1021,7 +1021,7 @@
                },
                "yaxes": [
                   {
-                     "format": "short",
+                     "format": "percent",
                      "label": "Memory Usage",
                      "logBase": 1,
                      "max": null,
@@ -1048,7 +1048,7 @@
                "description": "Ephemeral Disk IO",
                "fill": 0,
                "gridPos": { },
-               "height": 250,
+               "height": 300,
                "id": 16,
                "legend": {
                   "alignAsTable": true,
@@ -1071,7 +1071,16 @@
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [
+                  {
+                     "alias": "read",
+                     "yaxis": 1
+                  },
+                  {
+                     "alias": "io time",
+                     "yaxis": 2
+                  }
+               ],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -1084,6 +1093,22 @@
                      "intervalFactor": 3,
                      "legendFormat": "read",
                      "refId": "A"
+                  },
+                  {
+                     "expr": "sum(\n  rate(\n    node_disk_written_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "written",
+                     "refId": "B"
+                  },
+                  {
+                     "expr": "sum(\n  rate(\n    node_disk_io_time_seconds_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "io time",
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1119,6 +1144,22 @@
                      "max": 1,
                      "min": 0,
                      "show": false
+                  },
+                  {
+                     "format": "bytes",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": true
+                  },
+                  {
+                     "format": "s",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": true
                   }
                ]
             }
@@ -1137,8 +1178,7 @@
    "tags": [
       "mintel",
       "capacity",
-      "resources",
-      "kubernetes"
+      "resoruces"
    ],
    "templating": {
       "list": [
@@ -1159,7 +1199,7 @@
       ]
    },
    "time": {
-      "from": "now-3h",
+      "from": "now-1h",
       "to": "now"
    },
    "timepicker": {
@@ -1188,7 +1228,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Cluster Capacity",
-   "uid": "xdbf659be3c9ce97fe0606994e8f8941bb268b5ac",
+   "title": "Mintel /  Capacity Planning",
+   "uid": "aec7542ba09affa6e69221e39161aa6a",
    "version": 0
 }

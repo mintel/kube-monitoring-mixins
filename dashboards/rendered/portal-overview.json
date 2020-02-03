@@ -2,15 +2,54 @@
    "__inputs": [ ],
    "__requires": [ ],
    "annotations": {
-      "list": [ ]
+      "list": [
+         {
+            "datasource": "Elasticsearch-fluxcloud",
+            "enable": true,
+            "hide": false,
+            "iconColor": "#96D98D",
+            "name": "flux-release",
+            "query": "message.EventType:release AND message.Namespaces: \"$namespace\"",
+            "showIn": 0,
+            "tags": [ ],
+            "tagsField": "message.Tags",
+            "textField": "message.Body",
+            "type": "tags"
+         },
+         {
+            "datasource": "Elasticsearch-fluxcloud",
+            "enable": true,
+            "hide": false,
+            "iconColor": "#FADE2A",
+            "name": "flux-autorelease",
+            "query": "message.EventType:autorelease AND message.Namespaces: \"$namespace\"",
+            "showIn": 0,
+            "tags": [ ],
+            "tagsField": "message.Tags",
+            "textField": "message.Body",
+            "type": "tags"
+         }
+      ]
    },
-   "description": "A Dashboard providing an overview of the portal stack",
+   "description": "Provides an overview of the Portal stack",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 0,
    "hideControls": false,
    "id": null,
-   "links": [ ],
+   "links": [
+      {
+         "asDropdown": false,
+         "icon": "external link",
+         "includeVars": true,
+         "keepTime": true,
+         "tags": "",
+         "targetBlank": true,
+         "title": "Workload",
+         "type": "link",
+         "url": "/d/a164a7f0339f99e89cea5cb47e9be617"
+      }
+   ],
    "refresh": "",
    "rows": [
       {
@@ -19,419 +58,182 @@
          "height": 5,
          "panels": [
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
                "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
+               "decimals": 0,
+               "description": "",
+               "fill": 0,
                "gridPos": {
-                  "h": 5,
-                  "w": 4.7999999999999998,
+                  "h": 10,
+                  "w": 2,
                   "x": 0,
-                  "y": 1
+                  "y": 1000
                },
-               "height": 250,
+               "height": 200,
                "id": 2,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
                },
-               "tableColumn": "",
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 4,
+               "stack": false,
+               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum(up{service=\"$service\", namespace=\"$namespace\"})\n",
-                     "format": true,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
                "title": "Pods Available",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
                   {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
+                     "format": "short",
+                     "label": "",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
-               ],
-               "valueName": "current"
+               ]
             },
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
                "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
+               "decimals": 2,
+               "description": "HTTP Responses",
+               "fill": 0,
                "gridPos": {
-                  "h": 5,
-                  "w": 4.7999999999999998,
-                  "x": 4.7999999999999998,
-                  "y": 1
+                  "h": 10,
+                  "w": 2,
+                  "x": 2,
+                  "y": 1000
                },
-               "height": 250,
+               "height": 200,
                "id": 3,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"2.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "2xx Responses",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
                   "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
+                  "total": false,
+                  "values": true
                },
-               "gridPos": {
-                  "h": 5,
-                  "w": 4.7999999999999998,
-                  "x": 9.5999999999999996,
-                  "y": 1
-               },
-               "height": 250,
-               "id": 4,
-               "interval": null,
+               "lines": true,
+               "linewidth": 2,
                "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
                "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 8,
+               "stack": false,
+               "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"3.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": true,
+                     "expr": "sum by (backend, code)\n  (irate(\n    haproxy_backend_http_responses_total{backend=~\"$namespace-.*$service-[0-9].*\",}[5m]))\n",
+                     "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
-               "title": "3xx Responses",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "HTTP Responses",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
                },
-               "gridPos": {
-                  "h": 5,
-                  "w": 4.7999999999999998,
-                  "x": 14.399999999999999,
-                  "y": 1
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
                },
-               "height": 250,
-               "id": 5,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
+               "yaxes": [
                   {
-                     "name": "value to text",
-                     "value": 1
+                     "format": "s",
+                     "label": "Time",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
                   },
                   {
-                     "name": "range to text",
-                     "value": 2
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"4.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "4xx Responses",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "format": "none",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 5,
-                  "w": 4.7999999999999998,
-                  "x": 19.199999999999999,
-                  "y": 1
-               },
-               "height": 250,
-               "id": 6,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(rate(django_http_responses_total_by_status_total{status=~\"5.+\", namespace=~\"$namespace\", service=~\"^$service$\"}[5m]))\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "5xx Responses",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
+               ]
             }
          ],
          "repeat": null,
@@ -459,10 +261,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1000
                },
-               "height": 250,
-               "id": 7,
+               "height": 200,
+               "id": 4,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -471,7 +273,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": true,
+                  "show": false,
                   "total": false,
                   "values": true
                },
@@ -490,7 +292,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.50, \n  sum(rate(\n    django_http_requests_latency_seconds_by_view_method_bucket{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m])\n  ) by (job, le)\n)\n",
+                     "expr": "histogram_quantile(0.50, \n  sum(rate(\n    django_http_requests_latency_seconds_by_view_method_bucket{namespace=~\"$namespace\", service=\"$service\",view!~\"prometheus-django-metrics|healthcheck\"}[5m])\n  ) by (job, le)\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -547,10 +349,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1000
                },
-               "height": 250,
-               "id": 8,
+               "height": 200,
+               "id": 5,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -559,7 +361,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": true,
+                  "show": false,
                   "total": false,
                   "values": true
                },
@@ -578,7 +380,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n   rate(\n       django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=~\"^$service$\", view!~\"prometheus-django-metrics|healthcheck\"}[5m])) by(status)\n",
+                     "expr": "sum(\n   rate(\n       django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=\"$service\", view!~\"prometheus-django-metrics|healthcheck\"}[5m])) by(status)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -635,10 +437,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1011
+                  "y": 1010
                },
-               "height": 250,
-               "id": 9,
+               "height": 200,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -647,7 +449,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": true,
+                  "show": false,
                   "total": false,
                   "values": true
                },
@@ -666,7 +468,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=~\"^$service$\",view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\n by(method, view)\n",
+                     "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=\"$service\",view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\n by(method, view)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -736,10 +538,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1000
                },
-               "height": 250,
-               "id": 10,
+               "height": 200,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -748,7 +550,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": true,
+                  "show": false,
                   "total": false,
                   "values": true
                },
@@ -763,11 +565,12 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=~\"^$service$\", view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\nby(status)\n",
+                     "expr": "sum(\n  rate(\n    django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=\"$service\", view!~\"prometheus-django-metrics|healthcheck\"}[5m]))\nby(status)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -824,10 +627,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1000
                },
-               "height": 250,
-               "id": 11,
+               "height": 200,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -836,7 +639,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": true,
+                  "show": false,
                   "total": false,
                   "values": true
                },
@@ -851,6 +654,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -909,8 +713,8 @@
          "type": "row"
       },
       {
-         "collapse": false,
-         "collapsed": false,
+         "collapse": true,
+         "collapsed": true,
          "panels": [
             {
                "aliasColors": { },
@@ -925,10 +729,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1000
                },
-               "height": 250,
-               "id": 12,
+               "height": 200,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -952,11 +756,12 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
+               "span": 12,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(django_db_execute_total{namespace=~\"$namespace\", service=~\"^$service$\"}[1m])) by (vendor)\n",
+                     "expr": "sum(rate(django_db_execute_total{namespace=~\"$namespace\", service=\"$service\"}[1m])) by (vendor)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1010,8 +815,8 @@
          "type": "row"
       },
       {
-         "collapse": false,
-         "collapsed": false,
+         "collapse": true,
+         "collapsed": true,
          "panels": [
             {
                "aliasColors": { },
@@ -1026,10 +831,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 10001
+                  "y": 1001
                },
-               "height": 250,
-               "id": 13,
+               "height": 200,
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1114,10 +919,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 10001
+                  "y": 1001
                },
-               "height": 250,
-               "id": 14,
+               "height": 200,
+               "id": 11,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1202,10 +1007,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 10011
+                  "y": 1011
                },
-               "height": 250,
-               "id": 15,
+               "height": 200,
+               "id": 12,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1290,10 +1095,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 10011
+                  "y": 1011
                },
-               "height": 250,
-               "id": 16,
+               "height": 200,
+               "id": 13,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1378,10 +1183,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 10021
+                  "y": 1021
                },
-               "height": 250,
-               "id": 17,
+               "height": 200,
+               "id": 14,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1463,8 +1268,8 @@
          "type": "row"
       },
       {
-         "collapse": false,
-         "collapsed": false,
+         "collapse": true,
+         "collapsed": true,
          "panels": [
             {
                "aliasColors": { },
@@ -1479,10 +1284,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 18,
+               "height": 200,
+               "id": 15,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1567,10 +1372,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 19,
+               "height": 200,
+               "id": 16,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1655,10 +1460,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 20,
+               "height": 200,
+               "id": 17,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1743,10 +1548,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 21,
+               "height": 200,
+               "id": 18,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1831,10 +1636,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 22,
+               "height": 200,
+               "id": 19,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1919,10 +1724,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 23,
+               "height": 200,
+               "id": 20,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2007,10 +1812,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 24,
+               "height": 200,
+               "id": 21,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2095,10 +1900,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1021
+                  "y": 1022
                },
-               "height": 250,
-               "id": 25,
+               "height": 200,
+               "id": 22,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2183,9 +1988,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1021
+                  "y": 1022
                },
-               "id": 26,
+               "height": 200,
+               "id": 23,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2201,7 +2007,7 @@
                "lines": true,
                "linewidth": 2,
                "links": [ ],
-               "nullPointMode": "null",
+               "nullPointMode": "connected",
                "percentage": false,
                "pointradius": 5,
                "points": false,
@@ -2270,9 +2076,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1031
+                  "y": 1032
                },
-               "id": 27,
+               "height": 200,
+               "id": 24,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2288,7 +2095,7 @@
                "lines": true,
                "linewidth": 2,
                "links": [ ],
-               "nullPointMode": "null",
+               "nullPointMode": "connected",
                "percentage": false,
                "pointradius": 5,
                "points": false,
@@ -2357,10 +2164,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 28,
+               "height": 200,
+               "id": 25,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2445,10 +2252,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 29,
+               "height": 200,
+               "id": 26,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2533,10 +2340,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 30,
+               "height": 200,
+               "id": 27,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2621,10 +2428,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 31,
+               "height": 200,
+               "id": 28,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2709,10 +2516,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1021
+                  "y": 1022
                },
-               "height": 250,
-               "id": 32,
+               "height": 200,
+               "id": 29,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2797,10 +2604,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1021
+                  "y": 1022
                },
-               "height": 250,
-               "id": 33,
+               "height": 200,
+               "id": 30,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2885,10 +2692,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 34,
+               "height": 200,
+               "id": 31,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2973,10 +2780,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 12,
-                  "y": 1001
+                  "y": 1002
                },
-               "height": 250,
-               "id": 35,
+               "height": 200,
+               "id": 32,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -3061,10 +2868,10 @@
                   "h": 10,
                   "w": 12,
                   "x": 0,
-                  "y": 1011
+                  "y": 1012
                },
-               "height": 250,
-               "id": 36,
+               "height": 200,
+               "id": 33,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -3150,7 +2957,6 @@
    "style": "dark",
    "tags": [
       "mintel",
-      "overview",
       "portal"
    ],
    "templating": {
@@ -3255,7 +3061,7 @@
       ]
    },
    "time": {
-      "from": "now-3h",
+      "from": "now-1h",
       "to": "now"
    },
    "timepicker": {
@@ -3285,6 +3091,6 @@
    },
    "timezone": "browser",
    "title": "Mintel /  Portal",
-   "uid": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+   "uid": "cee4e8059425a65429cce97a09899644",
    "version": 0
 }
