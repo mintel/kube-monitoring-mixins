@@ -4,7 +4,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 local seriesOverrides = import 'components/series_overrides.libsonnet';
 {
 
-  cpuCoresRequests(nodeSelectorRegex, startRow, span=2)::
+  cpuCoresRequestsGauge(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -21,7 +21,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  cpuIdle(nodeSelectorRegex, startRow, span=2)::
+  cpuIdleGraph(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -62,7 +62,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     ),
 
 
-  memoryFree(nodeSelectorRegex, startRow, span=2)::
+  memoryFreeGraph(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -83,7 +83,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legendFormat='% Free',
     ),
 
-  memoryRequests(nodeSelectorRegex, startRow, span=2)::
+  memoryRequestsGauge(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -152,7 +152,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  ephemeralDiskIO(nodeSelectorRegex, startRow, span=2)::
+  ephemeralDiskIOGraph(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -210,7 +210,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
     },
 
-  numberOfNodes(nodeSelectorRegex, startRow, span=2)::
+  numberOfNodesStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -225,7 +225,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  numberOfNodePools(nodeSelectorRegex, startRow, span=2)::
+  numberOfNodePoolsStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -241,7 +241,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  podsAvailableSlots(nodeSelectorRegex, startRow, span=2)::
+  podsAvailableSlotsStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -258,7 +258,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  nodesWithDiskPressure(nodeSelectorRegex, startRow, span=2)::
+  nodesWithDiskPressureStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -276,7 +276,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     ),
 
 
-  nodesNotReady(nodeSelectorRegex, startRow, span=2)::
+  nodesNotReadyStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };
@@ -293,7 +293,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
     ),
 
-  nodesUnavailable(nodeSelectorRegex, startRow, span=2)::
+  nodesUnavailableStat(nodeSelectorRegex, startRow, span=2)::
     local config = {
       nodeSelectorRegex: nodeSelectorRegex,
     };

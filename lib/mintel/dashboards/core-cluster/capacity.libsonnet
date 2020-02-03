@@ -39,26 +39,26 @@ local dashboardTags = ['capacity', 'resoruces'];
 
       .addRow(
         row.new('Nodes Overview')
-        .addPanel(capacity.numberOfNodes($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
-        .addPanel(capacity.numberOfNodePools($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
-        .addPanel(capacity.podsAvailableSlots($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
-        .addPanel(capacity.nodesWithDiskPressure($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
-        .addPanel(capacity.nodesNotReady($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
-        .addPanel(capacity.nodesUnavailable($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.numberOfNodesStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.numberOfNodePoolsStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.podsAvailableSlotsStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.nodesWithDiskPressureStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.nodesNotReadyStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
+        .addPanel(capacity.nodesUnavailableStat($._config.nodeSelectorRegex, startRow=startRowNodesOverview))
       )
 
       .addRow(
         row.new('Capacity Overview')
-        .addPanel(capacity.cpuCoresRequests($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
+        .addPanel(capacity.cpuCoresRequestsGauge($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
         .addPanel(capacity.cpuCoresRequestsStatusDots($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
-        .addPanel(capacity.memoryRequests($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
+        .addPanel(capacity.memoryRequestsGauge($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
         .addPanel(capacity.memoryRequestsStatusDots($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
         .addPanel(capacity.ephemeralDiskUsageGauge($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
         .addPanel(capacity.ephemeralDiskUsageStatusDots($._config.nodeSelectorRegex, startRow=startRowCapacityOverview))
 
-        .addPanel(capacity.cpuIdle($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
-        .addPanel(capacity.memoryFree($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
-        .addPanel(capacity.ephemeralDiskIO($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
+        .addPanel(capacity.cpuIdleGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
+        .addPanel(capacity.memoryFreeGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
+        .addPanel(capacity.ephemeralDiskIOGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
       )  
   },
 }
