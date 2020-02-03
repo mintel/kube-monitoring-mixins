@@ -80,12 +80,9 @@ This file provides helpers to:
 - Filter out prometheus alerts
 - Modify prometheus alert expressions
 
-
 ## Development
 
-
 You can render the output of JSonnet using the following:
-
 
 ```sh
 cd lib/mintel
