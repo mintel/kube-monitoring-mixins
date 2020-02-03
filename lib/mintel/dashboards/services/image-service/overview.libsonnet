@@ -46,7 +46,7 @@ local dashboardTags = ['image-service'];
       .addAnnotation(annotations.fluxAutoRelease)
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace('image-service'))
+      .addTemplate(templates.namespace('image-service', hide=true))
       .addTemplate(templates.app_deployment)
       .addRow(
         row.new('Overview', height=5)

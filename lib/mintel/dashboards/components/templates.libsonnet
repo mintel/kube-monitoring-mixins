@@ -21,13 +21,14 @@ local template = grafana.template;
     regex='/.*="(.*)".*/',
     sort=0,
   ),
-  namespace(current):: template.new(
+  namespace(current, hide=false):: template.new(
     'namespace',
     'Prometheus',
     'label_values(kube_pod_container_info,namespace)',
     label='Namespace',
     refresh='load',
     current=current,
+    hide=hide,
   ),
   app_service:: template.new(
     'service',

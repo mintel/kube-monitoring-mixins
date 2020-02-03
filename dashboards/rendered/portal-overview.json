@@ -3068,7 +3068,7 @@
                "value": "portal"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "Namespace",
             "multi": false,

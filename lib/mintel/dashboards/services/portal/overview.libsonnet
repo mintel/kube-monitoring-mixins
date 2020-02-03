@@ -47,7 +47,7 @@ local dashboardTags = ['portal'];
       .addAnnotation(annotations.fluxAutoRelease)
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace('portal'))
+      .addTemplate(templates.namespace('portal', hide=true))
       .addTemplate(templates.app_service)
       .addTemplate(templates.celery_task_name)
       .addTemplate(templates.celery_task_state)
