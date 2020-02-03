@@ -9,7 +9,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
       commonPanels.timeseries(
-        title='Request Latency',
+        title='App Request Latency',
         yAxisLabel='Time',
         query=|||
           histogram_quantile(0.50, 
@@ -24,7 +24,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
 
       commonPanels.timeseries(
-        title='Response Status',
+        title='App Response Status',
         yAxisLabel='Num Responses',
         query=|||
          sum(
@@ -36,7 +36,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         intervalFactor=2,
       ),
       commonPanels.timeseries(
-        title='Requests by Method',
+        title='App Requests by Method',
         yAxisLabel='Num REquests',
         query=|||
          sum(
@@ -90,7 +90,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
       commonPanels.timeseries(
-        title='Database Operations',
+        title='DB Operations',
         yAxisLabel='Num Operations',
         span=12,
         query=|||

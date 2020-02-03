@@ -9,7 +9,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
       commonPanels.latencyTimeseries(
-        title='Response Time',
+        title='App Response Time',
         yAxisLabel='Time (avg)',
         span=6,
         query=|||
@@ -24,7 +24,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
 
       commonPanels.timeseries(
-        title='Response Status',
+        title='App Response Status',
         yAxisLabel='Num Responses',
         span=6,
         query=|||
@@ -78,7 +78,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
       commonPanels.latencyTimeseries(
-        title='Storage Read / Write Latency',
+        title='Storage R/W Latency',
         yAxisLabel='',
         span=12,
         query=|||
