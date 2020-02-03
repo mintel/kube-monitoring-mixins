@@ -10,20 +10,43 @@ local layout = import 'components/layout.libsonnet';
     layout.grid([
 
       commonPanels.timeseries(
-        title='Pods Available',
-        span=4,
+        title='Instances Runing (Over Time)',
+        description='Number of instances running over time',
+        span=3,
         legend_show=false,
         query=|||
           sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
       ||| % config,
       ),
 
-      commonPanels.latencyTimeseries(
+      commonPanels.gauge(
+        title='Instances Running',
+        description='Number of instances running as a percentage (should be 100%)', 
+        instant=true,
+        format='percent',
+        span=2,
+        valueFontSize='50%',
+        colors=[
+          '#d44a3a',
+          'rgba(237, 129, 40, 0.89)',
+          '#299c46'
+        ],
+        query=|||
+         100 * min(
+           kube_deployment_status_replicas_available{deployment="%(serviceSelectorValue)s"})
+           without (instance, pod)
+           /
+           max(kube_deployment_spec_replicas{deployment="%(serviceSelectorValue)s"}) 
+          without (instance, pod)
+        ||| % config,
+      ),
+
+    commonPanels.latencyTimeseries(
         title='HAProxy HTTP Responses',
         description='HAProxy HTTP Responses',
         yAxisLabel='Time',
         format='s',
-        span=8,
+        span=7,
         legend_show=false,
         height=200,
         query=|||
