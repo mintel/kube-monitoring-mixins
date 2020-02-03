@@ -10,7 +10,7 @@ local promQuery = import 'components/prom_query.libsonnet';
   
     layout.grid([
       commonPanels.latencyTimeseries(
-        title='Latency',
+        title='HAProxy Latency',
         description='Percentile Latency',
         yAxisLabel='Time',
         format='s',
