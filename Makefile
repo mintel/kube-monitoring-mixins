@@ -22,7 +22,7 @@ rules:
 dashboards:
 	@mkdir -p $(RENDERED_DASHBOARDS)/rendered
 	@rm -rf $(RENDERED_DASHBOARDS)/rendered/*.json
-	$(JSONNET_CMD) -m $(RENDERED_DASHBOARDS)/rendered dashboards.jsonnet
+	$(JSONNET_CMD) -J lib/mintel/dashboards -m $(RENDERED_DASHBOARDS)/rendered dashboards.jsonnet
 
 test:
 	@cd tests; \

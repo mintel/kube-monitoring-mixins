@@ -53,20 +53,19 @@
 
     volumeFullPredictionSampleTime: '6h',
 
+    // Fluentd Rules excluded types
+    fluentdRulesExcludedTypes: 'type!~"^(null|rewrite_tag_filter|detect_exceptions)$"',
+
+    // Prometheus Operator
+    prometheusOperatorJobFilter: 'job="prometheus-operator"',
+
+    // ECK Operator
+    eckOperatorFilter: 'job="elastic-operator-metrics"',
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
-    mintelGrafanaK8s: {
-      dashboardNamePrefix: 'MINTEL / ',
+    mintel: {
+      dashboardNamePrefix: 'Mintel / ',
       dashboardTags: ['mintel'],
-
-      // Grafana Dashboards IDs
-      grafanaDashboardIDs: {
-        'capacity.json': 'dbf659be3c9ce97fe0606994e8f8941bb268b5ac',
-      },
-
-      // For links between grafana dashboards, you need to tell us if your grafana
-      // servers under some non-root path.
-      linkPrefix: '.',
     },
 
     nodeSelectorRegex: '"^gke.*"',
