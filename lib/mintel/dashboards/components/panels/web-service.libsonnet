@@ -1,4 +1,5 @@
 local commonPanels = import 'components/panels/common.libsonnet';
+local haproxyPanels = import 'components/panels/haproxy.libsonnet';
 local layout = import 'components/layout.libsonnet';
 {
 
@@ -41,21 +42,6 @@ local layout = import 'components/layout.libsonnet';
         ||| % config,
       ),
 
-    commonPanels.latencyTimeseries(
-        title='HAProxy HTTP Responses',
-        description='HAProxy HTTP Responses',
-        yAxisLabel='Time',
-        format='s',
-        span=7,
-        legend_show=false,
-        height=200,
-        query=|||
-          sum by (backend, code)
-            (irate(
-              haproxy_backend_http_responses_total{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",}[5m]))
-        ||| % config,
-
-      intervalFactor=2,
-      )
+    haproxyPanels.latencyTimeseries(config.service, config.serviceSelectorValue, span=7)
     ], cols=12, rowHeight=10, startRow=startRow),
 }
