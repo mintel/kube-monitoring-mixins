@@ -239,7 +239,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "HAProxy HTTP Responses",
+               "description": "Percentile Latency",
                "fill": 0,
                "gridPos": {
                   "h": 10,
@@ -277,18 +277,34 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (backend, code)\n  (irate(\n    haproxy_backend_http_responses_total{backend=~\"$namespace-.*$service-[0-9].*\",}[5m]))\n",
+                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "",
+                     "legendFormat": "p95 {{ backend }}",
                      "refId": "A"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p75 {{ backend }}",
+                     "refId": "B"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p50 {{ backend }}",
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "HAProxy HTTP Responses",
+               "title": "HAProxy Latency",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
