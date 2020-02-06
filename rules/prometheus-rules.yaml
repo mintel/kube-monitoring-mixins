@@ -44,10 +44,10 @@ spec:
         )
       record: instance:node_memory_swap_io_pages:rate1m
     - expr: |
-        rate(node_disk_io_time_seconds_total{job="node-exporter", device=~"/dev/sda1"}[1m])
+        rate(node_disk_io_time_seconds_total{job="node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_seconds:rate1m
     - expr: |
-        rate(node_disk_io_time_weighted_seconds_total{job="node-exporter", device=~"/dev/sda1"}[1m])
+        rate(node_disk_io_time_weighted_seconds_total{job="node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_weighted_seconds:rate1m
     - expr: |
         sum without (device) (
@@ -262,21 +262,21 @@ spec:
         )
       record: node:node_memory_swap_io_bytes:sum_rate
     - expr: |
-        avg(irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"/dev/sda1"}[1m]))
+        avg(irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m]))
       record: :node_disk_utilisation:avg_irate
     - expr: |
         avg by (node) (
-          irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"/dev/sda1"}[1m])
+          irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m])
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         )
       record: node:node_disk_utilisation:avg_irate
     - expr: |
-        avg(irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"/dev/sda1"}[1m]))
+        avg(irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m]))
       record: :node_disk_saturation:avg_irate
     - expr: |
         avg by (node) (
-          irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"/dev/sda1"}[1m])
+          irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m])
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         )
@@ -1401,6 +1401,18 @@ spec:
         severity: critical
   - name: elasticsearch.alerts
     rules:
+    - alert: ElasticsearchOperatorReconcileErrors
+      annotations:
+        description: ElasticSearch Operator failing to reconcile controller {{ $labels.controller
+          }}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchOperatorReconcileErrors.md
+        summary: ElasticSearch Operator failing to reconcile controller {{ $labels.controller
+          }}
+      expr: increase(controller_runtime_reconcile_errors_total{job="elastic-operator-metrics"}[30m])
+        >0
+      for: 30m
+      labels:
+        severity: warning
     - alert: ElasticsearchHeapTooHigh
       annotations:
         description: ElasticSearch instance {{$labels.name}} heap usage is high in
@@ -2094,5 +2106,29 @@ spec:
       expr: delta(flux_fluxsvc_release_duration_seconds_count{job="flux",success="false"}[6m])
         > 0
       for: 10m
+      labels:
+        severity: warning
+  - name: fluentd.alerts
+    rules:
+    - alert: FluentdHighOutputRetry
+      annotations:
+        description: Fluentd number of output retry has been increasing for 1h
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FluentdHighOutputRetry.md
+        summary: Fluentd number of output retry has been increasing for 1h
+      expr: sum by (service,pod,type) (increase(fluentd_output_status_retry_count{type!~"^(null|rewrite_tag_filter|detect_exceptions)$"}[5m]))
+        >0
+      for: 1h
+      labels:
+        severity: warning
+  - name: prometheus-operator.alerts
+    rules:
+    - alert: PrometheusOperatorRulesValidationErrors
+      annotations:
+        description: Prometheus Operator failed to validate rules
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/PrometheusOperatorRulesValidationErrors.md
+        summary: Prometheus Operator failed to validate rules
+      expr: increase(prometheus_operator_rule_validation_errors_total{job="prometheus-operator"}[5m])
+        >0
+      for: 30m
       labels:
         severity: warning

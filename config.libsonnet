@@ -49,8 +49,8 @@
     hostMountpointSelector: 'mountpoint="/mnt/stateful_partition"',
 
     // This list of disk device names is referenced in various expressions.
-    diskDevices: ['/dev/sda1'],
-    diskDeviceSelector: 'device=~"/dev/sda1"',
+    diskDevices: ['sda'],
+    diskDeviceSelector: 'device=~"sda"',
 
     /// Same, but for node-mixin
     fsSelector: self.fstypeSelector,

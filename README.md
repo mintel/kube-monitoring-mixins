@@ -45,7 +45,7 @@ Prometheus rules are rendered into the `./rules` directory.
 
 There is a `kustomization.yaml` provided which includes the generated prometheus-rules.
 
-Grafana dashboards are rendered into the `./dashboards/kube-monitoring` directory.
+Grafana dashboards are rendered into the `./dashboards/rendered` directory.
 
 ## Testing
 
@@ -80,7 +80,31 @@ This file provides helpers to:
 - Filter out prometheus alerts
 - Modify prometheus alert expressions
 
+## Development
+
+You can render the output of JSonnet using the following:
+
+```sh
+cd lib/mintel
+jsonnet alerts.jsonnet
+jsonnet rules.jsonnet
+jsonnet dashboards.jsonnet -J ../../vendor -J dashboards
+```
+
+If you are working with dashboards, you may want to render the `json` for only a specific dashboard. 
+
+For example:
+
+```sh
+jsonnet -J ../../vendor -J dashboards dashboards.jsonnet | jq -r '.["cluster-capacity-
+planning.json"]'
+```
+
+You can then import this directlry into grafana.
+
 ## Importing PrometheusRule resources
+
+*Not 100% sure how well this actually works (if at all)*
 
 The [convert-prom-to-mixins.sh](./scripts/convert-prom-to-mixins.sh) can process a directory containing `PrometheusRule` yaml files and conver them to `.libsonnet` files which we can include in our mixins.
 
@@ -100,13 +124,3 @@ You can then copy the resulting files into the `./lib/mintel` mixin directory, a
 The `jsonnetfile.json` is pinned against [kube-prometheus](https://github.com/coreos/kube-prometheus) using the latest commit on the `release-0.1` branch.
 
 The `release-0.1` branch supports Kubernetes `v1.13`. You will want to bump this to support Kubernetes versions `v1.14` or above.
-
-### Mintel Mixins
-
-You can view the output of the mintel specific mixins like so:
-
-```
-cd lib/mintel
-jsonnet alerts.jsonnet
-jsonnet rules.jsonnet
-```
