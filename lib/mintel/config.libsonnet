@@ -36,7 +36,8 @@
     quotaVsNodesOvercommitFactor: self.namespaceOvercommitFactor * 2,
 
     // If more than 51% of the PODS for a given workload are on the same node
-    kubePodDistributionUnbalancedPercentageThreshold: 51,
+    kubePodDistributionUnbalancedByNodePercentageThreshold: 51,
+    kubePodDistributionUnbalancedByZonePercentageThreshold: 51,
 
     // Flux Vars
     fluxJobSelector: 'job="flux"',

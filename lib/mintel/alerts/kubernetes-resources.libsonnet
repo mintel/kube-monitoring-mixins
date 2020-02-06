@@ -39,11 +39,11 @@
             },
           },
           {
-            alert: 'KubePodDistributionUnbalanced',
+            alert: 'KubePodDistributionUnbalancedByNode',
             annotations: {
               description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}} , {{ $value }}% are on node {{ $labels.node }}',
-              message: 'Pod Distribution for pods is unbalanced',
-              runbook_url: '%(runBookBaseURL)s/core/KubePodDistributionUnbalanced.md' % $._config,
+              message: 'Pod Distribution for pods is unbalanced by node',
+              runbook_url: '%(runBookBaseURL)s/core/KubePodDistributionUnbalancedByNode.md' % $._config,
             },
             expr: |||
               100 * (
@@ -52,7 +52,30 @@
                 ignoring(node) 
                   group_left(created_by_kind, created_by_name) 
                     count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
-              ) > %(kubePodDistributionUnbalancedPercentageThreshold)s
+              ) > %(kubePodDistributionUnbalancedByNodePercentageThreshold)s
+            ||| % $._config,
+            'for': '15m',
+            labels: {
+              severity: 'warning',
+            },
+          },
+          {
+            alert: 'KubePodDistributionUnbalancedByZone',
+            annotations: {
+              description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}} , {{ $value }}% are in zone {{ $labels.label_failure_domain_beta_kubernetes_io_zone }}',
+              message: 'Pod Distribution for pods is unbalanced in the availability zones',
+              runbook_url: '%(runBookBaseURL)s/core/KubePodDistributionUnbalancedByZone.md' % $._config,
+            },
+            expr: |||
+              100 * (
+                (count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone) 
+                  (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) 
+                   group_left(label_failure_domain_beta_kubernetes_io_zone) kube_node_labels) > 1 )
+                / 
+                ignoring(label_failure_domain_beta_kubernetes_io_zone) group_left(created_by_kind, created_by_name) 
+                  count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+              )
+              ) > %(kubePodDistributionUnbalancedByZonePercentageThreshold)s
             ||| % $._config,
             'for': '15m',
             labels: {
