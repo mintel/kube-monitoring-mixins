@@ -12,6 +12,18 @@
             expr: 'label_replace( (sum by (namespace, container_name, pod_name, environment) ( sum(container_memory_usage_bytes{container_name!=""}) by (container_name, pod_name) * on (pod_name) group_left(environment, namespace) label_replace(kube_pod_labels{label_app!=""},"pod_name","$1","pod","(.*)") ) / sum( label_replace( label_replace( kube_pod_container_resource_requests_memory_bytes{container!=""}, "container_name", "$1", "container",  "(.*)" ), "pod_name", "$1", "pod", "(.*)" ) ) by (namespace, container_name, pod_name, environment) * 100), "service", "$1", "container_name", "(.*)")',
             record: 'mintel:pod:usage_vs_request_memory:percent',
           },
+          {
+            expr: 'count by(created_by_kind, created_by_name, node) (kube_pod_info{created_by_kind!~"<none>|Job"})',
+            record: 'mintel:pod:allocation:node',
+          },
+          {
+            expr: 'count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone) (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) group_left(label_failure_domain_beta_kubernetes_io_zone) kube_node_labels)',
+            record: 'mintel:pod:allocation:zone',
+          },
+          {
+            expr: 'count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})',
+            record: 'mintel:pod:allocation:totals',
+          },
         ],
       },
     ],
