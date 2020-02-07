@@ -8,6 +8,7 @@ local ignore_alerts = [
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
+  'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
   'NodeNetworkReceiveErrs',
   'NodeNetworkTransmitErrs',
