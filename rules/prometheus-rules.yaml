@@ -473,6 +473,14 @@ spec:
         ) ) by (namespace, container_name, pod_name, environment) * 100), "service",
         "$1", "container_name", "(.*)")
       record: mintel:pod:usage_vs_request_memory:percent
+    - expr: count by(created_by_kind, created_by_name, node) (kube_pod_info{created_by_kind!~"<none>|Job"})
+      record: mintel:pod:allocation:node
+    - expr: count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone)
+        (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) group_left(label_failure_domain_beta_kubernetes_io_zone)
+        kube_node_labels)
+      record: mintel:pod:allocation:zone
+    - expr: count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+      record: mintel:pod:allocation:totals
   - name: mintel-web-frontend.rules
     rules:
     - expr: "label_replace( \n  (up) * on (pod) \n    group_left(label_app_mintel_com_owner,label_app_mintel_com_pipeline_stage)
@@ -1841,16 +1849,31 @@ spec:
       for: 5m
       labels:
         severity: warning
-    - alert: KubePodDistributionUnbalanced
+    - alert: KubePodDistributionUnbalancedByNode
       annotations:
         description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}}
           , {{ $value }}% are on node {{ $labels.node }}'
-        message: Pod Distribution for pods is unbalanced
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalanced.md
+        message: Pod Distribution for pods is unbalanced by node
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalancedByNode.md
       expr: "100 * (\n  (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~\"<none>|Job\"})
         > 1) \n  / \n  ignoring(node) \n    group_left(created_by_kind, created_by_name)
         \n      count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
         > 51\n"
+      for: 15m
+      labels:
+        severity: warning
+    - alert: KubePodDistributionUnbalancedByZone
+      annotations:
+        description: 'Pod Distribution for: {{ $labels.created_by_kind }}/{{ $labels.created_by_name}}
+          , {{ $value }}% are in zone {{ $labels.label_failure_domain_beta_kubernetes_io_zone
+          }}'
+        message: Pod Distribution for pods is unbalanced in the availability zones
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalancedByZone.md
+      expr: "100 * (\n  (count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone)
+        \n    (kube_pod_info{created_by_kind!~\"<none>|Job\"} * on(node) \n     group_left(label_failure_domain_beta_kubernetes_io_zone)
+        kube_node_labels) > 1 )\n  / \n  ignoring(label_failure_domain_beta_kubernetes_io_zone)
+        group_left(created_by_kind, created_by_name) \n    count by(created_by_kind,
+        created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n) > 51\n"
       for: 15m
       labels:
         severity: warning

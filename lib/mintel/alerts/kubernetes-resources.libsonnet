@@ -74,7 +74,6 @@
                 / 
                 ignoring(label_failure_domain_beta_kubernetes_io_zone) group_left(created_by_kind, created_by_name) 
                   count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
-              )
               ) > %(kubePodDistributionUnbalancedByZonePercentageThreshold)s
             ||| % $._config,
             'for': '15m',
