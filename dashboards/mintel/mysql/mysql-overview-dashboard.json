@@ -1,45 +1,21 @@
 {
-  "__inputs": [
-    {
-      "name": "Prometheus",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.2.4"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": "5.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": "5.0.0"
-    }
-  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1540551488577,
+  "iteration": 1581343205431,
   "links": [
     {
       "asDropdown": true,
@@ -56,6 +32,7 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -114,6 +91,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "s",
       "postfixFontSize": "80%",
       "prefix": "",
@@ -149,7 +127,6 @@
       ],
       "thresholds": "300,3600",
       "title": "MySQL Uptime",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -190,7 +167,6 @@
         {
           "targetBlank": true,
           "title": "MySQL Server Status Variables",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Queries"
         }
       ],
@@ -208,6 +184,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -243,7 +220,6 @@
       ],
       "thresholds": "35,75",
       "title": "Current QPS",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -284,7 +260,6 @@
         {
           "targetBlank": true,
           "title": "Tuning the InnoDB Buffer Pool Size",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2015/06/02/80-ram-tune-innodb_buffer_pool_size/"
         }
       ],
@@ -302,6 +277,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -337,7 +313,6 @@
       ],
       "thresholds": "90,95",
       "title": "InnoDB Buffer Pool Size",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -345,6 +320,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -368,6 +344,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -376,6 +353,7 @@
         "y": 6
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 92,
       "legend": {
         "alignAsTable": true,
@@ -395,11 +373,13 @@
         {
           "targetBlank": true,
           "title": "MySQL Server System Variables",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_connections"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -458,6 +438,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Connections",
       "tooltip": {
@@ -508,6 +489,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -515,6 +497,7 @@
         "x": 12,
         "y": 6
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "alignAsTable": true,
@@ -532,6 +515,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -596,6 +582,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Client Thread Activity",
       "tooltip": {
@@ -639,6 +626,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -662,6 +650,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -669,6 +658,7 @@
         "x": 0,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 53,
       "legend": {
         "alignAsTable": true,
@@ -687,11 +677,13 @@
         {
           "targetBlank": true,
           "title": "MySQL Queries and Questions",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2014/05/29/how-mysql-queries-and-questions-are-measured/"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -717,6 +709,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Questions",
       "tooltip": {
@@ -765,6 +758,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -772,6 +766,7 @@
         "x": 12,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 11,
       "legend": {
         "alignAsTable": true,
@@ -791,11 +786,13 @@
       "links": [
         {
           "title": "Tuning information",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_thread_cache_size"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -852,6 +849,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Thread Cache",
       "tooltip": {
@@ -860,7 +858,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -892,6 +889,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -914,6 +912,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -921,6 +920,7 @@
         "x": 0,
         "y": 22
       },
+      "hiddenSeries": false,
       "id": 22,
       "legend": {
         "alignAsTable": true,
@@ -939,6 +939,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -987,6 +990,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Temporary Objects",
       "tooltip": {
@@ -1035,6 +1039,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1043,6 +1048,7 @@
         "y": 22
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 311,
       "legend": {
         "alignAsTable": true,
@@ -1062,6 +1068,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1139,6 +1148,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Select Types",
       "tooltip": {
@@ -1178,6 +1188,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1201,6 +1212,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1208,6 +1220,7 @@
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 30,
       "legend": {
         "alignAsTable": true,
@@ -1227,6 +1240,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1291,6 +1307,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Sorts",
       "tooltip": {
@@ -1339,6 +1356,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1346,6 +1364,7 @@
         "x": 12,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 48,
       "legend": {
         "alignAsTable": true,
@@ -1361,6 +1380,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1386,6 +1408,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Slow Queries",
       "tooltip": {
@@ -1427,6 +1450,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1450,6 +1474,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1457,6 +1482,7 @@
         "x": 0,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "alignAsTable": true,
@@ -1474,6 +1500,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1513,6 +1542,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Aborted Connections",
       "tooltip": {
@@ -1563,6 +1593,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1570,6 +1601,7 @@
         "x": 12,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 32,
       "legend": {
         "alignAsTable": true,
@@ -1588,6 +1620,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1626,6 +1661,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Locks",
       "tooltip": {
@@ -1665,6 +1701,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1688,6 +1725,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1695,6 +1733,7 @@
         "x": 0,
         "y": 46
       },
+      "hiddenSeries": false,
       "id": 9,
       "legend": {
         "alignAsTable": true,
@@ -1713,6 +1752,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1751,6 +1793,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Network Traffic",
       "tooltip": {
@@ -1799,6 +1842,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1807,6 +1851,7 @@
         "y": 46
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 381,
       "legend": {
         "alignAsTable": true,
@@ -1825,6 +1870,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1863,6 +1911,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Network Usage Hourly",
       "tooltip": {
@@ -1902,6 +1951,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1925,6 +1975,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1932,6 +1983,7 @@
         "x": 0,
         "y": 54
       },
+      "hiddenSeries": false,
       "id": 50,
       "legend": {
         "alignAsTable": true,
@@ -1953,11 +2005,13 @@
       "links": [
         {
           "title": "Detailed descriptions about metrics",
-          "type": "absolute",
           "url": "https://www.percona.com/doc/percona-monitoring-and-management/dashboard.mysql-overview.html#mysql-internal-memory-overview"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2057,6 +2111,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Internal Memory Overview",
       "tooltip": {
@@ -2098,6 +2153,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2121,6 +2177,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2128,6 +2185,7 @@
         "x": 0,
         "y": 62
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "alignAsTable": true,
@@ -2149,11 +2207,13 @@
       "links": [
         {
           "title": "Server Status Variables (Com_xxx)",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2180,6 +2240,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Command Counters",
       "tooltip": {
@@ -2228,6 +2289,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2235,6 +2297,7 @@
         "x": 0,
         "y": 69
       },
+      "hiddenSeries": false,
       "id": 39,
       "legend": {
         "alignAsTable": true,
@@ -2253,13 +2316,14 @@
       "linewidth": 2,
       "links": [
         {
-          "dashboard": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx",
           "title": "Server Status Variables (Com_xxx)",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2285,6 +2349,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Command Counters Hourly",
       "tooltip": {
@@ -2333,6 +2398,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2340,6 +2406,7 @@
         "x": 0,
         "y": 76
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "alignAsTable": true,
@@ -2359,6 +2426,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2384,6 +2454,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Handlers",
       "tooltip": {
@@ -2431,6 +2502,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2438,6 +2510,7 @@
         "x": 0,
         "y": 83
       },
+      "hiddenSeries": false,
       "id": 28,
       "legend": {
         "alignAsTable": true,
@@ -2457,6 +2530,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2481,6 +2557,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Transaction Handlers",
       "tooltip": {
@@ -2528,6 +2605,7 @@
       "editable": true,
       "error": false,
       "fill": 0,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2535,6 +2613,7 @@
         "x": 0,
         "y": 90
       },
+      "hiddenSeries": false,
       "id": 40,
       "legend": {
         "alignAsTable": true,
@@ -2554,6 +2633,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2578,6 +2660,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Process States",
       "tooltip": {
@@ -2625,6 +2708,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2632,6 +2716,7 @@
         "x": 0,
         "y": 97
       },
+      "hiddenSeries": false,
       "id": 49,
       "legend": {
         "alignAsTable": true,
@@ -2651,6 +2736,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2675,6 +2763,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Process States Hourly",
       "tooltip": {
@@ -2714,6 +2803,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2737,6 +2827,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2744,6 +2835,7 @@
         "x": 0,
         "y": 105
       },
+      "hiddenSeries": false,
       "id": 46,
       "legend": {
         "alignAsTable": true,
@@ -2762,6 +2854,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2800,6 +2895,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Query Cache Memory",
       "tooltip": {
@@ -2848,6 +2944,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2856,6 +2953,7 @@
         "y": 105
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 45,
       "legend": {
         "alignAsTable": true,
@@ -2874,6 +2972,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2951,6 +3052,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Query Cache Activity",
       "tooltip": {
@@ -2990,6 +3092,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3012,6 +3115,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3019,6 +3123,7 @@
         "x": 0,
         "y": 113
       },
+      "hiddenSeries": false,
       "id": 43,
       "legend": {
         "alignAsTable": true,
@@ -3035,6 +3140,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3059,6 +3167,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL File Openings",
       "tooltip": {
@@ -3106,6 +3215,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3113,6 +3223,7 @@
         "x": 12,
         "y": 113
       },
+      "hiddenSeries": false,
       "id": 41,
       "legend": {
         "alignAsTable": true,
@@ -3130,6 +3241,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3174,6 +3288,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Open Files",
       "tooltip": {
@@ -3213,6 +3328,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3236,6 +3352,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3243,6 +3360,7 @@
         "x": 0,
         "y": 121
       },
+      "hiddenSeries": false,
       "id": 44,
       "legend": {
         "alignAsTable": true,
@@ -3262,11 +3380,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3333,6 +3453,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Open Cache Status",
       "tooltip": {
@@ -3381,6 +3502,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3388,6 +3510,7 @@
         "x": 12,
         "y": 121
       },
+      "hiddenSeries": false,
       "id": 42,
       "legend": {
         "alignAsTable": true,
@@ -3407,11 +3530,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3450,6 +3575,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Open Tables",
       "tooltip": {
@@ -3489,6 +3615,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3512,6 +3639,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3519,6 +3647,7 @@
         "x": 0,
         "y": 129
       },
+      "hiddenSeries": false,
       "id": 54,
       "legend": {
         "alignAsTable": true,
@@ -3538,11 +3667,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3595,6 +3726,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Definition Cache",
       "tooltip": {
@@ -3634,6 +3766,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3656,6 +3789,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3663,6 +3797,7 @@
         "x": 0,
         "y": 137
       },
+      "hiddenSeries": false,
       "id": 31,
       "legend": {
         "alignAsTable": false,
@@ -3682,6 +3817,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3720,6 +3858,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "I/O Activity",
       "tooltip": {
@@ -3728,7 +3867,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -3769,6 +3907,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3777,6 +3916,7 @@
         "y": 137
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 37,
       "legend": {
         "alignAsTable": false,
@@ -3796,6 +3936,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3860,6 +4003,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Memory Distribution",
       "tooltip": {
@@ -3868,7 +4012,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -3917,6 +4060,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3925,6 +4069,7 @@
         "y": 137
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "alignAsTable": false,
@@ -3945,6 +4090,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -4004,6 +4152,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "CPU Usage / Load",
       "tooltip": {
@@ -4053,6 +4202,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -4061,6 +4211,7 @@
         "y": 144
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 36,
       "legend": {
         "alignAsTable": false,
@@ -4079,6 +4230,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 1,
       "points": true,
@@ -4119,6 +4273,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Disk Latency",
       "tooltip": {
@@ -4127,7 +4282,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -4169,6 +4323,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -4177,6 +4332,7 @@
         "y": 144
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "alignAsTable": false,
@@ -4196,6 +4352,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -4241,6 +4400,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Network Traffic",
       "tooltip": {
@@ -4249,7 +4409,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -4290,6 +4449,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -4297,6 +4457,7 @@
         "x": 16,
         "y": 144
       },
+      "hiddenSeries": false,
       "id": 38,
       "legend": {
         "alignAsTable": false,
@@ -4316,6 +4477,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -4354,6 +4518,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Swap Activity",
       "tooltip": {
@@ -4362,7 +4527,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -4395,7 +4559,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 16,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "MySQL"
@@ -4408,6 +4572,7 @@
         "auto_count": 200,
         "auto_min": "1s",
         "current": {
+          "selected": false,
           "text": "auto",
           "value": "$__auto_interval_interval"
         },
@@ -4462,24 +4627,127 @@
         ],
         "query": "1s,5s,1m,5m,1h,6h,1d",
         "refresh": 2,
+        "skipUrlSync": false,
         "type": "interval"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "portal",
+          "value": "portal"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(kube_namespace_labels, label_name)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Namespace",
+        "multi": false,
+        "name": "namespace",
+        "options": [
+          {
+            "selected": false,
+            "text": "kustomize",
+            "value": "kustomize"
+          },
+          {
+            "selected": true,
+            "text": "portal",
+            "value": "portal"
+          },
+          {
+            "selected": false,
+            "text": "ingress-controller",
+            "value": "ingress-controller"
+          },
+          {
+            "selected": false,
+            "text": "sre-tools",
+            "value": "sre-tools"
+          },
+          {
+            "selected": false,
+            "text": "kube-system",
+            "value": "kube-system"
+          },
+          {
+            "selected": false,
+            "text": "kube-public",
+            "value": "kube-public"
+          },
+          {
+            "selected": false,
+            "text": "kube-auth",
+            "value": "kube-auth"
+          },
+          {
+            "selected": false,
+            "text": "sandbox",
+            "value": "sandbox"
+          },
+          {
+            "selected": false,
+            "text": "default",
+            "value": "default"
+          },
+          {
+            "selected": false,
+            "text": "kube-operators",
+            "value": "kube-operators"
+          },
+          {
+            "selected": false,
+            "text": "image-service",
+            "value": "image-service"
+          },
+          {
+            "selected": false,
+            "text": "monitoring",
+            "value": "monitoring"
+          },
+          {
+            "selected": false,
+            "text": "flux-apps",
+            "value": "flux-apps"
+          },
+          {
+            "selected": false,
+            "text": "flux-bootstrap",
+            "value": "flux-bootstrap"
+          }
+        ],
+        "query": "label_values(kube_namespace_labels, label_name)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       },
       {
         "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "portal-web-mysqld-exporter",
+          "value": "portal-web-mysqld-exporter"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(mysql_up{backend=\"$backend\",namespace=\"$namespace\"}, job)",
         "hide": 0,
         "includeAll": false,
-        "label": "Host (Master=9104)",
+        "label": "Service",
         "multi": false,
         "multiFormat": "regex values",
-        "name": "host",
+        "name": "job",
         "options": [],
-        "query": "label_values(mysql_up{backend=\"$backend\"}, instance)",
+        "query": "label_values(mysql_up{backend=\"$backend\",namespace=\"$namespace\"}, job)",
         "refresh": 2,
         "refresh_on_load": false,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -4490,8 +4758,41 @@
       {
         "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "10.52.1.26:9104",
+          "value": "10.52.1.26:9104"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(mysql_up{backend=\"$backend\",namespace=\"$namespace\",job=\"$job\"}, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Host (Master=9104)",
+        "multi": false,
+        "multiFormat": "regex values",
+        "name": "host",
+        "options": [],
+        "query": "label_values(mysql_up{backend=\"$backend\",namespace=\"$namespace\",job=\"$job\"}, instance)",
+        "refresh": 2,
+        "refresh_on_load": false,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Prometheus",
+        "definition": "",
         "hide": 0,
         "includeAll": true,
         "label": "Backend",
@@ -4503,6 +4804,7 @@
         "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": null,
         "tags": [],
@@ -4551,5 +4853,5 @@
   "timezone": "browser",
   "title": "MySQL Overview",
   "uid": "MQWgroiiz",
-  "version": 21
+  "version": 1
 }
