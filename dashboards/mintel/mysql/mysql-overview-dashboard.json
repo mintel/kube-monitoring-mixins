@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1581417279353,
+  "iteration": 1581425830451,
   "links": [
     {
       "asDropdown": true,
@@ -2649,7 +2649,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_threads{instance=\"$host\"}",
+          "expr": "avg(mysql_info_schema_threads{job=\"$job\"}) by (state)",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "{{ state }}",
@@ -2752,7 +2752,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, avg_over_time(mysql_info_schema_threads{instance=\"$host\"}[1h]))",
+          "expr": "topk(5, avg(avg_over_time(mysql_info_schema_threads{job=\"$job\"}[1h])) by (state))",
           "interval": "1h",
           "intervalFactor": 1,
           "legendFormat": "{{ state }}",
