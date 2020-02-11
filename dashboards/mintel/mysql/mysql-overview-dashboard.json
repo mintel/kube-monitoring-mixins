@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1581425830451,
+  "iteration": 1581430029291,
   "links": [
     {
       "asDropdown": true,
@@ -701,7 +701,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "",
+          "legendFormat": "Statements Executed (per-sec)",
           "metric": "",
           "refId": "A",
           "step": 20
@@ -2028,14 +2028,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(node_memory_MemTotal{job=\"$job\"})",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "System Memory",
-          "refId": "G",
-          "step": 4
-        },
-        {
           "expr": "avg(mysql_global_status_innodb_page_size{job=\"$job\"}) * on (job) avg(mysql_global_status_buffer_pool_pages{job=\"$job\",state=\"data\"})",
           "format": "time_series",
           "hide": false,
@@ -2055,24 +2047,6 @@
           "step": 20
         },
         {
-          "expr": "avg(mysql_global_variables_innodb_additional_mem_pool_size{job=\"$job\"})",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 2,
-          "legendFormat": "InnoDB Additional Memory Pool Size",
-          "refId": "H",
-          "step": 40
-        },
-        {
-          "expr": "avg(mysql_global_status_innodb_mem_dictionary{job=\"$job\"})",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "InnoDB Dictionary Size",
-          "refId": "F",
-          "step": 20
-        },
-        {
           "expr": "avg(mysql_global_variables_key_buffer_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
@@ -2088,24 +2062,6 @@
           "intervalFactor": 1,
           "legendFormat": "Query Cache Size",
           "refId": "C",
-          "step": 20
-        },
-        {
-          "expr": "avg(mysql_global_status_innodb_mem_adaptive_hash{job=\"$job\"})",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Adaptive Hash Index Size",
-          "refId": "E",
-          "step": 20
-        },
-        {
-          "expr": "avg(mysql_global_variables_tokudb_cache_size{job=\"$job\"})",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "TokuDB Cache Size",
-          "refId": "I",
           "step": 20
         }
       ],
@@ -4731,6 +4687,7 @@
         "allFormat": "glob",
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "portal-web-mysqld-exporter",
           "value": "portal-web-mysqld-exporter"
         },
