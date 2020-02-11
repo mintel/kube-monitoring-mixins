@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1581351772304,
+  "iteration": 1581439990597,
   "links": [
     {
       "asDropdown": true,
@@ -516,7 +516,7 @@
         "allFormat": "glob",
         "allValue": null,
         "current": {
-          "selected": true,
+          "tags": [],
           "text": "portal",
           "value": "portal"
         },
@@ -545,11 +545,12 @@
         "allFormat": "glob",
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "portal-web-mysqld-exporter",
           "value": "portal-web-mysqld-exporter"
         },
         "datasource": "Prometheus",
-        "definition": "label_values(mysql_up{namespace=\"$namespace\",backend=\"$backend\"}, job)",
+        "definition": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
         "hide": 0,
         "includeAll": false,
         "label": "Service",
@@ -557,7 +558,7 @@
         "multiFormat": "regex values",
         "name": "job",
         "options": [],
-        "query": "label_values(mysql_up{namespace=\"$namespace\",backend=\"$backend\"}, job)",
+        "query": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
         "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
@@ -572,7 +573,7 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
