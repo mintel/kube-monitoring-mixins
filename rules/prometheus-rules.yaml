@@ -1965,3 +1965,86 @@ spec:
       for: 30m
       labels:
         severity: warning
+  - name: kubernetes-absent
+    rules:
+    - alert: AlertmanagerDown
+      annotations:
+        message: Alertmanager has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="alertmanager-main",namespace="monitoring"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: CoreDNSDown
+      annotations:
+        message: CoreDNS has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="kube-dns"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: HaproxyIngressDown
+      annotations:
+        message: HaproxyIngress has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="haproxy-exporter"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: KubeAPIDown
+      annotations:
+        message: KubeAPI has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="apiserver"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: KubeStateMetricsDown
+      annotations:
+        message: KubeStateMetrics has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="kube-state-metrics"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: KubeletDown
+      annotations:
+        message: Kubelet has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="kubelet"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: NodeExporterDown
+      annotations:
+        message: NodeExporter has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="node-exporter"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: PrometheusDown
+      annotations:
+        message: Prometheus has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="prometheus-k8s",namespace="monitoring"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: PrometheusOperatorDown
+      annotations:
+        message: PrometheusOperator has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="prometheus-operator",namespace="monitoring"} == 1)
+      for: 15m
+      labels:
+        page: "true"
+        severity: critical
