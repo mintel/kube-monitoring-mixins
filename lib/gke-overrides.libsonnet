@@ -8,6 +8,7 @@ local ignore_alerts = [
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
+  'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
   'NodeNetworkReceiveErrs',
   'NodeNetworkTransmitErrs',
@@ -22,6 +23,8 @@ local ignore_records = [];
 local ignore_groups = [
   'kube-scheduler.rules',
   'kube-apiserver.rules',
+  'kube-apiserver-error',
+  'kube-apiserver-error-alerts',
   'kube-prometheus-node-alerting.rules',
   'prometheus.rules',
 ];

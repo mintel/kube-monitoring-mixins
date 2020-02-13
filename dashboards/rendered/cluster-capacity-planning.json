@@ -26,7 +26,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -54,7 +54,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -75,9 +75,10 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_info{node=~\"^gke.*\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_node_info{node=~\"^gke.*\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -93,7 +94,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -104,7 +105,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -132,7 +133,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -153,9 +154,10 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "count (count by (label_cloud_google_com_gke_nodepool) (kube_node_labels{node=~\"^gke.*\"}))",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "count (\n  count by (\n    label_cloud_google_com_gke_nodepool) (kube_node_labels{node=~\"^gke.*\"}))\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -171,7 +173,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -182,7 +184,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -210,7 +212,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -231,9 +233,10 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum (kube_node_status_allocatable_pods{node=~\"^gke.*\"}) - sum(kube_pod_status_phase{phase=\"Running\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "sum (\n  kube_node_status_allocatable_pods{node=~\"^gke.*\"}) \n  - \n   sum(kube_pod_status_phase{phase=\"Running\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -249,7 +252,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -260,7 +263,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -288,7 +291,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -309,15 +312,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
                "thresholds": "1",
-               "title": "Nodes Disk Pressures",
+               "title": "Node Disk Pressures",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -327,7 +331,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -338,7 +342,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -366,7 +370,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -387,9 +391,10 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -405,7 +410,7 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
@@ -416,7 +421,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -444,7 +449,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -465,9 +470,10 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_node_spec_unschedulable{node=~\"^gke.*\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_node_spec_unschedulable{node=~\"^gke.*\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -483,14 +489,14 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
+               "valueName": "current"
             }
          ],
          "repeat": null,
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Nodes",
+         "title": "Nodes Overview",
          "titleSize": "h6",
          "type": "row"
       },
@@ -507,7 +513,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": null,
                "description": "Percentage of Allocatable cpu cores already requested by pods",
                "format": "percentunit",
                "gauge": {
@@ -518,9 +524,9 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 8,
-               "interval": null,
+               "interval": "1m",
                "links": [ ],
                "mappingType": 1,
                "mappingTypes": [
@@ -536,7 +542,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -557,20 +563,19 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) / sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})",
-                     "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) \n    / \n  sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
-                     "refId": "A",
-                     "step": 240
+                     "refId": "A"
                   }
                ],
                "thresholds": ".8, .9",
                "title": "CPU Cores Requests - Usage",
                "transparent": true,
                "type": "singlestat",
-               "valueFontSize": "110%",
+               "valueFontSize": "100%",
                "valueMaps": [
                   {
                      "op": "=",
@@ -581,13 +586,13 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
-               "description": "Requested cpu per Node",
+               "description": "Requested CPU per node",
                "format": "none",
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 9,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -596,10 +601,10 @@
                "span": 2,
                "targets": [
                   {
-                     "expr": "100 * (sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) / sum by (node) (kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"}))",
+                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"})\n  /\n  sum by (node) (kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"}))\n",
                      "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -630,7 +635,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": null,
                "description": "Percentage of Allocatable Memory already requested by pods",
                "format": "percentunit",
                "gauge": {
@@ -641,9 +646,9 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 10,
-               "interval": null,
+               "interval": "1m",
                "links": [ ],
                "mappingType": 1,
                "mappingTypes": [
@@ -659,7 +664,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -680,20 +685,19 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) / sum(kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})",
-                     "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "expr": "sum(\n  kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  /\n  sum(\n    kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
-                     "refId": "A",
-                     "step": 240
+                     "refId": "A"
                   }
                ],
                "thresholds": ".8, .9",
                "title": "Memory Requests - Usage",
                "transparent": true,
                "type": "singlestat",
-               "valueFontSize": "110%",
+               "valueFontSize": "100%",
                "valueMaps": [
                   {
                      "op": "=",
@@ -704,13 +708,13 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
                "description": "Requested memory per Node",
                "format": "none",
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 11,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -719,10 +723,10 @@
                "span": 2,
                "targets": [
                   {
-                     "expr": "100 * (sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) / sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))",
+                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  / \n  sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))\n",
                      "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -753,7 +757,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "$datasource",
+               "datasource": null,
                "description": "Percentage of ephemeral disk in use",
                "format": "percentunit",
                "gauge": {
@@ -764,9 +768,9 @@
                   "thresholdMarkers": true
                },
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 12,
-               "interval": null,
+               "interval": "1m",
                "links": [ ],
                "mappingType": 1,
                "mappingTypes": [
@@ -782,7 +786,7 @@
                "maxDataPoints": 100,
                "nullPointMode": "connected",
                "nullText": null,
-               "postfix": "",
+               "postfix": null,
                "postfixFontSize": "50%",
                "prefix": "",
                "prefixFontSize": "50%",
@@ -803,20 +807,19 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "1 - sum(node:node_filesystem_avail: - node:node_filesystem_usage:) / sum(node:node_filesystem_avail:)",
-                     "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "expr": "1 - sum(\n  node:node_filesystem_avail: - node:node_filesystem_usage:) \n  /\n  sum(node:node_filesystem_avail:)\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
-                     "refId": "A",
-                     "step": 240
+                     "refId": "A"
                   }
                ],
                "thresholds": ".8, .9",
                "title": "Ephemeral Disk - Usage",
                "transparent": true,
                "type": "singlestat",
-               "valueFontSize": "110%",
+               "valueFontSize": "100%",
                "valueMaps": [
                   {
                      "op": "=",
@@ -827,13 +830,13 @@
                "valueName": "avg"
             },
             {
-               "datasource": "$datasource",
+               "datasource": "$ds",
                "decimals": 2,
                "defaultColor": "rgb(0, 172, 64)",
                "description": "Percentage of ephemeral disk usage per node",
                "format": "none",
                "gridPos": { },
-               "height": 300,
+               "height": 200,
                "id": 13,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
@@ -842,10 +845,10 @@
                "span": 2,
                "targets": [
                   {
-                     "expr": "100 * avg(node:node_filesystem_usage: * on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"}) by (nodename)",
+                     "expr": "100 * avg(\n  node:node_filesystem_usage: * on(instance) \n  group_left(nodename) node_uname_info{nodename=~\"^gke.*\"}) \nby (nodename)\n",
                      "format": "time_series",
-                     "instant": true,
-                     "intervalFactor": 2,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -872,22 +875,24 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
-               "description": "IDLE cpu in the cluster",
-               "fill": 1,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Idle CPU in the Cluster",
+               "fill": 0,
                "gridPos": { },
                "height": 300,
                "id": 14,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -905,12 +910,12 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "avg(rate(node_cpu_seconds_total{mode=\"idle\"}[2m]) * on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) by (mode)",
+                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
                      "format": "time_series",
-                     "intervalFactor": 10,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "% Idle",
-                     "refId": "A",
-                     "step": 50
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -919,7 +924,7 @@
                "title": "Idle CPU",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -933,15 +938,19 @@
                "yaxes": [
                   {
                      "format": "percent",
-                     "label": "cpu usage",
+                     "label": "CPU Usage",
                      "logBase": 1,
+                     "max": null,
                      "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
+                     "label": null,
                      "logBase": 1,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             },
@@ -950,22 +959,24 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
-               "description": "Memory Usage in the Cluster",
-               "fill": 1,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Memory usage in the Cluster",
+               "fill": 0,
                "gridPos": { },
                "height": 300,
                "id": 15,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -983,12 +994,12 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "100 * (1 - ((sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) / sum(node_memory_MemTotal_bytes)))",
+                     "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) \n              /  \n              sum(node_memory_MemTotal_bytes)))\n",
                      "format": "time_series",
-                     "intervalFactor": 10,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "% Free",
-                     "refId": "A",
-                     "step": 50
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -997,7 +1008,7 @@
                "title": "Memory Free",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -1011,15 +1022,19 @@
                "yaxes": [
                   {
                      "format": "percent",
-                     "label": "memory usage",
+                     "label": "Memory Usage",
                      "logBase": 1,
+                     "max": null,
                      "min": 0,
                      "show": true
                   },
                   {
                      "format": "short",
+                     "label": null,
                      "logBase": 1,
-                     "show": true
+                     "max": 1,
+                     "min": 0,
+                     "show": false
                   }
                ]
             },
@@ -1028,24 +1043,24 @@
                "bars": false,
                "dashLength": 10,
                "dashes": false,
-               "datasource": "$datasource",
+               "datasource": "$ds",
+               "decimals": 0,
                "description": "Ephemeral Disk IO",
-               "fill": 1,
+               "fill": 0,
                "gridPos": { },
                "height": 300,
                "id": 16,
                "legend": {
-                  "alignAsTable": false,
-                  "avg": false,
-                  "current": false,
-                  "hideEmpty": false,
-                  "hideZero": false,
-                  "max": false,
-                  "min": false,
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
                   "rightSide": false,
                   "show": true,
                   "total": false,
-                  "values": false
+                  "values": true
                },
                "lines": true,
                "linewidth": 2,
@@ -1072,28 +1087,28 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(node_disk_read_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))",
+                     "expr": "sum(\n  rate(\n    node_disk_read_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
-                     "intervalFactor": 4,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "read",
-                     "refId": "A",
-                     "step": 20
+                     "refId": "A"
                   },
                   {
-                     "expr": "sum(rate(node_disk_written_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))",
+                     "expr": "sum(\n  rate(\n    node_disk_written_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
-                     "intervalFactor": 4,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "written",
-                     "refId": "B",
-                     "step": 20
+                     "refId": "B"
                   },
                   {
-                     "expr": "sum(rate(node_disk_io_time_seconds_total{device=~\"sd(a9|[b-z])\"}[5m]))",
+                     "expr": "sum(\n  rate(\n    node_disk_io_time_seconds_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
-                     "intervalFactor": 4,
+                     "interval": "1m",
+                     "intervalFactor": 3,
                      "legendFormat": "io time",
-                     "refId": "C",
-                     "step": 20
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1102,7 +1117,7 @@
                "title": "Ephemeral Disk IO",
                "tooltip": {
                   "shared": true,
-                  "sort": 0,
+                  "sort": 2,
                   "value_type": "individual"
                },
                "type": "graph",
@@ -1131,7 +1146,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Capacity at a Glance",
+         "title": "Capacity Overview",
          "titleSize": "h6",
          "type": "row"
       }
@@ -1141,19 +1156,18 @@
    "tags": [
       "mintel",
       "capacity",
-      "resources",
-      "kubernetes"
+      "resoruces"
    ],
    "templating": {
       "list": [
          {
             "current": {
-               "text": "",
-               "value": ""
+               "text": "Prometheus",
+               "value": "Prometheus"
             },
-            "hide": 0,
+            "hide": 2,
             "label": null,
-            "name": "datasource",
+            "name": "ds",
             "options": [ ],
             "query": "prometheus",
             "refresh": 1,
@@ -1163,7 +1177,7 @@
       ]
    },
    "time": {
-      "from": "now-3h",
+      "from": "now-1h",
       "to": "now"
    },
    "timepicker": {
@@ -1192,7 +1206,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "MINTEL /  Capacity / Planning",
-   "uid": "dbf659be3c9ce97fe0606994e8f8941bb268b5ac",
+   "title": "Mintel /  Capacity Planning",
+   "uid": "aec7542ba09affa6e69221e39161aa6a",
    "version": 0
 }
