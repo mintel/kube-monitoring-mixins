@@ -1,39 +1,21 @@
 {
-  "__inputs": [
-    {
-      "name": "Prometheus",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.2.4"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": "5.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "5.0.0"
-    }
-  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1540558828909,
+  "iteration": 1581438234330,
   "links": [
     {
       "asDropdown": true,
@@ -50,6 +32,7 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -76,6 +59,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -83,6 +67,7 @@
         "x": 0,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 19,
       "legend": {
         "alignAsTable": true,
@@ -101,6 +86,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -120,7 +108,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_checkpoint_age{instance=\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=\"$host\"}[5m])",
+          "expr": "avg(max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{job=\"$job\"}[$interval])) or\navg(max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -133,7 +121,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=\"$host\"}[5m])",
+          "expr": "avg(max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{job=\"$job\"}[$interval])) or\navg(max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -145,6 +133,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Checkpoint Age",
       "tooltip": {
@@ -195,6 +184,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -202,6 +192,7 @@
         "x": 12,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 20,
       "legend": {
         "alignAsTable": true,
@@ -221,13 +212,14 @@
       "linewidth": 2,
       "links": [
         {
-          "dashUri": "db/_pmm-query-analytics",
-          "dashboard": "_PMM Query Analytics",
           "title": "Query Analytics",
-          "type": "dashboard"
+          "url": "dashboard/db/_pmm-query-analytics"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -246,21 +238,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_max_trx_id{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_max_trx_id{instance=\"$host\"}[5m])",
-          "format": "time_series",
-          "hide": false,
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "InnoDB Transactions",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "(max_over_time(mysql_global_status_innodb_history_list_length{instance=\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_history_list_length{instance=\"$host\"}[5m])) or \n(max_over_time(mysql_info_schema_innodb_metrics_transaction_trx_rseg_history_len{instance=\"$host\"}[$interval]) or \nmax_over_time(mysql_info_schema_innodb_metrics_transaction_trx_rseg_history_len{instance=\"$host\"}[5m]))",
+          "expr": "avg(max_over_time(mysql_info_schema_innodb_metrics_transaction_trx_rseg_history_len{job=\"$job\"}[$interval])) or \navg(max_over_time(mysql_info_schema_innodb_metrics_transaction_trx_rseg_history_len{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -272,6 +250,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Transactions",
       "tooltip": {
@@ -311,6 +290,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -334,6 +314,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -341,6 +322,7 @@
         "x": 0,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 23,
       "legend": {
         "alignAsTable": true,
@@ -359,6 +341,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -372,7 +357,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_row_ops_total{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_ops_total{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_row_ops_total{job=\"$job\"}[$interval])) by (operation) or avg(irate(mysql_global_status_innodb_row_ops_total{job=\"$job\"}[5m])) by (operation)",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -384,6 +369,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Row Operations",
       "tooltip": {
@@ -434,6 +420,7 @@
       "editable": true,
       "error": false,
       "fill": 1,
+      "fillGradient": 0,
       "grid": {
         "leftLogBase": 1,
         "leftMax": null,
@@ -448,6 +435,7 @@
         "x": 12,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 46,
       "legend": {
         "alignAsTable": true,
@@ -466,14 +454,15 @@
       "linewidth": 2,
       "links": [
         {
-          "dashboard": "https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html",
           "targetBlank": true,
           "title": "InnoDB Locking",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 1,
       "points": true,
@@ -492,7 +481,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_row_lock_waits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_lock_waits{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_row_lock_waits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_row_lock_waits{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -502,7 +491,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_global_status_innodb_row_lock_time{instance=\"$host\"}[$interval])/1000 or irate(mysql_global_status_innodb_row_lock_time{instance=\"$host\"}[5m])/1000",
+          "expr": "avg(rate(mysql_global_status_innodb_row_lock_time{job=\"$job\"}[$interval]))/1000 or avg(irate(mysql_global_status_innodb_row_lock_time{job=\"$job\"}[5m]))/1000",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -512,7 +501,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_global_status_innodb_row_lock_time{instance=\"$host\"}[$interval])/rate(mysql_global_status_innodb_row_lock_waits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_lock_time{instance=\"$host\"}[5m])/irate(mysql_global_status_innodb_row_lock_waits{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_row_lock_time{job=\"$job\"}[$interval]))/avg(rate(mysql_global_status_innodb_row_lock_waits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_row_lock_time{job=\"$job\"}[5m]))/avg(irate(mysql_global_status_innodb_row_lock_waits{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -523,6 +512,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Row Lock Time",
       "tooltip": {
@@ -570,6 +560,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -593,6 +584,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -600,6 +592,7 @@
         "x": 0,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 38,
       "legend": {
         "alignAsTable": true,
@@ -618,6 +611,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -631,7 +627,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_data_reads{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_reads{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_data_reads{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_data_reads{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -644,7 +640,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_data_writes{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_writes{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_data_writes{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_data_writes{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -657,7 +653,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_data_fsyncs{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_fsyncs{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_data_fsyncs{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_data_fsyncs{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -670,7 +666,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_log_writes{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_log_writes{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_log_writes{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_log_writes{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -682,6 +678,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB I/O",
       "tooltip": {
@@ -730,6 +727,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -737,6 +735,7 @@
         "x": 12,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 37,
       "legend": {
         "alignAsTable": true,
@@ -757,17 +756,18 @@
         {
           "targetBlank": true,
           "title": "How to calculate a good InnoDB log file size",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2008/11/21/how-to-calculate-a-good-innodb-log-file-size/"
         },
         {
           "targetBlank": true,
           "title": "System Variables (innodb_log_file_size)",
-          "type": "absolute",
           "url": "http://www.percona.com/doc/percona-server/5.5/scalability/innodb_io_55.html#innodb_log_file_size"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -793,7 +793,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "increase(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[1h])",
+          "expr": "avg(increase(mysql_global_status_innodb_os_log_written{job=\"$job\"}[1h]))",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
@@ -806,7 +806,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_log_files_in_group{instance=\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_innodb_log_files_in_group{job=\"$job\"}) * avg(mysql_global_variables_innodb_log_file_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -818,6 +818,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Log File Usage Hourly",
       "tooltip": {
@@ -868,6 +869,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -875,6 +877,7 @@
         "x": 0,
         "y": 24
       },
+      "hiddenSeries": false,
       "id": 50,
       "legend": {
         "alignAsTable": true,
@@ -893,6 +896,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 1,
       "points": true,
@@ -915,7 +921,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -928,7 +934,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(mysql_global_variables_innodb_log_files_in_group{instance=\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=\"$host\"})/(rate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[5m]))",
+          "expr": "(avg(mysql_global_variables_innodb_log_files_in_group{job=\"$job\"}) * avg(mysql_global_variables_innodb_log_file_size{job=\"$job\"}))/(avg(rate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[5m])))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -938,7 +944,7 @@
           "step": 300
         },
         {
-          "expr": "(mysql_global_variables_innodb_log_buffer_size{instance=\"$host\"})/(rate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=\"$host\"}[5m]))",
+          "expr": "(avg(mysql_global_variables_innodb_log_buffer_size{job=\"$job\"}))/(avg(rate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_os_log_written{job=\"$job\"}[5m])))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -949,6 +955,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Innodb Logging Performance",
       "tooltip": {
@@ -989,6 +996,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1012,6 +1020,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1019,6 +1028,7 @@
         "x": 0,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "alignAsTable": true,
@@ -1039,11 +1049,13 @@
         {
           "targetBlank": true,
           "title": "How to deal with MySQL deadlocks",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1057,7 +1069,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(rate(mysql_global_status_innodb_deadlocks{instance=\"$host\"}[$interval]) or rate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=\"$host\"}[$interval])) or (irate(mysql_global_status_innodb_deadlocks{instance=\"$host\"}[5m]) or irate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=\"$host\"}[5m]))",
+          "expr": "(avg(rate(mysql_global_status_innodb_deadlocks{job=\"$job\"}[$interval])) or avg(rate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{job=\"$job\"}[$interval]))) or (avg(irate(mysql_global_status_innodb_deadlocks{job=\"$job\"}[5m])) or avg(irate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{job=\"$job\"}[5m])))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1069,6 +1081,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Deadlocks",
       "tooltip": {
@@ -1114,12 +1127,14 @@
       "datasource": "Prometheus",
       "description": "Index Condition Pushdown (ICP) is an optimization for the case where MySQL retrieves rows from a table using an index. Without ICP, the storage engine traverses the index to locate rows in the base table and returns them to the MySQL server which evaluates the WHERE condition for the rows. With ICP enabled, and if parts of the WHERE condition can be evaluated by using only columns from the index, the MySQL server pushes this part of the WHERE condition down to the storage engine. The storage engine then evaluates the pushed index condition by using the index entry and only if this is satisfied is the row read from the table. ICP can reduce the number of times the storage engine must access the base table and the number of times the MySQL server must access the storage engine.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 48,
       "legend": {
         "alignAsTable": true,
@@ -1140,17 +1155,18 @@
         {
           "targetBlank": true,
           "title": "Index Condition Pushdown optimisation - MySQL 5.7 Manual",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/index-condition-pushdown-optimization.html"
         },
         {
           "targetBlank": true,
           "title": "ICP counters and how to interpret them",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2017/05/09/mariadb-handler_icp_-counters-what-they-are-and-how-to-use-them/"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1161,7 +1177,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(mysql_info_schema_innodb_metrics_icp_icp_attempts_total{instance=\"$host\"}[$interval])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_icp_icp_attempts_total{job=\"$job\"}[$interval]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Attempts",
@@ -1169,7 +1185,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_info_schema_innodb_metrics_icp_icp_match_total{instance=\"$host\"}[$interval])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_icp_icp_match_total{job=\"$job\"}[$interval]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Matches",
@@ -1177,7 +1193,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_info_schema_innodb_metrics_icp_icp_no_match_total{instance=\"$host\"}[$interval])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_icp_icp_no_match_total{job=\"$job\"}[$interval]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "No Matches",
@@ -1185,7 +1201,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_info_schema_innodb_metrics_icp_icp_out_of_range_total{instance=\"$host\"}[$interval])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_icp_icp_out_of_range_total{job=\"$job\"}[$interval]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Out of Range",
@@ -1195,6 +1211,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Index Condition Pushdown (ICP)",
       "tooltip": {
@@ -1235,6 +1252,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1257,6 +1275,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1264,6 +1283,7 @@
         "x": 0,
         "y": 40
       },
+      "hiddenSeries": false,
       "id": 42,
       "legend": {
         "alignAsTable": true,
@@ -1282,6 +1302,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1295,7 +1318,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_innodb_buffer_pool_bytes_data{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_innodb_buffer_pool_bytes_data{job=\"$job\"})",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Data Total",
@@ -1307,7 +1330,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_innodb_buffer_pool_bytes_dirty{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_innodb_buffer_pool_bytes_dirty{job=\"$job\"})",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Data Dirty",
@@ -1318,6 +1341,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Buffer Pool Content",
       "tooltip": {
@@ -1365,6 +1389,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1372,6 +1397,7 @@
         "x": 12,
         "y": 40
       },
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "alignAsTable": true,
@@ -1390,6 +1416,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1403,7 +1432,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_buffer_pool_pages{instance=\"$host\", state=~\"free|data|misc\"}",
+          "expr": "avg(mysql_global_status_buffer_pool_pages{job=\"$job\", state=~\"free|data|misc\"}) by (state)",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "{{ state }}",
@@ -1414,6 +1443,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Buffer Pool Pages",
       "tooltip": {
@@ -1453,6 +1483,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1475,6 +1506,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1482,6 +1514,7 @@
         "x": 0,
         "y": 48
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "alignAsTable": true,
@@ -1500,6 +1533,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1513,7 +1549,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_pages_created{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_created{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_pages_created{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_pages_created{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Pages Created",
@@ -1525,7 +1561,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_pages_read{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_read{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_pages_read{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_pages_read{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Pages Read",
@@ -1537,7 +1573,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_pages_written{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_written{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_pages_written{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_pages_written{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Pages Written",
@@ -1548,6 +1584,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Buffer Pool I/O",
       "tooltip": {
@@ -1595,6 +1632,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1602,6 +1640,7 @@
         "x": 12,
         "y": 48
       },
+      "hiddenSeries": false,
       "id": 41,
       "legend": {
         "alignAsTable": true,
@@ -1620,6 +1659,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1638,7 +1680,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_read_requests{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_requests{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Read Requests",
@@ -1650,7 +1692,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_write_requests{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_write_requests{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_write_requests{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_write_requests{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Write Requests",
@@ -1662,7 +1704,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_reads{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=\"$host\"}[5m]) ",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_reads{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_reads{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Disk Reads",
@@ -1673,6 +1715,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Buffer Pool Requests",
       "tooltip": {
@@ -1725,6 +1768,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1732,6 +1776,7 @@
         "x": 0,
         "y": 55
       },
+      "hiddenSeries": false,
       "id": 49,
       "legend": {
         "alignAsTable": true,
@@ -1750,6 +1795,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1772,7 +1820,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1785,7 +1833,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1795,7 +1843,7 @@
           "step": 300
         },
         {
-          "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1805,7 +1853,7 @@
           "step": 300
         },
         {
-          "expr": "(rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=\"$host\"}[5m])) / ((rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[5m])) + (rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[5m])))",
+          "expr": "(avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{job=\"$job\"}[5m]))) / ((avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[5m]))) + (avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[5m]))))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1814,7 +1862,7 @@
           "step": 300
         },
         {
-          "expr": "((rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=\"$host\"}[5m]))+(rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=\"$host\"}[5m])))/(rate(mysql_global_status_innodb_pages_read{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_read{instance=\"$host\"}[5m])\n)",
+          "expr": "((avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead{job=\"$job\"}[5m])))+(avg(rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{job=\"$job\"}[5m]))))/(avg(rate(mysql_global_status_innodb_pages_read{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_innodb_pages_read{job=\"$job\"}[5m]))\n)",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1825,6 +1873,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Innodb Read-Ahead",
       "tooltip": {
@@ -1863,130 +1912,6 @@
       }
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 62
-      },
-      "id": 57,
-      "panels": [],
-      "repeat": null,
-      "title": "Change/Insert Buffer",
-      "type": "row"
-    },
-    {
-      "aliasColors": {
-        "Uncheckpointed Bytes": "#E0752D"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": 2,
-      "editable": true,
-      "error": false,
-      "fill": 6,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 63
-      },
-      "id": 39,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2m",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_status_innodb_ibuf_segment_size{instance=\"$host\"} * mysql_global_status_innodb_page_size{instance=\"$host\"}",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Allocated",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "(mysql_global_status_innodb_ibuf_segment_size{instance=\"$host\"} - mysql_global_status_innodb_ibuf_free_list{instance=\"$host\"})*mysql_global_status_innodb_page_size{instance=\"$host\"}",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Used",
-          "metric": "",
-          "refId": "B",
-          "step": 300
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "InnoDB Change Buffer",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1996,13 +1921,15 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 63
+        "y": 55
       },
+      "hiddenSeries": false,
       "id": 40,
       "legend": {
         "alignAsTable": true,
@@ -2023,6 +1950,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2036,7 +1966,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_ibuf_merges{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merges{instance=\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{job=\"$job\"}[$interval])) or avg(irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Merges",
@@ -2048,7 +1978,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_ibuf_merged_inserts{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_inserts{instance=\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{job=\"$job\"}[$interval])) or avg(irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Merged Inserts",
@@ -2060,7 +1990,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_ibuf_merged_deletes{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_deletes{instance=\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{job=\"$job\"}[$interval])) or avg(irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Merged Deletes",
@@ -2072,7 +2002,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=\"$host\"}[5m])",
+          "expr": "rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{job=\"$job\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{job=\"$job\"}[5m])",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Merged Delete Marks",
@@ -2083,6 +2013,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "InnoDB Change Buffer Activity",
       "tooltip": {
@@ -2122,7 +2053,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 16,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "MySQL",
@@ -2136,6 +2067,7 @@
         "auto_count": 200,
         "auto_min": "1s",
         "current": {
+          "selected": false,
           "text": "auto",
           "value": "$__auto_interval_interval"
         },
@@ -2190,24 +2122,30 @@
         ],
         "query": "1s,5s,1m,5m,1h,6h,1d",
         "refresh": 2,
+        "skipUrlSync": false,
         "type": "interval"
       },
       {
         "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "portal",
+          "value": "portal"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(kube_namespace_labels, label_name)",
         "hide": 0,
         "includeAll": false,
-        "label": "Host (Master=9104)",
+        "label": "Namespace",
         "multi": false,
         "multiFormat": "regex values",
-        "name": "host",
+        "name": "namespace",
         "options": [],
-        "query": "label_values(mysql_up{backend=\"$backend\"}, instance)",
+        "query": "label_values(kube_namespace_labels, label_name)",
         "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": null,
         "tags": [],
@@ -2218,19 +2156,24 @@
       {
         "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "portal-web-mysqld-exporter",
+          "value": "portal-web-mysqld-exporter"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
         "hide": 0,
         "includeAll": false,
-        "label": "Backend",
+        "label": "Service",
         "multi": false,
         "multiFormat": "regex values",
-        "name": "backend",
+        "name": "job",
         "options": [],
-        "query": "label_values(mysql_up, backend)",
+        "query": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
         "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": null,
         "tags": [],
@@ -2241,7 +2184,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -2279,5 +2222,5 @@
   "timezone": "browser",
   "title": "MySQL InnoDB Metrics",
   "uid": "giGgrTimz",
-  "version": 2
+  "version": 1
 }
