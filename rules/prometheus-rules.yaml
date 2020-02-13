@@ -488,6 +488,28 @@ spec:
       labels:
         page: "true"
         severity: critical
+    - alert: NodeNetworkReceiveErrs
+      annotations:
+        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
+          {{ printf "%.0f" $value }} receive errors in the last two minutes.'
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworkreceiveerrs
+        summary: Network interface is reporting many receive errors.
+      expr: |
+        increase(node_network_receive_errs_total[2m]) > 10
+      for: 1h
+      labels:
+        severity: warning
+    - alert: NodeNetworkTransmitErrs
+      annotations:
+        description: '{{ $labels.instance }} interface {{ $labels.device }} has encountered
+          {{ printf "%.0f" $value }} transmit errors in the last two minutes.'
+        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworktransmiterrs
+        summary: Network interface is reporting many transmit errors.
+      expr: |
+        increase(node_network_transmit_errs_total[2m]) > 10
+      for: 1h
+      labels:
+        severity: warning
   - name: alertmanager.rules
     rules:
     - alert: AlertmanagerConfigInconsistent
@@ -933,17 +955,7 @@ spec:
       labels:
         severity: warning
   - name: kubernetes-system-apiserver
-    rules:
-    - alert: KubeAPIDown
-      annotations:
-        message: KubeAPI has disappeared from Prometheus target discovery.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapidown
-      expr: |
-        absent(up{job="apiserver"} == 1)
-      for: 15m
-      labels:
-        page: "true"
-        severity: critical
+    rules: []
   - name: kubernetes-system-kubelet
     rules:
     - alert: KubeNodeNotReady
@@ -1990,15 +2002,6 @@ spec:
         message: HaproxyIngress has disappeared from Prometheus target discovery.
       expr: |
         absent(up{job="haproxy-exporter"} == 1)
-      for: 15m
-      labels:
-        page: "true"
-        severity: critical
-    - alert: KubeAPIDown
-      annotations:
-        message: KubeAPI has disappeared from Prometheus target discovery.
-      expr: |
-        absent(up{job="apiserver"} == 1)
       for: 15m
       labels:
         page: "true"
