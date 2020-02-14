@@ -1,45 +1,21 @@
 {
-  "__inputs": [
-    {
-      "name": "Prometheus",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.2.4"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": "5.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": "5.0.0"
-    }
-  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": null,
-  "iteration": 1540551488577,
+  "iteration": 1581433650350,
   "links": [
     {
       "asDropdown": true,
@@ -56,6 +32,7 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -114,6 +91,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "s",
       "postfixFontSize": "80%",
       "prefix": "",
@@ -137,7 +115,7 @@
           "calculatedInterval": "10m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_uptime{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_uptime{job=\"$job\"})",
           "format": "time_series",
           "interval": "5m",
           "intervalFactor": 1,
@@ -149,7 +127,6 @@
       ],
       "thresholds": "300,3600",
       "title": "MySQL Uptime",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -190,7 +167,6 @@
         {
           "targetBlank": true,
           "title": "MySQL Server Status Variables",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Queries"
         }
       ],
@@ -208,6 +184,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -231,7 +208,7 @@
           "calculatedInterval": "10m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_queries{instance=\"$host\"}[$interval]) or irate(mysql_global_status_queries{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_queries{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_queries{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -243,7 +220,6 @@
       ],
       "thresholds": "35,75",
       "title": "Current QPS",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -284,7 +260,6 @@
         {
           "targetBlank": true,
           "title": "Tuning the InnoDB Buffer Pool Size",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2015/06/02/80-ram-tune-innodb_buffer_pool_size/"
         }
       ],
@@ -302,6 +277,7 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
+      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -325,7 +301,7 @@
           "calculatedInterval": "10m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_innodb_buffer_pool_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "5m",
           "intervalFactor": 1,
@@ -337,7 +313,6 @@
       ],
       "thresholds": "90,95",
       "title": "InnoDB Buffer Pool Size",
-      "transparent": false,
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
@@ -345,6 +320,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -368,6 +344,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -376,6 +353,7 @@
         "y": 6
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 92,
       "legend": {
         "alignAsTable": true,
@@ -395,11 +373,13 @@
         {
           "targetBlank": true,
           "title": "MySQL Server System Variables",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_max_connections"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -418,7 +398,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max(max_over_time(mysql_global_status_threads_connected{instance=\"$host\"}[$interval])  or mysql_global_status_threads_connected{instance=\"$host\"} )",
+          "expr": "avg(max(max_over_time(mysql_global_status_threads_connected{job=\"$job\"}[$interval])) or avg(mysql_global_status_threads_connected{job=\"$job\"}))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -431,7 +411,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_max_used_connections{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_max_used_connections{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -445,7 +425,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_max_connections{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -458,6 +438,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Connections",
       "tooltip": {
@@ -508,6 +489,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -515,6 +497,7 @@
         "x": 12,
         "y": 6
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "alignAsTable": true,
@@ -532,6 +515,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -561,7 +547,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_threads_connected{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_threads_connected{instance=\"$host\"}[5m])",
+          "expr": "avg(max_over_time(mysql_global_status_threads_connected{job=\"$job\"}[$interval])) or\navg(max_over_time(mysql_global_status_threads_connected{job=\"$job\"}[5m]))",
           "format": "time_series",
           "hide": false,
           "interval": "$interval",
@@ -575,7 +561,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_threads_running{instance=\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_threads_running{instance=\"$host\"}[5m])",
+          "expr": "avg(max_over_time(mysql_global_status_threads_running{job=\"$job\"}[$interval])) or\navg(max_over_time(mysql_global_status_threads_running{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -585,7 +571,7 @@
           "step": 20
         },
         {
-          "expr": "avg_over_time(mysql_global_status_threads_running{instance=\"$host\"}[$interval]) or \navg_over_time(mysql_global_status_threads_running{instance=\"$host\"}[5m])",
+          "expr": "avg(avg_over_time(mysql_global_status_threads_running{job=\"$job\"}[$interval])) or \navg(avg_over_time(mysql_global_status_threads_running{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -596,6 +582,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Client Thread Activity",
       "tooltip": {
@@ -639,6 +626,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -662,6 +650,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -669,6 +658,7 @@
         "x": 0,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 53,
       "legend": {
         "alignAsTable": true,
@@ -687,11 +677,13 @@
         {
           "targetBlank": true,
           "title": "MySQL Queries and Questions",
-          "type": "absolute",
           "url": "https://www.percona.com/blog/2014/05/29/how-mysql-queries-and-questions-are-measured/"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -705,11 +697,11 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_questions{instnace=\"$host\"}[$interval]) or irate(mysql_global_status_questions{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_questions{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_questions{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "",
+          "legendFormat": "Statements Executed (per-sec)",
           "metric": "",
           "refId": "A",
           "step": 20
@@ -717,6 +709,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Questions",
       "tooltip": {
@@ -765,6 +758,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -772,6 +766,7 @@
         "x": 12,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 11,
       "legend": {
         "alignAsTable": true,
@@ -791,11 +786,13 @@
       "links": [
         {
           "title": "Tuning information",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_thread_cache_size"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -814,7 +811,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_thread_cache_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_thread_cache_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -827,7 +824,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_threads_cached{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_threads_cached{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -840,7 +837,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_threads_created{instance=\"$host\"}[$interval]) or irate(mysql_global_status_threads_created{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_threads_created{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_threads_created{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -852,6 +849,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Thread Cache",
       "tooltip": {
@@ -860,7 +858,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -892,6 +889,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -914,6 +912,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -921,6 +920,7 @@
         "x": 0,
         "y": 22
       },
+      "hiddenSeries": false,
       "id": 22,
       "legend": {
         "alignAsTable": true,
@@ -939,6 +939,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -952,7 +955,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_created_tmp_tables{instance=\"$host\"}[$interval]) or irate(mysql_global_status_created_tmp_tables{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_created_tmp_tables{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_created_tmp_tables{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Created Tmp Tables",
@@ -964,7 +967,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_created_tmp_disk_tables{instance=\"$host\"}[$interval]) or irate(mysql_global_status_created_tmp_disk_tables{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_created_tmp_disk_tables{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_created_tmp_disk_tables{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Created Tmp Disk Tables",
@@ -976,7 +979,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_created_tmp_files{instance=\"$host\"}[$interval]) or irate(mysql_global_status_created_tmp_files{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_created_tmp_files{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_created_tmp_files{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Created Tmp Files",
@@ -987,6 +990,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Temporary Objects",
       "tooltip": {
@@ -1035,6 +1039,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1043,6 +1048,7 @@
         "y": 22
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 311,
       "legend": {
         "alignAsTable": true,
@@ -1062,6 +1068,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1075,7 +1084,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_select_full_join{instance=\"$host\"}[$interval]) or irate(mysql_global_status_select_full_join{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_select_full_join{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_select_full_join{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1088,7 +1097,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_select_full_range_join{instance=\"$host\"}[$interval]) or irate(mysql_global_status_select_full_range_join{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_select_full_range_join{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_select_full_range_join{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1101,7 +1110,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_select_range{instance=\"$host\"}[$interval]) or irate(mysql_global_status_select_range{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_select_range{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_select_range{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1114,7 +1123,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_select_range_check{instance=\"$host\"}[$interval]) or irate(mysql_global_status_select_range_check{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_select_range_check{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_select_range_check{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1127,7 +1136,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_select_scan{instance=\"$host\"}[$interval]) or irate(mysql_global_status_select_scan{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_select_scan{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_select_scan{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1139,6 +1148,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Select Types",
       "tooltip": {
@@ -1178,6 +1188,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1201,6 +1212,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1208,6 +1220,7 @@
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 30,
       "legend": {
         "alignAsTable": true,
@@ -1227,6 +1240,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1240,7 +1256,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_sort_rows{instance=\"$host\"}[$interval]) or irate(mysql_global_status_sort_rows{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_sort_rows{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_sort_rows{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1253,7 +1269,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_sort_range{instance=\"$host\"}[$interval]) or irate(mysql_global_status_sort_range{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_sort_range{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_sort_range{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1266,7 +1282,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_sort_merge_passes{instance=\"$host\"}[$interval]) or irate(mysql_global_status_sort_merge_passes{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_sort_merge_passes{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_sort_merge_passes{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1279,7 +1295,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_sort_scan{instance=\"$host\"}[$interval]) or irate(mysql_global_status_sort_scan{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_sort_scan{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_sort_scan{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1291,6 +1307,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Sorts",
       "tooltip": {
@@ -1339,6 +1356,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1346,6 +1364,7 @@
         "x": 12,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 48,
       "legend": {
         "alignAsTable": true,
@@ -1361,6 +1380,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1374,7 +1396,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_slow_queries{instance=\"$host\"}[$interval]) or irate(mysql_global_status_slow_queries{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_slow_queries{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_slow_queries{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1386,6 +1408,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Slow Queries",
       "tooltip": {
@@ -1427,6 +1450,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1450,6 +1474,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1457,6 +1482,7 @@
         "x": 0,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "alignAsTable": true,
@@ -1474,6 +1500,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1487,7 +1516,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_aborted_connects{instance=\"$host\"}[$interval]) or irate(mysql_global_status_aborted_connects{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_aborted_connects{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_aborted_connects{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1500,7 +1529,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_aborted_clients{instance=\"$host\"}[$interval]) or irate(mysql_global_status_aborted_clients{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_aborted_clients{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_aborted_clients{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1513,6 +1542,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Aborted Connections",
       "tooltip": {
@@ -1563,6 +1593,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1570,6 +1601,7 @@
         "x": 12,
         "y": 38
       },
+      "hiddenSeries": false,
       "id": 32,
       "legend": {
         "alignAsTable": true,
@@ -1588,6 +1620,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1601,7 +1636,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_table_locks_immediate{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_locks_immediate{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_table_locks_immediate{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_locks_immediate{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1614,7 +1649,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_table_locks_waited{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_locks_waited{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_table_locks_waited{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_locks_waited{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1626,6 +1661,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Locks",
       "tooltip": {
@@ -1665,6 +1701,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1688,6 +1725,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1695,6 +1733,7 @@
         "x": 0,
         "y": 46
       },
+      "hiddenSeries": false,
       "id": 9,
       "legend": {
         "alignAsTable": true,
@@ -1713,6 +1752,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1726,7 +1768,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_bytes_received{instance=\"$host\"}[$interval]) or irate(mysql_global_status_bytes_received{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_bytes_received{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_bytes_received{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1739,7 +1781,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_bytes_sent{instance=\"$host\"}[$interval]) or irate(mysql_global_status_bytes_sent{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_bytes_sent{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_bytes_sent{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1751,6 +1793,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Network Traffic",
       "tooltip": {
@@ -1799,6 +1842,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1807,6 +1851,7 @@
         "y": 46
       },
       "height": "250px",
+      "hiddenSeries": false,
       "id": 381,
       "legend": {
         "alignAsTable": true,
@@ -1825,6 +1870,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1838,7 +1886,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "increase(mysql_global_status_bytes_received{instance=\"$host\"}[1h])",
+          "expr": "avg(increase(mysql_global_status_bytes_received{job=\"$job\"}[1h]))",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
@@ -1851,7 +1899,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "increase(mysql_global_status_bytes_sent{instance=\"$host\"}[1h])",
+          "expr": "avg(increase(mysql_global_status_bytes_sent{job=\"$job\"}[1h]))",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
@@ -1863,6 +1911,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Network Usage Hourly",
       "tooltip": {
@@ -1902,6 +1951,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1925,6 +1975,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -1932,6 +1983,7 @@
         "x": 0,
         "y": 54
       },
+      "hiddenSeries": false,
       "id": 50,
       "legend": {
         "alignAsTable": true,
@@ -1953,11 +2005,13 @@
       "links": [
         {
           "title": "Detailed descriptions about metrics",
-          "type": "absolute",
           "url": "https://www.percona.com/doc/percona-monitoring-and-management/dashboard.mysql-overview.html#mysql-internal-memory-overview"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1974,15 +2028,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_MemTotal{instance=\"$host\"}",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "System Memory",
-          "refId": "G",
-          "step": 4
-        },
-        {
-          "expr": "mysql_global_status_innodb_page_size{instance=\"$host\"} * on (instance) mysql_global_status_buffer_pool_pages{instance=\"$host\",state=\"data\"}",
+          "expr": "avg(mysql_global_status_innodb_page_size{job=\"$job\"}) * on (job) avg(mysql_global_status_buffer_pool_pages{job=\"$job\",state=\"data\"})",
           "format": "time_series",
           "hide": false,
           "interval": "$interval",
@@ -1992,7 +2038,7 @@
           "step": 20
         },
         {
-          "expr": "mysql_global_variables_innodb_log_buffer_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_innodb_log_buffer_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2001,25 +2047,7 @@
           "step": 20
         },
         {
-          "expr": "mysql_global_variables_innodb_additional_mem_pool_size{instance=\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 2,
-          "legendFormat": "InnoDB Additional Memory Pool Size",
-          "refId": "H",
-          "step": 40
-        },
-        {
-          "expr": "mysql_global_status_innodb_mem_dictionary{instance=\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "InnoDB Dictionary Size",
-          "refId": "F",
-          "step": 20
-        },
-        {
-          "expr": "mysql_global_variables_key_buffer_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_key_buffer_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2028,35 +2056,18 @@
           "step": 20
         },
         {
-          "expr": "mysql_global_variables_query_cache_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_query_cache_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Query Cache Size",
           "refId": "C",
           "step": 20
-        },
-        {
-          "expr": "mysql_global_status_innodb_mem_adaptive_hash{instance=\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Adaptive Hash Index Size",
-          "refId": "E",
-          "step": 20
-        },
-        {
-          "expr": "mysql_global_variables_tokudb_cache_size{instance=\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "TokuDB Cache Size",
-          "refId": "I",
-          "step": 20
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Internal Memory Overview",
       "tooltip": {
@@ -2098,6 +2109,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2121,6 +2133,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2128,6 +2141,7 @@
         "x": 0,
         "y": 62
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "alignAsTable": true,
@@ -2149,11 +2163,13 @@
       "links": [
         {
           "title": "Server Status Variables (Com_xxx)",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2167,12 +2183,12 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, rate(mysql_global_status_commands_total{instance=\"$host\"}[$interval])>0) or topk(5, irate(mysql_global_status_commands_total{instance=\"$host\"}[5m])>0)",
+          "expr": "topk(5, avg(rate(mysql_global_status_commands_total{job=\"$job\"}[$interval])) by (command)>0) or topk(5, avg(irate(mysql_global_status_commands_total{job=\"$job\"}[5m])) by (command)>0)",
           "format": "time_series",
           "hide": false,
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Com_{{ command }}",
+          "legendFormat": "{{ command }}",
           "metric": "",
           "refId": "B",
           "step": 20
@@ -2180,6 +2196,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Command Counters",
       "tooltip": {
@@ -2228,6 +2245,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2235,6 +2253,7 @@
         "x": 0,
         "y": 69
       },
+      "hiddenSeries": false,
       "id": 39,
       "legend": {
         "alignAsTable": true,
@@ -2253,13 +2272,14 @@
       "linewidth": 2,
       "links": [
         {
-          "dashboard": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx",
           "title": "Server Status Variables (Com_xxx)",
-          "type": "absolute",
           "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Com_xxx"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2273,11 +2293,11 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, increase(mysql_global_status_commands_total{instance=\"$host\"}[1h])>0)",
+          "expr": "topk(5, avg(increase(mysql_global_status_commands_total{job=\"portal-web-mysqld-exporter\"}[1h])) by (command)>0)",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
-          "legendFormat": "Com_{{ command }}",
+          "legendFormat": "{{ command }}",
           "metric": "",
           "refId": "A",
           "step": 3600
@@ -2285,6 +2305,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Command Counters Hourly",
       "tooltip": {
@@ -2333,6 +2354,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2340,6 +2362,7 @@
         "x": 0,
         "y": 76
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "alignAsTable": true,
@@ -2359,6 +2382,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2372,7 +2398,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_handlers_total{instance=\"$host\", handler!~\"commit|rollback|savepoint.*|prepare\"}[$interval]) or irate(mysql_global_status_handlers_total{instance=\"$host\", handler!~\"commit|rollback|savepoint.*|prepare\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_handlers_total{job=\"$job\", handler!~\"commit|rollback|savepoint.*|prepare\"}[$interval])) by (handler) or avg(irate(mysql_global_status_handlers_total{job=\"$job\", handler!~\"commit|rollback|savepoint.*|prepare\"}[5m])) by (handler)",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2384,6 +2410,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Handlers",
       "tooltip": {
@@ -2431,6 +2458,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2438,6 +2466,7 @@
         "x": 0,
         "y": 83
       },
+      "hiddenSeries": false,
       "id": 28,
       "legend": {
         "alignAsTable": true,
@@ -2457,6 +2486,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2470,7 +2502,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_handlers_total{instance=\"$host\", handler=~\"commit|rollback|savepoint.*|prepare\"}[$interval]) or irate(mysql_global_status_handlers_total{instance=\"$host\", handler=~\"commit|rollback|savepoint.*|prepare\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_handlers_total{job=\"$job\", handler=~\"commit|rollback|savepoint.*|prepare\"}[$interval])) by (handler) or avg(irate(mysql_global_status_handlers_total{job=\"$job\", handler=~\"commit|rollback|savepoint.*|prepare\"}[5m])) by (handler)",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "{{ handler }}",
@@ -2481,6 +2513,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Transaction Handlers",
       "tooltip": {
@@ -2528,6 +2561,7 @@
       "editable": true,
       "error": false,
       "fill": 0,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2535,6 +2569,7 @@
         "x": 0,
         "y": 90
       },
+      "hiddenSeries": false,
       "id": 40,
       "legend": {
         "alignAsTable": true,
@@ -2554,6 +2589,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2567,7 +2605,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_threads{instance=\"$host\"}",
+          "expr": "avg(mysql_info_schema_threads{job=\"$job\"}) by (state)",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "{{ state }}",
@@ -2578,6 +2616,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Process States",
       "tooltip": {
@@ -2625,6 +2664,7 @@
       "editable": true,
       "error": false,
       "fill": 6,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2632,6 +2672,7 @@
         "x": 0,
         "y": 97
       },
+      "hiddenSeries": false,
       "id": 49,
       "legend": {
         "alignAsTable": true,
@@ -2651,6 +2692,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2664,7 +2708,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, avg_over_time(mysql_info_schema_threads{instance=\"$host\"}[1h]))",
+          "expr": "topk(5, avg(avg_over_time(mysql_info_schema_threads{job=\"$job\"}[1h])) by (state))",
           "interval": "1h",
           "intervalFactor": 1,
           "legendFormat": "{{ state }}",
@@ -2675,6 +2719,7 @@
       ],
       "thresholds": [],
       "timeFrom": "24h",
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top Process States Hourly",
       "tooltip": {
@@ -2714,6 +2759,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2737,6 +2783,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2744,6 +2791,7 @@
         "x": 0,
         "y": 105
       },
+      "hiddenSeries": false,
       "id": 46,
       "legend": {
         "alignAsTable": true,
@@ -2762,6 +2810,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2775,7 +2826,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_qcache_free_memory{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_qcache_free_memory{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2788,7 +2839,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_query_cache_size{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_query_cache_size{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2800,6 +2851,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Query Cache Memory",
       "tooltip": {
@@ -2848,6 +2900,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -2856,6 +2909,7 @@
         "y": 105
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 45,
       "legend": {
         "alignAsTable": true,
@@ -2874,6 +2928,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2887,7 +2944,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_qcache_hits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_qcache_hits{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_qcache_hits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_qcache_hits{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2900,7 +2957,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_qcache_inserts{instance=\"$host\"}[$interval]) or irate(mysql_global_status_qcache_inserts{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_qcache_inserts{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_qcache_inserts{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2913,7 +2970,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_qcache_not_cached{instance=\"$host\"}[$interval]) or irate(mysql_global_status_qcache_not_cached{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_qcache_not_cached{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_qcache_not_cached{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2926,7 +2983,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_qcache_lowmem_prunes{instance=\"$host\"}[$interval]) or irate(mysql_global_status_qcache_lowmem_prunes{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_qcache_lowmem_prunes{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_qcache_lowmem_prunes{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2939,7 +2996,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_qcache_queries_in_cache{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_qcache_queries_in_cache{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2951,6 +3008,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Query Cache Activity",
       "tooltip": {
@@ -2990,6 +3048,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3012,6 +3071,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3019,6 +3079,7 @@
         "x": 0,
         "y": 113
       },
+      "hiddenSeries": false,
       "id": 43,
       "legend": {
         "alignAsTable": true,
@@ -3035,6 +3096,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3048,7 +3112,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_opened_files{instance=\"$host\"}[$interval]) or irate(mysql_global_status_opened_files{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_opened_files{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_opened_files{job=\"$job\"}[5m]))",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Openings",
@@ -3059,6 +3123,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL File Openings",
       "tooltip": {
@@ -3106,6 +3171,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3113,6 +3179,7 @@
         "x": 12,
         "y": 113
       },
+      "hiddenSeries": false,
       "id": 41,
       "legend": {
         "alignAsTable": true,
@@ -3130,6 +3197,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3143,7 +3213,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_open_files{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_open_files{job=\"$job\"})",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Open Files",
@@ -3155,7 +3225,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_open_files_limit{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_open_files_limit{job=\"$job\"})",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "Open Files Limit",
@@ -3164,7 +3234,7 @@
           "step": 20
         },
         {
-          "expr": "mysql_global_status_innodb_num_open_files{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_innodb_num_open_files{job=\"$job\"})",
           "interval": "$interval",
           "intervalFactor": 1,
           "legendFormat": "InnoDB Open Files",
@@ -3174,6 +3244,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Open Files",
       "tooltip": {
@@ -3213,6 +3284,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3236,6 +3308,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3243,6 +3316,7 @@
         "x": 0,
         "y": 121
       },
+      "hiddenSeries": false,
       "id": 44,
       "legend": {
         "alignAsTable": true,
@@ -3262,11 +3336,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3285,7 +3361,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(mysql_global_status_opened_tables{instance=\"$host\"}[$interval]) or irate(mysql_global_status_opened_tables{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_opened_tables{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_opened_tables{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3295,7 +3371,7 @@
           "step": 20
         },
         {
-          "expr": "rate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3304,7 +3380,7 @@
           "step": 20
         },
         {
-          "expr": "rate(mysql_global_status_table_open_cache_misses{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_misses{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_table_open_cache_misses{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_misses{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3313,7 +3389,7 @@
           "step": 20
         },
         {
-          "expr": "rate(mysql_global_status_table_open_cache_overflows{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_overflows{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_table_open_cache_overflows{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_overflows{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3322,7 +3398,7 @@
           "step": 20
         },
         {
-          "expr": "(rate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[5m]))/((rate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{instance=\"$host\"}[5m]))+(rate(mysql_global_status_table_open_cache_misses{instance=\"$host\"}[$interval]) or irate(mysql_global_status_table_open_cache_misses{instance=\"$host\"}[5m])))",
+          "expr": "(avg(rate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[5m])))/((avg(rate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_hits{job=\"$job\"}[5m])))+(avg(rate(mysql_global_status_table_open_cache_misses{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_table_open_cache_misses{job=\"$job\"}[5m]))))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3333,6 +3409,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Open Cache Status",
       "tooltip": {
@@ -3381,6 +3458,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3388,6 +3466,7 @@
         "x": 12,
         "y": 121
       },
+      "hiddenSeries": false,
       "id": 42,
       "legend": {
         "alignAsTable": true,
@@ -3407,11 +3486,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3425,7 +3506,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_open_tables{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_open_tables{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3438,7 +3519,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_table_open_cache{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_table_open_cache{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3450,6 +3531,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Open Tables",
       "tooltip": {
@@ -3489,6 +3571,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3512,6 +3595,7 @@
       "editable": true,
       "error": false,
       "fill": 2,
+      "fillGradient": 0,
       "grid": {},
       "gridPos": {
         "h": 7,
@@ -3519,6 +3603,7 @@
         "x": 0,
         "y": 129
       },
+      "hiddenSeries": false,
       "id": 54,
       "legend": {
         "alignAsTable": true,
@@ -3538,11 +3623,13 @@
       "links": [
         {
           "title": "Server Status Variables (table_open_cache)",
-          "type": "absolute",
           "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
         }
       ],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3561,7 +3648,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_status_open_table_definitions{instance=\"$host\"}",
+          "expr": "avg(mysql_global_status_open_table_definitions{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3574,7 +3661,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_table_definition_cache{instance=\"$host\"}",
+          "expr": "avg(mysql_global_variables_table_definition_cache{job=\"$job\"})",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3584,7 +3671,7 @@
           "step": 20
         },
         {
-          "expr": "rate(mysql_global_status_opened_table_definitions{instance=\"$host\"}[$interval]) or irate(mysql_global_status_opened_table_definitions{instance=\"$host\"}[5m])",
+          "expr": "avg(rate(mysql_global_status_opened_table_definitions{job=\"$job\"}[$interval])) or avg(irate(mysql_global_status_opened_table_definitions{job=\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3595,6 +3682,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "MySQL Table Definition Cache",
       "tooltip": {
@@ -3631,771 +3719,10 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 136
-      },
-      "id": 395,
-      "panels": [],
-      "repeat": null,
-      "title": "System Charts",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "editable": true,
-      "error": false,
-      "fill": 2,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 137
-      },
-      "id": 31,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "rate(node_vmstat_pgpgin{instance=\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=\"$host\"}[5m]) * 1024",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Page In",
-          "metric": "",
-          "refId": "A",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "rate(node_vmstat_pgpgout{instance=\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=\"$host\"}[5m]) * 1024",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Page Out",
-          "metric": "",
-          "refId": "B",
-          "step": 20,
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "I/O Activity",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": false,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "editable": true,
-      "error": false,
-      "fill": 6,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 137
-      },
-      "height": "250px",
-      "id": 37,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "node_memory_MemTotal{instance=\"$host\"} - (node_memory_MemFree{instance=\"$host\"} + node_memory_Buffers{instance=\"$host\"} + node_memory_Cached{instance=\"$host\"})",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Used",
-          "metric": "",
-          "refId": "A",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "node_memory_MemFree{instance=\"$host\"}",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Free",
-          "metric": "",
-          "refId": "B",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "node_memory_Buffers{instance=\"$host\"}",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Buffers",
-          "metric": "",
-          "refId": "D",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "node_memory_Cached{instance=\"$host\"}",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Cached",
-          "metric": "",
-          "refId": "E",
-          "step": 20,
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Memory Distribution",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": false,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {
-        "Load 1m": "#58140C",
-        "Max Core Utilization": "#bf1b00",
-        "iowait": "#e24d42",
-        "nice": "#1f78c1",
-        "softirq": "#806eb7",
-        "system": "#eab839",
-        "user": "#508642"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "editable": true,
-      "error": false,
-      "fill": 6,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 137
-      },
-      "height": "",
-      "id": 2,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": true,
-        "hideZero": true,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Max Core Utilization",
-          "lines": false,
-          "pointradius": 1,
-          "points": true,
-          "stack": false
-        },
-        {
-          "alias": "Load 1m",
-          "color": "#58140C",
-          "fill": 2,
-          "stack": false,
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "clamp_max(((avg by (mode) ( (clamp_max(rate(node_cpu{instance=\"$host\",mode!=\"idle\"}[$interval]),1)) or (clamp_max(irate(node_cpu{instance=\"$host\",mode!=\"idle\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\"}[$interval]) or avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\"}[5m]))),100)",
-          "format": "time_series",
-          "hide": false,
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "{{ mode }}",
-          "metric": "",
-          "refId": "A",
-          "step": 20
-        },
-        {
-          "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate(node_cpu{instance=\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate(node_cpu{instance=\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) ))*100,100)",
-          "format": "time_series",
-          "hide": true,
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Max Core Utilization",
-          "refId": "B",
-          "step": 20
-        },
-        {
-          "expr": "node_load1{instance=\"$host\"}",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Load 1m",
-          "refId": "C"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "CPU Usage / Load",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 1,
-          "format": "percent",
-          "label": "",
-          "logBase": 1,
-          "max": 100,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "none",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": 2,
-      "editable": true,
-      "error": false,
-      "fill": 2,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 144
-      },
-      "height": "250px",
-      "id": 36,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": true,
-        "hideZero": true,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": false,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 1,
-      "points": true,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2m",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "sum((rate(node_disk_read_time_ms{device!~\"dm-.+\", instance=\"$host\"}[$interval]) / rate(node_disk_reads_completed{device!~\"dm-.+\", instance=\"$host\"}[$interval])) or (irate(node_disk_read_time_ms{device!~\"dm-.+\", instance=\"$host\"}[5m]) / irate(node_disk_reads_completed{device!~\"dm-.+\", instance=\"$host\"}[5m]))\nor avg_over_time(aws_rds_read_latency_average{instance=\"$host\"}[$interval]) or avg_over_time(aws_rds_read_latency_average{instance=\"$host\"}[5m]))",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Read",
-          "metric": "",
-          "refId": "A",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "sum((rate(node_disk_write_time_ms{device!~\"dm-.+\", instance=\"$host\"}[$interval]) / rate(node_disk_writes_completed{device!~\"dm-.+\", instance=\"$host\"}[$interval])) or (irate(node_disk_write_time_ms{device!~\"dm-.+\", instance=\"$host\"}[5m]) / irate(node_disk_writes_completed{device!~\"dm-.+\", instance=\"$host\"}[5m])) or \navg_over_time(aws_rds_write_latency_average{instance=\"$host\"}[$interval]) or avg_over_time(aws_rds_write_latency_average{instance=\"$host\"}[5m]))",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Write",
-          "metric": "",
-          "refId": "B",
-          "step": 20,
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Disk Latency",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": false,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ms",
-          "label": "",
-          "logBase": 2,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "ms",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "editable": true,
-      "error": false,
-      "fill": 2,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 144
-      },
-      "height": "250px",
-      "id": 21,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Outbound",
-          "transform": "negative-Y"
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "sum(rate(node_network_receive_bytes{instance=\"$host\", device!=\"lo\"}[$interval])) or sum(irate(node_network_receive_bytes{instance=\"$host\", device!=\"lo\"}[5m])) or sum(max_over_time(rdsosmetrics_network_rx{instance=\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_rx{instance=\"$host\"}[5m])) ",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Inbound",
-          "metric": "",
-          "refId": "B",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "sum(rate(node_network_transmit_bytes{instance=\"$host\", device!=\"lo\"}[$interval])) or sum(irate(node_network_transmit_bytes{instance=\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_tx{instance=\"$host\"}[5m]))",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Outbound",
-          "metric": "",
-          "refId": "A",
-          "step": 20,
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Network Traffic",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": false,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": null,
-      "editable": true,
-      "error": false,
-      "fill": 2,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 144
-      },
-      "id": 38,
-      "legend": {
-        "alignAsTable": false,
-        "avg": true,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "rate(node_vmstat_pswpin{instance=\"$host\"}[$interval]) * 4096 or irate(node_vmstat_pswpin{instance=\"$host\"}[5m]) * 4096",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Swap In (Reads)",
-          "metric": "",
-          "refId": "A",
-          "step": 20,
-          "target": ""
-        },
-        {
-          "calculatedInterval": "2s",
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "rate(node_vmstat_pswpout{instance=\"$host\"}[$interval]) * 4096 or irate(node_vmstat_pswpout{instance=\"$host\"}[5m]) * 4096",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Swap Out (Writes)",
-          "metric": "",
-          "refId": "B",
-          "step": 20,
-          "target": ""
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Swap Activity",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": false,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     }
   ],
-  "refresh": "1m",
-  "schemaVersion": 16,
+  "refresh": "",
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "MySQL"
@@ -4408,6 +3735,7 @@
         "auto_count": 200,
         "auto_min": "1s",
         "current": {
+          "selected": false,
           "text": "auto",
           "value": "$__auto_interval_interval"
         },
@@ -4462,25 +3790,100 @@
         ],
         "query": "1s,5s,1m,5m,1h,6h,1d",
         "refresh": 2,
+        "skipUrlSync": false,
         "type": "interval"
       },
       {
-        "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "portal",
+          "value": "portal"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(kube_namespace_labels, label_name)",
         "hide": 0,
         "includeAll": false,
-        "label": "Host (Master=9104)",
+        "label": "Namespace",
         "multi": false,
-        "multiFormat": "regex values",
-        "name": "host",
-        "options": [],
-        "query": "label_values(mysql_up{backend=\"$backend\"}, instance)",
-        "refresh": 2,
-        "refresh_on_load": false,
+        "name": "namespace",
+        "options": [
+          {
+            "selected": false,
+            "text": "kustomize",
+            "value": "kustomize"
+          },
+          {
+            "selected": true,
+            "text": "portal",
+            "value": "portal"
+          },
+          {
+            "selected": false,
+            "text": "ingress-controller",
+            "value": "ingress-controller"
+          },
+          {
+            "selected": false,
+            "text": "sre-tools",
+            "value": "sre-tools"
+          },
+          {
+            "selected": false,
+            "text": "kube-system",
+            "value": "kube-system"
+          },
+          {
+            "selected": false,
+            "text": "kube-public",
+            "value": "kube-public"
+          },
+          {
+            "selected": false,
+            "text": "kube-auth",
+            "value": "kube-auth"
+          },
+          {
+            "selected": false,
+            "text": "sandbox",
+            "value": "sandbox"
+          },
+          {
+            "selected": false,
+            "text": "default",
+            "value": "default"
+          },
+          {
+            "selected": false,
+            "text": "kube-operators",
+            "value": "kube-operators"
+          },
+          {
+            "selected": false,
+            "text": "image-service",
+            "value": "image-service"
+          },
+          {
+            "selected": false,
+            "text": "monitoring",
+            "value": "monitoring"
+          },
+          {
+            "selected": false,
+            "text": "flux-apps",
+            "value": "flux-apps"
+          },
+          {
+            "selected": false,
+            "text": "flux-bootstrap",
+            "value": "flux-bootstrap"
+          }
+        ],
+        "query": "label_values(kube_namespace_labels, label_name)",
+        "refresh": 0,
         "regex": "",
-        "sort": 1,
+        "skipUrlSync": false,
+        "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -4490,30 +3893,35 @@
       {
         "allFormat": "glob",
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "portal-web-mysqld-exporter",
+          "value": "portal-web-mysqld-exporter"
+        },
         "datasource": "Prometheus",
+        "definition": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
         "hide": 0,
-        "includeAll": true,
-        "label": "Backend",
+        "includeAll": false,
+        "label": "Service",
         "multi": false,
         "multiFormat": "regex values",
-        "name": "backend",
+        "name": "job",
         "options": [],
-        "query": "label_values(mysql_up, backend)",
-        "refresh": 1,
+        "query": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
+        "refresh": 2,
         "refresh_on_load": false,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": null,
+        "tagValuesQuery": "",
         "tags": [],
-        "tagsQuery": null,
+        "tagsQuery": "",
         "type": "query",
         "useTags": false
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -4551,5 +3959,5 @@
   "timezone": "browser",
   "title": "MySQL Overview",
   "uid": "MQWgroiiz",
-  "version": 21
+  "version": 1
 }
