@@ -128,10 +128,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='Percentage of ephemeral disk in use',
       span=span,
       query=|||
-        1 - sum(
-          node:node_filesystem_avail: - node:node_filesystem_usage:) 
-          /
-          sum(node:node_filesystem_avail:)
+        1 - avg(node:node_filesystem_avail:)
       ||| % config,
     ),
 
