@@ -41,7 +41,7 @@
     // CPU Throttling settings
     cpuThrottlingPercent: 60,
     // Ignore containers we do not manage
-    cpuThrottlingSelector: 'container_name!~"ingress-default-backend|redis-exporter|metadata-proxy|autoscaler|metrics-server(-nanny)?"',
+    cpuThrottlingSelector: 'container!~"ingress-default-backend|redis-exporter|metadata-proxy|autoscaler|metrics-server(-nanny)?"',
 
     // This list of filesystem is referenced in various expressions.
     fstypes: ['ext4'],

@@ -761,11 +761,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "container_memory_usage_bytes{container_name=\"main\", pod_name=~\"$service-.*\"}\n",
+                     "expr": "container_memory_usage_bytes{container=\"main\", pod=~\"$service-.*\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ pod_name }}",
+                     "legendFormat": "{{ pod }}",
                      "refId": "A"
                   }
                ],

@@ -1,11 +1,11 @@
-local commonPanels = import 'components/panels/common.libsonnet';
 local layout = import 'components/layout.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  requestResponsePanels(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
+  requestResponsePanels(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
-      serviceSelectorValue: serviceSelectorValue
+      serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
       commonPanels.timeseries(
@@ -27,9 +27,9 @@ local promQuery = import 'components/prom_query.libsonnet';
         title='App Response Status',
         yAxisLabel='Num Responses',
         query=|||
-         sum(
-            rate(
-                django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", view!~"prometheus-django-metrics|healthcheck"}[5m])) by(status)
+          sum(
+             rate(
+                 django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", view!~"prometheus-django-metrics|healthcheck"}[5m])) by(status)
         ||| % config,
         legendFormat='{{ status }}',
         legend_show=false,
@@ -39,21 +39,21 @@ local promQuery = import 'components/prom_query.libsonnet';
         title='App Requests by Method',
         yAxisLabel='Num REquests',
         query=|||
-         sum(
-            irate(
-              django_http_requests_total_by_view_transport_method_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s",view!~"prometheus-django-metrics|healthcheck"}[5m]))
-          by(method, view)
-       ||| % config,
+          sum(
+             irate(
+               django_http_requests_total_by_view_transport_method_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s",view!~"prometheus-django-metrics|healthcheck"}[5m]))
+           by(method, view)
+        ||| % config,
         legendFormat='{{ method }}/{{ view }}',
         legend_show=false,
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
-    
-  resourcePanels(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
+
+  resourcePanels(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
-      serviceSelectorValue: serviceSelectorValue
+      serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
       commonPanels.timeseries(
@@ -76,17 +76,17 @@ local promQuery = import 'components/prom_query.libsonnet';
         span=6,
         legend_show=false,
         query=|||
-          container_memory_usage_bytes{container_name="main", pod_name=~"$service-.*"}
+          container_memory_usage_bytes{container="main", pod=~"$service-.*"}
         ||| % config,
-        legendFormat='{{ pod_name }}',
+        legendFormat='{{ pod }}',
         intervalFactor=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
 
-  databaseOps(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
+  databaseOps(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
-      serviceSelectorValue: serviceSelectorValue
+      serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
       commonPanels.timeseries(
