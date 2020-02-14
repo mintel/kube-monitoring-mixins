@@ -15,6 +15,7 @@
 (import './alerts/flux.libsonnet') +
 (import './alerts/fluentd.libsonnet') +
 (import './alerts/prometheus-operator.libsonnet') +
+(import './alerts/absent_alerts.libsonnet') +
 
 (import './rules/blackbox.libsonnet') +
 (import './rules/elasticsearch.libsonnet') +
