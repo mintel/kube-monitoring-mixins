@@ -1502,7 +1502,7 @@ spec:
       expr: sum by (frontend) (rate(haproxy_frontend_request_errors_total{frontend!~"stats|healthz|error503noendpoints|.*default-backend"}[2m]))
         / sum by (frontend) (rate(haproxy_frontend_http_requests_total[2m])) * 100
         > 5
-      for: 5m
+      for: 10m
       labels:
         page: "true"
         severity: critical
@@ -1523,7 +1523,7 @@ spec:
           }} backend'
       expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
         > 100
-      for: 5m
+      for: 10m
       labels:
         page: "true"
         severity: critical
@@ -1542,7 +1542,7 @@ spec:
         summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
           }} backend'
       expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5
-      for: 5m
+      for: 10m
       labels:
         page: "true"
         severity: critical
@@ -1563,7 +1563,7 @@ spec:
           }} backend'
       expr: sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
         > 10
-      for: 2m
+      for: 10m
       labels:
         page: "false"
         severity: critical
@@ -1592,7 +1592,7 @@ spec:
         /
         sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
         ) * 100 > 10
-      for: 5m
+      for: 10m
       labels:
         page: "true"
         severity: critical
@@ -1603,7 +1603,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
       expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:labeled)
         == 0
-      for: 1m
+      for: 5m
       labels:
         page: "false"
         severity: critical
