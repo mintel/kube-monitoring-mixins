@@ -807,7 +807,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "1 - sum(\n  node:node_filesystem_avail: - node:node_filesystem_usage:) \n  /\n  sum(node:node_filesystem_avail:)\n",
+                     "expr": "1 - avg(node:node_filesystem_avail:)\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
