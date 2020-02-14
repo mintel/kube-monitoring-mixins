@@ -616,18 +616,6 @@ spec:
       expr: vector(1)
       labels:
         severity: none
-  - name: node-time
-    rules:
-    - alert: ClockSkewDetected
-      annotations:
-        message: Clock skew detected on node-exporter {{ $labels.namespace }}/{{ $labels.pod
-          }}. Ensure NTP is configured correctly on this host.
-        runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-clockskewdetected
-      expr: |
-        abs(node_timex_offset_seconds{job="node-exporter"}) > 0.05
-      for: 2m
-      labels:
-        severity: warning
   - name: node-network
     rules:
     - alert: NodeNetworkInterfaceFlapping
@@ -1851,6 +1839,15 @@ spec:
         context: node
         page: "true"
         severity: critical
+    - alert: ClockSkewDetected
+      annotations:
+        message: Clock skew detected on node-exporter {{ $labels.namespace }}/{{ $labels.pod
+          }}. Ensure NTP is configured correctly on this host.
+      expr: |
+        abs(node_timex_offset_seconds{job="node-exporter"}) > 0.05
+      for: 10m
+      labels:
+        severity: warning
   - name: mintel-overcommit.alerts
     rules:
     - alert: ClusterLowMemoryAvailable
