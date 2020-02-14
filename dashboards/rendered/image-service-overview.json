@@ -395,11 +395,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod_name=~\"$deployment.*\"}[5m])) by (pod_name)\n",
+                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$deployment.*\"}[5m])) by (pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ pod_name }}",
+                     "legendFormat": "{{ pod }}",
                      "refId": "A"
                   }
                ],
@@ -484,11 +484,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod_name=~\"$deployment-.*\"}) by (pod_name)\n",
+                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment-.*\"}) by (pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ pod_name }}",
+                     "legendFormat": "{{ pod }}",
                      "refId": "A"
                   }
                ],
