@@ -13,15 +13,15 @@
             record: 'mintel:pod:usage_vs_request_memory:percent',
           },
           {
-            expr: 'count by(created_by_kind, created_by, node) (kube_pod_info{created_by_kind!~"<none>|Job"})',
+            expr: 'count by(created_by_kind, created_by_name, node) (kube_pod_info{created_by_kind!~"<none>|Job"})',
             record: 'mintel:pod:allocation:node',
           },
           {
-            expr: 'count by(created_by_kind, created_by, label_failure_domain_beta_kubernetes_io_zone) (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) group_left(label_failure_domain_beta_kubernetes_io_zone) kube_node_labels)',
+            expr: 'count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone) (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) group_left(label_failure_domain_beta_kubernetes_io_zone) kube_node_labels)',
             record: 'mintel:pod:allocation:zone',
           },
           {
-            expr: 'count by(created_by_kind, created_by) (kube_pod_info{created_by_kind!~"<none>|Job"})',
+            expr: 'count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})',
             record: 'mintel:pod:allocation:totals',
           },
         ],
