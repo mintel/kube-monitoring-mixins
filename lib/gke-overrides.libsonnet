@@ -25,6 +25,7 @@ local ignore_groups = [
   'kube-apiserver-error',
   'kube-apiserver-error-alerts',
   'kube-prometheus-node-alerting.rules',
+  'node-time',
   'prometheus.rules',
 ];
 
