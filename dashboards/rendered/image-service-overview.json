@@ -113,7 +113,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Instances Runing (Over Time)",
+               "title": "Instances Running Over Time",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -200,7 +200,7 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
+               "span": 1,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -219,7 +219,7 @@
                   }
                ],
                "thresholds": ".8, .9",
-               "title": "Instances Running",
+               "title": "Instances Up",
                "transparent": true,
                "type": "singlestat",
                "valueFontSize": "50%",
@@ -233,14 +233,24 @@
                "valueName": "avg"
             },
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
+               "cacheTimeout": null,
+               "colorBackground": true,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
                "datasource": "$ds",
-               "decimals": 2,
-               "description": "Percentile Latency",
-               "fill": 0,
+               "description": "Requests per second (all http-status)",
+               "format": "rps",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -249,6 +259,166 @@
                },
                "height": 200,
                "id": 4,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "span": 1,
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "max(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[5m]))\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "RPS (Total)",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": true,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "description": "Requests per second (HTTP 500 errors)",
+               "format": "rps",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 6,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 5,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "span": 1,
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "max(\n  rate(\n    haproxy:haproxy_backend_http_response_errors_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[5m]))\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "RPS (Errors)",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "Percentile Latency from HAProxy Ingress",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 8,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -272,7 +442,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 7,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -366,7 +536,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 5,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -395,7 +565,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$deployment.*\"}[5m])) by (pod)\n",
+                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$deployment.*\", container=\"main\"}[5m])) by (pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -455,7 +625,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 6,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -484,7 +654,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment-.*\"}) by (pod)\n",
+                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment-.*\", container=\"main\"}) by (pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -557,7 +727,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 7,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -646,7 +816,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 8,
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -748,7 +918,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 9,
+               "id": 11,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
