@@ -50,7 +50,7 @@ local layout = import 'components/layout.libsonnet';
         format='rps',
         span=1,
         query=|||
-          max(
+          sum(
             rate(
               haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
         ||| % config,
@@ -64,7 +64,7 @@ local layout = import 'components/layout.libsonnet';
         format='rps',
         span=1,
         query=|||
-          max(
+          sum(
             rate(
               haproxy:haproxy_backend_http_response_errors_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
         ||| % config,
