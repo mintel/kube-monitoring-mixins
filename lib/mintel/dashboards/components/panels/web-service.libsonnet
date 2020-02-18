@@ -11,7 +11,7 @@ local layout = import 'components/layout.libsonnet';
     layout.grid([
 
       commonPanels.timeseries(
-        title='Instances Runing (Over Time)',
+        title='Instances Running Over Time',
         description='Number of instances running over time',
         span=3,
         legend_show=false,
@@ -21,11 +21,11 @@ local layout = import 'components/layout.libsonnet';
       ),
 
       commonPanels.gauge(
-        title='Instances Running',
+        title='Instances Up',
         description='Number of instances running as a percentage (should be 100%)', 
         instant=true,
         format='percent',
-        span=2,
+        span=1,
         valueFontSize='50%',
         colors=[
           '#d44a3a',
@@ -42,6 +42,44 @@ local layout = import 'components/layout.libsonnet';
         ||| % config,
       ),
 
-    haproxyPanels.latencyTimeseries(config.service, config.serviceSelectorValue, span=7)
+      commonPanels.gauge(
+        title='RPS (Total)',
+        description='Requests per second (all http-status)',
+        instant=true,
+        format='rps',
+        span=1,
+        valueFontSize='50%',
+        colors=[
+          '#d44a3a',
+          'rgba(237, 129, 40, 0.89)',
+          '#299c46'
+        ],
+        query=|||
+          max(
+            rate(
+              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+        ||| % config,
+      ),
+
+      commonPanels.gauge(
+        title='RPS (Errors)',
+        description='Requests per second (HTTP 500 errors)',
+        instant=true,
+        format='rps',
+        span=1,
+        valueFontSize='50%',
+        colors=[
+          '#d44a3a',
+          'rgba(237, 129, 40, 0.89)',
+          '#299c46'
+        ],
+        query=|||
+          max(
+            rate(
+              haproxy:haproxy_backend_http_response_errors_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+        ||| % config,
+      ),
+
+    haproxyPanels.latencyTimeseries(config.service, config.serviceSelectorValue, span=6)
     ], cols=12, rowHeight=10, startRow=startRow),
 }

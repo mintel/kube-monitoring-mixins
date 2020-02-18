@@ -21,7 +21,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.95,
             sum(
               rate(
-                django_http_requests_latency_seconds_by_view_method_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
           by (service, le))
         ||| % config,
         legendFormat='p95 {{ service }}',
@@ -33,7 +33,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             histogram_quantile(0.75,
             sum(
               rate(
-                django_http_requests_latency_seconds_by_view_method_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
             by (service, le))
           ||| % config,
           legendFormat='p75 {{ service }}',
@@ -46,7 +46,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             histogram_quantile(0.50,
             sum(
               rate(
-                django_http_requests_latency_seconds_by_view_method_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
             by (service, le))
           ||| % config,
           legendFormat='p50 {{ service }}',
