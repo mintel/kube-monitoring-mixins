@@ -42,18 +42,13 @@ local layout = import 'components/layout.libsonnet';
         ||| % config,
       ),
 
-      commonPanels.gauge(
+      commonPanels.singlestat(
         title='RPS (Total)',
         description='Requests per second (all http-status)',
+        colorBackground=true,
         instant=true,
         format='rps',
         span=1,
-        valueFontSize='50%',
-        colors=[
-          '#d44a3a',
-          'rgba(237, 129, 40, 0.89)',
-          '#299c46'
-        ],
         query=|||
           max(
             rate(
@@ -61,18 +56,13 @@ local layout = import 'components/layout.libsonnet';
         ||| % config,
       ),
 
-      commonPanels.gauge(
+      commonPanels.singlestat(
         title='RPS (Errors)',
         description='Requests per second (HTTP 500 errors)',
+        colorBackground=true,
         instant=true,
         format='rps',
         span=1,
-        valueFontSize='50%',
-        colors=[
-          '#d44a3a',
-          'rgba(237, 129, 40, 0.89)',
-          '#299c46'
-        ],
         query=|||
           max(
             rate(
