@@ -296,7 +296,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[5m]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[2m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -381,7 +381,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_response_errors_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[5m]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\",code=\"5xx\"}[2m]))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,

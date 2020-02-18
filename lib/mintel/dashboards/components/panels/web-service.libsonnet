@@ -52,7 +52,7 @@ local layout = import 'components/layout.libsonnet';
         query=|||
           sum(
             rate(
-              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
         ||| % config,
       ),
 
@@ -66,7 +66,7 @@ local layout = import 'components/layout.libsonnet';
         query=|||
           sum(
             rate(
-              haproxy:haproxy_backend_http_response_errors_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
         ||| % config,
       ),
 
