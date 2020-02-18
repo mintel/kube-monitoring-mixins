@@ -95,19 +95,19 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(
             rate(
-              django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
-          by(status)
+              container_cpu_usage_seconds_total{namespace="$namespace", pod=~"$service.*", container="main"}[5m])) by (pod)
         ||| % config,
-        legendFormat='{{ status }}',
+        legendFormat='{{ pod }}',
         intervalFactor=2,
       ),
+
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
         span=6,
         legend_show=false,
         query=|||
-          container_memory_usage_bytes{container="main", pod=~"$service-.*"}
+          container_memory_usage_bytes{namespace="$namespace", pod=~"$service-.*", container="main"}
         ||| % config,
         legendFormat='{{ pod }}',
         intervalFactor=2,
