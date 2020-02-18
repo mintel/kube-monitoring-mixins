@@ -11,7 +11,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
       commonPanels.latencyTimeseries(
         title='App Request Latency',
-        description='Percentile Latency',
+        description='Percentile Latency from Django Application',
         yAxisLabel='Time',
         format='s',
         span=4,
