@@ -5,6 +5,30 @@
         name: 'haproxy-ingress.alerts',
         rules: [
           {
+            alert: 'HAProxyIngressSSLCertificateAboutToExpire',
+            annotations: {
+              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyIngressSSLCertificateAboutToExpire' % $._config,
+              summary: 'HAProxy: SSL Certificate for host {{ $labels.host }} has less then 14 days of validity left',
+            },
+            expr: 'ingress_controller_ssl_expire_time_seconds > 0 AND ingress_controller_ssl_expire_time_seconds < (time() + (14 * 24 * 3600))',
+            'for': '60m',
+            labels: {
+              severity: 'warning',
+            },
+          },
+          {
+            alert: 'HAProxyIngressSSLCertificateAboutToExpire',
+            annotations: {
+              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyIngressSSLCertificateAboutToExpire' % $._config,
+              summary: 'HAProxy: SSL Certificate for host {{ $labels.host }} has less then 7 days of validity left',
+            },
+            expr: 'ingress_controller_ssl_expire_time_seconds > 0 AND ingress_controller_ssl_expire_time_seconds < (time() + (7 * 24 * 3600))',
+            'for': '60m',
+            labels: {
+              severity: 'critical',
+            },
+          },
+          {
             alert: 'HAProxyFrontendSessionUsage',
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyFrontendSessionUsage' % $._config,

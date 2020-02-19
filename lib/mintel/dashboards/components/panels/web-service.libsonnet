@@ -11,7 +11,7 @@ local layout = import 'components/layout.libsonnet';
     layout.grid([
 
       commonPanels.timeseries(
-        title='Instances Runing (Over Time)',
+        title='Instances Running Over Time',
         description='Number of instances running over time',
         span=3,
         legend_show=false,
@@ -21,11 +21,11 @@ local layout = import 'components/layout.libsonnet';
       ),
 
       commonPanels.gauge(
-        title='Instances Running',
+        title='Instances Up',
         description='Number of instances running as a percentage (should be 100%)', 
         instant=true,
         format='percent',
-        span=2,
+        span=1,
         valueFontSize='50%',
         colors=[
           '#d44a3a',
@@ -42,6 +42,34 @@ local layout = import 'components/layout.libsonnet';
         ||| % config,
       ),
 
-    haproxyPanels.latencyTimeseries(config.service, config.serviceSelectorValue, span=7)
+      commonPanels.singlestat(
+        title='RPS (Total)',
+        description='Requests per second (all http-status)',
+        colorBackground=true,
+        instant=true,
+        format='rps',
+        span=1,
+        query=|||
+          sum(
+            rate(
+              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
+        ||| % config,
+      ),
+
+      commonPanels.singlestat(
+        title='RPS (Errors)',
+        description='Requests per second (HTTP 500 errors)',
+        colorBackground=true,
+        instant=true,
+        format='rps',
+        span=1,
+        query=|||
+          sum(
+            rate(
+              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
+        ||| % config,
+      ),
+
+    haproxyPanels.latencyTimeseries(config.service, config.serviceSelectorValue, span=6)
     ], cols=12, rowHeight=10, startRow=startRow),
 }

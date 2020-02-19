@@ -52,7 +52,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(
             rate(
-              container_cpu_usage_seconds_total{namespace="$namespace", pod=~"$deployment.*"}[5m])) by (pod)
+              container_cpu_usage_seconds_total{namespace="$namespace", pod=~"$deployment.*", container="main"}[5m])) by (pod)
         ||| % config,
         legendFormat='{{ pod }}',
         intervalFactor=2,
@@ -64,7 +64,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         span=6,
         legend_show=false,
         query=|||
-          sum(container_memory_usage_bytes{namespace="$namespace", pod=~"$deployment-.*"}) by (pod)
+          sum(container_memory_usage_bytes{namespace="$namespace", pod=~"$deployment-.*", container="main"}) by (pod)
         ||| % config,
         legendFormat='{{ pod }}',
         intervalFactor=2,
