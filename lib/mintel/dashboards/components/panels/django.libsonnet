@@ -8,19 +8,50 @@ local promQuery = import 'components/prom_query.libsonnet';
       serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
-      commonPanels.timeseries(
+
+      commonPanels.latencyTimeseries(
         title='App Request Latency',
+        description='Percentile Latency from Django Application',
         yAxisLabel='Time',
-        query=|||
-          histogram_quantile(0.50, 
-            sum(rate(
-              django_http_requests_latency_seconds_by_view_method_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s",view!~"prometheus-django-metrics|healthcheck"}[5m])
-            ) by (job, le)
-          )
-        ||| % config,
-        legendFormat='{{ quantile=50 }}',
+        format='s',
+        span=4,
         legend_show=false,
+        height=200,
+        query=|||
+          histogram_quantile(0.95,
+            sum(
+              rate(
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+          by (service, le))
+        ||| % config,
+        legendFormat='p95 {{ service }}',
         intervalFactor=2,
+      )
+      .addTarget(
+        promQuery.target(
+          |||
+            histogram_quantile(0.75,
+            sum(
+              rate(
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+            by (service, le))
+          ||| % config,
+          legendFormat='p75 {{ service }}',
+          intervalFactor=2,
+        )
+      )
+      .addTarget(
+        promQuery.target(
+          |||
+            histogram_quantile(0.50,
+            sum(
+              rate(
+                django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
+            by (service, le))
+          ||| % config,
+          legendFormat='p50 {{ service }}',
+          intervalFactor=2,
+        ),
       ),
 
       commonPanels.timeseries(
@@ -29,7 +60,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(
              rate(
-                 django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", view!~"prometheus-django-metrics|healthcheck"}[5m])) by(status)
+                 django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m])) by(status)
         ||| % config,
         legendFormat='{{ status }}',
         legend_show=false,
@@ -41,7 +72,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(
              irate(
-               django_http_requests_total_by_view_transport_method_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s",view!~"prometheus-django-metrics|healthcheck"}[5m]))
+               django_http_requests_total_by_view_transport_method_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m]))
            by(method, view)
         ||| % config,
         legendFormat='{{ method }}/{{ view }}',
@@ -64,19 +95,19 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(
             rate(
-              django_http_responses_total_by_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", view!~"prometheus-django-metrics|healthcheck"}[5m]))
-          by(status)
+              container_cpu_usage_seconds_total{namespace="$namespace", pod=~"$service.*", container="main"}[5m])) by (pod)
         ||| % config,
-        legendFormat='{{ status }}',
+        legendFormat='{{ pod }}',
         intervalFactor=2,
       ),
+
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
         span=6,
         legend_show=false,
         query=|||
-          container_memory_usage_bytes{container="main", pod=~"$service-.*"}
+          container_memory_usage_bytes{namespace="$namespace", pod=~"$service-.*", container="main"}
         ||| % config,
         legendFormat='{{ pod }}',
         intervalFactor=2,
