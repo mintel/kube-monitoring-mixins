@@ -60,6 +60,19 @@
               severity: 'critical',
             },
           },
+          {
+            alert: 'ClockSkewDetected',
+            annotations: {
+              message: 'Clock skew detected on node-exporter {{ $labels.namespace }}/{{ $labels.pod }}. Ensure NTP is configured correctly on this host.',
+            },
+            expr: |||
+              abs(node_timex_offset_seconds{%(nodeExporterSelector)s}) > 0.05
+            ||| % $._config,
+            'for': '10m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],

@@ -19,7 +19,7 @@
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/ContainerCombinedIoHighOverTime.md' % $._config,
               summary: 'Container have been doing an unusual amount of IO',
-              description: 'Container {{ $labels.container_name }} in Pod {{ $labels.pod_name }} have been doing an unusual amount of Sustained IO on {{ $labels.device }} for the specified time',
+              description: 'Container {{ $labels.container }} in Pod {{ $labels.pod }} have been doing an unusual amount of Sustained IO on {{ $labels.device }} for the specified time',
             },
           },
         ],

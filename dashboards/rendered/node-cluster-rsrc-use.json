@@ -45,7 +45,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  instance:node_cpu_utilisation:rate1m{job=\"node-exporter\"}\n*\n  instance:node_num_cpu:sum{job=\"node-exporter\"}\n/ ignoring (instance) group_left\n  sum without (instance) (instance:node_num_cpu:sum{job=\"node-exporter\"})\n)\n",
+                     "expr": "(\n  instance:node_cpu_utilisation:rate1m{job=\"node-exporter\"}\n*\n  instance:node_num_cpu:sum{job=\"node-exporter\"}\n)\n/ scalar(sum(instance:node_num_cpu:sum{job=\"node-exporter\"}))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",
@@ -121,7 +121,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  instance:node_load1_per_cpu:ratio{job=\"node-exporter\"}\n/ ignoring (instance) group_left\n  count without (instance) (instance:node_load1_per_cpu:ratio{job=\"node-exporter\"})\n)\n",
+                     "expr": "instance:node_load1_per_cpu:ratio{job=\"node-exporter\"}\n/ scalar(count(instance:node_load1_per_cpu:ratio{job=\"node-exporter\"}))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",
@@ -209,7 +209,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  instance:node_memory_utilisation:ratio{job=\"node-exporter\"}\n/ ignoring (instance) group_left\n  count without (instance) (instance:node_memory_utilisation:ratio{job=\"node-exporter\"})\n)\n",
+                     "expr": "instance:node_memory_utilisation:ratio{job=\"node-exporter\"}\n/ scalar(count(instance:node_memory_utilisation:ratio{job=\"node-exporter\"}))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",
@@ -285,7 +285,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "instance:node_memory_swap_io_pages:rate1m{job=\"node-exporter\"}",
+                     "expr": "instance:node_vmstat_pgmajfault:rate1m{job=\"node-exporter\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",
@@ -296,7 +296,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Memory Saturation (Swapped Pages)",
+               "title": "Memory Saturation (Major Page Faults)",
                "tooltip": {
                   "shared": false,
                   "sort": 0,
@@ -573,7 +573,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  instance_device:node_disk_io_time_seconds:rate1m{job=\"node-exporter\"}\n/ ignoring (instance, device) group_left\n  count without (instance, device) (instance_device:node_disk_io_time_seconds:rate1m{job=\"node-exporter\"})\n)\n",
+                     "expr": "instance_device:node_disk_io_time_seconds:rate1m{job=\"node-exporter\"}\n/ scalar(count(instance_device:node_disk_io_time_seconds:rate1m{job=\"node-exporter\"}))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}} {{device}}",
@@ -649,7 +649,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node-exporter\"}\n/ ignoring (instance, device) group_left\n  count without (instance, device) (instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node-exporter\"})\n)\n",
+                     "expr": "instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node-exporter\"}\n/ scalar(count(instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node-exporter\"}))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}} {{device}}",
@@ -737,7 +737,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  sum without (device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"} - node_filesystem_avail_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"}\n    )\n  ) \n/ ignoring (instance) group_left\n  sum without (instance, device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"}\n    )\n  )\n)  \n",
+                     "expr": "sum without (device) (\n  max without (fstype, mountpoint) (\n    node_filesystem_size_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"} - node_filesystem_avail_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"}\n  )\n) \n/ scalar(sum(max without (fstype, mountpoint) (node_filesystem_size_bytes{job=\"node-exporter\", fstype=\"ext4\", mountpoint=\"/mnt/stateful_partition\"})))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",

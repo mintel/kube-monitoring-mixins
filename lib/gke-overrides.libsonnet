@@ -5,13 +5,12 @@ local ignore_alerts = [
   'ElasticsearchTooFewMastersRunning',
   'KubeAPIErrorsHigh',
   'KubeAPILatencyHigh',
+  'KubeAPIDown',
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
   'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
-  'NodeNetworkReceiveErrs',
-  'NodeNetworkTransmitErrs',
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',
 ];
@@ -23,7 +22,10 @@ local ignore_records = [];
 local ignore_groups = [
   'kube-scheduler.rules',
   'kube-apiserver.rules',
+  'kube-apiserver-error',
+  'kube-apiserver-error-alerts',
   'kube-prometheus-node-alerting.rules',
+  'node-time',
   'prometheus.rules',
 ];
 
