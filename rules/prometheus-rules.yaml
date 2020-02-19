@@ -1440,6 +1440,27 @@ spec:
         severity: warning
   - name: haproxy-ingress.alerts
     rules:
+    - alert: HAProxyIngressSSLCertificateAboutToExpire
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyIngressSSLCertificateAboutToExpire
+        summary: 'HAProxy: SSL Certificate for host {{ $labels.host }} has less then
+          14 days of validity left'
+      expr: ingress_controller_ssl_expire_time_seconds > 0 AND ingress_controller_ssl_expire_time_seconds
+        < (time() + (14 * 24 * 3600))
+      for: 60m
+      labels:
+        severity: warning
+    - alert: HAProxyIngressSSLCertificateAboutToExpire
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyIngressSSLCertificateAboutToExpire
+        summary: 'HAProxy: SSL Certificate for host {{ $labels.host }} has less then
+          7 days of validity left'
+      expr: ingress_controller_ssl_expire_time_seconds > 0 AND ingress_controller_ssl_expire_time_seconds
+        < (time() + (7 * 24 * 3600))
+      for: 60m
+      labels:
+        page: "true"
+        severity: critical
     - alert: HAProxyFrontendSessionUsage
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
