@@ -38,7 +38,9 @@ local for_overrides = {
 };
 
 // Define a list of rules to downgrade severity for
-local downgrade_severity_rules = [];
+local downgrade_severity_rules = [
+  'KubePersistentVolumeFullInFourDays',
+];
 
 // Define a list of grafana dashboards to ignore
 local ignore_dashboards = [

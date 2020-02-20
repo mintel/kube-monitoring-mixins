@@ -964,7 +964,7 @@ spec:
       for: 1h
       labels:
         page: "false"
-        severity: critical
+        severity: warning
     - alert: KubePersistentVolumeErrors
       annotations:
         message: The persistent volume {{ $labels.persistentvolume }} has status {{
