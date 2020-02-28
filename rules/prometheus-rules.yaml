@@ -2149,7 +2149,7 @@ spec:
       annotations:
         description: There are too many connections to redis in the last 10 minutes
         summary: Too many connected clients (instance {{ $labels.service }})
-      expr: redis_connected_clients > 1000
+      expr: redis_connected_clients > 100
       for: 10m
       labels:
         severity: warning

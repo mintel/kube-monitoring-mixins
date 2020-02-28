@@ -43,7 +43,7 @@
           },
           {
             alert: 'RedisTooManyConnections',
-            expr: 'redis_connected_clients > 1000',
+            expr: 'redis_connected_clients > 100',
             'for': '10m',
             labels: {
               severity: 'warning'
