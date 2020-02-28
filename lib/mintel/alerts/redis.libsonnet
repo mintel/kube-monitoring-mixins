@@ -6,7 +6,7 @@
         rules: [
           {
             alert: 'RedisMemoryUtilHigh',
-            expr: '(redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 ) < 101',
+            expr: '(redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 )',
             'for': '5m',
             labels: {
               page: 'false',

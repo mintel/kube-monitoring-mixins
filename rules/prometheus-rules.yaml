@@ -2122,7 +2122,7 @@ spec:
         description: The {{ $labels.service }} Redis cluster has consumed >90% of
           its available memory
         summary: Redis Memory utilization high
-      expr: (redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 ) < 101
+      expr: (redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 )
       for: 5m
       labels:
         page: "true"
