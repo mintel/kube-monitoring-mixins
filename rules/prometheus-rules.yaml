@@ -2115,6 +2115,44 @@ spec:
       labels:
         page: "true"
         severity: critical
+  - name: redis.alerts
+    rules:
+    - alert: RedisMemoryUtilHigh
+      annotations:
+        description: The {{ $labels.service }} Redis cluster has consumed >90% of
+          its available memory
+        summary: Redis Memory utilization high
+      expr: (redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 ) < 101
+      for: 5m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: RedisMaxMemoryUnset
+      annotations:
+        description: The redis instance {{ $labels.service }} has no maximum memory
+          set
+        summary: Redis instance has non max-memory set
+      expr: redis_memory_max_bytes <= 0
+      for: 5m
+      labels:
+        severity: warning
+    - alert: RedisRejectedConnections
+      annotations:
+        description: Some connections to Redis have been rejected each minute for
+          the previous 10 minutes
+        summary: Rejected connections (instance {{ $labels.service }})
+      expr: increase(redis_rejected_connections_total[1m]) > 0
+      for: 10m
+      labels:
+        severity: warning
+    - alert: RedisTooManyConnections
+      annotations:
+        description: There are too many connections to redis in the last 10 minutes
+        summary: Too many connected clients (instance {{ $labels.service }})
+      expr: redis_connected_clients > 1000
+      for: 10m
+      labels:
+        severity: warning
   - name: redis-spotahome-operator.alerts
     rules:
     - alert: RedisOperatorClusterNotOK

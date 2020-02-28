@@ -16,6 +16,7 @@
 (import './alerts/fluentd.libsonnet') +
 (import './alerts/prometheus-operator.libsonnet') +
 (import './alerts/absent_alerts.libsonnet') +
+(import './alerts/redis.libsonnet') +
 (import './alerts/redis-spotahome-operator.libsonnet') +
 
 (import './rules/blackbox.libsonnet') +
