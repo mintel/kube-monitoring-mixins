@@ -53,14 +53,13 @@ local dashboardTags = ['image-service'];
         .addPanels(webService.overview(serviceSelectorKey="job", serviceSelectorValue="$deployment"))
       )
       .addRow(
-        row.new('Resources')
-        .addPanels(thumbor.resourcePanels())
-      )
-      .addRow(
         row.new('Request / Response')
         .addPanels(thumbor.requestResponsePanels())
       )
-
+      .addRow(
+        row.new('Resources')
+        .addPanels(thumbor.resourcePanels())
+      )
       .addRow(
         row.new('Storage')
         .addPanels(thumbor.storagePanels())
