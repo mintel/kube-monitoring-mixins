@@ -58,6 +58,92 @@
          "height": 5,
          "panels": [
             {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#d44a3a",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#299c46"
+               ],
+               "datasource": null,
+               "description": "Number of instances running as a percentage (should be 100%)",
+               "format": "percent",
+               "gauge": {
+                  "maxValue": 1,
+                  "minValue": 0,
+                  "show": true,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 0,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 2,
+               "interval": "1m",
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "span": 2,
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": false
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$service\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$service\"}) \n without (instance, pod)\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": ".8, .9",
+               "title": "Instances Up",
+               "transparent": true,
+               "type": "singlestat",
+               "valueFontSize": "50%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "avg"
+            },
+            {
                "aliasColors": { },
                "bars": false,
                "dashLength": 10,
@@ -69,11 +155,11 @@
                "gridPos": {
                   "h": 10,
                   "w": 2,
-                  "x": 0,
+                  "x": 2,
                   "y": 1000
                },
                "height": 200,
-               "id": 2,
+               "id": 3,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -97,7 +183,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 3,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -145,92 +231,6 @@
                      "show": false
                   }
                ]
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#d44a3a",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#299c46"
-               ],
-               "datasource": null,
-               "description": "Number of instances running as a percentage (should be 100%)",
-               "format": "percent",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 10,
-                  "w": 2,
-                  "x": 2,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 3,
-               "interval": "1m",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 1,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$service\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$service\"}) \n without (instance, pod)\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": ".8, .9",
-               "title": "Instances Up",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "50%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
             },
             {
                "cacheTimeout": null,
@@ -286,7 +286,7 @@
                      "to": "null"
                   }
                ],
-               "span": 1,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -371,7 +371,7 @@
                      "to": "null"
                   }
                ],
-               "span": 1,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -401,7 +401,20 @@
                   }
                ],
                "valueName": "current"
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Overview",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
             {
                "aliasColors": { },
                "bars": false,
@@ -414,7 +427,7 @@
                "gridPos": {
                   "h": 10,
                   "w": 2,
-                  "x": 8,
+                  "x": 0,
                   "y": 1000
                },
                "height": 200,
@@ -442,7 +455,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 6,
+               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -506,124 +519,6 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Overview",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 2,
-               "description": "Percentile Latency from Django Application",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 7,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": false,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "connected",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 4,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~\"$namespace\", service=\"$service\"}[5m]))\nby (service, le))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "p95 {{ service }}",
-                     "refId": "A"
-                  },
-                  {
-                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~\"$namespace\", service=\"$service\"}[5m]))\nby (service, le))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "p75 {{ service }}",
-                     "refId": "B"
-                  },
-                  {
-                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    django_http_requests_latency_including_middlewares_seconds_bucket{namespace=~\"$namespace\", service=\"$service\"}[5m]))\nby (service, le))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "p50 {{ service }}",
-                     "refId": "C"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "App Request Latency",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "s",
-                     "label": "Time",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
             },
             {
                "aliasColors": { },
@@ -632,16 +527,16 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 0,
-               "description": "",
+               "description": "HTTP Responses from HAProxy Ingress for backend $service",
                "fill": 0,
                "gridPos": {
                   "h": 10,
-                  "w": 12,
-                  "x": 12,
+                  "w": 2,
+                  "x": 2,
                   "y": 1000
                },
                "height": 200,
-               "id": 8,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -665,22 +560,23 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
+               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n   rate(\n       django_http_responses_total_by_status_total{namespace=~\"$namespace\", service=\"$service\"}[5m])) by(status)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ status }}",
+                     "legendFormat": "{{ code }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "App Response Status",
+               "title": "HAProxy Responses",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -724,12 +620,12 @@
                "fill": 0,
                "gridPos": {
                   "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1010
+                  "w": 2,
+                  "x": 4,
+                  "y": 1000
                },
                "height": 200,
-               "id": 9,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -768,7 +664,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "App Requests by Method",
+               "title": "App Requests by Method/View",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -785,7 +681,7 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": "Num REquests",
+                     "label": "Num Requests",
                      "logBase": 1,
                      "max": null,
                      "min": 0,
@@ -830,7 +726,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 10,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -919,7 +815,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 11,
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1021,7 +917,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 12,
+               "id": 11,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1123,7 +1019,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 13,
+               "id": 12,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1211,7 +1107,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 14,
+               "id": 13,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1299,7 +1195,7 @@
                   "y": 1011
                },
                "height": 200,
-               "id": 15,
+               "id": 14,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1387,7 +1283,7 @@
                   "y": 1011
                },
                "height": 200,
-               "id": 16,
+               "id": 15,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1475,7 +1371,7 @@
                   "y": 1021
                },
                "height": 200,
-               "id": 17,
+               "id": 16,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1576,7 +1472,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 18,
+               "id": 17,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1664,7 +1560,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 19,
+               "id": 18,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1752,7 +1648,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 20,
+               "id": 19,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1840,7 +1736,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 21,
+               "id": 20,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1928,7 +1824,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 22,
+               "id": 21,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2016,7 +1912,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 23,
+               "id": 22,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2104,7 +2000,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 24,
+               "id": 23,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2192,7 +2088,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 25,
+               "id": 24,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2280,7 +2176,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 26,
+               "id": 25,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2368,7 +2264,7 @@
                   "y": 1032
                },
                "height": 200,
-               "id": 27,
+               "id": 26,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2456,7 +2352,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 28,
+               "id": 27,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2544,7 +2440,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 29,
+               "id": 28,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2632,7 +2528,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 30,
+               "id": 29,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2720,7 +2616,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 31,
+               "id": 30,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2808,7 +2704,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 32,
+               "id": 31,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2896,7 +2792,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 33,
+               "id": 32,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2984,7 +2880,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 34,
+               "id": 33,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -3072,7 +2968,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 35,
+               "id": 34,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -3160,7 +3056,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 36,
+               "id": 35,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
