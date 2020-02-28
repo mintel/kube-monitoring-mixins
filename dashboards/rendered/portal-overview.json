@@ -1604,7 +1604,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(avg_over_time(redis_connected_clients[$__interval])) by (service)\n",
+                     "expr": "sum(avg_over_time(redis_connected_clients{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1692,11 +1692,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(avg_over_time(redis_blocked_clients{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(avg_over_time(redis_blocked_clients{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -1780,11 +1780,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_connections_received_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_connections_received_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -1868,11 +1868,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_commands_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -1956,11 +1956,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_net_output_bytes_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_net_output_bytes_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2044,11 +2044,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_net_input_bytes_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_net_input_bytes_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2132,11 +2132,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(changes(redis_slowlog_last_id{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(changes(redis_slowlog_last_id{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 10,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2220,7 +2220,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "expr": "sum(rate(redis_commands_total{service=~\"$service.*\"}[$__interval])) by (cmd)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2308,7 +2308,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_commands_duration_seconds_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n/\nsum(rate(redis_commands_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "expr": "sum(rate(redis_commands_duration_seconds_total{service=~\"$service.*\"}[$__interval])) by (cmd)\n/\nsum(rate(redis_commands_total{service=~\"$service.*\"}[$__interval])) by (cmd)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2396,7 +2396,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_commands_duration_seconds_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (cmd)\n",
+                     "expr": "sum(rate(redis_commands_duration_seconds_total{service=~\"$service.*\"}[$__interval])) by (cmd)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2484,11 +2484,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "max_over_time(redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])\n",
+                     "expr": "max_over_time(redis_memory_used_bytes{service=~\"$service.*\"}[$__interval])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2572,11 +2572,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_memory_used_bytes{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2660,11 +2660,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "max_over_time(redis_memory_used_rss_bytes{job=\"dev-redis-cluster-portal-web\"}[$__interval])\n",
+                     "expr": "max_over_time(redis_memory_used_rss_bytes{service=~\"$service.*\"}[$__interval])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2748,11 +2748,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "redis_memory_used_rss_bytes{job=\"dev-redis-cluster-portal-web\"} / redis_memory_used_bytes{job=\"dev-redis-cluster-portal-web\"}\n",
+                     "expr": "redis_memory_used_rss_bytes{service=~\"$service.*\"} / redis_memory_used_bytes{service=~\"$service.*\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2836,11 +2836,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_expired_keys_total{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_expired_keys_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2924,11 +2924,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(redis_db_keys{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
+                     "expr": "sum(rate(redis_db_keys{service=~\"$service.*\"}[$__interval])) by (service)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
+                     "legendFormat": "{{ service }}",
                      "refId": "A"
                   }
                ],
@@ -2953,270 +2953,6 @@
                   {
                      "format": "short",
                      "label": "Keys/sec",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1002
-               },
-               "height": 200,
-               "id": 34,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(avg_over_time(redis_connected_slaves{job=\"dev-redis-cluster-portal-web\"}[$__interval])) by (job)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Connected Secondaries",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Secondaries",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 12,
-                  "y": 1002
-               },
-               "height": 200,
-               "id": 35,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "redis_master_repl_offset{job=\"dev-redis-cluster-portal-web\"}\n- on(job) group_right\nredis_connected_slave_offset_bytes{job=\"dev-redis-cluster-portal-web\"}\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "secondary {{ slave_ip }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Replication Offset",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "bytes",
-                     "label": "Bytes",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1012
-               },
-               "height": 200,
-               "id": 36,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(changes(redis_slave_resync_total{job=\"dev-redis-cluster-portal-web\", job=~\"dev-redis-cluster-portal-web-\\\\\\\\d\\\\\\\\d.*\"}[$__interval])) by (job)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ job }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Resync Events",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Events",
                      "logBase": 1,
                      "max": null,
                      "min": 0,
