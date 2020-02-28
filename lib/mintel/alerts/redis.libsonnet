@@ -14,7 +14,7 @@
             },
             annotations: {
               summary: 'Redis Memory utilization high',
-              description: 'The {{ $labels.service }} Redis cluster has consumed >90% of its available memory',
+              description: 'The {{ $labels.service }} Redis instance has consumed >90% of its available memory',
             },
           },
           {
@@ -43,13 +43,13 @@
           },
           {
             alert: 'RedisTooManyConnections',
-            expr: 'redis_connected_clients > 100',
+            expr: '(redis_connected_clients / redis_config_maxclients  * 100 > 90)',
             'for': '10m',
             labels: {
               severity: 'warning'
             },
             annotations: {
-              summary: 'Too many connected clients (instance {{ $labels.service }})',
+              summary: 'The {{ $labels.service }} Redis instance has reached 90% of its max-allowed connected clients',
               description: 'There are too many connections to redis in the last 10 minutes',
             },
           },
