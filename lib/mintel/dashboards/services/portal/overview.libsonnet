@@ -74,10 +74,9 @@ local dashboardTags = ['portal'];
       )
        .addRow(
         row.new('Redis', collapse=true)
-        .addPanels(redis.clientPanels(serviceType='dev-redis-cluster-portal-web', startRow=1002))
-        .addPanels(redis.workload(serviceType='dev-redis-cluster-portal-web', startRow=1002))
-        .addPanels(redis.data(serviceType='dev-redis-cluster-portal-web', startRow=1002))
-        .addPanels(redis.replication(serviceType='dev-redis-cluster-portal-web', startRow=1002))
+        .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
+        .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
+        .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
       )
   },
 }
