@@ -1,5 +1,6 @@
 local layout = import 'components/layout.libsonnet';
 local commonPanels = import 'components/panels/common.libsonnet';
+local haproxyPanels = import 'components/panels/haproxy.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
   requestResponsePanels(serviceSelectorKey='job', serviceSelectorValue='$deployment', startRow=1000)::
@@ -8,34 +9,11 @@ local promQuery = import 'components/prom_query.libsonnet';
       serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
-      commonPanels.latencyTimeseries(
-        title='App Response Time',
-        yAxisLabel='Time (avg)',
-        span=6,
-        query=|||
-          rate(
-            thumbor_response_time_sum{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", statuscode_extension="response.time"}[5m])
-            /
-            rate(
-              thumbor_response_time_count{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", statuscode_extension="response.time"}[5m])
-        ||| % config,
-        legendFormat='{{ pod }}',
-        intervalFactor=2,
-      ),
 
-      commonPanels.timeseries(
-        title='App Response Status',
-        yAxisLabel='Num Responses',
-        span=6,
-        query=|||
-          sum(
-             rate(
-                 thumbor_response_status_total{namespace=~"$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[5m])) by(statuscode)
-        ||| % config,
-        legendFormat='{{ statuscode }}',
-        intervalFactor=2,
-      ),
-    ], cols=2, rowHeight=10, startRow=startRow),
+      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=6),
+      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=6),
+  
+    ], cols=12, rowHeight=10, startRow=startRow),
 
   resourcePanels(serviceSelectorKey='job', serviceSelectorValue='$deployment', startRow=1000)::
     local config = {

@@ -52,5 +52,28 @@ local promQuery = import 'components/prom_query.libsonnet';
         intervalFactor=2,
       )
     ),
-  
+
+  httpResponseStatusTimeseries(serviceSelectorKey="service", serviceSelectorValue="$service", span=12)::
+      local config = {
+        serviceSelectorKey: serviceSelectorKey,
+        serviceSelectorValue: serviceSelectorValue
+    };
+
+    commonPanels.timeseries(
+      title='HAProxy Responses',
+      description='HTTP Responses from HAProxy Ingress for backend %(serviceSelectorValue)s' % config,
+      yAxisLabel='Num Responses',
+      span=span,
+      legend_show=false,
+      height=200,
+      query=|||
+        sum(
+          rate(
+            haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]
+          )
+        ) by (code)
+      ||| % config,
+    legendFormat='{{ code }}',
+    intervalFactor=2,
+    ),
 }
