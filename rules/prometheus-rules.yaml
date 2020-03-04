@@ -1966,6 +1966,30 @@ spec:
       for: 1m
       labels:
         severity: warning
+  - name: mintel-workload.alerts
+    rules:
+    - alert: KubeDeploymentStatusUnavailable
+      annotations:
+        description: Deployment {{ $labels.namespace}} / {{ $labels.deployment }}
+          has unavailable pods
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubeDeploymentStatusUnavailable.md
+        summary: Deployment pods unavailable
+      expr: kube_deployment_status_replicas_unavailable > 0
+      for: 30m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: KubeDaemonSetStatusUnavailable
+      annotations:
+        description: DaemonSet {{ $labels.namespace}} / {{ $labels.daemonset }} has
+          unavailable pods
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubeDaemonSetStatusUnavailable.md
+        summary: Daemonset pods unavailable
+      expr: kube_daemonset_status_number_unavailable > 0
+      for: 30m
+      labels:
+        page: "true"
+        severity: critical
   - name: flux.alerts
     rules:
     - alert: FluxDaemonGeneralSyncError

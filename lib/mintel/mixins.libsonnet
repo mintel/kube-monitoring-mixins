@@ -12,6 +12,7 @@
 (import './alerts/mintel-overcommit.libsonnet') +
 (import './alerts/mintel-pod.libsonnet') +
 (import './alerts/mintel-web-frontend.libsonnet') +
+(import './alerts/mintel-workloads.libsonnet') +
 (import './alerts/flux.libsonnet') +
 (import './alerts/fluentd.libsonnet') +
 (import './alerts/prometheus-operator.libsonnet') +
@@ -25,5 +26,4 @@
 (import './rules/mintel-overcommit.libsonnet') +
 (import './rules/mintel-pod.libsonnet') +
 (import './rules/mintel-web-frontend.libsonnet') +
-
 (import './dashboards/dashboards.libsonnet')
