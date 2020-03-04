@@ -1977,8 +1977,7 @@ spec:
       expr: kube_deployment_status_replicas_unavailable > 0
       for: 30m
       labels:
-        page: "true"
-        severity: critical
+        severity: warning
     - alert: KubeDaemonSetStatusUnavailable
       annotations:
         description: DaemonSet {{ $labels.namespace}} / {{ $labels.daemonset }} has
@@ -1988,8 +1987,7 @@ spec:
       expr: kube_daemonset_status_number_unavailable > 0
       for: 30m
       labels:
-        page: "true"
-        severity: critical
+        severity: warning
   - name: flux.alerts
     rules:
     - alert: FluxDaemonGeneralSyncError

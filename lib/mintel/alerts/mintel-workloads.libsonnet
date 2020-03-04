@@ -14,7 +14,7 @@
             expr: 'kube_deployment_status_replicas_unavailable > 0',
             'for': '30m',
             labels: {
-              severity: 'critical',
+              severity: 'warning',
             },
           },
           {
@@ -27,7 +27,7 @@
             expr: 'kube_daemonset_status_number_unavailable > 0',
             'for': '30m',
             labels: {
-              severity: 'critical',
+              severity: 'warning',
             },
           },
         ],
