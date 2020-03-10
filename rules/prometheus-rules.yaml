@@ -2051,6 +2051,29 @@ spec:
       for: 1h
       labels:
         severity: warning
+  - name: portal.alerts
+    rules:
+    - alert: PortalHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 0.5
+      for: 5m
+      labels:
+        severity: warning
+    - alert: PortalHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 1
+      for: 30m
+      labels:
+        page: "true"
+        severity: critical
   - name: prometheus-operator.alerts
     rules:
     - alert: PrometheusOperatorRulesValidationErrors

@@ -1,7 +1,7 @@
 {
+  "version": 1,
   "dependencies": [
     {
-      "name": "kube-prometheus",
       "source": {
         "git": {
           "remote": "https://github.com/coreos/kube-prometheus",
@@ -11,7 +11,15 @@
       "version": "v0.3.0"
     },
     {
-      "name": "node-mixin",
+      "source": {
+        "git": {
+          "remote": "https://github.com/coreos/prometheus-operator",
+          "subdir": "jsonnet/prometheus-operator"
+        }
+      },
+      "version": "c41e6fad7235528f115ad307bff36c057a5adfc1"
+    },
+    {
       "source": {
         "git": {
           "remote": "https://github.com/prometheus/node_exporter",
@@ -21,24 +29,15 @@
       "version": "40570924b1c23883237c8d55efdf81858dbeee92"
     },
     {
-      "name": "prometheus",
       "source": {
         "git": {
           "remote": "https://github.com/prometheus/prometheus",
           "subdir": "documentation/prometheus-mixin"
         }
       },
-      "version": "7321f1d227218bd498ecd446c4ec2bec34cf740f"
-    },
-    {
-      "name": "prometheus-operator",
-      "source": {
-        "git": {
-          "remote": "https://github.com/coreos/prometheus-operator",
-          "subdir": "jsonnet/prometheus-operator"
-        }
-      },
-      "version": "c41e6fad7235528f115ad307bff36c057a5adfc1"
+      "version": "7321f1d227218bd498ecd446c4ec2bec34cf740f",
+      "name": "prometheus"
     }
-  ]
+  ],
+  "legacyImports": true
 }
