@@ -1988,6 +1988,52 @@ spec:
       for: 30m
       labels:
         severity: warning
+  - name: filebeat.alerts
+    rules:
+    - alert: FilebeatHighOutputFailures
+      annotations:
+        description: Filebeat output failures have been increasing for 30m
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighOutputFailures.md
+        summary: The number of Filebeat events failing to push to ElasticSearch has
+          been increasing for 30m
+      expr: sum by (service,pod,type) (increase(filebeat_libbeat_output_events{type="failed"}[5m]))
+        > 0
+      for: 30m
+      labels:
+        severity: warning
+    - alert: FilebeatHighOutputDropped
+      annotations:
+        description: Filebeat output dropped events have been increasing for 30m
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighOutputDropped.md
+        summary: The number of Filebeat events being dropped at the output stage haas
+          been increasing for 30m
+      expr: sum by (service,pod,type) (increase(filebeat_libbeat_output_events{type="dropped"}[5m]))
+        > 0
+      for: 30m
+      labels:
+        severity: warning
+    - alert: FilebeatHighPipelineFailures
+      annotations:
+        description: Filebeat pipeline failures have been increasing for 30m
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighPipelineFailures.md
+        summary: The number of Filebeat events failing to be processed has been increasing
+          for 30m
+      expr: sum by (service,pod,type) (increase(filebeat_libbeat_pipeline_events{type="failed"}[5m]))
+        > 0
+      for: 30m
+      labels:
+        severity: warning
+    - alert: FilebeatRegistryWriteFailing
+      annotations:
+        description: Filebeat registry write failures increasing for 30m
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatRegistryWriteFailing.md
+        summary: The number of times Filebeat has failed to write to its registry
+          has been increasing for 30m
+      expr: sum by (service,pod,type) (increase(filebeat_registrar_writes{writes="fail"}[5m]))
+        > 0
+      for: 30m
+      labels:
+        severity: warning
   - name: flux.alerts
     rules:
     - alert: FluxDaemonGeneralSyncError
@@ -2051,6 +2097,40 @@ spec:
       for: 1h
       labels:
         severity: warning
+  - name: mysql.alerts
+    rules:
+    - alert: MySQLAbortedConnections
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MySQL.md#MySQLAbortedConnections
+        summary: 'MySQL: No. of aborted connections continuously increasing for database
+          monitored by {{ $labels.service }}'
+      expr: increase(mysql_global_status_aborted_connects[1m]) > 3
+      for: 15m
+      labels:
+        severity: warning
+  - name: portal.alerts
+    rules:
+    - alert: PortalHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 0.5
+      for: 5m
+      labels:
+        severity: warning
+    - alert: PortalHAProxyBackendResponseTime
+      annotations:
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
+        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
+          }} backend.'
+      expr: |
+        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 1
+      for: 30m
+      labels:
+        page: "true"
+        severity: critical
   - name: prometheus-operator.alerts
     rules:
     - alert: PrometheusOperatorRulesValidationErrors
