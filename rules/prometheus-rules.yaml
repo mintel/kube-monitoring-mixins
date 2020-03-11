@@ -2053,34 +2053,6 @@ spec:
         severity: warning
   - name: mysql.alerts
     rules:
-    - alert: MySQLThreadConnections
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MySQL.md#MySQLThreadConnections
-        summary: 'MySQL: There are no threads connected to the database monitored
-          by {{ $labels.service }}'
-      expr: mysql_global_status_threads_connected == 0
-      for: 5m
-      labels:
-        severity: warning
-    - alert: MySQLThreadConnections
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MySQL.md#MySQLThreadConnections
-        summary: 'MySQL: There are no threads connected to the database monitored
-          by {{ $labels.service }}'
-      expr: mysql_global_status_threads_connected == 0
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
-    - alert: MySQLMaxUsedConnections
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MySQL.md#MySQLMaxUsedConnections
-        summary: 'MySQL: Max no. of connections for database monitored by {{ $labels.service
-          }} is approaching the limit for a db-n1-standard-1 instance'
-      expr: mysql_global_status_max_used_connections > 3600
-      for: 1m
-      labels:
-        severity: warning
     - alert: MySQLAbortedConnections
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/MySQL.md#MySQLAbortedConnections
