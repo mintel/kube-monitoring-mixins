@@ -13,6 +13,7 @@
 (import './alerts/mintel-pod.libsonnet') +
 (import './alerts/mintel-web-frontend.libsonnet') +
 (import './alerts/mintel-workloads.libsonnet') +
+(import './alerts/filebeat.libsonnet') +
 (import './alerts/flux.libsonnet') +
 (import './alerts/fluentd.libsonnet') +
 (import './alerts/mysql.libsonnet') +
