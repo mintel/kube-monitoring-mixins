@@ -855,7 +855,7 @@ spec:
           tolerate node failure.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
       expr: |
-        sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum{})
+        sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum)
           /
         sum(kube_node_status_allocatable_cpu_cores)
           >
@@ -869,7 +869,7 @@ spec:
           tolerate node failure.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
       expr: |
-        sum(namespace:kube_pod_container_resource_requests_memory_bytes:sum{})
+        sum(namespace:kube_pod_container_resource_requests_memory_bytes:sum)
           /
         sum(kube_node_status_allocatable_memory_bytes)
           >
@@ -1007,7 +1007,6 @@ spec:
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodeunreachable
       expr: |
         kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1
-      for: 2m
       labels:
         severity: warning
     - alert: KubeletTooManyPods
@@ -2029,8 +2028,8 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatRegistryWriteFailing.md
         summary: The number of times Filebeat has failed to write to its registry
           has been increasing for 1h
-      expr: sum by (service,pod,type) (increase(filebeat_registrar_writes[5m])) >
-        0
+      expr: sum by (service,pod,type) (increase(filebeat_registrar_writes{writes="fail"}[5m]))
+        > 0
       for: 1h
       labels:
         severity: warning

@@ -50,7 +50,7 @@
               summary: 'The number of times Filebeat has failed to write to its registry has been increasing for 1h',
               runbook_url: '%(runBookBaseURL)s/core/FilebeatRegistryWriteFailing.md' % $._config,
             },
-            expr: 'sum by (service,pod,type) (increase(filebeat_registrar_writes[5m])) > 0',
+            expr: 'sum by (service,pod,type) (increase(filebeat_registrar_writes{writes="fail"}[5m])) > 0',
             'for': '1h',
             labels: {
               severity: 'warning',
