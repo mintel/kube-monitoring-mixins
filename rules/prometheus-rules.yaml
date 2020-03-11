@@ -1991,46 +1991,46 @@ spec:
     rules:
     - alert: FilebeatHighOutputFailures
       annotations:
-        description: Filebeat output failures have been increasing for 1h
+        description: Filebeat output failures have been increasing for 30m
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighOutputFailures.md
         summary: The number of Filebeat events failing to push to ElasticSearch has
-          been increasing for 1h
+          been increasing for 30m
       expr: sum by (service,pod,type) (increase(filebeat_libbeat_output_events{type="failed"}[5m]))
         > 0
-      for: 1h
+      for: 30m
       labels:
         severity: warning
     - alert: FilebeatHighOutputDropped
       annotations:
-        description: Filebeat output dropped events have been increasing for 1h
+        description: Filebeat output dropped events have been increasing for 30m
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighOutputDropped.md
         summary: The number of Filebeat events being dropped at the output stage haas
-          been increasing for 1h
+          been increasing for 30m
       expr: sum by (service,pod,type) (increase(filebeat_libbeat_output_events{type="dropped"}[5m]))
         > 0
-      for: 1h
+      for: 30m
       labels:
         severity: warning
     - alert: FilebeatHighPipelineFailures
       annotations:
-        description: Filebeat pipeline failures have been increasing for 1h
+        description: Filebeat pipeline failures have been increasing for 30m
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatHighPipelineFailures.md
         summary: The number of Filebeat events failing to be processed has been increasing
-          for 1h
+          for 30m
       expr: sum by (service,pod,type) (increase(filebeat_libbeat_pipeline_events{type="failed"}[5m]))
         > 0
-      for: 1h
+      for: 30m
       labels:
         severity: warning
     - alert: FilebeatRegistryWriteFailing
       annotations:
-        description: Filebeat registry write failures increasing for 1h
+        description: Filebeat registry write failures increasing for 30m
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/FilebeatRegistryWriteFailing.md
         summary: The number of times Filebeat has failed to write to its registry
-          has been increasing for 1h
+          has been increasing for 30m
       expr: sum by (service,pod,type) (increase(filebeat_registrar_writes{writes="fail"}[5m]))
         > 0
-      for: 1h
+      for: 30m
       labels:
         severity: warning
   - name: flux.alerts
