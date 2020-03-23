@@ -126,7 +126,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       min_span=min_span,
       datasource='$ds',
       styles=styles,
-      columns=styles,
+      columns=columns,
     ),
 
   timeseries(

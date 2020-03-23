@@ -336,78 +336,22 @@
             {
                "columns": [
                   {
-                     "alias": "RAM Requests",
-                     "align": "auto",
-                     "colorMode": "value",
-                     "colors": [
-                        "rgba(50, 172, 45, 0.97)",
-                        "#ef843c",
-                        "rgba(245, 54, 54, 0.9) "
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "Value #A",
-                     "thresholds": [
-                        "50",
-                        " 80"
-                     ],
-                     "type": "number",
-                     "unit": "percent"
+                     "expr": "(sum(kube_pod_container_resource_requests_memory_bytes) by (node) / sum(kube_node_status_allocatable_memory_bytes) by (node)) * 100",
+                     "format": "table",
+                     "hide": false,
+                     "instant": true,
+                     "interval": "",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ node }}",
+                     "refId": "A"
                   },
                   {
-                     "alias": "Node",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "node",
-                     "thresholds": [ ],
-                     "type": "string",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "Time",
-                     "thresholds": [ ],
-                     "type": "hidden",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "CPU Requests",
-                     "align": "auto",
-                     "colorMode": "value",
-                     "colors": [
-                        "rgba(50, 172, 45, 0.97)",
-                        "#ef843c",
-                        "rgba(245, 54, 54, 0.9)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "Value #B",
-                     "thresholds": [
-                        "50",
-                        " 80"
-                     ],
-                     "type": "number",
-                     "unit": "percent"
+                     "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) by (node) / sum(kube_node_status_allocatable_cpu_cores) by (node)) * 100",
+                     "format": "table",
+                     "instant": true,
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ node }}",
+                     "refId": "B"
                   }
                ],
                "datasource": "$ds",
