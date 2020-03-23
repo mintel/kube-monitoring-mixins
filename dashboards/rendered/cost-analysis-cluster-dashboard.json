@@ -187,7 +187,7 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "format": "time_series",
+               "format": "currencyUSD",
                "gauge": {
                   "maxValue": 100,
                   "minValue": 0,
@@ -265,7 +265,7 @@
                   "#d44a3a"
                ],
                "datasource": "$ds",
-               "format": "time_series",
+               "format": "currencyUSD",
                "gauge": {
                   "maxValue": 100,
                   "minValue": 0,
@@ -312,7 +312,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass)\\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n  + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n  + sum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n",
+                     "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n  + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n  + sum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -332,13 +332,176 @@
                   }
                ],
                "valueName": "current"
+            },
+            {
+               "columns": [
+                  {
+                     "alias": "RAM Requests",
+                     "align": "auto",
+                     "colorMode": "value",
+                     "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#ef843c",
+                        "rgba(245, 54, 54, 0.9) "
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value #A",
+                     "thresholds": [
+                        "50",
+                        " 80"
+                     ],
+                     "type": "number",
+                     "unit": "percent"
+                  },
+                  {
+                     "alias": "Node",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "node",
+                     "thresholds": [ ],
+                     "type": "string",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Time",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "CPU Requests",
+                     "align": "auto",
+                     "colorMode": "value",
+                     "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#ef843c",
+                        "rgba(245, 54, 54, 0.9)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value #B",
+                     "thresholds": [
+                        "50",
+                        " 80"
+                     ],
+                     "type": "number",
+                     "unit": "percent"
+                  }
+               ],
+               "datasource": "$ds",
+               "description": "This table shows the comparison of CPU and RAM requests by applications, vs the capacity of the node",
+               "gridPos": { },
+               "id": 6,
+               "styles": [
+                  {
+                     "alias": "RAM Requests",
+                     "align": "auto",
+                     "colorMode": "value",
+                     "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#ef843c",
+                        "rgba(245, 54, 54, 0.9) "
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value #A",
+                     "thresholds": [
+                        "50",
+                        " 80"
+                     ],
+                     "type": "number",
+                     "unit": "percent"
+                  },
+                  {
+                     "alias": "Node",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "node",
+                     "thresholds": [ ],
+                     "type": "string",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Time",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "CPU Requests",
+                     "align": "auto",
+                     "colorMode": "value",
+                     "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#ef843c",
+                        "rgba(245, 54, 54, 0.9)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value #B",
+                     "thresholds": [
+                        "50",
+                        " 80"
+                     ],
+                     "type": "number",
+                     "unit": "percent"
+                  }
+               ],
+               "targets": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Cluster Node Utilisation by CPU and RAM requests",
+               "type": "table"
             }
          ],
          "repeat": null,
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Cluster Overview",
+         "title": "Overview",
          "titleSize": "h6",
          "type": "row"
       }

@@ -45,11 +45,12 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_pram('0.75'))
 
       .addRow(
-        row.new('Cluster Overview')
+        row.new('Overview')
         .addPanel(costAnalysis.cpuUtilisation())
         .addPanel(costAnalysis.cpuRequests())
         .addPanel(costAnalysis.cpuCost())
         .addPanel(costAnalysis.storageCost())
+        .addPanel(costAnalysis.tableNodeUtilisation())
       )
 
   },
