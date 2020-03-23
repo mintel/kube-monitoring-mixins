@@ -8,6 +8,10 @@ local promQuery = import 'components/prom_query.libsonnet';
       title='CPU Utilisation',
       gaugeMaxValue=100,
       thresholds='30, 80',
+      colors= [
+          "rgba(245, 54, 54, 0.9)",
+          "rgba(50, 172, 45, 0.97)",
+          "#c15c17"],
       query=|||
         sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[1m]))
         /
@@ -21,6 +25,10 @@ local promQuery = import 'components/prom_query.libsonnet';
       title='CPU Requests',
       gaugeMaxValue=100,
       thresholds='30, 80',
+      colors= [
+          "rgba(245, 54, 54, 0.9)",
+          "rgba(50, 172, 45, 0.97)",
+          "#c15c17"],
       query=|||
         (sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100
       |||,
