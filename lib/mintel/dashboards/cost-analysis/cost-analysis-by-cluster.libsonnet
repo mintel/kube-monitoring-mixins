@@ -35,6 +35,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         description=dashboardDescription,
       )
 
+      .addTemplate(templates.ds)
       .addTemplate(templates.cost_cpu('18.7'))
 
       .addRow(
