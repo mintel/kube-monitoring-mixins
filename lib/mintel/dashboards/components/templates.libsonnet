@@ -66,6 +66,7 @@ local template = grafana.template;
     'cost_cpu',
     'Prometheus',
     '18.7',
+    current=current,
     label= "CPU",
     refresh='load',
   ),
