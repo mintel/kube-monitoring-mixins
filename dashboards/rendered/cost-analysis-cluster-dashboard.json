@@ -254,6 +254,84 @@
                   }
                ],
                "valueName": "current"
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "format": "time_series",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": { },
+               "height": 200,
+               "id": 5,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\nby (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\ngroup_right(storageclass)\\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\nby (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n+ (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\nby (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\ngroup_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\nby (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n+ sum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "Storage Cost (Cluster and PVC)",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
             }
          ],
          "repeat": null,

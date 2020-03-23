@@ -67,13 +67,15 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.singlestat(
         title='Storage Cost (Cluster and PVC)',
         query=|||
-          sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"})
-          by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace) group_right(storageclass)
-          sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024
-          * $costStorageSSD + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass)
-          + on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
-          by (persistentvolumeclaim, namespace)) / 1024 / 1024 /1024 or on() vector(0) )* $costStorageStandard
-          + sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
+          sum(sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"})
+          by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)
+          group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
+          by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD
+          + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"})
+          by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)
+          group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
+          by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard
+          + sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id!="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
         |||,
         format= "time_series",
         interval= "10s",

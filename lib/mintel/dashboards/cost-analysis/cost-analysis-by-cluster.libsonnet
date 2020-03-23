@@ -42,6 +42,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         .addPanel(costAnalysis.cpuUtilisation())
         .addPanel(costAnalysis.cpuRequests())
         .addPanel(costAnalysis.cpuCost())
+        .addPanel(costAnalysis.storageCost())
       )
 
   },
