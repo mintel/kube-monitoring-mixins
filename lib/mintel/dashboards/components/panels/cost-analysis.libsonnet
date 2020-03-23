@@ -166,7 +166,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                    ],
             columns=[
                         {
-                          "expr": "( \n  sum(kube_pod_container_resource_requests_memory_bytes) by (node) \n  /\n  sum(kube_node_status_allocatable_memory_bytes) by (node)\n) * 100",
+                          "expr": "(sum(kube_pod_container_resource_requests_memory_bytes) by (node) / sum(kube_node_status_allocatable_memory_bytes) by (node)) * 100",
                           "format": "table",
                           "hide": false,
                           "instant": true,
@@ -176,7 +176,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                           "refId": "A"
                         },
                         {
-                          "expr": "( \n  sum(kube_pod_container_resource_requests_cpu_cores) by (node) \n  /\n  sum(kube_node_status_allocatable_cpu_cores) by (node)\n) * 100",
+                          "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) by (node) / sum(kube_node_status_allocatable_cpu_cores) by (node)) * 100",
                           "format": "table",
                           "instant": true,
                           "intervalFactor": 1,
