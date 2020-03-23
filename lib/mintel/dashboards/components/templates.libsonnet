@@ -62,6 +62,15 @@ local template = grafana.template;
     refresh='load',
   ),
 
+  cost_discount(current, hide=false):: template.new(
+    'costDiscount',
+    'Prometheus',
+    '30',
+    current=current,
+    label= "Disc.",
+    refresh='load',
+  ),
+
   cost_cpu(current, hide=false):: template.new(
     'costcpu',
     'Prometheus',
@@ -71,19 +80,48 @@ local template = grafana.template;
     refresh='load',
   ),
 
-  cost_discount(current, hide=false):: template.new(
-    'costDiscount',
-    'Prometheus',
-    '30',
-    label= "Disc.",
-    refresh='load',
-  ),
-
   cost_pcpu(current, hide=false):: template.new(
     'costpcpu',
     'Prometheus',
     '5.6',
+    current=current,
     label= "CPU Preemptible",
+    refresh='load',
+  ),
+
+  cost_storage_ssd(current, hide=false):: template.new(
+    'costStorageSSD',
+    'Prometheus',
+    '0.170',
+    current=current,
+    label= "SSD",
+    refresh='load',
+  ),
+
+  cost_storage_standard(current, hide=false):: template.new(
+    'costStorageStandard',
+    'Prometheus',
+    '0.040',
+    current=current,
+    label= "Storage",
+    refresh='load',
+  ),
+
+  cost_ram(current, hide=false):: template.new(
+    'costram',
+    'Prometheus',
+    '3.57',
+    current=current,
+    label= "RAM",
+    refresh='load',
+  ),
+
+  cost_pram(current, hide=false):: template.new(
+    'costpram',
+    'Prometheus',
+    '0.75',
+    current=current,
+    label= "RAM Preemptible",
     refresh='load',
   ),
 

@@ -36,9 +36,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       )
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.cost_cpu('18.7'))
       .addTemplate(templates.cost_discount('30'))
+      .addTemplate(templates.cost_cpu('18.7'))
       .addTemplate(templates.cost_pcpu('5.6'))
+      .addTemplate(templates.cost_storage_ssd('0.170'))
+      .addTemplate(templates.cost_storage_standard('0.040'))
+      .addTemplate(templates.cost_ram('3.57'))
+      .addTemplate(templates.cost_pram('0.75'))
 
       .addRow(
         row.new('Cluster Overview')
