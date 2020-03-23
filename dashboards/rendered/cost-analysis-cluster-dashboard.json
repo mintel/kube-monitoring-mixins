@@ -5,7 +5,7 @@
       "list": [ ]
    },
    "description": "Provides an analysis of costs by cluster",
-   "editable": false,
+   "editable": "true",
    "gnetId": null,
    "graphTooltip": 0,
    "hideControls": false,
@@ -75,7 +75,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m]))\n  /\nsum (machine_cpu_cores{service=\"kubelet\"}) * 100\"\n",
+                     "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m]))\n  /\nsum (machine_cpu_cores{service=\"kubelet\"}) * 100\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,

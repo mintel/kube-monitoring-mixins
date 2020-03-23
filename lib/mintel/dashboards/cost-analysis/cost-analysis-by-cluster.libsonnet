@@ -14,7 +14,7 @@ local dashboardFile = 'cost-analysis-cluster-dashboard.json';
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/%(uid)s/%(name)s' % {
   uid: dashboardUID,
-  name: dashboardFile
+  name: dashboardFile,
 };
 local dashboardTags = ['cost analysis'];
 
@@ -27,6 +27,7 @@ local dashboardTags = ['cost analysis'];
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
            ($._config.mintel + {'dashboardTitle': dashboardTitle }),
         time_from='now-1h',
+        editable='true',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
