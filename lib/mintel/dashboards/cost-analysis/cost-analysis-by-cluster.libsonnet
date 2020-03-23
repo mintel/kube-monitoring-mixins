@@ -41,6 +41,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         row.new('Cluster Overview')
         .addPanel(costAnalysis.cpuUtilisation())
         .addPanel(costAnalysis.cpuRequests())
+        .addPanel(costAnalysis.cpuCost())
       )
 
   },
