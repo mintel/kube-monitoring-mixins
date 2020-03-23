@@ -29,7 +29,7 @@
                "datasource": null,
                "format": "percentunit",
                "gauge": {
-                  "maxValue": 1,
+                  "maxValue": 100,
                   "minValue": 0,
                   "show": true,
                   "thresholdLabels": false,
@@ -111,23 +111,31 @@
    "style": "dark",
    "tags": [
       "mintel",
-      "cost analysis"
+      "cost",
+      "utilisation",
+      "metrics"
    ],
    "templating": {
       "list": [
          {
-            "current": {
-               "text": "Prometheus",
-               "value": "Prometheus"
-            },
-            "hide": 2,
-            "label": null,
-            "name": "ds",
+            "allValue": null,
+            "current": { },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "CPU",
+            "multi": false,
+            "name": "cost_cpu",
             "options": [ ],
-            "query": "prometheus",
+            "query": "18.7",
             "refresh": 1,
             "regex": "",
-            "type": "datasource"
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
          }
       ]
    },

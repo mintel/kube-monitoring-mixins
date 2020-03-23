@@ -62,4 +62,12 @@ local template = grafana.template;
     refresh='load',
   ),
 
+  cost_cpu(current, hide=false):: template.new(
+    'cost_cpu',
+    'Prometheus',
+    '18.7',
+    label= "CPU",
+    refresh='load',
+  ),
+
 }

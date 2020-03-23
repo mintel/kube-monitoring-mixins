@@ -2,6 +2,8 @@ local grafana = import 'grafonnet/grafana.libsonnet';
 local dashboard = grafana.dashboard;
 local row = grafana.row;
 
+local annotations = import 'components/annotations.libsonnet';
+
 local templates = import 'components/templates.libsonnet';
 local common = import 'components/panels/common.libsonnet';
 local costAnalysis = import 'components/panels/cost-analysis.libsonnet';
@@ -16,7 +18,7 @@ local dashboardLink = '/d/%(uid)s/%(name)s' % {
   uid: dashboardUID,
   name: dashboardFile,
 };
-local dashboardTags = ['cost analysis'];
+local dashboardTags = ['cost', 'utilisation', 'metrics'];
 
 // End dashboard settings
 
@@ -33,7 +35,7 @@ local dashboardTags = ['cost analysis'];
         description=dashboardDescription,
       )
 
-      .addTemplate(templates.ds)
+      .addTemplate(templates.cost_cpu('18.7'))
 
       .addRow(
         row.new('Cluster Overview')
@@ -42,12 +44,3 @@ local dashboardTags = ['cost analysis'];
 
   },
 }
-
-
-
-
-
-
-
-
-
