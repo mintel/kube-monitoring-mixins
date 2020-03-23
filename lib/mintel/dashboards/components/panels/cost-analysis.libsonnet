@@ -15,7 +15,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[1m]))
         /
-        sum (machine_cpu_cores{service="kubelet"}) * 100
+        sum (machine_cpu_cores{service="kubelet"})
       |||,
     ),
 
@@ -30,7 +30,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           "rgba(50, 172, 45, 0.97)",
           "#c15c17"],
       query=|||
-        (sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100
+        (sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores))
       |||,
     ),
 
