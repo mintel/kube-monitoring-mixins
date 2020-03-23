@@ -6,13 +6,24 @@ local promQuery = import 'components/prom_query.libsonnet';
 
     commonPanels.gauge(
       title='CPU Utilisation',
-      gaugeMinValue=0,
       gaugeMaxValue=100,
-      span=span,
+      thresholds='30, 80',
       query=|||
         sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[1m]))
-          /
+        /
         sum (machine_cpu_cores{service="kubelet"}) * 100
       |||,
     ),
+
+  cpuRequests(span=2)::
+
+    commonPanels.gauge(
+      title='CPU Requests',
+      gaugeMaxValue=100,
+      thresholds='30, 80',
+      query=|||
+        (sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100
+      |||,
+    ),
+
 }
