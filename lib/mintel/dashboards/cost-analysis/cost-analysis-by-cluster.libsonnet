@@ -37,6 +37,8 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.cost_cpu('18.7'))
+      .addTemplate(templates.cost_discount('30'))
+      .addTemplate(templates.cost_pcpu('5.6'))
 
       .addRow(
         row.new('Cluster Overview')

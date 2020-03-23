@@ -63,11 +63,27 @@ local template = grafana.template;
   ),
 
   cost_cpu(current, hide=false):: template.new(
-    'cost_cpu',
+    'costcpu',
     'Prometheus',
     '18.7',
     current=current,
     label= "CPU",
+    refresh='load',
+  ),
+
+  cost_discount(current, hide=false):: template.new(
+    'costDiscount',
+    'Prometheus',
+    '30',
+    label= "Disc.",
+    refresh='load',
+  ),
+
+  cost_pcpu(current, hide=false):: template.new(
+    'costpcpu',
+    'Prometheus',
+    '5.6',
+    label= "CPU Preemptible",
     refresh='load',
   ),
 
