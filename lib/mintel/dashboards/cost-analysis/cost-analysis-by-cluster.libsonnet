@@ -45,26 +45,22 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_pram('0.75'))
 
       .addRow(
-        row.new('CPU & Storage')
-        .addPanel(costAnalysis.cpuUtilisation())
-        .addPanel(costAnalysis.cpuRequests())
-        .addPanel(costAnalysis.cpuCost())
-        .addPanel(costAnalysis.storageCost())
+        row.new()
+        .addPanel(costAnalysis.cpuUtilisation(), gridPos={"h": 4,"w": 3,"x": 0,"y": 2})
+        .addPanel(costAnalysis.cpuRequests(), gridPos={"h": 4,"w": 3,"x": 3,"y": 2})
+        .addPanel(costAnalysis.cpuCost(), gridPos={"h": 4,"w": 4,"x": 6,"y": 2})
+        .addPanel(costAnalysis.storageCost(), gridPos={"h": 4,"w": 4,"x": 10,"y": 2})
+        .addPanel(costAnalysis.tableNode(), gridPos={"h": 8,"w": 10,"x": 14,"y": 2})
+        .addPanel(costAnalysis.ramUtilisation(), gridPos={"h": 4,"w": 3,"x": 0,"y": 6})
+        .addPanel(costAnalysis.ramRequests(), gridPos={"h": 4,"w": 3,"x": 3,"y": 6})
+        .addPanel(costAnalysis.ramCost(), gridPos={"h": 4,"w": 4,"x": 6,"y": 6})
+        .addPanel(costAnalysis.totalCost(), gridPos={"h": 4,"w": 4,"x": 10,"y": 6})
       )
 
       .addRow(
-        row.new('RAM & Total')
-        .addPanel(costAnalysis.ramUtilisation())
-        .addPanel(costAnalysis.ramRequests())
-        .addPanel(costAnalysis.ramCost())
-        .addPanel(costAnalysis.totalCost())
-      )
-
-      .addRow(
-        row.new('')
-        .addPanel(costAnalysis.tableNode())
-        .addPanel(costAnalysis.tableNamespace())
-        .addPanel(costAnalysis.tablePVC())
+        row.new()
+        .addPanel(costAnalysis.tableNamespace(), gridPos={"h": 11,"w": 14,"x": 0,"y": 10})
+        .addPanel(costAnalysis.tablePVC(), gridPos={"h": 11,"w": 10,"x": 14,"y": 10})
       )
 
   },
