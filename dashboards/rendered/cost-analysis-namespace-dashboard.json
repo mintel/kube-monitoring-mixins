@@ -361,7 +361,7 @@
             "x": 0,
             "y": 9
          },
-         "height": 300,
+         "height": 400,
          "id": 4,
          "legend": {
             "alignAsTable": true,
@@ -418,7 +418,95 @@
          "yaxes": [
             {
                "format": "percent",
-               "label": "CPU Usage",
+               "label": "",
+               "logBase": 1,
+               "max": null,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "label": null,
+               "logBase": 1,
+               "max": 1,
+               "min": 0,
+               "show": false
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$ds",
+         "decimals": 0,
+         "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
+         "fill": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 9
+         },
+         "height": 400,
+         "id": 5,
+         "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 2,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [ ],
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "% ram",
+               "refId": "A"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "Overall RAM Utilisation",
+         "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "percent",
+               "label": "",
                "logBase": 1,
                "max": null,
                "min": 0,

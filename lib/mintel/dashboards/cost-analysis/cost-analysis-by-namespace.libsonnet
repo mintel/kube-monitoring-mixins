@@ -63,6 +63,11 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "w": 12,
                                               "h": 6})
 
+      .addPanel(costAnalysis.graphOverallRAM(), gridPos={
+                                              "x": 12,
+                                              "y": 9,
+                                              "w": 12,
+                                              "h": 6})
 
   },
 }
