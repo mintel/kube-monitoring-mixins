@@ -45,12 +45,26 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_pram('0.75'))
 
       .addRow(
-        row.new('Overview')
+        row.new('CPU & Storage')
         .addPanel(costAnalysis.cpuUtilisation())
         .addPanel(costAnalysis.cpuRequests())
         .addPanel(costAnalysis.cpuCost())
         .addPanel(costAnalysis.storageCost())
-        .addPanel(costAnalysis.tableNodeUtilisation())
+      )
+
+      .addRow(
+        row.new('RAM & Total')
+        .addPanel(costAnalysis.ramUtilisation())
+        .addPanel(costAnalysis.ramRequests())
+        .addPanel(costAnalysis.ramCost())
+        .addPanel(costAnalysis.totalCost())
+      )
+
+      .addRow(
+        row.new('')
+        .addPanel(costAnalysis.tableNode())
+        .addPanel(costAnalysis.tableNamespace())
+        .addPanel(costAnalysis.tablePVC())
       )
 
   },
