@@ -187,8 +187,8 @@ local promQuery = import 'components/prom_query.libsonnet';
                           "intervalFactor": 1,
                           "legendFormat": "{{ node }}",
                           "refId": "B"
-                        }
-                    ],
+                        },
+            ],
           ),
 
       ramUtilisation()::
@@ -505,15 +505,14 @@ local promQuery = import 'components/prom_query.libsonnet';
                     "intervalFactor": 1,
                     "legendFormat": "{{ namespace }}",
                     "refId": "F"
-                  }
-                  ],
+                  },
+          ],
         ),
 
-        tablePVC(span=4)::
+        tablePVC()::
 
           commonPanels.table(
             title='Persistent Volume Claims',
-            span=span,
             styles=[
                     {
                       "alias": "Namespace",
@@ -611,8 +610,217 @@ local promQuery = import 'components/prom_query.libsonnet';
                       "intervalFactor": 1,
                       "legendFormat": "{{ persistentvolumeclaim }}",
                       "refId": "A"
-                    }
+                    },
             ],
          ),
+
+        tablePodCost()::
+
+          commonPanels.table(
+            title='Pod cost and utilisation analysis',
+            styles=[
+                    {
+                      "alias": "Pod",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#c15c17",
+                        "rgba(245, 54, 54, 0.9)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "link": true,
+                      "linkTooltip": "Click to drill down into pod",
+                      "linkUrl": "d/at-cost-analysis-pod/cost-analysis-by-pod?&var-namespace=$namespace&var-pod=$__cell",
+                      "pattern": "pod_name",
+                      "thresholds": [
+                        "30",
+                        "80"
+                      ],
+                      "type": "string",
+                      "unit": "currencyUSD"
+                    },
+                    {
+                      "alias": "RAM",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "pattern": "Value #B",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "currencyUSD"
+                    },
+                    {
+                      "alias": "CPU",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value #A",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "currencyUSD"
+                    },
+                    {
+                      "alias": "",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Time",
+                      "thresholds": [],
+                      "type": "hidden",
+                      "unit": "short"
+                    },
+                    {
+                      "alias": "Total",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value #D",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "currencyUSD"
+                    },
+                    {
+                      "alias": "CPU Utilisation",
+                      "align": "auto",
+                      "colorMode": "value",
+                      "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#ef843c",
+                        "#bf1b00"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value #E",
+                      "thresholds": [
+                        "50",
+                        "80"
+                      ],
+                      "type": "number",
+                      "unit": "percent"
+                    },
+                    {
+                      "alias": "RAM Utilisation",
+                      "align": "auto",
+                      "colorMode": "value",
+                      "colors": [
+                        "rgba(50, 172, 45, 0.97)",
+                        "#c15c17",
+                        "rgba(245, 54, 54, 0.9)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value #F",
+                      "thresholds": [
+                        "50",
+                        "80"
+                      ],
+                      "type": "number",
+                      "unit": "percent"
+                    },
+                    {
+                      "alias": "Storage - n/a",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value #C",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "currencyUSD"
+                    }
+            ],
+            columns=[
+                    {
+                      "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "interval": "",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ pod_name }}",
+                      "refId": "A"
+                    },
+                    {
+                      "expr": "(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ namespace }}",
+                      "refId": "B"
+                    },
+                    {
+                      "expr": "vector(0)",
+                      "format": "table",
+                      "instant": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ namespace }}",
+                      "refId": "C"
+                    },
+                    {
+                      "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n# Now ram\n\n+ \n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "intervalFactor": 1,
+                      "refId": "D"
+                    },
+                    {
+                      "expr": "sum(\n   count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name)) by (pod_name)  \n   * on (pod_name) \n   sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m])) by (pod_name)\n) by (pod_name) * 1000\n/\nsum(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name) * 100",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ pod_name }}",
+                      "refId": "E"
+                    },
+                    {
+                      "expr": "sum(\n   count(count(container_memory_working_set_bytes{namespace=\"$namespace\"}) by (pod_name)) by (pod_name)  \n   * on (pod_name) \n   sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\"}[1m])) by (pod_name)\n) by (pod_name)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (pod_name) * 100",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ namespace }}",
+                      "refId": "F"
+                    },
+            ],
+          ),
 
 }

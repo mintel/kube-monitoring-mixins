@@ -143,8 +143,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       datasource='$ds',
       styles=styles,
       columns=columns,
-    )
-    .addTarget(promQuery.target(columns)),
+    ),
 
   timeseries(
     title='Timeseries',

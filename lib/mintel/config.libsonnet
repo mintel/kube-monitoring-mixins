@@ -79,6 +79,7 @@
     cost_storage_standard: '0.040',
     cost_ram: '3.57',
     cost_pram: '0.75',
+    cost_namespace: 'query_result(sum(container_memory_working_set_bytes{namespace!=""}) by (namespace))',
 
   },
 }
