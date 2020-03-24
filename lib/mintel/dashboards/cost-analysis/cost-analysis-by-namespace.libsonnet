@@ -57,6 +57,12 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "w": 8,
                                               "h": 9})
 
+      .addPanel(costAnalysis.graphOverallCPU(), gridPos={
+                                              "x": 0,
+                                              "y": 9,
+                                              "w": 12,
+                                              "h": 6})
+
 
   },
 }
