@@ -8,9 +8,9 @@ local common = import 'components/panels/common.libsonnet';
 local costAnalysis = import 'components/panels/cost-analysis.libsonnet';
 
 // Dashboard settings
-local dashboardTitle = 'Cost Analysis by Cluster';
-local dashboardDescription = "Provides an analysis of costs by cluster";
-local dashboardFile = 'cost-analysis-cluster-dashboard.json';
+local dashboardTitle = 'Cost Analysis by Namespace';
+local dashboardDescription = "Provides an analysis of costs by namespace";
+local dashboardFile = 'cost-analysis-namespace-dashboard.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/%(uid)s/%(name)s' % {
@@ -28,7 +28,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
            ($._config.mintel + {'dashboardTitle': dashboardTitle }),
         time_from='now-1h',
-        editable='false',
+        editable='true',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
