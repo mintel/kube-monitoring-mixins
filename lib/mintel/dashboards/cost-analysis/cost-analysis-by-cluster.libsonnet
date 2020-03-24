@@ -35,13 +35,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       )
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.cost_discount($._config.cost_discount))
       .addTemplate(templates.cost_cpu($._config.cost_cpu))
       .addTemplate(templates.cost_pcpu($._config.cost_pcpu))
-      .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd))
-      .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard))
       .addTemplate(templates.cost_ram($._config.cost_ram))
       .addTemplate(templates.cost_pram($._config.cost_pram))
+      .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard))
+      .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd))
+      .addTemplate(templates.cost_discount($._config.cost_discount))
 
       .addPanel(costAnalysis.overviewText(content=|||
                                             This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.
@@ -108,7 +108,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "y": 8,
                                               "w": 11,
                                               "h": 11})
-      .addPanel(costAnalysis.tablePVC(), gridPos={
+      .addPanel(costAnalysis.tablePVCCluster(), gridPos={
                                               "x": 11,
                                               "y": 8,
                                               "w": 13,

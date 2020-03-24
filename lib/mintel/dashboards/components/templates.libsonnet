@@ -85,7 +85,7 @@ local template = grafana.template;
     'Prometheus',
     '$._config.cost_pcpu',
     current=current,
-    label= "CPU Preemptible",
+    label= "PE CPU",
     refresh='load',
   ),
 
@@ -121,18 +121,18 @@ local template = grafana.template;
     'Prometheus',
     '$._config.cost_pram',
     current=current,
-    label= "RAM Preemptible",
+    label= "PE RAM",
     refresh='load',
   ),
 
   cost_namespace(current, hide=false):: template.new(
     'namespace',
     'Prometheus',
-    '$._config.cost_namespace',
-    label='Namespace',
-    refresh='load',
+    'query_result(sum(container_memory_working_set_bytes{namespace!=\"\"}) by (namespace))',
+    regex='/namespace=\"(.*?)(\")/',
     current=current,
-    hide=hide,
+    label='NS',
+    refresh='load',
   ),
 
 }

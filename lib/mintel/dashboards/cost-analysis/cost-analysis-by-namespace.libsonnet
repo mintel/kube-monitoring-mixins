@@ -35,13 +35,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       )
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.cost_discount($._config.cost_discount))
       .addTemplate(templates.cost_cpu($._config.cost_cpu))
       .addTemplate(templates.cost_pcpu($._config.cost_pcpu))
-      .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd))
-      .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard))
       .addTemplate(templates.cost_ram($._config.cost_ram))
       .addTemplate(templates.cost_pram($._config.cost_pram))
+      .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard))
+      .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd))
+      .addTemplate(templates.cost_discount($._config.cost_discount))
       .addTemplate(templates.cost_namespace('monitoring'))
 
 
@@ -49,6 +49,12 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "x": 0,
                                               "y": 0,
                                               "w": 16,
+                                              "h": 9})
+
+      .addPanel(costAnalysis.tablePVCNamespace(), gridPos={
+                                              "x": 16,
+                                              "y": 0,
+                                              "w": 8,
                                               "h": 9})
 
 

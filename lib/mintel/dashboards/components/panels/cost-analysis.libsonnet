@@ -509,7 +509,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           ],
         ),
 
-        tablePVC()::
+        tablePVCCluster()::
 
           commonPanels.table(
             title='Persistent Volume Claims',
@@ -823,4 +823,108 @@ local promQuery = import 'components/prom_query.libsonnet';
             ],
           ),
 
+        tablePVCNamespace()::
+
+          commonPanels.table(
+            title='Persistent Volume Claims',
+            styles=[
+                    {
+                      "alias": "Namespace",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "namespace",
+                      "thresholds": [],
+                      "type": "hidden",
+                      "unit": "short"
+                    },
+                    {
+                      "alias": "PVC Name",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "persistentvolumeclaim",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "short"
+                    },
+                    {
+                      "alias": "Storage Class",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "storageclass",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "short"
+                    },
+                    {
+                      "alias": "Cost",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Value",
+                      "thresholds": [],
+                      "type": "number",
+                      "unit": "currencyUSD"
+                    },
+                    {
+                      "alias": "",
+                      "align": "auto",
+                      "colorMode": null,
+                      "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                      ],
+                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                      "decimals": 2,
+                      "mappingType": 1,
+                      "pattern": "Time",
+                      "thresholds": [],
+                      "type": "hidden",
+                      "unit": "short"
+                    }
+            ],
+            columns=[
+                    {
+                      "expr": "sum (\n  sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\"}) by (persistentvolumeclaim, namespace)\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageSSD\n\nor\n\nsum (\n  sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\"}) by (persistentvolumeclaim, namespace)\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageStandard\n",
+                      "format": "table",
+                      "hide": false,
+                      "instant": true,
+                      "interval": "",
+                      "intervalFactor": 1,
+                      "legendFormat": "{{ persistentvolumeclaim }}",
+                      "refId": "A"
+                    }
+            ],
+          ),
 }
