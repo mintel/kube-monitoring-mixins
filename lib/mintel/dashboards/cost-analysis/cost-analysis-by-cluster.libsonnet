@@ -61,7 +61,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       )
 
       .addRow(
-        row.new(height=10)
+        row.new(height=35)
         .addPanel(costAnalysis.tableNode())
         .addPanel(costAnalysis.tableNamespace())
         .addPanel(costAnalysis.tablePVC())

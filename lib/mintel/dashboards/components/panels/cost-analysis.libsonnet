@@ -3,13 +3,13 @@ local promQuery = import 'components/prom_query.libsonnet';
 
 {
 
-      cpuUtilisation(span=2)::
+      cpuUtilisation(span=6)::
 
         commonPanels.gauge(
           title='CPU Utilisation',
           description='This gauge shows the current CPU use vs CPU available',
           query=|||
-            sum (rate (container_cpu_usage_seconds_total{id="/",service="kubelet"}[1m])) / sum (machine_cpu_cores{service="kubelet"}) * 100
+            sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[1m])) / sum (machine_cpu_cores{service="kubelet"}) * 100
           |||,
           colors= [
                     "rgba(245, 54, 54, 0.9)",
@@ -26,7 +26,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      cpuRequests(span=2)::
+      cpuRequests(span=6)::
 
         commonPanels.gauge(
           title='CPU Requests',
@@ -49,7 +49,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      cpuCost(span=2)::
+      cpuCost(span=6)::
 
         commonPanels.singlestat(
           title='CPU Cost',
@@ -67,7 +67,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           span=span,
         ),
 
-        storageCost(span=2)::
+        storageCost(span=4)::
 
           commonPanels.singlestat(
             title='Storage Cost (Cluster and PVC)',
@@ -89,11 +89,12 @@ local promQuery = import 'components/prom_query.libsonnet';
             span=span,
           ),
 
-        tableNode()::
+        tableNode(span=8)::
 
           commonPanels.table(
             title='Cluster Node Utilisation by CPU and RAM requests',
             description='This table shows the comparison of CPU and RAM requests by applications, vs the capacity of the node',
+            span=span,
             styles=[
                         {
                           "alias": "RAM Requests",
@@ -192,7 +193,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                     ],
           ),
 
-      ramUtilisation()::
+      ramUtilisation(span=6)::
 
         commonPanels.gauge(
           title='RAM Utilisation',
@@ -209,12 +210,13 @@ local promQuery = import 'components/prom_query.libsonnet';
           gaugeMaxValue=100,
           height=180,
           interval='',
+          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      ramRequests()::
+      ramRequests(span=6)::
 
         commonPanels.gauge(
           title='RAM Requests',
@@ -235,12 +237,13 @@ local promQuery = import 'components/prom_query.libsonnet';
           gaugeMaxValue=100,
           height=180,
           interval='',
+          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      ramCost()::
+      ramCost(span=6)::
 
         commonPanels.singlestat(
           title='RAM Cost',
@@ -261,53 +264,41 @@ local promQuery = import 'components/prom_query.libsonnet';
           height=180,
           interval= "10s",
           legendFormat= " {{ node }}",
+          span=span,
         ),
 
-      totalCost()::
+      totalCost(span=6)::
 
         commonPanels.singlestat(
           title='Total Cost',
+          span=span,
           query=|||
-            # CPU sum(((
-                      sum(kube_node_status_capacity_cpu_cores) by (node)
-                      * on (node) group_left (label_cloud_google_com_gke_preemptible)
-                      kube_node_labels{label_cloud_google_com_gke_preemptible="true"}
-                    ) * $costpcpu)
-                  or
-                  ((
-                      sum(kube_node_status_capacity_cpu_cores) by (node)
-                      * on (node) group_left (label_cloud_google_com_gke_preemptible)
-                      kube_node_labels{label_cloud_google_com_gke_preemptible!="true"}
-                      ) * ($costcpu - ($costcpu / 100 * $costDiscount))))
-
-            +
-
-            # Storage
-            sum (
+              # CPU
+              sum(((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)
+              kube_node_labels{label_cloud_google_com_gke_preemptible="true"}) * $costpcpu)
+              or ((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)
+              kube_node_labels{label_cloud_google_com_gke_preemptible!="true"}) * ($costcpu - ($costcpu / 100 * $costDiscount))))
+              +
+              # Storage
+              sum (
               sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass)
               + on (persistentvolumeclaim, namespace) group_right(storageclass)
               sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)
-            ) / 1024 / 1024 /1024 * $costStorageSSD
-
-            +
-
-            (sum (
+              ) / 1024 / 1024 /1024 * $costStorageSSD
+              +
+              (sum (
               sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass)
               + on (persistentvolumeclaim, namespace) group_right(storageclass)
               sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)
-            ) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard
-
-            +
-
-            sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
-
-            +
-            # RAM
-            sum(((
+              ) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard
+              +
+              sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
+              +
+              # RAM
+              sum(((
                   sum(kube_node_status_capacity_memory_bytes) by (node)
                    * on (node) group_left (label_cloud_google_com_gke_preemptible)
-                  kube_node_labels{label_cloud_google_com_gke_preemptible="true"}
-                ) /1024/1024/1024 * $costpram
+                  kube_node_labels{label_cloud_google_com_gke_preemptible="true"}) /1024/1024/1024 * $costpram
               )
               or
               ((
@@ -315,17 +306,18 @@ local promQuery = import 'components/prom_query.libsonnet';
                    * on (node) group_left (label_cloud_google_com_gke_preemptible)
                   kube_node_labels{label_cloud_google_com_gke_preemptible!="true"}
                 ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))
-            ))
+              ))
           |||,
           format= "currencyUSD",
           interval= "10s",
           legendFormat= " {{ node }}",
         ),
 
-      tableNamespace()::
+      tableNamespace(span=8)::
 
         commonPanels.table(
           title='Namespace cost and utilisation analysis',
+          span=span,
           styles=[
                   {
                     "alias": "Namespace",
@@ -527,10 +519,11 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
         ),
 
-        tablePVC()::
+        tablePVC(span=8)::
 
           commonPanels.table(
             title='Persistent Volume Claims',
+            span=span,
             styles=[
                     {
                       "alias": "Namespace",
