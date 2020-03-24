@@ -3,7 +3,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
 {
 
-      cpuUtilisation(span=2)::
+      cpuUtilisation()::
 
         commonPanels.gauge(
           title='CPU Utilisation',
@@ -18,15 +18,13 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
           format='percent',
           gaugeMaxValue=100,
-          height=180,
           interval='',
-          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      cpuRequests(span=2)::
+      cpuRequests()::
 
         commonPanels.gauge(
           title='CPU Requests',
@@ -41,15 +39,13 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
           format='percent',
           gaugeMaxValue=100,
-          height=180,
           interval='',
-          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      cpuCost(span=2)::
+      cpuCost()::
 
         commonPanels.singlestat(
           title='CPU Cost',
@@ -61,13 +57,11 @@ local promQuery = import 'components/prom_query.libsonnet';
               * ($costcpu - ($costcpu / 100 * $costDiscount))))
           |||,
           format= "currencyUSD",
-          height=180,
           interval= "10s",
           legendFormat= " {{ node }}",
-          span=span,
         ),
 
-        storageCost(span=2)::
+        storageCost()::
 
           commonPanels.singlestat(
             title='Storage Cost (Cluster and PVC)',
@@ -83,18 +77,15 @@ local promQuery = import 'components/prom_query.libsonnet';
                 + sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id!="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
             |||,
             format= "currencyUSD",
-            height=180,
             interval= "10s",
             legendFormat= " {{ node }}",
-            span=span,
           ),
 
-        tableNode(span=4)::
+        tableNode()::
 
           commonPanels.table(
             title='Cluster Node Utilisation by CPU and RAM requests',
             description='This table shows the comparison of CPU and RAM requests by applications, vs the capacity of the node',
-            span=span,
             styles=[
                         {
                           "alias": "RAM Requests",
@@ -193,7 +184,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                     ],
           ),
 
-      ramUtilisation(span=2)::
+      ramUtilisation()::
 
         commonPanels.gauge(
           title='RAM Utilisation',
@@ -208,15 +199,13 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
           format='percent',
           gaugeMaxValue=100,
-          height=180,
           interval='',
-          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      ramRequests(span=2)::
+      ramRequests()::
 
         commonPanels.gauge(
           title='RAM Requests',
@@ -235,15 +224,13 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
           format='percent',
           gaugeMaxValue=100,
-          height=180,
           interval='',
-          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      ramCost(span=2)::
+      ramCost()::
 
         commonPanels.singlestat(
           title='RAM Cost',
@@ -261,17 +248,14 @@ local promQuery = import 'components/prom_query.libsonnet';
                  ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))))
           |||,
           format= "currencyUSD",
-          height=180,
           interval= "10s",
           legendFormat= " {{ node }}",
-          span=span,
         ),
 
-      totalCost(span=2)::
+      totalCost()::
 
         commonPanels.singlestat(
           title='Total Cost',
-          span=span,
           query=|||
               # CPU
               sum(((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)
@@ -313,11 +297,10 @@ local promQuery = import 'components/prom_query.libsonnet';
           legendFormat= " {{ node }}",
         ),
 
-      tableNamespace(span=4)::
+      tableNamespace()::
 
         commonPanels.table(
           title='Namespace cost and utilisation analysis',
-          span=span,
           styles=[
                   {
                     "alias": "Namespace",

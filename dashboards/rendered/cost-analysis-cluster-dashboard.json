@@ -37,7 +37,7 @@
             "x": 0,
             "y": 0
          },
-         "height": 180,
+         "height": 200,
          "id": 2,
          "interval": "",
          "links": [ ],
@@ -66,7 +66,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -123,7 +122,7 @@
             "x": 3,
             "y": 0
          },
-         "height": 180,
+         "height": 200,
          "id": 3,
          "interval": "",
          "links": [ ],
@@ -152,7 +151,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -208,7 +206,7 @@
             "x": 6,
             "y": 0
          },
-         "height": 180,
+         "height": 200,
          "id": 4,
          "interval": null,
          "links": [ ],
@@ -237,7 +235,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -292,7 +289,7 @@
             "x": 10,
             "y": 0
          },
-         "height": 180,
+         "height": 200,
          "id": 5,
          "interval": null,
          "links": [ ],
@@ -321,7 +318,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -377,7 +373,7 @@
             "x": 0,
             "y": 4
          },
-         "height": 180,
+         "height": 200,
          "id": 6,
          "interval": "",
          "links": [ ],
@@ -406,7 +402,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -463,7 +458,7 @@
             "x": 3,
             "y": 4
          },
-         "height": 180,
+         "height": 200,
          "id": 7,
          "interval": "",
          "links": [ ],
@@ -492,7 +487,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -548,7 +542,7 @@
             "x": 6,
             "y": 4
          },
-         "height": 180,
+         "height": 200,
          "id": 8,
          "interval": null,
          "links": [ ],
@@ -577,7 +571,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -661,7 +654,6 @@
                "to": "null"
             }
          ],
-         "span": 2,
          "sparkline": {
             "fillColor": "rgba(31, 118, 189, 0.18)",
             "full": false,
@@ -722,7 +714,6 @@
             "y": 0
          },
          "id": 10,
-         "span": 4,
          "styles": [
             {
                "alias": "RAM Requests",
@@ -866,7 +857,6 @@
             "y": 8
          },
          "id": 11,
-         "span": 4,
          "styles": [
             {
                "alias": "Namespace",
