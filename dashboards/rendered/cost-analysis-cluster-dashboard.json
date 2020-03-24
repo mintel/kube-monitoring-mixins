@@ -16,6 +16,7 @@
       {
          "collapse": false,
          "collapsed": false,
+         "height": 5,
          "panels": [
             {
                "cacheTimeout": null,
@@ -36,13 +37,8 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": {
-                  "h": 4,
-                  "w": 3,
-                  "x": 0,
-                  "y": 2
-               },
-               "height": 200,
+               "gridPos": { },
+               "height": 180,
                "id": 2,
                "interval": "",
                "links": [ ],
@@ -121,13 +117,8 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": {
-                  "h": 4,
-                  "w": 3,
-                  "x": 3,
-                  "y": 2
-               },
-               "height": 200,
+               "gridPos": { },
+               "height": 180,
                "id": 3,
                "interval": "",
                "links": [ ],
@@ -205,13 +196,8 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": {
-                  "h": 4,
-                  "w": 4,
-                  "x": 6,
-                  "y": 2
-               },
-               "height": 200,
+               "gridPos": { },
+               "height": 180,
                "id": 4,
                "interval": null,
                "links": [ ],
@@ -288,13 +274,8 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": {
-                  "h": 4,
-                  "w": 4,
-                  "x": 10,
-                  "y": 2
-               },
-               "height": 200,
+               "gridPos": { },
+               "height": 180,
                "id": 5,
                "interval": null,
                "links": [ ],
@@ -352,7 +333,351 @@
                   }
                ],
                "valueName": "current"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": false,
+         "title": "Dashboard Row",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "height": 5,
+         "panels": [
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "rgba(245, 54, 54, 0.9)",
+                  "rgba(50, 172, 45, 0.97)",
+                  "#c15c17"
+               ],
+               "datasource": null,
+               "description": "This gauge shows current RAM use by RAM available",
+               "format": "percent",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": true,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": { },
+               "height": 180,
+               "id": 6,
+               "interval": "",
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": false
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "30, 80",
+               "title": "RAM Utilisation",
+               "transparent": true,
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "avg"
             },
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "rgba(245, 54, 54, 0.9)",
+                  "rgba(50, 172, 45, 0.97)",
+                  "#c15c17"
+               ],
+               "datasource": null,
+               "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
+               "format": "percent",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": true,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": { },
+               "height": 180,
+               "id": 7,
+               "interval": "",
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": false
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n  /\n  sum(kube_node_status_allocatable_memory_bytes)\n) * 100\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "30, 80",
+               "title": "RAM Requests",
+               "transparent": true,
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "avg"
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "format": "currencyUSD",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": { },
+               "height": 180,
+               "id": 8,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "sum(((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n     ) /1024/1024/1024 * $costpram)\n   or\n   ((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n     ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))))\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "RAM Cost",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "format": "currencyUSD",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": { },
+               "height": 200,
+               "id": 9,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": false,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "# CPU sum(((\n          sum(kube_node_status_capacity_cpu_cores) by (node)\n          * on (node) group_left (label_cloud_google_com_gke_preemptible)\n          kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n        ) * $costpcpu)\n      or\n      ((\n          sum(kube_node_status_capacity_cpu_cores) by (node)\n          * on (node) group_left (label_cloud_google_com_gke_preemptible)\n          kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n          ) * ($costcpu - ($costcpu / 100 * $costDiscount))))\n\n+\n\n# Storage\nsum (\n  sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) / 1024 / 1024 /1024 * $costStorageSSD\n\n+\n\n(sum (\n  sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard\n\n+\n\nsum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n\n+\n# RAM\nsum(((\n      sum(kube_node_status_capacity_memory_bytes) by (node)\n       * on (node) group_left (label_cloud_google_com_gke_preemptible)\n      kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n    ) /1024/1024/1024 * $costpram\n  )\n  or\n  ((\n      sum(kube_node_status_capacity_memory_bytes) by (node)\n       * on (node) group_left (label_cloud_google_com_gke_preemptible)\n      kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n    ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))\n))\n",
+                     "format": true,
+                     "interval": "1m",
+                     "intervalFactor": 3,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "Total Cost",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": false,
+         "title": "Dashboard Row",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "height": 10,
+         "panels": [
             {
                "columns": [
                   {
@@ -376,13 +701,8 @@
                ],
                "datasource": "$ds",
                "description": "This table shows the comparison of CPU and RAM requests by applications, vs the capacity of the node",
-               "gridPos": {
-                  "h": 8,
-                  "w": 10,
-                  "x": 14,
-                  "y": 2
-               },
-               "id": 6,
+               "gridPos": { },
+               "id": 10,
                "styles": [
                   {
                      "alias": "RAM Requests",
@@ -466,355 +786,6 @@
                "type": "table"
             },
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(50, 172, 45, 0.97)",
-                  "#c15c17"
-               ],
-               "datasource": null,
-               "description": "This gauge shows current RAM use by RAM available",
-               "format": "percent",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 4,
-                  "w": 3,
-                  "x": 0,
-                  "y": 6
-               },
-               "height": 200,
-               "id": 7,
-               "interval": "",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "30, 80",
-               "title": "RAM Utilisation",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(50, 172, 45, 0.97)",
-                  "#c15c17"
-               ],
-               "datasource": null,
-               "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
-               "format": "percent",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 4,
-                  "w": 3,
-                  "x": 3,
-                  "y": 6
-               },
-               "height": 200,
-               "id": 8,
-               "interval": "",
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": false
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n  /\n  sum(kube_node_status_allocatable_memory_bytes)\n) * 100\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "30, 80",
-               "title": "RAM Requests",
-               "transparent": true,
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "avg"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "format": "currencyUSD",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 4,
-                  "w": 4,
-                  "x": 6,
-                  "y": 6
-               },
-               "height": 200,
-               "id": 9,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n     ) /1024/1024/1024 * $costpram)\n   or\n   ((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n     ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))))\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "RAM Cost",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "format": "currencyUSD",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 4,
-                  "w": 4,
-                  "x": 10,
-                  "y": 6
-               },
-               "height": 200,
-               "id": 10,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "# CPU sum(((\n          sum(kube_node_status_capacity_cpu_cores) by (node)\n          * on (node) group_left (label_cloud_google_com_gke_preemptible)\n          kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n        ) * $costpcpu)\n      or\n      ((\n          sum(kube_node_status_capacity_cpu_cores) by (node)\n          * on (node) group_left (label_cloud_google_com_gke_preemptible)\n          kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n          ) * ($costcpu - ($costcpu / 100 * $costDiscount))))\n\n+\n\n# Storage\nsum (\n  sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) / 1024 / 1024 /1024 * $costStorageSSD\n\n+\n\n(sum (\n  sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard\n\n+\n\nsum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n\n+\n# RAM\nsum(((\n      sum(kube_node_status_capacity_memory_bytes) by (node)\n       * on (node) group_left (label_cloud_google_com_gke_preemptible)\n      kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n    ) /1024/1024/1024 * $costpram\n  )\n  or\n  ((\n      sum(kube_node_status_capacity_memory_bytes) by (node)\n       * on (node) group_left (label_cloud_google_com_gke_preemptible)\n      kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n    ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))\n))\n",
-                     "format": true,
-                     "interval": "1m",
-                     "intervalFactor": 3,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "Total Cost",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": false,
-         "title": "Dashboard Row",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
-            {
                "columns": [
                   {
                      "expr": "(\n  sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)) \n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(namespace)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace!=\"\"}) by(namespace)\n  ) by(namespace) -1\n)",
@@ -868,12 +839,7 @@
                ],
                "datasource": "$ds",
                "description": "",
-               "gridPos": {
-                  "h": 11,
-                  "w": 14,
-                  "x": 0,
-                  "y": 10
-               },
+               "gridPos": { },
                "id": 11,
                "styles": [
                   {
@@ -1044,12 +1010,7 @@
                ],
                "datasource": "$ds",
                "description": "",
-               "gridPos": {
-                  "h": 11,
-                  "w": 10,
-                  "x": 14,
-                  "y": 10
-               },
+               "gridPos": { },
                "id": 12,
                "styles": [
                   {
