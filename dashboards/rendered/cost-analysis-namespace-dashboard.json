@@ -361,7 +361,7 @@
             "x": 0,
             "y": 9
          },
-         "height": 200,
+         "height": 300,
          "id": 4,
          "legend": {
             "alignAsTable": true,
@@ -390,11 +390,11 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "\"sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m])) by (namespace) * 1000\n/\nsum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100\"",
+               "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m]))\n  by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
-               "legendFormat": "cpu",
+               "legendFormat": "% cpu",
                "refId": "A"
             }
          ],
@@ -417,8 +417,8 @@
          },
          "yaxes": [
             {
-               "format": "short",
-               "label": "",
+               "format": "percent",
+               "label": "CPU Usage",
                "logBase": 1,
                "max": null,
                "min": 0,

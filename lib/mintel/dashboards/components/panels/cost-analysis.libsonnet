@@ -933,8 +933,14 @@ local promQuery = import 'components/prom_query.libsonnet';
           commonPanels.timeseries(
             title='Overall CPU Utilisation',
             description='This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods',
-            query='"sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m])) by (namespace) * 1000\n/\nsum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100"',
-            legendFormat= 'cpu',
+            yAxisLabel='CPU Usage',
+            height=300,
+            format='percent',
+            query=|||
+              sum (rate (container_cpu_usage_seconds_total{namespace="$namespace"}[1m]))
+                by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace="$namespace"}[1m])) by (namespace) * 100
+            |||,
+            legendFormat= '% cpu',
           ),
 
 }
