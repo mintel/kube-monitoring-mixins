@@ -3,6 +3,12 @@ local promQuery = import 'components/prom_query.libsonnet';
 
 {
 
+      overviewText(content)::
+        commonPanels.text(
+          title='',
+          content=content,
+        ),
+
       cpuUtilisation()::
 
         commonPanels.gauge(

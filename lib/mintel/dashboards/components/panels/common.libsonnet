@@ -9,7 +9,21 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
 local templates = import 'components/templates.libsonnet';
 local statusdotsPanel = import 'statusdots_panel.libsonnet';
+
 {
+  text(
+    title='Table',
+    mode='markdown',
+    content='',
+    datasource=null,
+  )::
+    text.new(
+      title= title,
+      mode= mode,
+      content= content,
+      datasource= datasource,
+    ),
+
   statusdots(
     title='StatusDotPanel',
     description='',

@@ -13,6 +13,20 @@
    "links": [ ],
    "panels": [
       {
+         "content": "This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.\nCurrent Region Prices are for BELGIUM .  Utilisation figures represent utilsation of current, active deployments vs\ntheir request limits, and does not include data from instances no longer running.\n",
+         "datasource": null,
+         "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 0
+         },
+         "id": 2,
+         "mode": "markdown",
+         "title": "",
+         "type": "text"
+      },
+      {
          "cacheTimeout": null,
          "colorBackground": false,
          "colorValue": false,
@@ -38,7 +52,7 @@
             "y": 0
          },
          "height": 200,
-         "id": 2,
+         "id": 3,
          "interval": "",
          "links": [ ],
          "mappingType": 1,
@@ -123,7 +137,7 @@
             "y": 0
          },
          "height": 200,
-         "id": 3,
+         "id": 4,
          "interval": "",
          "links": [ ],
          "mappingType": 1,
@@ -207,7 +221,7 @@
             "y": 0
          },
          "height": 200,
-         "id": 4,
+         "id": 5,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -290,7 +304,7 @@
             "y": 0
          },
          "height": 200,
-         "id": 5,
+         "id": 6,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -374,7 +388,7 @@
             "y": 4
          },
          "height": 200,
-         "id": 6,
+         "id": 7,
          "interval": "",
          "links": [ ],
          "mappingType": 1,
@@ -459,7 +473,7 @@
             "y": 4
          },
          "height": 200,
-         "id": 7,
+         "id": 8,
          "interval": "",
          "links": [ ],
          "mappingType": 1,
@@ -543,7 +557,7 @@
             "y": 4
          },
          "height": 200,
-         "id": 8,
+         "id": 9,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -626,7 +640,7 @@
             "y": 4
          },
          "height": 200,
-         "id": 9,
+         "id": 10,
          "interval": null,
          "links": [ ],
          "mappingType": 1,
@@ -713,7 +727,7 @@
             "x": 14,
             "y": 0
          },
-         "id": 10,
+         "id": 11,
          "styles": [
             {
                "alias": "RAM Requests",
@@ -856,7 +870,7 @@
             "x": 0,
             "y": 8
          },
-         "id": 11,
+         "id": 12,
          "styles": [
             {
                "alias": "Namespace",
@@ -1032,7 +1046,7 @@
             "x": 11,
             "y": 8
          },
-         "id": 12,
+         "id": 13,
          "span": 4,
          "styles": [
             {
