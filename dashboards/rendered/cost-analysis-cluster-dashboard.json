@@ -67,7 +67,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -148,7 +148,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -228,7 +228,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -307,7 +307,7 @@
                      "to": "null"
                   }
                ],
-               "span": 4,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -337,21 +337,7 @@
                   }
                ],
                "valueName": "current"
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": false,
-         "title": "Dashboard Row",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "height": 5,
-         "panels": [
+            },
             {
                "cacheTimeout": null,
                "colorBackground": false,
@@ -401,7 +387,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -482,7 +468,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -562,7 +548,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -641,7 +627,7 @@
                      "to": "null"
                   }
                ],
-               "span": 6,
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -651,7 +637,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "# CPU\nsum(((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) * $costpcpu)\nor ((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}) * ($costcpu - ($costcpu / 100 * $costDiscount))))\n+\n# Storage\nsum (\nsum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) / 1024 / 1024 /1024 * $costStorageSSD\n+\n(sum (\nsum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard\n+\nsum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n+\n# RAM\nsum(((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) /1024/1024/1024 * $costpram\n)\nor\n((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n  ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))\n))\n",
+                     "expr": "# CPU\nsum(((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) * $costpcpu)\nor ((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}) * ($costcpu - ($costcpu / 100 * $costDiscount))))\n+\n# Storage\nsum (\nsum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) / 1024 / 1024 /1024 * $costStorageSSD\n+\n(sum (\nsum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard\n+\nsum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n+\n# RAM\nsum(((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) /1024/1024/1024 * $costpram\n)\nor\n((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n  ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))\n))\n",
                      "format": true,
                      "interval": "1m",
                      "intervalFactor": 3,
@@ -711,7 +697,7 @@
                "description": "This table shows the comparison of CPU and RAM requests by applications, vs the capacity of the node",
                "gridPos": { },
                "id": 10,
-               "span": 8,
+               "span": 4,
                "styles": [
                   {
                      "alias": "RAM Requests",
@@ -850,7 +836,7 @@
                "description": "",
                "gridPos": { },
                "id": 11,
-               "span": 8,
+               "span": 4,
                "styles": [
                   {
                      "alias": "Namespace",
@@ -1022,7 +1008,7 @@
                "description": "",
                "gridPos": { },
                "id": 12,
-               "span": 8,
+               "span": 4,
                "styles": [
                   {
                      "alias": "Namespace",

@@ -3,7 +3,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
 {
 
-      cpuUtilisation(span=6)::
+      cpuUtilisation(span=2)::
 
         commonPanels.gauge(
           title='CPU Utilisation',
@@ -26,7 +26,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      cpuRequests(span=6)::
+      cpuRequests(span=2)::
 
         commonPanels.gauge(
           title='CPU Requests',
@@ -49,7 +49,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      cpuCost(span=6)::
+      cpuCost(span=2)::
 
         commonPanels.singlestat(
           title='CPU Cost',
@@ -67,7 +67,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           span=span,
         ),
 
-        storageCost(span=4)::
+        storageCost(span=2)::
 
           commonPanels.singlestat(
             title='Storage Cost (Cluster and PVC)',
@@ -89,7 +89,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             span=span,
           ),
 
-        tableNode(span=8)::
+        tableNode(span=4)::
 
           commonPanels.table(
             title='Cluster Node Utilisation by CPU and RAM requests',
@@ -193,7 +193,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                     ],
           ),
 
-      ramUtilisation(span=6)::
+      ramUtilisation(span=2)::
 
         commonPanels.gauge(
           title='RAM Utilisation',
@@ -216,7 +216,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      ramRequests(span=6)::
+      ramRequests(span=2)::
 
         commonPanels.gauge(
           title='RAM Requests',
@@ -243,7 +243,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           valueName='current',
         ),
 
-      ramCost(span=6)::
+      ramCost(span=2)::
 
         commonPanels.singlestat(
           title='RAM Cost',
@@ -267,7 +267,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           span=span,
         ),
 
-      totalCost(span=6)::
+      totalCost(span=2)::
 
         commonPanels.singlestat(
           title='Total Cost',
@@ -292,7 +292,7 @@ local promQuery = import 'components/prom_query.libsonnet';
               sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)
               ) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard
               +
-              sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
+              sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id!="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
               +
               # RAM
               sum(((
@@ -313,7 +313,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           legendFormat= " {{ node }}",
         ),
 
-      tableNamespace(span=8)::
+      tableNamespace(span=4)::
 
         commonPanels.table(
           title='Namespace cost and utilisation analysis',
@@ -519,7 +519,7 @@ local promQuery = import 'components/prom_query.libsonnet';
                   ],
         ),
 
-        tablePVC(span=8)::
+        tablePVC(span=4)::
 
           commonPanels.table(
             title='Persistent Volume Claims',

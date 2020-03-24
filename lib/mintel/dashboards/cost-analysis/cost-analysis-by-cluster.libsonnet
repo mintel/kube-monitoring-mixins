@@ -46,25 +46,21 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
 
       .addRow(
         row.new(height=5)
-        .addPanel(costAnalysis.cpuUtilisation())
-        .addPanel(costAnalysis.cpuRequests())
-        .addPanel(costAnalysis.cpuCost())
-        .addPanel(costAnalysis.storageCost())
-      )
-
-      .addRow(
-        row.new(height=5)
-        .addPanel(costAnalysis.ramUtilisation())
-        .addPanel(costAnalysis.ramRequests())
-        .addPanel(costAnalysis.ramCost())
-        .addPanel(costAnalysis.totalCost())
+        .addPanel(costAnalysis.cpuUtilisation(span=2))
+        .addPanel(costAnalysis.cpuRequests(span=2))
+        .addPanel(costAnalysis.cpuCost(span=2))
+        .addPanel(costAnalysis.storageCost(span=2))
+        .addPanel(costAnalysis.ramUtilisation(span=2))
+        .addPanel(costAnalysis.ramRequests(span=2))
+        .addPanel(costAnalysis.ramCost(span=2))
+        .addPanel(costAnalysis.totalCost(span=2))
       )
 
       .addRow(
         row.new(height=35)
-        .addPanel(costAnalysis.tableNode())
-        .addPanel(costAnalysis.tableNamespace())
-        .addPanel(costAnalysis.tablePVC())
+        .addPanel(costAnalysis.tableNode(span=4))
+        .addPanel(costAnalysis.tableNamespace(span=4))
+        .addPanel(costAnalysis.tablePVC(span=4))
       )
 
   },
