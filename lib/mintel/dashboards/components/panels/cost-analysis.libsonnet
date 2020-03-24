@@ -7,6 +7,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         commonPanels.text(
           title='',
           content=content,
+          transparent= true,
         ),
 
       cpuUtilisation()::

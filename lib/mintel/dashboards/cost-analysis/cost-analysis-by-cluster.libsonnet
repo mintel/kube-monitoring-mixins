@@ -46,14 +46,15 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
 
       .addPanel(costAnalysis.overviewText(content=|||
                                             This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.
-                                            Current Region Prices are for BELGIUM .  Utilisation figures represent utilsation of current, active deployments vs
+                                            Current Region Prices are for BELGIUM .
+                                              Utilisation figures represent utilsation of current, active deployments vs
                                             their request limits, and does not include data from instances no longer running.
                                           |||),
                                           gridPos={
                                                  "x": 0,
                                                  "y": 0,
                                                  "w": 24,
-                                                 "h": 5})
+                                                 "h": 2})
 
       .addPanel(costAnalysis.cpuUtilisation(), gridPos={
                                               "x": 0,

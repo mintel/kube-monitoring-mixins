@@ -13,10 +13,10 @@
    "links": [ ],
    "panels": [
       {
-         "content": "This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.\nCurrent Region Prices are for BELGIUM .  Utilisation figures represent utilsation of current, active deployments vs\ntheir request limits, and does not include data from instances no longer running.\n",
+         "content": "This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.\nCurrent Region Prices are for BELGIUM .\n  Utilisation figures represent utilsation of current, active deployments vs\ntheir request limits, and does not include data from instances no longer running.\n",
          "datasource": null,
          "gridPos": {
-            "h": 5,
+            "h": 2,
             "w": 24,
             "x": 0,
             "y": 0
@@ -24,6 +24,7 @@
          "id": 2,
          "mode": "markdown",
          "title": "",
+         "transparent": true,
          "type": "text"
       },
       {

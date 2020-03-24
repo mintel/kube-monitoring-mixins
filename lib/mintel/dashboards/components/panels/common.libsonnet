@@ -16,12 +16,14 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     mode='markdown',
     content='',
     datasource=null,
+    transparent=null,
   )::
     text.new(
       title= title,
       mode= mode,
       content= content,
       datasource= datasource,
+      transparent= transparent,
     ),
 
   statusdots(
