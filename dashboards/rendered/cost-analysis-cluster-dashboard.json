@@ -67,6 +67,7 @@
                      "to": "null"
                   }
                ],
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -147,6 +148,7 @@
                      "to": "null"
                   }
                ],
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -226,6 +228,7 @@
                      "to": "null"
                   }
                ],
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,
@@ -304,6 +307,7 @@
                      "to": "null"
                   }
                ],
+               "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": false,

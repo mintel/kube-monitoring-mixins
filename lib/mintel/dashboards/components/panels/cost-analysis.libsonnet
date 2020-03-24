@@ -3,7 +3,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
 {
 
-      cpuUtilisation()::
+      cpuUtilisation(span=2)::
 
         commonPanels.gauge(
           title='CPU Utilisation',
@@ -20,12 +20,13 @@ local promQuery = import 'components/prom_query.libsonnet';
           gaugeMaxValue=100,
           height=180,
           interval='',
+          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      cpuRequests()::
+      cpuRequests(span=2)::
 
         commonPanels.gauge(
           title='CPU Requests',
@@ -42,12 +43,13 @@ local promQuery = import 'components/prom_query.libsonnet';
           gaugeMaxValue=100,
           height=180,
           interval='',
+          span=span,
           thresholds='30, 80',
           valueFontSize='80%',
           valueName='current',
         ),
 
-      cpuCost()::
+      cpuCost(span=2)::
 
         commonPanels.singlestat(
           title='CPU Cost',
@@ -62,9 +64,10 @@ local promQuery = import 'components/prom_query.libsonnet';
           height=180,
           interval= "10s",
           legendFormat= " {{ node }}",
+          span=span,
         ),
 
-        storageCost()::
+        storageCost(span=2)::
 
           commonPanels.singlestat(
             title='Storage Cost (Cluster and PVC)',
@@ -83,6 +86,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             height=180,
             interval= "10s",
             legendFormat= " {{ node }}",
+            span=span,
           ),
 
         tableNode()::
