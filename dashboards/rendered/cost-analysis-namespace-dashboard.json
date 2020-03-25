@@ -583,7 +583,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
