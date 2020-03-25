@@ -381,7 +381,7 @@
             "x": 0,
             "y": 9
          },
-         "height": 400,
+         "height": "",
          "id": 4,
          "legend": {
             "alignAsTable": true,
@@ -398,7 +398,7 @@
          "lines": true,
          "linewidth": 2,
          "links": [ ],
-         "nullPointMode": "null",
+         "nullPointMode": "connected",
          "percentage": false,
          "pointradius": 5,
          "points": false,
@@ -469,7 +469,7 @@
             "x": 12,
             "y": 9
          },
-         "height": 400,
+         "height": "",
          "id": 5,
          "legend": {
             "alignAsTable": true,
@@ -486,7 +486,7 @@
          "lines": true,
          "linewidth": 2,
          "links": [ ],
-         "nullPointMode": "null",
+         "nullPointMode": "connected",
          "percentage": false,
          "pointradius": 5,
          "points": false,
@@ -557,7 +557,7 @@
             "x": 0,
             "y": 15
          },
-         "height": 400,
+         "height": "",
          "id": 6,
          "legend": {
             "alignAsTable": true,
@@ -574,7 +574,7 @@
          "lines": true,
          "linewidth": 2,
          "links": [ ],
-         "nullPointMode": "null",
+         "nullPointMode": "connected",
          "percentage": false,
          "pointradius": 5,
          "points": false,
@@ -656,7 +656,7 @@
             "x": 12,
             "y": 15
          },
-         "height": 400,
+         "height": "",
          "id": 7,
          "legend": {
             "alignAsTable": true,
@@ -673,7 +673,7 @@
          "lines": true,
          "linewidth": 2,
          "links": [ ],
-         "nullPointMode": "null",
+         "nullPointMode": "connected",
          "percentage": false,
          "pointradius": 5,
          "points": false,
