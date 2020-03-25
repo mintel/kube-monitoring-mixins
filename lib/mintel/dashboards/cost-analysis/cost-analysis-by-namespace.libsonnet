@@ -73,13 +73,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "x": 0,
                                               "y": 15,
                                               "w": 12,
-                                              "h": 6})
+                                              "h": 7})
 
       .addPanel(costAnalysis.graphDiskIO(), gridPos={
                                               "x": 12,
                                               "y": 15,
                                               "w": 12,
-                                              "h": 6})
+                                              "h": 7})
 
   },
 }

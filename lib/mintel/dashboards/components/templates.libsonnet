@@ -135,4 +135,14 @@ local template = grafana.template;
     refresh='load',
   ),
 
+  cost_pod(current, hide=false):: template.new(
+    'pod',
+    'Prometheus',
+    'query_result(sum(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name))',
+    regex='/pod_name=\"(.*?)(\")/',
+    current=current,
+    label='Pod',
+    refresh='load',
+  ),
+
 }

@@ -43,39 +43,34 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd))
       .addTemplate(templates.cost_discount($._config.cost_discount))
       .addTemplate(templates.cost_namespace('monitoring'))
+      .addTemplate(templates.cost_pod('elastic-logs-es-master-1'))
 
 
-      .addPanel(costAnalysis.tablePodCost(), gridPos={
+      .addPanel(costAnalysis.tableContainerCost(), gridPos={
                                               "x": 0,
                                               "y": 0,
-                                              "w": 16,
-                                              "h": 9})
+                                              "w": 24,
+                                              "h": 6})
 
-      .addPanel(costAnalysis.tablePVCNamespace(), gridPos={
-                                              "x": 16,
-                                              "y": 0,
-                                              "w": 8,
-                                              "h": 9})
-
-      .addPanel(costAnalysis.graphOverallCPU(), gridPos={
+      .addPanel(costAnalysis.graphPodCPU(), gridPos={
                                               "x": 0,
                                               "y": 9,
                                               "w": 12,
-                                              "h": 6})
+                                              "h": 7})
 
-      .addPanel(costAnalysis.graphOverallRAM(), gridPos={
+      .addPanel(costAnalysis.graphPodRAM(), gridPos={
                                               "x": 12,
                                               "y": 9,
                                               "w": 12,
-                                              "h": 6})
+                                              "h": 7})
 
-      .addPanel(costAnalysis.graphNetworkIO(), gridPos={
+      .addPanel(costAnalysis.graphPodNetworkIO(), gridPos={
                                               "x": 0,
                                               "y": 15,
                                               "w": 12,
                                               "h": 7})
 
-      .addPanel(costAnalysis.graphDiskIO(), gridPos={
+      .addPanel(costAnalysis.graphPodDiskIO(), gridPos={
                                               "x": 12,
                                               "y": 15,
                                               "w": 12,

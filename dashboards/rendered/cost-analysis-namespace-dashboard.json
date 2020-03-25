@@ -532,7 +532,7 @@
          "description": "Traffic in and out of this namespace, as a sum of the pods within it",
          "fill": 0,
          "gridPos": {
-            "h": 6,
+            "h": 7,
             "w": 12,
             "x": 0,
             "y": 15
@@ -631,7 +631,7 @@
          "description": "Disk reads and writes for the namespace, as a sum of the pods within it",
          "fill": 0,
          "gridPos": {
-            "h": 6,
+            "h": 7,
             "w": 12,
             "x": 12,
             "y": 15
