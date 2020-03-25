@@ -8,9 +8,9 @@ local common = import 'components/panels/common.libsonnet';
 local costAnalysis = import 'components/panels/cost-analysis.libsonnet';
 
 // Dashboard settings
-local dashboardTitle = 'Cost Analysis by Namespace';
-local dashboardDescription = "Provides an analysis of costs by namespace";
-local dashboardFile = 'cost-analysis-namespace-dashboard.json';
+local dashboardTitle = 'Cost Analysis by Pod';
+local dashboardDescription = "Provides an analysis of costs by pod";
+local dashboardFile = 'cost-analysis-pod-dashboard.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/%(uid)s/%(name)s' % {
