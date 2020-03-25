@@ -1119,23 +1119,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                       "unit": "currencyUSD"
                     },
                     {
-                      "alias": "",
-                      "align": "auto",
-                      "colorMode": null,
-                      "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                      ],
-                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                      "decimals": 2,
-                      "mappingType": 1,
-                      "pattern": "Time",
-                      "thresholds": [],
-                      "type": "hidden",
-                      "unit": "short"
-                    },
-                    {
                       "alias": "Storage",
                       "align": "auto",
                       "colorMode": null,
