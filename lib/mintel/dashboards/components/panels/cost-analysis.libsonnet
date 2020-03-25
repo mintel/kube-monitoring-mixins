@@ -985,12 +985,21 @@ local promQuery = import 'components/prom_query.libsonnet';
                 alias: '<- in',
                 yaxis: 1,
               },
+              {
+                alias: '-> out',
+                yaxis: 2,
+              },
             ],
             yaxes: [
               {
                 format: 'Bps',
                 logBase: 1,
                 show: true,
+              },
+              {
+                format: 'short',
+                logBase: 1,
+                show: false,
               },
             ],
           },
@@ -1020,12 +1029,21 @@ local promQuery = import 'components/prom_query.libsonnet';
                 alias: '<- read',
                 yaxis: 1,
               },
+              {
+                alias: '<- write',
+                yaxis: 2,
+              },
             ],
             yaxes: [
               {
                 format: 'Bps',
                 logBase: 1,
                 show: true,
+              },
+              {
+                format: 'short',
+                logBase: 1,
+                show: false,
               },
             ],
           },
