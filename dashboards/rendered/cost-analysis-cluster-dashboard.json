@@ -809,6 +809,7 @@
             {
                "expr": "",
                "format": "table",
+               "instant": "true",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
@@ -1033,6 +1034,7 @@
             {
                "expr": "",
                "format": "table",
+               "instant": "true",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
@@ -1157,6 +1159,7 @@
             {
                "expr": "",
                "format": "table",
+               "instant": "true",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
