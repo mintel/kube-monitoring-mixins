@@ -15,7 +15,7 @@
       {
          "columns": [
             {
-               "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)",
+               "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -25,7 +25,7 @@
                "refId": "A"
             },
             {
-               "expr": "(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)",
+               "expr": "(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -36,13 +36,14 @@
             {
                "expr": "vector(0)",
                "format": "table",
+               "hide": false,
                "instant": true,
                "intervalFactor": 1,
                "legendFormat": "{{ namespace }}",
                "refId": "C"
             },
             {
-               "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(pod_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n# Now ram\n\n+ \n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(pod_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)\n  ) by(pod_name) -1\n)\n\n",
+               "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -50,7 +51,7 @@
                "refId": "D"
             },
             {
-               "expr": "sum(\n   count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name)) by (pod_name)  \n   * on (pod_name) \n   sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m])) by (pod_name)\n) by (pod_name) * 1000\n/\nsum(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name) * 100",
+               "expr": "sum(\n   count(count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name)) by (container_name)  \n   * on (container_name) \n   sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m])) by (container_name)\n) by (container_name) * 1000\n/\nsum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -59,7 +60,7 @@
                "refId": "E"
             },
             {
-               "expr": "sum(\n   count(count(container_memory_working_set_bytes{namespace=\"$namespace\"}) by (pod_name)) by (pod_name)  \n   * on (pod_name) \n   sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\"}[1m])) by (pod_name)\n) by (pod_name)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (pod_name) * 100",
+               "expr": "sum(\n   count(count(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name)) by (container_name)  \n   * on (container_name) \n   sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m])) by (container_name)\n) by (container_name)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -71,28 +72,26 @@
          "datasource": "$ds",
          "description": "",
          "gridPos": {
-            "h": 9,
-            "w": 16,
+            "h": 6,
+            "w": 24,
             "x": 0,
             "y": 0
          },
          "id": 2,
          "styles": [
             {
-               "alias": "Pod",
+               "alias": "Container",
                "align": "auto",
                "colorMode": null,
                "colors": [
+                  "rgba(245, 54, 54, 0.9)",
                   "rgba(50, 172, 45, 0.97)",
-                  "#c15c17",
-                  "rgba(245, 54, 54, 0.9)"
+                  "#c15c17"
                ],
                "dateFormat": "YYYY-MM-DD HH:mm:ss",
                "decimals": 2,
-               "link": true,
-               "linkTooltip": "Click to drill down into pod",
-               "linkUrl": "d/at-cost-analysis-pod/cost-analysis-by-pod?&var-namespace=$namespace&var-pod=$__cell",
-               "pattern": "pod_name",
+               "link": false,
+               "pattern": "container_name",
                "thresholds": [
                   "30",
                   "80"
@@ -151,6 +150,23 @@
                "unit": "short"
             },
             {
+               "alias": "Storage",
+               "align": "auto",
+               "colorMode": null,
+               "colors": [
+                  "rgba(245, 54, 54, 0.9)",
+                  "rgba(237, 129, 40, 0.89)",
+                  "rgba(50, 172, 45, 0.97)"
+               ],
+               "dateFormat": "YYYY-MM-DD HH:mm:ss",
+               "decimals": 2,
+               "mappingType": 1,
+               "pattern": "Value #C",
+               "thresholds": [ ],
+               "type": "number",
+               "unit": "currencyUSD"
+            },
+            {
                "alias": "Total",
                "align": "auto",
                "colorMode": null,
@@ -172,16 +188,16 @@
                "align": "auto",
                "colorMode": "value",
                "colors": [
+                  "#bf1b00",
                   "rgba(50, 172, 45, 0.97)",
-                  "#ef843c",
-                  "#bf1b00"
+                  "#ef843c"
                ],
                "dateFormat": "YYYY-MM-DD HH:mm:ss",
                "decimals": 2,
                "mappingType": 1,
                "pattern": "Value #E",
                "thresholds": [
-                  "50",
+                  "30",
                   "80"
                ],
                "type": "number",
@@ -192,158 +208,26 @@
                "align": "auto",
                "colorMode": "value",
                "colors": [
+                  "rgba(245, 54, 54, 0.9)",
                   "rgba(50, 172, 45, 0.97)",
-                  "#c15c17",
-                  "rgba(245, 54, 54, 0.9)"
+                  "#ef843c"
                ],
                "dateFormat": "YYYY-MM-DD HH:mm:ss",
                "decimals": 2,
                "mappingType": 1,
                "pattern": "Value #F",
                "thresholds": [
-                  "50",
+                  "30",
                   "80"
                ],
                "type": "number",
                "unit": "percent"
-            },
-            {
-               "alias": "Storage - n/a",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "Value #C",
-               "thresholds": [ ],
-               "type": "number",
-               "unit": "currencyUSD"
             }
          ],
          "targets": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "Pod cost and utilisation analysis",
-         "type": "table"
-      },
-      {
-         "columns": [
-            {
-               "expr": "sum (\n  sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\"}) by (persistentvolumeclaim, namespace)\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageSSD\n\nor\n\nsum (\n  sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\"}) by (persistentvolumeclaim, namespace)\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageStandard\n",
-               "format": "table",
-               "hide": false,
-               "instant": true,
-               "interval": "",
-               "intervalFactor": 1,
-               "legendFormat": "{{ persistentvolumeclaim }}",
-               "refId": "A"
-            }
-         ],
-         "datasource": "$ds",
-         "description": "",
-         "gridPos": {
-            "h": 9,
-            "w": 8,
-            "x": 16,
-            "y": 0
-         },
-         "id": 3,
-         "styles": [
-            {
-               "alias": "Namespace",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "namespace",
-               "thresholds": [ ],
-               "type": "hidden",
-               "unit": "short"
-            },
-            {
-               "alias": "PVC Name",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "persistentvolumeclaim",
-               "thresholds": [ ],
-               "type": "number",
-               "unit": "short"
-            },
-            {
-               "alias": "Storage Class",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "storageclass",
-               "thresholds": [ ],
-               "type": "number",
-               "unit": "short"
-            },
-            {
-               "alias": "Cost",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "Value",
-               "thresholds": [ ],
-               "type": "number",
-               "unit": "currencyUSD"
-            },
-            {
-               "alias": "",
-               "align": "auto",
-               "colorMode": null,
-               "colors": [
-                  "rgba(245, 54, 54, 0.9)",
-                  "rgba(237, 129, 40, 0.89)",
-                  "rgba(50, 172, 45, 0.97)"
-               ],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "mappingType": 1,
-               "pattern": "Time",
-               "thresholds": [ ],
-               "type": "hidden",
-               "unit": "short"
-            }
-         ],
-         "targets": [ ],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Persistent Volume Claims",
+         "title": "Container cost and utilisation analysis",
          "type": "table"
       },
       {
@@ -353,12 +237,111 @@
          "dashes": false,
          "datasource": "$ds",
          "decimals": 0,
-         "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
+         "description": "This graph attempts to show you CPU use of your application vs its requests",
          "fill": 0,
          "gridPos": {
-            "h": 6,
+            "h": 7,
             "w": 12,
             "x": 0,
+            "y": 9
+         },
+         "height": 400,
+         "id": 3,
+         "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 2,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [
+            {
+               "alias": "{{ container_name }} (requested)",
+               "yaxis": 1
+            },
+            {
+               "alias": "{{ container_name }}",
+               "yaxis": 2
+            }
+         ],
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=~\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[1m])) by (container_name)\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "{{ container_name }}",
+               "refId": "A"
+            },
+            {
+               "expr": "sum(container_spec_cpu_shares{namespace=~\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}) by (container_name) / 1000\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "{{ container_name }} (requested)",
+               "refId": "B"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "CPU Core Usage vs Requested",
+         "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "none",
+               "logBase": 1,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": false
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$ds",
+         "decimals": 0,
+         "description": "This graph attempts to show you RAM use of your application vs its requests",
+         "fill": 0,
+         "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
             "y": 9
          },
          "height": 400,
@@ -384,24 +367,41 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [ ],
+         "seriesOverrides": [
+            {
+               "alias": "{{ container_name }} (requested)",
+               "yaxis": 1
+            },
+            {
+               "alias": "{{ container_name }}",
+               "yaxis": 2
+            }
+         ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m]))\n  by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100\n",
+               "expr": "sum (avg_over_time (container_memory_working_set_bytes{namespace=\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[1m])) by (container_name)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
-               "legendFormat": "% cpu",
+               "legendFormat": "{{ container_name }}",
                "refId": "A"
+            },
+            {
+               "expr": "sum(container_spec_memory_limit_bytes{namespace=~\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}) by (container_name)\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "{{ container_name }} (requested)",
+               "refId": "B"
             }
          ],
          "thresholds": [ ],
          "timeFrom": null,
          "timeShift": null,
-         "title": "Overall CPU Utilisation",
+         "title": "RAM Usage vs Requested",
          "tooltip": {
             "shared": true,
             "sort": 2,
@@ -417,19 +417,13 @@
          },
          "yaxes": [
             {
-               "format": "percent",
-               "label": "",
+               "format": "bytes",
                "logBase": 1,
-               "max": null,
-               "min": 0,
                "show": true
             },
             {
                "format": "short",
-               "label": null,
                "logBase": 1,
-               "max": 1,
-               "min": 0,
                "show": false
             }
          ]
@@ -441,13 +435,13 @@
          "dashes": false,
          "datasource": "$ds",
          "decimals": 0,
-         "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
+         "description": "Traffic in and out of this pod, as a sum of its containers",
          "fill": 0,
          "gridPos": {
-            "h": 6,
+            "h": 7,
             "w": 12,
-            "x": 12,
-            "y": 9
+            "x": 0,
+            "y": 15
          },
          "height": 400,
          "id": 5,
@@ -472,101 +466,13 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [ ],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
-               "format": "time_series",
-               "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "% ram",
-               "refId": "A"
-            }
-         ],
-         "thresholds": [ ],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Overall RAM Utilisation",
-         "tooltip": {
-            "shared": true,
-            "sort": 2,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": [ ]
-         },
-         "yaxes": [
-            {
-               "format": "percent",
-               "label": "",
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": 1,
-               "min": 0,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": { },
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$ds",
-         "decimals": 0,
-         "description": "Traffic in and out of this namespace, as a sum of the pods within it",
-         "fill": 0,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 0,
-            "y": 15
-         },
-         "height": 400,
-         "id": 6,
-         "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "hideEmpty": true,
-            "max": true,
-            "min": true,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-         },
-         "lines": true,
-         "linewidth": 2,
-         "links": [ ],
-         "nullPointMode": "null",
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "repeat": null,
          "seriesOverrides": [
             {
-               "alias": "<- in",
+               "alias": "-> out",
                "yaxis": 1
             },
             {
-               "alias": "-> out",
+               "alias": "<- in",
                "yaxis": 2
             }
          ],
@@ -575,7 +481,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "expr": "sum (rate (container_network_receive_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
@@ -583,7 +489,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
+               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
@@ -628,7 +534,7 @@
          "dashes": false,
          "datasource": "$ds",
          "decimals": 0,
-         "description": "Disk reads and writes for the namespace, as a sum of the pods within it",
+         "description": "Disk read writes",
          "fill": 0,
          "gridPos": {
             "h": 7,
@@ -637,7 +543,7 @@
             "y": 15
          },
          "height": 400,
-         "id": 7,
+         "id": 6,
          "legend": {
             "alignAsTable": true,
             "avg": true,
@@ -674,7 +580,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
+               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
@@ -682,7 +588,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
+               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
@@ -924,6 +830,29 @@
             "query": "query_result(sum(container_memory_working_set_bytes{namespace!=\"\"}) by (namespace))",
             "refresh": 1,
             "regex": "/namespace=\"(.*?)(\")/",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": {
+               "text": "elastic-logs-es-master-1",
+               "value": "elastic-logs-es-master-1"
+            },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Pod",
+            "multi": false,
+            "name": "pod",
+            "options": [ ],
+            "query": "query_result(sum(container_memory_working_set_bytes{namespace=\"$namespace\"}) by (pod_name))",
+            "refresh": 1,
+            "regex": "/pod_name=\"(.*?)(\")/",
             "sort": 0,
             "tagValuesQuery": "",
             "tags": [ ],
