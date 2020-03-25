@@ -167,6 +167,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     linewidth=2,
     max=null,
     height=200,
+    nullPointMode='null',
     span=null,
   )::
     graphPanel.new(
@@ -188,6 +189,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       legend_alignAsTable=true,
       legend_hideEmpty=true,
       height=height,
+      nullPointMode=nullPointMode,
       span=span
     )
     .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))

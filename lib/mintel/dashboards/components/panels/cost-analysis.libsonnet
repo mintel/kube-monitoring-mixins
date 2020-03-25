@@ -1307,6 +1307,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             title='CPU Core Usage vs Requested',
             description='This graph attempts to show you CPU use of your application vs its requests',
             height='',
+            nullPointMode='connected',
             format='percent',
             query=|||
               sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
@@ -1355,6 +1356,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             title='RAM Usage vs Requested',
             description='This graph attempts to show you RAM use of your application vs its requests',
             height='',
+            nullPointMode='connected',
             format='percent',
             query=|||
               sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
@@ -1403,6 +1405,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             title='Network IO',
             description='Traffic in and out of this pod, as a sum of its containers',
             height='',
+            nullPointMode='connected',
             format='percent',
             interval='',
             intervalFactor=1,
@@ -1451,6 +1454,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             title='Disk IO',
             description='Disk read writes',
             height='',
+            nullPointMode='connected',
             format='percent',
             query=|||
               sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
