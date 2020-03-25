@@ -35,6 +35,7 @@ local for_overrides = {
   KubePersistentVolumeErrors: '15m',
   KubePersistentVolumeFullInFourDays: '1h',
   KubePersistentVolumeUsageCritical: '15m',
+  PrometheusRuleFailures: '1h',
 };
 
 // Define a list of rules to downgrade severity for
@@ -71,7 +72,6 @@ local page_false_critical = [
   'PodOOMKilled',
   'PrometheusBadConfig',
   'PrometheusErrorSendingAlertsToAnyAlertmanager',
-  'PrometheusRuleFailures',
 ];
 
 // Downgrade severity for a rule

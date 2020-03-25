@@ -1189,9 +1189,9 @@ spec:
         summary: Prometheus is failing rule evaluations.
       expr: |
         increase(prometheus_rule_evaluation_failures_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
-      for: 15m
+      for: 1h
       labels:
-        page: "false"
+        page: "true"
         severity: critical
     - alert: PrometheusMissingRuleEvaluations
       annotations:
