@@ -1210,18 +1210,17 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                       "unit": "percent"
                     }
             ],
-            columns=[
-                    {
-                    "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
-                    "format": "table",
-                    "hide": false,
-                    "instant": true,
-                    "interval": "",
-                    "intervalFactor": 1,
-                    "legendFormat": "{{ pod_name }}",
-                    "refId": "A"
-                    },
-            ],
+            query=|||
+                    (  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}/1000*
+                    ($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(
+                    count(container_spec_cpu_shares{namespace="$namespace",container_name!="POD",pod_name="$pod"})
+                    by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",
+                    container_name!="POD",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(container_name)  or
+                    count(    count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
+                  |||,
+            interval= '',
+            intervalFactor= 1,
+            legendFormat= '{{ pod_name }}',
           )
           .addTarget(
             promQuery.target(
