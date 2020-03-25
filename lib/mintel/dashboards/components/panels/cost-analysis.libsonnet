@@ -1366,11 +1366,11 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           ) + {
             seriesOverrides: [
               {
-                alias: '-> out',
+                alias: '-> in',
                 yaxis: 1,
               },
               {
-                alias: '<- in',
+                alias: '<- out',
                 yaxis: 2,
               },
             ],

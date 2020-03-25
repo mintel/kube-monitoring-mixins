@@ -240,7 +240,7 @@
          "description": "This graph attempts to show you CPU use of your application vs its requests",
          "fill": 0,
          "gridPos": {
-            "h": 7,
+            "h": 8,
             "w": 12,
             "x": 0,
             "y": 9
@@ -339,7 +339,7 @@
          "description": "This graph attempts to show you RAM use of your application vs its requests",
          "fill": 0,
          "gridPos": {
-            "h": 7,
+            "h": 8,
             "w": 12,
             "x": 12,
             "y": 9
@@ -438,7 +438,7 @@
          "description": "Traffic in and out of this pod, as a sum of its containers",
          "fill": 0,
          "gridPos": {
-            "h": 7,
+            "h": 8,
             "w": 12,
             "x": 0,
             "y": 15
@@ -468,11 +468,11 @@
          "repeat": null,
          "seriesOverrides": [
             {
-               "alias": "-> out",
+               "alias": "-> in",
                "yaxis": 1
             },
             {
-               "alias": "<- in",
+               "alias": "<- out",
                "yaxis": 2
             }
          ],
@@ -537,7 +537,7 @@
          "description": "Disk read writes",
          "fill": 0,
          "gridPos": {
-            "h": 7,
+            "h": 8,
             "w": 12,
             "x": 12,
             "y": 15

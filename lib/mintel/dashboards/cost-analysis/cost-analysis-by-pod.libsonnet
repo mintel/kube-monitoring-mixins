@@ -56,25 +56,25 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
                                               "x": 0,
                                               "y": 9,
                                               "w": 12,
-                                              "h": 7})
+                                              "h": 8})
 
       .addPanel(costAnalysis.graphPodRAM(), gridPos={
                                               "x": 12,
                                               "y": 9,
                                               "w": 12,
-                                              "h": 7})
+                                              "h": 8})
 
       .addPanel(costAnalysis.graphPodNetworkIO(), gridPos={
                                               "x": 0,
                                               "y": 15,
                                               "w": 12,
-                                              "h": 7})
+                                              "h": 8})
 
       .addPanel(costAnalysis.graphPodDiskIO(), gridPos={
                                               "x": 12,
                                               "y": 15,
                                               "w": 12,
-                                              "h": 7})
+                                              "h": 8})
 
   },
 }
