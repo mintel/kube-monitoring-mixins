@@ -941,6 +941,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace="$namespace"}[1m])) by (namespace) * 100
             |||,
             legendFormat= '% cpu',
+            interval='',
+            intervalFactor=1,
           ),
 
         graphOverallRAM()::
@@ -956,6 +958,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
               sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (namespace) * 100
             |||,
             legendFormat= '% ram',
+            interval='',
+            intervalFactor=1,
           ),
 
         graphNetworkIO()::
@@ -970,7 +974,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
               /
               sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (namespace) * 100
             |||,
-            legendFormat='<- in'
+            legendFormat='<- in',
+            interval='',
+            intervalFactor=1,
           )
           .addTarget(
             promQuery.target(
@@ -978,6 +984,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 - sum (rate (container_network_transmit_bytes_total{namespace="$namespace"}[1m])) by (namespace)
               |||,
               legendFormat='-> out',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
@@ -1015,6 +1023,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
               sum (rate (container_fs_writes_bytes_total{namespace="$namespace"}[1m])) by (namespace)
             |||,
             legendFormat='<- write',
+            interval='',
+            intervalFactor=1,
           )
           .addTarget(
             promQuery.target(
@@ -1022,6 +1032,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 - sum (rate (container_fs_reads_bytes_total{namespace="$namespace"}[1m])) by (namespace)
               |||,
               legendFormat='-> read',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
@@ -1198,62 +1210,90 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                       "unit": "percent"
                     }
             ],
-            columns=[
-                    {
-                          "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "interval": "",
-                          "intervalFactor": 1,
-                          "legendFormat": "{{ pod_name }}",
-                          "refId": "A"
-                        },
-                        {
-                          "expr": "(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "intervalFactor": 1,
-                          "legendFormat": "{{ namespace }}",
-                          "refId": "B"
-                        },
-                        {
-                          "expr": "vector(0)",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "intervalFactor": 1,
-                          "legendFormat": "{{ namespace }}",
-                          "refId": "C"
-                        },
-                        {
-                          "expr": "(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)\n  or\n  count(\n    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)\n\n+\n\n(\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram) by(container_name)\n  or\n  count(\n    count(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)\n  ) by(container_name) -1\n)",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "intervalFactor": 1,
-                          "refId": "D"
-                        },
-                        {
-                          "expr": "sum(\n   count(count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name)) by (container_name)  \n   * on (container_name) \n   sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m])) by (container_name)\n) by (container_name) * 1000\n/\nsum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "intervalFactor": 1,
-                          "legendFormat": "{{ pod_name }}",
-                          "refId": "E"
-                        },
-                        {
-                          "expr": "sum(\n   count(count(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name)) by (container_name)  \n   * on (container_name) \n   sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m])) by (container_name)\n) by (container_name)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100",
-                          "format": "table",
-                          "hide": false,
-                          "instant": true,
-                          "intervalFactor": 1,
-                          "legendFormat": "{{ namespace }}",
-                          "refId": "F"
-                        }
-            ],
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                (  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}
+                /1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)
+                or  count(    count(container_spec_cpu_shares{namespace="$namespace",container_name!="POD",pod_name="$pod"})
+                by(container_name)n  ) by(container_name) -1)
+                +(  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible="true"}
+                /1000*$costpcpu) by(container_name)  or  count(   count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"})
+                by(container_name)  ) by(container_name) -1)
+              |||,
+              legendFormat='{{ pod_name }}',
+              interval='',
+              intervalFactor=1,
+            )
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                (  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}
+                /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)
+                or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  )
+                by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible="true"}
+                /1024/1024/1024*$costpram) by(container_name)  or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
+                by(container_name)  ) by(container_name) -1)
+              |||,
+              legendFormat='{{ namespace }}',
+              interval='',
+              intervalFactor=1,
+            )
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                vector(0)
+              |||,
+              legendFormat='{{ namespace }}',
+              interval='',
+              intervalFactor=1,
+            )
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                (  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}/1000
+                *($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(    count(container_spec_cpu_shares{namespace="$namespace",container_name!="POD",pod_name="$pod"})
+                by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible="true"}
+                /1000*$costpcpu) by(container_name)  or count(    count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  )
+                by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}
+                /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)
+                or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
+                by(container_name)  ) by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",
+                cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(container_name)  or  count(
+                count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
+              |||,
+              interval='',
+              intervalFactor=1,
+            )
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                sum(   count(count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name))
+                by (container_name)     * on (container_name)    sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
+                by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
+              |||,
+              legendFormat='{{ pod_name }}',
+              interval='',
+              intervalFactor=1,
+            )
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                sum(   count(count(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
+                by (container_name)) by (container_name)     * on (container_name)
+                sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
+                by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
+              |||,
+              legendFormat='{{ namespace }}',
+              interval='',
+              intervalFactor=1,
+            )
           ),
 
         graphPodCPU()::
@@ -1261,12 +1301,14 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           commonPanels.timeseries(
             title='CPU Core Usage vs Requested',
             description='This graph attempts to show you CPU use of your application vs its requests',
-            height=400,
+            height='',
             format='percent',
             query=|||
               sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
             |||,
             legendFormat='{{ container_name }}',
+            interval='',
+            intervalFactor=1,
           )
           .addTarget(
             promQuery.target(
@@ -1274,6 +1316,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 sum(container_spec_cpu_shares{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name) / 1000
               |||,
               legendFormat='{{ container_name }} (requested)',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
@@ -1305,12 +1349,14 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           commonPanels.timeseries(
             title='RAM Usage vs Requested',
             description='This graph attempts to show you RAM use of your application vs its requests',
-            height=400,
+            height='',
             format='percent',
             query=|||
               sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
             |||,
             legendFormat='{{ container_name }}',
+            interval='',
+            intervalFactor=1,
           )
           .addTarget(
             promQuery.target(
@@ -1318,6 +1364,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 sum(container_spec_memory_limit_bytes{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name)
               |||,
               legendFormat='{{ container_name }} (requested)',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
@@ -1349,8 +1397,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           commonPanels.timeseries(
             title='Network IO',
             description='Traffic in and out of this pod, as a sum of its containers',
-            height=400,
+            height='',
             format='percent',
+            interval='',
+            intervalFactor=1,
             query=|||
               sum (rate (container_network_receive_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
             |||,
@@ -1362,6 +1412,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 - sum (rate (container_network_transmit_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
               |||,
               legendFormat='-> out',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
@@ -1393,12 +1445,14 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           commonPanels.timeseries(
             title='Disk IO',
             description='Disk read writes',
-            height=400,
+            height='',
             format='percent',
             query=|||
               sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
             |||,
             legendFormat='<- write',
+            interval='',
+            intervalFactor=1,
           )
           .addTarget(
             promQuery.target(
@@ -1406,6 +1460,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 - sum (rate (container_fs_reads_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
               |||,
               legendFormat='-> read',
+              interval='',
+              intervalFactor=1,
             )
           ) + {
             seriesOverrides: [
