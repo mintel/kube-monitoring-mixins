@@ -1232,6 +1232,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 /1024/1024/1024*$costpram) by(container_name)  or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
                 by(container_name)  ) by(container_name) -1)
               |||,
+              format='table',
               legendFormat='{{ namespace }}',
               interval='',
               intervalFactor=1,
@@ -1242,6 +1243,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
               |||
                 vector(0)
               |||,
+              format='table',
               legendFormat='{{ namespace }}',
               interval='',
               intervalFactor=1,
@@ -1261,6 +1263,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(container_name)  or  count(
                 count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
               |||,
+              format='table',
               interval='',
               intervalFactor=1,
             )
@@ -1272,6 +1275,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 by (container_name)     * on (container_name)    sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
                 by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
               |||,
+              format='table',
               legendFormat='{{ pod_name }}',
               interval='',
               intervalFactor=1,
@@ -1285,6 +1289,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                 sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
                 by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
               |||,
+              format='table',
               legendFormat='{{ namespace }}',
               interval='',
               intervalFactor=1,

@@ -135,6 +135,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     styles=[],
     columns=[],
     query='',
+    format='table',
     legendFormat='',
     interval='',
     intervalFactor='',
@@ -148,7 +149,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       styles=styles,
       columns=columns,
     )
-    .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor)),
+    .addTarget(promQuery.target(query, format=format, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor)),
 
   timeseries(
     title='Timeseries',

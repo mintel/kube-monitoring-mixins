@@ -808,7 +808,7 @@
          "targets": [
             {
                "expr": "",
-               "format": "time_series",
+               "format": "table",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
@@ -1032,7 +1032,7 @@
          "targets": [
             {
                "expr": "",
-               "format": "time_series",
+               "format": "table",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
@@ -1156,7 +1156,7 @@
          "targets": [
             {
                "expr": "",
-               "format": "time_series",
+               "format": "table",
                "interval": "",
                "intervalFactor": "",
                "legendFormat": "",
