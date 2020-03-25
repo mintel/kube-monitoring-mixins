@@ -1012,14 +1012,14 @@ local promQuery = import 'components/prom_query.libsonnet';
             height=400,
             format='percent',
             query=|||
-              sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+              sum (rate (container_fs_writes_bytes_total{namespace="$namespace"}[1m])) by (namespace)
             |||,
             legendFormat='<- write',
           )
           .addTarget(
             promQuery.target(
               |||
-                - sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+                - sum (rate (container_fs_reads_bytes_total{namespace="$namespace"}[1m])) by (namespace)
               |||,
               legendFormat='-> read',
             )

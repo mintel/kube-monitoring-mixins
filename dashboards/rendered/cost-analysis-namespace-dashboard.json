@@ -674,7 +674,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
@@ -682,7 +682,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
                "format": "time_series",
                "interval": "1m",
                "intervalFactor": 3,
