@@ -975,7 +975,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           .addTarget(
             promQuery.target(
               |||
-                - sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+                - sum (rate (container_network_transmit_bytes_total{namespace="$namespace"}[1m])) by (namespace)
               |||,
               legendFormat='-> out',
             )
