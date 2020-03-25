@@ -958,4 +958,76 @@ local promQuery = import 'components/prom_query.libsonnet';
             legendFormat= '% ram',
           ),
 
+        graphNetworkIO()::
+
+          commonPanels.timeseries(
+            title='Network IO',
+            description='Traffic in and out of this namespace, as a sum of the pods within it',
+            height=400,
+            format='percent',
+            query=|||
+              sum (container_memory_working_set_bytes{namespace="$namespace"}) by (namespace)
+              /
+              sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (namespace) * 100
+            |||,
+            legendFormat='<- in'
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                - sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+              |||,
+              legendFormat='-> out',
+            )
+          ) + {
+            seriesOverrides: [
+              {
+                alias: '<- in',
+                yaxis: 1,
+              },
+            ],
+            yaxes: [
+              {
+                format: 'Bps',
+                logBase: 1,
+                show: true,
+              },
+            ],
+          },
+
+        graphDiskIO()::
+
+          commonPanels.timeseries(
+            title='Disk IO',
+            description='Disk reads and writes for the namespace, as a sum of the pods within it',
+            height=400,
+            format='percent',
+            query=|||
+              sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+            |||,
+            legendFormat='<- write',
+          )
+          .addTarget(
+            promQuery.target(
+              |||
+                - sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)
+              |||,
+              legendFormat='-> read',
+            )
+          ) + {
+            seriesOverrides: [
+              {
+                alias: '<- read',
+                yaxis: 1,
+              },
+            ],
+            yaxes: [
+              {
+                format: 'Bps',
+                logBase: 1,
+                show: true,
+              },
+            ],
+          },
+
 }

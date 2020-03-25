@@ -521,6 +521,186 @@
                "show": false
             }
          ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$ds",
+         "decimals": 0,
+         "description": "Traffic in and out of this namespace, as a sum of the pods within it",
+         "fill": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 15
+         },
+         "height": 400,
+         "id": 6,
+         "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 2,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [
+            {
+               "alias": "<- in",
+               "yaxis": 1
+            }
+         ],
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "<- in",
+               "refId": "A"
+            },
+            {
+               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "-> out",
+               "refId": "B"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "Network IO",
+         "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "Bps",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "aliasColors": { },
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$ds",
+         "decimals": 0,
+         "description": "Disk reads and writes for the namespace, as a sum of the pods within it",
+         "fill": 0,
+         "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 15
+         },
+         "height": 400,
+         "id": 7,
+         "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+         },
+         "lines": true,
+         "linewidth": 2,
+         "links": [ ],
+         "nullPointMode": "null",
+         "percentage": false,
+         "pointradius": 5,
+         "points": false,
+         "renderer": "flot",
+         "repeat": null,
+         "seriesOverrides": [
+            {
+               "alias": "<- read",
+               "yaxis": 1
+            }
+         ],
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "<- write",
+               "refId": "A"
+            },
+            {
+               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\n",
+               "format": "time_series",
+               "interval": "1m",
+               "intervalFactor": 3,
+               "legendFormat": "-> read",
+               "refId": "B"
+            }
+         ],
+         "thresholds": [ ],
+         "timeFrom": null,
+         "timeShift": null,
+         "title": "Disk IO",
+         "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+         },
+         "type": "graph",
+         "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": [ ]
+         },
+         "yaxes": [
+            {
+               "format": "Bps",
+               "logBase": 1,
+               "show": true
+            }
+         ]
       }
    ],
    "refresh": "",
@@ -736,7 +916,7 @@
       ]
    },
    "time": {
-      "from": "now-1h",
+      "from": "now-15m",
       "to": "now"
    },
    "timepicker": {

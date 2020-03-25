@@ -27,7 +27,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
            ($._config.mintel + {'dashboardTitle': dashboardTitle }),
-        time_from='now-1h',
+        time_from='now-15m',
         editable='true',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
@@ -66,6 +66,18 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addPanel(costAnalysis.graphOverallRAM(), gridPos={
                                               "x": 12,
                                               "y": 9,
+                                              "w": 12,
+                                              "h": 6})
+
+      .addPanel(costAnalysis.graphNetworkIO(), gridPos={
+                                              "x": 0,
+                                              "y": 15,
+                                              "w": 12,
+                                              "h": 6})
+
+      .addPanel(costAnalysis.graphDiskIO(), gridPos={
+                                              "x": 12,
+                                              "y": 15,
                                               "w": 12,
                                               "h": 6})
 
