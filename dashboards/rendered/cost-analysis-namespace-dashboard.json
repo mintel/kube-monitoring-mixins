@@ -173,7 +173,7 @@
          ],
          "targets": [
             {
-               "expr": "(\\n  sum(container_spec_cpu_shares{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible!=\\\"true\\\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n+\\n\\n(\\n  sum(container_spec_cpu_shares{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible=\\\"true\\\"}/1000*$costpcpu) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\n",
+               "expr": "(sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount)))\n  by(pod_name) or count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1) +\n  (sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu)\n  by(pod_name) or count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1)\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -182,7 +182,7 @@
                "refId": "A"
             },
             {
-               "expr": "(\\n  sum(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible!=\\\"true\\\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n+\\n\\n(\\n  sum(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible=\\\"true\\\"}/1024/1024/1024*$costpram) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\n",
+               "expr": "(sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))\n  by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1)\n  +(sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1)\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -200,7 +200,7 @@
                "refId": "C"
             },
             {
-               "expr": "(\\n  sum(container_spec_cpu_shares{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible!=\\\"true\\\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n+\\n\\n(\\n  sum(container_spec_cpu_shares{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible=\\\"true\\\"}/1000*$costpcpu) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n# Now ram\\n\\n+ \\n(\\n  sum(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible!=\\\"true\\\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n+\\n\\n(\\n  sum(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\",cloud_google_com_gke_preemptible=\\\"true\\\"}/1024/1024/1024*$costpram) by(pod_name)\\n  or\\n  count(\\n    count(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\"}) by(pod_name)\\n  ) by(pod_name) -1\\n)\\n\\n\n",
+               "expr": "(sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1000*($costcpu - ($costcpu / 100 * $costDiscount)))\n  by(pod_name) or count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1) +\n  (sum(container_spec_cpu_shares{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu)\n  by(pod_name) or count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1)\n  # Now ram + (sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible!=\"true\"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))\n  by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1) +\n  (sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by(pod_name)) by(pod_name) -1)\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -209,7 +209,7 @@
                "refId": "D"
             },
             {
-               "expr": "sum(\\n   count(count(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by (pod_name)) by (pod_name)  \\n   * on (pod_name) \\n   sum(irate(container_cpu_usage_seconds_total{namespace=\\\"$namespace\\\"}[1m])) by (pod_name)\\n) by (pod_name) * 1000\\n/\\nsum(container_spec_cpu_shares{namespace=\\\"$namespace\\\"}) by (pod_name) * 100\n",
+               "expr": "sum(count(count(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name)) by (pod_name)  * on (pod_name)\nsum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m])) by (pod_name))\nby (pod_name) * 1000 / sum(container_spec_cpu_shares{namespace=\"$namespace\"}) by (pod_name) * 100\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -218,7 +218,7 @@
                "refId": "E"
             },
             {
-               "expr": "sum(\\n   count(count(container_memory_working_set_bytes{namespace=\\\"$namespace\\\"}) by (pod_name)) by (pod_name)  \\n   * on (pod_name) \\n   sum(avg_over_time(container_memory_working_set_bytes{namespace=\\\"$namespace\\\"}[1m])) by (pod_name)\\n) by (pod_name)\\n/\\nsum(container_spec_memory_limit_bytes{namespace=\\\"$namespace\\\"}) by (pod_name) * 100\n",
+               "expr": "sum(count(count(container_memory_working_set_bytes{namespace=\"$namespace\"}) by (pod_name)) by (pod_name) *\n  on (pod_name) sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\"}[1m]))\n  by (pod_name)) by (pod_name) / sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (pod_name) * 100\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -332,7 +332,7 @@
          ],
          "targets": [
             {
-               "expr": "sum (\\n  sum(kube_persistentvolumeclaim_info{storageclass=~\\\".*ssd.*|fast\\\"}) by (persistentvolumeclaim, namespace, storageclass)\\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\\\"$namespace\\\"}) by (persistentvolumeclaim, namespace)\\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageSSD\\n\\nor\\n\\nsum (\\n  sum(kube_persistentvolumeclaim_info{storageclass!~\\\".*ssd.*|fast\\\"}) by (persistentvolumeclaim, namespace, storageclass)\\n  + on (persistentvolumeclaim, namespace) group_right(storageclass)\\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\\\"$namespace\\\"}) by (persistentvolumeclaim, namespace)\\n) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 /1024 * $costStorageStandard\\n\n",
+               "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass)\n  sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\"})\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~\"$namespace\\\"})\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -478,7 +478,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -575,7 +575,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace)\n/\nsum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,

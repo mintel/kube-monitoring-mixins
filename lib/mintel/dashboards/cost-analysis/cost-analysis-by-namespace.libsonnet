@@ -9,7 +9,7 @@ local costAnalysis = import 'components/panels/cost-analysis.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Cost Analysis by Namespace';
-local dashboardDescription = "Provides an analysis of costs by namespace";
+local dashboardDescription = 'Provides an analysis of costs by namespace';
 local dashboardFile = 'cost-analysis-namespace-dashboard.json';
 
 local dashboardUID = std.md5(dashboardFile);
@@ -26,7 +26,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
     [std.format('%s', dashboardFile)]:
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
-           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
+        ($._config.mintel { dashboardTitle: dashboardTitle }),
         time_from='now-15m',
         editable='true',
         uid=dashboardUID,
@@ -46,40 +46,46 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
 
 
       .addPanel(costAnalysis.tablePodCost(), gridPos={
-                                              "x": 0,
-                                              "y": 0,
-                                              "w": 16,
-                                              "h": 9})
+        x: 0,
+        y: 0,
+        w: 16,
+        h: 9,
+      })
 
       .addPanel(costAnalysis.tablePVCNamespace(), gridPos={
-                                              "x": 16,
-                                              "y": 0,
-                                              "w": 8,
-                                              "h": 9})
+        x: 16,
+        y: 0,
+        w: 8,
+        h: 9,
+      })
 
       .addPanel(costAnalysis.graphOverallCPU(), gridPos={
-                                              "x": 0,
-                                              "y": 9,
-                                              "w": 12,
-                                              "h": 6})
+        x: 0,
+        y: 9,
+        w: 12,
+        h: 6,
+      })
 
       .addPanel(costAnalysis.graphOverallRAM(), gridPos={
-                                              "x": 12,
-                                              "y": 9,
-                                              "w": 12,
-                                              "h": 6})
+        x: 12,
+        y: 9,
+        w: 12,
+        h: 6,
+      })
 
       .addPanel(costAnalysis.graphNetworkIO(), gridPos={
-                                              "x": 0,
-                                              "y": 15,
-                                              "w": 12,
-                                              "h": 7})
+        x: 0,
+        y: 15,
+        w: 12,
+        h: 7,
+      })
 
       .addPanel(costAnalysis.graphDiskIO(), gridPos={
-                                              "x": 12,
-                                              "y": 15,
-                                              "w": 12,
-                                              "h": 7})
+        x: 12,
+        y: 15,
+        w: 12,
+        h: 7,
+      }),
 
   },
 }
