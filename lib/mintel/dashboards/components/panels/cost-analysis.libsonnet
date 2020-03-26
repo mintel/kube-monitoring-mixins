@@ -1118,7 +1118,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (rate (container_network_receive_bytes_total{namespace="$namespace"}[1m])) by (namespace)"
+        sum (rate (container_network_receive_bytes_total{namespace="$namespace"}[1m])) by (namespace)
       |||,
       legendFormat='<- in',
       interval='',
