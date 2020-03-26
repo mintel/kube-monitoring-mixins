@@ -420,7 +420,7 @@
                "format": "percent",
                "label": "",
                "logBase": 1,
-               "max": null,
+               "max": "110",
                "min": 0,
                "show": true
             },
@@ -508,7 +508,7 @@
                "format": "percent",
                "label": "",
                "logBase": 1,
-               "max": null,
+               "max": "110",
                "min": 0,
                "show": true
             },
@@ -560,16 +560,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "<- in",
-               "yaxis": 1
-            },
-            {
-               "alias": "-> out",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
@@ -610,13 +601,19 @@
          },
          "yaxes": [
             {
-               "format": "Bps",
+               "format": "percent",
+               "label": "",
                "logBase": 1,
+               "max": null,
+               "min": 0,
                "show": true
             },
             {
                "format": "short",
+               "label": null,
                "logBase": 1,
+               "max": 1,
+               "min": 0,
                "show": false
             }
          ]
@@ -659,16 +656,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "<- read",
-               "yaxis": 1
-            },
-            {
-               "alias": "<- write",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
@@ -709,13 +697,19 @@
          },
          "yaxes": [
             {
-               "format": "Bps",
+               "format": "percent",
+               "label": "",
                "logBase": 1,
+               "max": null,
+               "min": 0,
                "show": true
             },
             {
                "format": "short",
+               "label": null,
                "logBase": 1,
+               "max": 1,
+               "min": 0,
                "show": false
             }
          ]

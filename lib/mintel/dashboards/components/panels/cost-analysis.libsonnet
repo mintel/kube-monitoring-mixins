@@ -1087,6 +1087,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legendFormat='% cpu',
       interval='',
       intervalFactor=1,
+      max="110",
     ),
 
   graphOverallRAM()::
@@ -1104,6 +1105,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legendFormat='% ram',
       interval='',
       intervalFactor=1,
+      max="110",
     ),
 
   graphNetworkIO()::
@@ -1131,30 +1133,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         interval='',
         intervalFactor=1,
       )
-    ) + {
-      seriesOverrides: [
-        {
-          alias: '<- in',
-          yaxis: 1,
-        },
-        {
-          alias: '-> out',
-          yaxis: 2,
-        },
-      ],
-      yaxes: [
-        {
-          format: 'Bps',
-          logBase: 1,
-          show: true,
-        },
-        {
-          format: 'short',
-          logBase: 1,
-          show: false,
-        },
-      ],
-    },
+    ),
 
   graphDiskIO()::
 
@@ -1180,30 +1159,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         interval='',
         intervalFactor=1,
       )
-    ) + {
-      seriesOverrides: [
-        {
-          alias: '<- read',
-          yaxis: 1,
-        },
-        {
-          alias: '<- write',
-          yaxis: 2,
-        },
-      ],
-      yaxes: [
-        {
-          format: 'Bps',
-          logBase: 1,
-          show: true,
-        },
-        {
-          format: 'short',
-          logBase: 1,
-          show: false,
-        },
-      ],
-    },
+    ),
 
   tableContainerCost()::
 
