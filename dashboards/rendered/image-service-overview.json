@@ -189,7 +189,7 @@
                "targets": [
                   {
                      "expr": "sum(up{job=\"$deployment\", namespace=\"$namespace\"})\n",
-                     "format": 0,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -566,7 +566,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[5m]\n  )\n) by (code)\n",
-                     "format": 0,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ code }}",
@@ -668,7 +668,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$deployment.*\", container=\"main\"}[5m])) by (pod)\n",
-                     "format": 0,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ pod }}",
@@ -757,7 +757,7 @@
                "targets": [
                   {
                      "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment-.*\", container=\"main\"}) by (pod)\n",
-                     "format": 0,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ pod }}",

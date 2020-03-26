@@ -1135,6 +1135,16 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
+      seriesOverrides: [
+        {
+          alias: '<- in',
+          yaxis: 1,
+        },
+        {
+          alias: '-> out',
+          yaxis: 2,
+        },
+      ],
       yaxes: [
         {
           format: 'Bps',
@@ -1175,6 +1185,16 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
+      seriesOverrides: [
+        {
+          alias: '<- read',
+          yaxis: 1,
+        },
+        {
+          alias: '<- write',
+          yaxis: 2,
+        },
+      ],
       yaxes: [
         {
           format: 'Bps',

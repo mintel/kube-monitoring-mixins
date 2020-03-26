@@ -201,7 +201,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       nullPointMode=nullPointMode,
       span=span
     )
-    .addTarget(promQuery.target(query, decimals, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
+    .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
     .resetYaxes()
     .addYaxis(
       format=format,

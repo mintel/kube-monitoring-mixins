@@ -391,7 +391,7 @@
          "targets": [
             {
                "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m]))\n  by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100\n",
-               "format": 0,
+               "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "% cpu",
@@ -479,7 +479,7 @@
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
-               "format": 0,
+               "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "% ram",
@@ -560,14 +560,23 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [ ],
+         "seriesOverrides": [
+            {
+               "alias": "<- in",
+               "yaxis": 1
+            },
+            {
+               "alias": "-> out",
+               "yaxis": 2
+            }
+         ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
-               "format": 2,
+               "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "<- in",
@@ -650,14 +659,23 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [ ],
+         "seriesOverrides": [
+            {
+               "alias": "<- read",
+               "yaxis": 1
+            },
+            {
+               "alias": "<- write",
+               "yaxis": 2
+            }
+         ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
          "targets": [
             {
                "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
-               "format": 2,
+               "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "<- write",
