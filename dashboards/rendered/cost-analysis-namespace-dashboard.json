@@ -903,7 +903,7 @@
             "multi": false,
             "name": "namespace",
             "options": [ ],
-            "query": "query_result(sum(container_memory_working_set_bytes{namespace!=\"\"}) by (namespace))",
+            "query": "$._config.cost_namespace",
             "refresh": 1,
             "regex": "/namespace=\"(.*?)(\")/",
             "sort": 0,
