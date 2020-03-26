@@ -238,7 +238,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "This graph attempts to show you CPU use of your application vs its requests",
-         "fill": 0,
+         "fill": 1,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -268,16 +268,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "{{ container_name }} (requested)",
-               "yaxis": 1
-            },
-            {
-               "alias": "{{ container_name }}",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
@@ -337,7 +328,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "This graph attempts to show you RAM use of your application vs its requests",
-         "fill": 0,
+         "fill": 1,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -367,16 +358,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "{{ container_name }} (requested)",
-               "yaxis": 1
-            },
-            {
-               "alias": "{{ container_name }}",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
@@ -436,7 +418,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "Traffic in and out of this pod, as a sum of its containers",
-         "fill": 0,
+         "fill": 1,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -466,16 +448,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "-> in",
-               "yaxis": 1
-            },
-            {
-               "alias": "<- out",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
@@ -535,7 +508,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "Disk read writes",
-         "fill": 0,
+         "fill": 1,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -565,16 +538,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "<- read",
-               "yaxis": 1
-            },
-            {
-               "alias": "<- write",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,

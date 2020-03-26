@@ -1116,6 +1116,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       decimals=2,
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       query=|||
         sum (rate (container_network_receive_bytes_total{namespace="$namespace"}[1m])) by (namespace)
@@ -1156,6 +1157,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       decimals=2,
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       query=|||
         sum (rate (container_fs_writes_bytes_total{namespace="$namespace"}[1m])) by (namespace)
@@ -1436,6 +1438,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='This graph attempts to show you CPU use of your application vs its requests',
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       query=|||
         sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
@@ -1454,16 +1457,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '{{ container_name }} (requested)',
-          yaxis: 1,
-        },
-        {
-          alias: '{{ container_name }}',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'none',
@@ -1485,6 +1478,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='This graph attempts to show you RAM use of your application vs its requests',
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       query=|||
         sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
@@ -1503,16 +1497,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '{{ container_name }} (requested)',
-          yaxis: 1,
-        },
-        {
-          alias: '{{ container_name }}',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'bytes',
@@ -1534,6 +1518,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='Traffic in and out of this pod, as a sum of its containers',
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       interval='',
       intervalFactor=1,
@@ -1552,16 +1537,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '-> in',
-          yaxis: 1,
-        },
-        {
-          alias: '<- out',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'Bps',
@@ -1583,6 +1558,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='Disk read writes',
       height='',
       nullPointMode='connected',
+      fill=1,
       format='percent',
       query=|||
         sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
@@ -1601,16 +1577,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '<- read',
-          yaxis: 1,
-        },
-        {
-          alias: '<- write',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'Bps',
