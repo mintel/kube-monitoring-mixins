@@ -41,7 +41,7 @@
          "description": "This gauge shows the current CPU use vs CPU available",
          "format": "percent",
          "gauge": {
-            "maxValue": 1,
+            "maxValue": 100,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -55,7 +55,7 @@
          },
          "height": 200,
          "id": 3,
-         "interval": "1m",
+         "interval": "",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -92,10 +92,10 @@
          "targets": [
             {
                "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m])) / sum (machine_cpu_cores{service=\"kubelet\"}) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -127,7 +127,7 @@
          "description": "This panel shows current CPU reservation requests by applications, vs CPU available",
          "format": "percent",
          "gauge": {
-            "maxValue": 1,
+            "maxValue": 100,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -141,7 +141,7 @@
          },
          "height": 200,
          "id": 4,
-         "interval": "1m",
+         "interval": "",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -178,10 +178,10 @@
          "targets": [
             {
                "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -381,7 +381,7 @@
          "description": "This gauge shows current RAM use by RAM available",
          "format": "percent",
          "gauge": {
-            "maxValue": 1,
+            "maxValue": 100,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -395,7 +395,7 @@
          },
          "height": 200,
          "id": 7,
-         "interval": "1m",
+         "interval": "",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -432,10 +432,10 @@
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -467,7 +467,7 @@
          "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
          "format": "percent",
          "gauge": {
-            "maxValue": 1,
+            "maxValue": 100,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -481,7 +481,7 @@
          },
          "height": 200,
          "id": 8,
-         "interval": "1m",
+         "interval": "",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -518,10 +518,10 @@
          "targets": [
             {
                "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n    / sum(kube_node_status_allocatable_memory_bytes)) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
