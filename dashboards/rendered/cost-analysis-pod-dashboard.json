@@ -238,7 +238,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "This graph attempts to show you CPU use of your application vs its requests",
-         "fill": 1,
+         "fill": 0,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -328,7 +328,7 @@
          "datasource": "$ds",
          "decimals": 0,
          "description": "This graph attempts to show you RAM use of your application vs its requests",
-         "fill": 1,
+         "fill": 0,
          "gridPos": {
             "h": 8,
             "w": 12,

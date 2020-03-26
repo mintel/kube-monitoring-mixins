@@ -1438,7 +1438,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='This graph attempts to show you CPU use of your application vs its requests',
       height='',
       nullPointMode='connected',
-      fill=1,
       format='percent',
       query=|||
         sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
@@ -1478,7 +1477,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='This graph attempts to show you RAM use of your application vs its requests',
       height='',
       nullPointMode='connected',
-      fill=1,
       format='percent',
       query=|||
         sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
