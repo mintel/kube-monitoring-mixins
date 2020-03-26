@@ -91,11 +91,12 @@
          "tableColumn": "",
          "targets": [
             {
+               "datasource": true,
                "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m])) / sum (machine_cpu_cores{service=\"kubelet\"}) * 100\n",
-               "format": "",
+               "format": "percent",
                "interval": "1m",
-               "intervalFactor": 1,
-               "legendFormat": true,
+               "intervalFactor": "",
+               "legendFormat": 1,
                "refId": "A"
             }
          ],
@@ -177,11 +178,12 @@
          "tableColumn": "",
          "targets": [
             {
+               "datasource": true,
                "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100\n",
-               "format": "",
+               "format": "percent",
                "interval": "1m",
-               "intervalFactor": 1,
-               "legendFormat": true,
+               "intervalFactor": "",
+               "legendFormat": 1,
                "refId": "A"
             }
          ],
@@ -431,11 +433,12 @@
          "tableColumn": "",
          "targets": [
             {
+               "datasource": true,
                "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
-               "format": "",
+               "format": "percent",
                "interval": "1m",
-               "intervalFactor": 1,
-               "legendFormat": true,
+               "intervalFactor": "",
+               "legendFormat": 1,
                "refId": "A"
             }
          ],
@@ -517,11 +520,12 @@
          "tableColumn": "",
          "targets": [
             {
+               "datasource": true,
                "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n    / sum(kube_node_status_allocatable_memory_bytes)) * 100\n",
-               "format": "",
+               "format": "percent",
                "interval": "1m",
-               "intervalFactor": 1,
-               "legendFormat": true,
+               "intervalFactor": "",
+               "legendFormat": 1,
                "refId": "A"
             }
          ],
