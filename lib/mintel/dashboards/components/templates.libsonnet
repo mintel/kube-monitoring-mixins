@@ -61,7 +61,7 @@ local template = grafana.template;
   cost_discount(current, hide=false):: template.new(
     'costDiscount',
     'Prometheus',
-    '$._config.cost_discount',
+    'current',
     current=current,
     label= "Disc.",
     refresh='load',
@@ -69,7 +69,7 @@ local template = grafana.template;
   cost_cpu(current, hide=false):: template.new(
     'costcpu',
     'Prometheus',
-    '$._config.cost_cpu',
+    'current',
     current=current,
     label= "CPU",
     refresh='load',
@@ -77,7 +77,7 @@ local template = grafana.template;
   cost_pcpu(current, hide=false):: template.new(
     'costpcpu',
     'Prometheus',
-    '$._config.cost_pcpu',
+    'current',
     current=current,
     label= "PE CPU",
     refresh='load',
@@ -85,7 +85,7 @@ local template = grafana.template;
   cost_storage_ssd(current, hide=false):: template.new(
     'costStorageSSD',
     'Prometheus',
-    '$._config.cost_storage_ssd',
+    'current',
     current=current,
     label= "SSD",
     refresh='load',
@@ -93,7 +93,7 @@ local template = grafana.template;
   cost_storage_standard(current, hide=false):: template.new(
     'costStorageStandard',
     'Prometheus',
-    '$._config.cost_storage_standard',
+    'current',
     current=current,
     label= "Storage",
     refresh='load',
@@ -101,7 +101,7 @@ local template = grafana.template;
   cost_ram(current, hide=false):: template.new(
     'costram',
     'Prometheus',
-    '$._config.cost_ram',
+    'current',
     current=current,
     label= "RAM",
     refresh='load',
@@ -109,7 +109,7 @@ local template = grafana.template;
   cost_pram(current, hide=false):: template.new(
     'costpram',
     'Prometheus',
-    '$._config.cost_pram',
+    'current',
     current=current,
     label= "PE RAM",
     refresh='load',
