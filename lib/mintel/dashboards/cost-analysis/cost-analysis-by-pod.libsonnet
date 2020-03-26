@@ -42,8 +42,8 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard, hide=true))
       .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd, hide=true))
       .addTemplate(templates.cost_discount($._config.cost_discount, hide=true))
-      .addTemplate(templates.cost_namespace('monitoring'))
-      .addTemplate(templates.cost_pod('elastic-logs-es-master-1'))
+      .addTemplate(templates.cost_namespace($._config.namespace))
+      .addTemplate(templates.cost_pod(''))
 
 
       .addPanel(costAnalysis.tableContainerCost(), gridPos={
