@@ -564,7 +564,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) \n    / \n  sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})\n",
-                     "format": "percentunit",
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -686,7 +686,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  /\n  sum(\n    kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})\n",
-                     "format": "percentunit",
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -808,7 +808,7 @@
                "targets": [
                   {
                      "expr": "1 - avg(node:node_filesystem_avail:)\n",
-                     "format": "percentunit",
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
