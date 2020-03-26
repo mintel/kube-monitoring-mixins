@@ -92,10 +92,10 @@
          "targets": [
             {
                "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m])) / sum (machine_cpu_cores{service=\"kubelet\"}) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -178,10 +178,10 @@
          "targets": [
             {
                "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -432,10 +432,10 @@
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -518,10 +518,10 @@
          "targets": [
             {
                "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n    / sum(kube_node_status_allocatable_memory_bytes)) * 100\n",
-               "format": true,
+               "format": "",
                "interval": "1m",
-               "intervalFactor": 3,
-               "legendFormat": "",
+               "intervalFactor": 1,
+               "legendFormat": true,
                "refId": "A"
             }
          ],
@@ -1139,7 +1139,7 @@
          ],
          "targets": [
             {
-               "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  orsum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
+               "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
                "format": "table",
                "instant": "true",
                "interval": "",

@@ -29,6 +29,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       format='percent',
       gaugeMaxValue=100,
       interval='',
+      intervalFactor= 1,
       thresholds='30, 80',
       valueFontSize='80%',
       valueName='current',
@@ -52,6 +53,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       format='percent',
       gaugeMaxValue=100,
       interval='',
+      intervalFactor= 1,
       thresholds='30, 80',
       valueFontSize='80%',
       valueName='current',
@@ -92,6 +94,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       decimals=2,
       format='currencyUSD',
       interval='10s',
+      intervalFactor= 1,
       legendFormat=' {{ node }}',
     ),
 
@@ -214,6 +217,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       format='percent',
       gaugeMaxValue=100,
       interval='',
+      intervalFactor= 1,
       thresholds='30, 80',
       valueFontSize='80%',
       valueName='current',
@@ -239,6 +243,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       format='percent',
       gaugeMaxValue=100,
       interval='',
+      intervalFactor= 1,
       thresholds='30, 80',
       valueFontSize='80%',
       valueName='current',
@@ -264,6 +269,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       decimals=2,
       format='currencyUSD',
       interval='10s',
+      intervalFactor= 1,
       legendFormat=' {{ node }}',
     ),
 
@@ -652,7 +658,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass) +
           on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
-          orsum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*"}) by (persistentvolumeclaim, namespace, storageclass) +
+          or sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*"}) by (persistentvolumeclaim, namespace, storageclass) +
           on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
