@@ -117,7 +117,7 @@ local template = grafana.template;
   cost_namespace(current, hide=false):: template.new(
     'namespace',
     'Prometheus',
-    '$._config.cost_namespace',
+    'query_result(sum(container_memory_working_set_bytes{namespace!=""}) by (namespace))',
     regex='/namespace=\"(.*?)(\")/',
     current=current,
     label='NS',
@@ -126,7 +126,7 @@ local template = grafana.template;
   cost_pod(current, hide=false):: template.new(
     'pod',
     'Prometheus',
-    '$._config.cost_pod',
+    'query_result(sum(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name))',
     regex='/pod_name=\"(.*?)(\")/',
     current=current,
     label='Pod',
