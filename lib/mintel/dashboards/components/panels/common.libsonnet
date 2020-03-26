@@ -163,6 +163,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
   timeseries(
     title='Timeseries',
     description='',
+    decimals=0,
     query='',
     legendFormat='',
     format='short',
@@ -185,7 +186,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       linewidth=linewidth,
       fill=0,
       datasource='$ds',
-      decimals=0,
+      decimals=decimals,
       legend_rightSide=legend_rightSide,
       legend_show=legend_show,
       legend_values=true,
@@ -200,7 +201,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       nullPointMode=nullPointMode,
       span=span
     )
-    .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
+    .addTarget(promQuery.target(query, decimals, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
     .resetYaxes()
     .addYaxis(
       format=format,

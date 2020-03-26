@@ -189,7 +189,7 @@
                "targets": [
                   {
                      "expr": "sum(up{service=\"$service\", namespace=\"$namespace\"})\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -566,7 +566,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]\n  )\n) by (code)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ code }}",
@@ -654,7 +654,7 @@
                "targets": [
                   {
                      "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=\"$service\"}[5m]))\n by(method, view)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ method }}/{{ view }}",
@@ -756,7 +756,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$service.*\", container=\"main\"}[5m])) by (pod)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ pod }}",
@@ -845,7 +845,7 @@
                "targets": [
                   {
                      "expr": "container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$service-.*\", container=\"main\"}\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ pod }}",
@@ -947,7 +947,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(django_db_execute_total{namespace=~\"$namespace\", service=\"$service\"}[1m])) by (vendor)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ vendor }}",
@@ -1048,7 +1048,7 @@
                "targets": [
                   {
                      "expr": "sum(avg_over_time(celery_workers{namespace=~\"^$namespace$\"}[5m]))\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ name }}",
@@ -1136,7 +1136,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    celery_tasks_total{namespace=~\"^namespace$\", name=~\"^$celery_task_name$\", state=~\"^$celery_task_state$\"}[5m]))\nby (name, state)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ name }}/{{ state }}",
@@ -1224,7 +1224,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    celery_tasks_runtime_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ name }}/{{ state }}",
@@ -1312,7 +1312,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    celery_tasks_latency_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ le }}",
@@ -1400,7 +1400,7 @@
                "targets": [
                   {
                      "expr": "topk(15,\n  sum(\n    rate(\n      celery_tasks_total{namespace=~\"^$namespace$\"}[5m])))\n  by (name)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ name }}",
@@ -1501,7 +1501,7 @@
                "targets": [
                   {
                      "expr": "sum(avg_over_time(redis_connected_clients{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -1589,7 +1589,7 @@
                "targets": [
                   {
                      "expr": "sum(avg_over_time(redis_blocked_clients{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -1677,7 +1677,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_connections_received_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -1765,7 +1765,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_commands_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 1,
                      "legendFormat": "{{ service }}",
@@ -1853,7 +1853,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_net_output_bytes_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -1941,7 +1941,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_net_input_bytes_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2029,7 +2029,7 @@
                "targets": [
                   {
                      "expr": "sum(changes(redis_slowlog_last_id{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 10,
                      "legendFormat": "{{ service }}",
@@ -2117,7 +2117,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_commands_total{service=~\"$service.*\"}[$__interval])) by (cmd)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ cmd }}",
@@ -2381,7 +2381,7 @@
                "targets": [
                   {
                      "expr": "max_over_time(redis_memory_used_bytes{service=~\"$service.*\"}[$__interval])\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2469,7 +2469,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_memory_used_bytes{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2557,7 +2557,7 @@
                "targets": [
                   {
                      "expr": "max_over_time(redis_memory_used_rss_bytes{service=~\"$service.*\"}[$__interval])\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2645,7 +2645,7 @@
                "targets": [
                   {
                      "expr": "redis_memory_used_rss_bytes{service=~\"$service.*\"} / redis_memory_used_bytes{service=~\"$service.*\"}\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2733,7 +2733,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_expired_keys_total{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",
@@ -2821,7 +2821,7 @@
                "targets": [
                   {
                      "expr": "sum(rate(redis_db_keys{service=~\"$service.*\"}[$__interval])) by (service)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "{{ service }}",

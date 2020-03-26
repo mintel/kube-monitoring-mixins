@@ -391,7 +391,7 @@
          "targets": [
             {
                "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=\"$namespace\"}[1m]))\n  by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace=\"$namespace\"}[1m])) by (namespace) * 100\n",
-               "format": "time_series",
+               "format": 0,
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "% cpu",
@@ -479,7 +479,7 @@
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
-               "format": "time_series",
+               "format": 0,
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "% ram",
@@ -528,7 +528,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "Traffic in and out of this namespace, as a sum of the pods within it",
          "fill": 0,
          "gridPos": {
@@ -567,7 +567,7 @@
          "targets": [
             {
                "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
-               "format": "time_series",
+               "format": 2,
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "<- in",
@@ -601,19 +601,13 @@
          },
          "yaxes": [
             {
-               "format": "percent",
-               "label": "",
+               "format": "Bps",
                "logBase": 1,
-               "max": null,
-               "min": 0,
                "show": true
             },
             {
                "format": "short",
-               "label": null,
                "logBase": 1,
-               "max": 1,
-               "min": 0,
                "show": false
             }
          ]
@@ -624,7 +618,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "Disk reads and writes for the namespace, as a sum of the pods within it",
          "fill": 0,
          "gridPos": {
@@ -663,7 +657,7 @@
          "targets": [
             {
                "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)\n",
-               "format": "time_series",
+               "format": 2,
                "interval": "",
                "intervalFactor": 1,
                "legendFormat": "<- write",
@@ -697,19 +691,13 @@
          },
          "yaxes": [
             {
-               "format": "percent",
-               "label": "",
+               "format": "Bps",
                "logBase": 1,
-               "max": null,
-               "min": 0,
                "show": true
             },
             {
                "format": "short",
-               "label": null,
                "logBase": 1,
-               "max": 1,
-               "min": 0,
                "show": false
             }
          ]

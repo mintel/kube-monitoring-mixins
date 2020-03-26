@@ -911,7 +911,7 @@
                "targets": [
                   {
                      "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "% Idle",
@@ -995,7 +995,7 @@
                "targets": [
                   {
                      "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) \n              /  \n              sum(node_memory_MemTotal_bytes)))\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "% Free",
@@ -1088,7 +1088,7 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    node_disk_read_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
-                     "format": "time_series",
+                     "format": 0,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "read",

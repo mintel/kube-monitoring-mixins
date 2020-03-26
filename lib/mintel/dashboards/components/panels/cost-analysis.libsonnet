@@ -1113,6 +1113,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     commonPanels.timeseries(
       title='Network IO',
       description='Traffic in and out of this namespace, as a sum of the pods within it',
+      decimals=2,
       height='',
       nullPointMode='connected',
       format='percent',
@@ -1133,13 +1134,27 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         interval='',
         intervalFactor=1,
       )
-    ),
+    ) + {
+      yaxes: [
+        {
+          format: 'Bps',
+          logBase: 1,
+          show: true,
+        },
+        {
+          format: 'short',
+          logBase: 1,
+          show: false,
+        },
+      ],
+    },
 
   graphDiskIO()::
 
     commonPanels.timeseries(
       title='Disk IO',
       description='Disk reads and writes for the namespace, as a sum of the pods within it',
+      decimals=2,
       height='',
       nullPointMode='connected',
       format='percent',
@@ -1159,7 +1174,20 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         interval='',
         intervalFactor=1,
       )
-    ),
+    ) + {
+      yaxes: [
+        {
+          format: 'Bps',
+          logBase: 1,
+          show: true,
+        },
+        {
+          format: 'short',
+          logBase: 1,
+          show: false,
+        },
+      ],
+    },
 
   tableContainerCost()::
 
