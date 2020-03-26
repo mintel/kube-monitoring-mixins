@@ -1187,7 +1187,7 @@
                "value": "17.76"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "CPU",
             "multi": false,
@@ -1210,7 +1210,7 @@
                "value": "5.34"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "PE CPU",
             "multi": false,
@@ -1233,7 +1233,7 @@
                "value": "2.38"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "RAM",
             "multi": false,
@@ -1256,7 +1256,7 @@
                "value": "0.71"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "PE RAM",
             "multi": false,
@@ -1279,7 +1279,7 @@
                "value": "0.040"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "Storage",
             "multi": false,
@@ -1302,7 +1302,7 @@
                "value": "0.170"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "SSD",
             "multi": false,
@@ -1325,7 +1325,7 @@
                "value": "30"
             },
             "datasource": "Prometheus",
-            "hide": 0,
+            "hide": 2,
             "includeAll": false,
             "label": "Disc.",
             "multi": false,

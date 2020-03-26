@@ -65,6 +65,7 @@ local template = grafana.template;
     current=current,
     label= "Disc.",
     refresh='load',
+    hide=hide,
   ),
   cost_cpu(current, hide=false):: template.new(
     'costcpu',
@@ -73,6 +74,7 @@ local template = grafana.template;
     current=current,
     label= "CPU",
     refresh='load',
+    hide=hide,
   ),
   cost_pcpu(current, hide=false):: template.new(
     'costpcpu',
@@ -81,6 +83,7 @@ local template = grafana.template;
     current=current,
     label= "PE CPU",
     refresh='load',
+    hide=hide,
   ),
   cost_storage_ssd(current, hide=false):: template.new(
     'costStorageSSD',
@@ -89,6 +92,7 @@ local template = grafana.template;
     current=current,
     label= "SSD",
     refresh='load',
+    hide=hide,
   ),
   cost_storage_standard(current, hide=false):: template.new(
     'costStorageStandard',
@@ -97,6 +101,7 @@ local template = grafana.template;
     current=current,
     label= "Storage",
     refresh='load',
+    hide=hide,
   ),
   cost_ram(current, hide=false):: template.new(
     'costram',
@@ -105,6 +110,7 @@ local template = grafana.template;
     current=current,
     label= "RAM",
     refresh='load',
+    hide=hide,
   ),
   cost_pram(current, hide=false):: template.new(
     'costpram',
@@ -113,6 +119,7 @@ local template = grafana.template;
     current=current,
     label= "PE RAM",
     refresh='load',
+    hide=hide,
   ),
   cost_namespace(current, hide=false):: template.new(
     'namespace',
