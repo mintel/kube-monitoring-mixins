@@ -618,19 +618,16 @@
             "type": "datasource"
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "17.76",
-               "value": "17.76"
-            },
-            "datasource": "Prometheus",
+            "allValue": "17.76",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "CPU",
             "multi": false,
             "name": "costcpu",
             "options": [ ],
-            "query": "%(cost_cpu)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -641,19 +638,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "5.34",
-               "value": "5.34"
-            },
-            "datasource": "Prometheus",
+            "allValue": "5.34",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "PE CPU",
             "multi": false,
             "name": "costpcpu",
             "options": [ ],
-            "query": "%(cost_pcpu)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -664,19 +658,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "2.38",
-               "value": "2.38"
-            },
-            "datasource": "Prometheus",
+            "allValue": "2.38",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "RAM",
             "multi": false,
             "name": "costram",
             "options": [ ],
-            "query": "%(cost_ram)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -687,19 +678,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "0.71",
-               "value": "0.71"
-            },
-            "datasource": "Prometheus",
+            "allValue": "0.71",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "PE RAM",
             "multi": false,
             "name": "costpram",
             "options": [ ],
-            "query": "%(cost_pram)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -710,19 +698,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "0.040",
-               "value": "0.040"
-            },
-            "datasource": "Prometheus",
+            "allValue": "0.040",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "Storage",
             "multi": false,
             "name": "costStorageStandard",
             "options": [ ],
-            "query": "%(cost_storage_standard)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -733,19 +718,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "0.170",
-               "value": "0.170"
-            },
-            "datasource": "Prometheus",
+            "allValue": "0.170",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "SSD",
             "multi": false,
             "name": "costStorageSSD",
             "options": [ ],
-            "query": "%(cost_storage_ssd)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -756,19 +738,16 @@
             "useTags": false
          },
          {
-            "allValue": null,
-            "current": {
-               "text": "30",
-               "value": "30"
-            },
-            "datasource": "Prometheus",
+            "allValue": "30",
+            "current": { },
+            "datasource": "Constant",
             "hide": 2,
             "includeAll": false,
             "label": "Disc.",
             "multi": false,
             "name": "costDiscount",
             "options": [ ],
-            "query": "%(cost_discount)s",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
