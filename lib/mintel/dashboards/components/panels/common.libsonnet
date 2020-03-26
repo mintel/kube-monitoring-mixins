@@ -109,7 +109,6 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     valueFontSize='100%',
     transparent=true,
     interval='1m',
-    intervalFactor=1,
     postfix=null,
     valueName='avg',
     span=null,
@@ -133,7 +132,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       postfix=postfix,
       span=span,
     )
-    .addTarget(promQuery.target(query, format, interval, intervalFactor, instant)),
+    .addTarget(promQuery.target(query, instant)),
 
   table(
     title='Table',

@@ -39,9 +39,9 @@
          "datasource": null,
          "decimals": 2,
          "description": "This gauge shows the current CPU use vs CPU available",
-         "format": "percent",
+         "format": "percentunit",
          "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -55,7 +55,7 @@
          },
          "height": 200,
          "id": 3,
-         "interval": "",
+         "interval": "1m",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -91,12 +91,11 @@
          "tableColumn": "",
          "targets": [
             {
-               "datasource": true,
                "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",service=\"kubelet\"}[1m])) / sum (machine_cpu_cores{service=\"kubelet\"}) * 100\n",
-               "format": "percent",
+               "format": true,
                "interval": "1m",
-               "intervalFactor": "",
-               "legendFormat": 1,
+               "intervalFactor": 3,
+               "legendFormat": "",
                "refId": "A"
             }
          ],
@@ -126,9 +125,9 @@
          "datasource": null,
          "decimals": 2,
          "description": "This panel shows current CPU reservation requests by applications, vs CPU available",
-         "format": "percent",
+         "format": "percentunit",
          "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -142,7 +141,7 @@
          },
          "height": 200,
          "id": 4,
-         "interval": "",
+         "interval": "1m",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -178,12 +177,11 @@
          "tableColumn": "",
          "targets": [
             {
-               "datasource": true,
                "expr": "(sum(kube_pod_container_resource_requests_cpu_cores) / sum (kube_node_status_allocatable_cpu_cores)) * 100\n",
-               "format": "percent",
+               "format": true,
                "interval": "1m",
-               "intervalFactor": "",
-               "legendFormat": 1,
+               "intervalFactor": 3,
+               "legendFormat": "",
                "refId": "A"
             }
          ],
@@ -381,9 +379,9 @@
          "datasource": null,
          "decimals": 2,
          "description": "This gauge shows current RAM use by RAM available",
-         "format": "percent",
+         "format": "percentunit",
          "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -397,7 +395,7 @@
          },
          "height": 200,
          "id": 7,
-         "interval": "",
+         "interval": "1m",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -433,12 +431,11 @@
          "tableColumn": "",
          "targets": [
             {
-               "datasource": true,
                "expr": "sum (container_memory_working_set_bytes{id!=\"/\",service=\"kubelet\"}) / sum (machine_memory_bytes{service=\"kubelet\"}) * 100\n",
-               "format": "percent",
+               "format": true,
                "interval": "1m",
-               "intervalFactor": "",
-               "legendFormat": 1,
+               "intervalFactor": 3,
+               "legendFormat": "",
                "refId": "A"
             }
          ],
@@ -468,9 +465,9 @@
          "datasource": null,
          "decimals": 2,
          "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
-         "format": "percent",
+         "format": "percentunit",
          "gauge": {
-            "maxValue": 100,
+            "maxValue": 1,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -484,7 +481,7 @@
          },
          "height": 200,
          "id": 8,
-         "interval": "",
+         "interval": "1m",
          "links": [ ],
          "mappingType": 1,
          "mappingTypes": [
@@ -520,12 +517,11 @@
          "tableColumn": "",
          "targets": [
             {
-               "datasource": true,
                "expr": "(\n  sum(kube_pod_container_resource_requests_memory_bytes)\n    / sum(kube_node_status_allocatable_memory_bytes)) * 100\n",
-               "format": "percent",
+               "format": true,
                "interval": "1m",
-               "intervalFactor": "",
-               "legendFormat": 1,
+               "intervalFactor": 3,
+               "legendFormat": "",
                "refId": "A"
             }
          ],
