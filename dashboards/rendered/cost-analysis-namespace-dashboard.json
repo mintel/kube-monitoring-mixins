@@ -731,7 +731,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "17.76",
+               "value": "17.76"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -739,7 +742,7 @@
             "multi": false,
             "name": "costcpu",
             "options": [ ],
-            "query": "17.76",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -751,7 +754,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "5.34",
+               "value": "5.34"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -759,7 +765,7 @@
             "multi": false,
             "name": "costpcpu",
             "options": [ ],
-            "query": "5.34",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -771,7 +777,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "2.38",
+               "value": "2.38"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -779,7 +788,7 @@
             "multi": false,
             "name": "costram",
             "options": [ ],
-            "query": "2.38",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -791,7 +800,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "0.71",
+               "value": "0.71"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -799,7 +811,7 @@
             "multi": false,
             "name": "costpram",
             "options": [ ],
-            "query": "0.71",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -811,7 +823,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "0.040",
+               "value": "0.040"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -819,7 +834,7 @@
             "multi": false,
             "name": "costStorageStandard",
             "options": [ ],
-            "query": "0.040",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -831,7 +846,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "0.170",
+               "value": "0.170"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -839,7 +857,7 @@
             "multi": false,
             "name": "costStorageSSD",
             "options": [ ],
-            "query": "0.170",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,
@@ -851,7 +869,10 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {
+               "text": "30",
+               "value": "30"
+            },
             "datasource": "Prometheus",
             "hide": 2,
             "includeAll": false,
@@ -859,7 +880,7 @@
             "multi": false,
             "name": "costDiscount",
             "options": [ ],
-            "query": "30",
+            "query": "",
             "refresh": 1,
             "regex": "",
             "sort": 0,

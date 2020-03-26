@@ -35,13 +35,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       )
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.cost_cpu(hide=true))
-      .addTemplate(templates.cost_pcpu(hide=true))
-      .addTemplate(templates.cost_ram(hide=true))
-      .addTemplate(templates.cost_pram(hide=true))
-      .addTemplate(templates.cost_storage_standard(hide=true))
-      .addTemplate(templates.cost_storage_ssd(hide=true))
-      .addTemplate(templates.cost_discount(hide=true))
+      .addTemplate(templates.cost_cpu($._config.cost_cpu,hide=true))
+      .addTemplate(templates.cost_pcpu($._config.cost_pcpu,hide=true))
+      .addTemplate(templates.cost_ram($._config.cost_ram,hide=true))
+      .addTemplate(templates.cost_pram($._config.cost_pram,hide=true))
+      .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard,hide=true))
+      .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd,hide=true))
+      .addTemplate(templates.cost_discount($._config.cost_discount, hide=true))
       .addTemplate(templates.cost_namespace($._config.namespace))
 
 
