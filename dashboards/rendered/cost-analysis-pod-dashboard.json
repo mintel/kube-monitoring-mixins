@@ -171,11 +171,11 @@
          ],
          "targets": [
             {
-               "datasource": "",
                "expr": "(sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*\n  ($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(\n  count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"})\n  by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",\n  container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)  or\n  count(    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)  ) by(container_name) -1)\n",
                "format": "table",
-               "interval": 1,
-               "intervalFactor": "true",
+               "instant": "true",
+               "interval": "",
+               "intervalFactor": 1,
                "legendFormat": "{{ pod_name }}",
                "refId": "A"
             },

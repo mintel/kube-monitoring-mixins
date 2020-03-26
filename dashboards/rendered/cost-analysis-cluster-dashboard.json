@@ -796,11 +796,11 @@
          ],
          "targets": [
             {
-               "datasource": "",
                "expr": "(sum(kube_pod_container_resource_requests_memory_bytes) by (node) / sum(kube_node_status_allocatable_memory_bytes) by (node)) * 100\n",
                "format": "table",
-               "interval": 1,
-               "intervalFactor": "true",
+               "instant": "true",
+               "interval": "",
+               "intervalFactor": 1,
                "legendFormat": "{{ node }}",
                "refId": "A"
             },
@@ -980,11 +980,11 @@
          ],
          "targets": [
             {
-               "datasource": "",
                "expr": "(sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)) )\n  +(sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by (namespace)\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
                "format": "table",
-               "interval": 1,
-               "intervalFactor": "true",
+               "instant": "true",
+               "interval": "",
+               "intervalFactor": 1,
                "legendFormat": "{{ namespace }}",
                "refId": "A"
             },
@@ -1139,11 +1139,11 @@
          ],
          "targets": [
             {
-               "datasource": "",
                "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
                "format": "table",
-               "interval": 1,
-               "intervalFactor": "true",
+               "instant": "true",
+               "interval": "",
+               "intervalFactor": 1,
                "legendFormat": "{{ persistentvolumeclaim }}",
                "refId": "A"
             }
