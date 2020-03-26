@@ -463,8 +463,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       query=|||
         (sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)) )
-          +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(namespace)
-          or count(count(container_spec_cpu_shares{namespace!=""}) by(namespace)) by(namespace) -1)
+          +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by (namespace)
+          or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
       |||,
       interval='',
       intervalFactor=1,
@@ -475,7 +475,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         |||
           (sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram
             / 100 * $costDiscount)))+(sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
-            by(namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by(namespace)) by(namespace) -1)
+            by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
         format='table',
         instant='true',
@@ -493,7 +493,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             or sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"})
             by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace) group_right(storageclass)
             sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace))
-            by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard or count(count(container_spec_cpu_shares{namespace!=""}) by(namespace)) by(namespace) -1
+            by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1
         |||,
         format='table',
         instant='true',
@@ -508,11 +508,11 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           # Add the CPU
             ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)))
             + (sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu)
-            by(namespace) or count(count(container_spec_cpu_shares{namespace!=""}) by(namespace)) by(namespace) -1)) +
+            by (namespace) or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)) +
             # Add the RAM
             ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
             + (sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
-            by(namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by(namespace)) by(namespace) -1)) +
+            by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)) +
             # Add the storage
             (sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass)
             + on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
@@ -520,7 +520,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             or sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass) +
             on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
             by (persistentvolumeclaim, namespace)) by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard
-            or count(count(container_spec_cpu_shares{namespace!=""}) by(namespace)) by(namespace) -1)
+            or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
         format='table',
         instant='true',
@@ -651,10 +651,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       query=|||
         sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass) +
           on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
-          by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
+          by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
           orsum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*"}) by (persistentvolumeclaim, namespace, storageclass) +
           on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
-          by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
+          by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
       interval='',
       intervalFactor=1,
@@ -814,10 +814,23 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         },
       ],
       query=|||
-        (sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount)))
-          by(pod_name) or count(count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)) by(pod_name) -1) +
-          (sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu)
-          by(pod_name) or count(count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)) by(pod_name) -1)
+            (
+              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)
+              or
+              count(
+                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
+              ) by(pod_name) -1
+            )
+
+            +
+
+            (
+              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod_name)
+              or
+              count(
+                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
+              ) by(pod_name) -1
+            )
       |||,
       interval='',
       intervalFactor=1,
@@ -826,10 +839,23 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          (sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
-            by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)) by(pod_name) -1)
-            +(sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
-            by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)) by(pod_name) -1)
+          (
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)
+            or
+            count(
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
+
+          +
+
+          (
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod_name)
+            or
+            count(
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
         |||,
         format='table',
         instant='true',
@@ -853,14 +879,44 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          (sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount)))
-            by(pod_name) or count(count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)) by(pod_name) -1) +
-            (sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu)
-            by(pod_name) or count(count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)) by(pod_name) -1)
-            # Now ram + (sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
-            by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)) by(pod_name) -1) +
-            (sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
-            by(pod_name) or count(count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)) by(pod_name) -1)
+          (
+            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)
+            or
+            count(
+              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
+
+          +
+
+          (
+            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod_name)
+            or
+            count(
+              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
+
+          # Now ram
+
+          +
+          (
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)
+            or
+            count(
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
+
+          +
+
+          (
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod_name)
+            or
+            count(
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
+            ) by(pod_name) -1
+          )
         |||,
         format='table',
         instant='true',
@@ -871,9 +927,13 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          sum(count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name)) by (pod_name)  * on (pod_name)
-            sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[1m])) by (pod_name))
-            by (pod_name) * 1000 / sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
+           sum(
+              count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name)) by (pod_name)
+              * on (pod_name)
+              sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[1m])) by (pod_name)
+           ) by (pod_name) * 1000
+           /
+           sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
         |||,
         format='table',
         instant='true',
@@ -885,9 +945,13 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          sum(count(count(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name)) by (pod_name) *
-            on (pod_name) sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[1m]))
-            by (pod_name)) by (pod_name) / sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (pod_name) * 100
+          sum(
+             count(count(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name)) by (pod_name)
+             * on (pod_name)
+             sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[1m])) by (pod_name)
+          ) by (pod_name)
+          /
+          sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (pod_name) * 100
         |||,
         format='table',
         instant='true',
