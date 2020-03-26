@@ -39,7 +39,7 @@
          "datasource": null,
          "decimals": 2,
          "description": "This gauge shows the current CPU use vs CPU available",
-         "format": "percentunit",
+         "format": "percent",
          "gauge": {
             "maxValue": 1,
             "minValue": 0,
@@ -125,7 +125,7 @@
          "datasource": null,
          "decimals": 2,
          "description": "This panel shows current CPU reservation requests by applications, vs CPU available",
-         "format": "percentunit",
+         "format": "percent",
          "gauge": {
             "maxValue": 1,
             "minValue": 0,
@@ -379,7 +379,7 @@
          "datasource": null,
          "decimals": 2,
          "description": "This gauge shows current RAM use by RAM available",
-         "format": "percentunit",
+         "format": "percent",
          "gauge": {
             "maxValue": 1,
             "minValue": 0,
@@ -465,7 +465,7 @@
          "datasource": null,
          "decimals": 2,
          "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
-         "format": "percentunit",
+         "format": "percent",
          "gauge": {
             "maxValue": 1,
             "minValue": 0,
