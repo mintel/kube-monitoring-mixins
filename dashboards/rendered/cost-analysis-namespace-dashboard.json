@@ -560,22 +560,13 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "<- in",
-               "yaxis": 1
-            },
-            {
-               "alias": "-> out",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (container_memory_working_set_bytes{namespace=\"$namespace\"}) by (namespace) /\n  sum(container_spec_memory_limit_bytes{namespace=\"$namespace\"}) by (namespace) * 100\n",
+               "expr": "sum (rate (container_network_receive_bytes_total{namespace=\\\"$namespace\\\"}[1m])) by (namespace)\"\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -659,16 +650,7 @@
          "points": false,
          "renderer": "flot",
          "repeat": null,
-         "seriesOverrides": [
-            {
-               "alias": "<- read",
-               "yaxis": 1
-            },
-            {
-               "alias": "<- write",
-               "yaxis": 2
-            }
-         ],
+         "seriesOverrides": [ ],
          "spaceLength": 10,
          "stack": false,
          "steppedLine": false,

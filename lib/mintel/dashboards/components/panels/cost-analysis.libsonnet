@@ -1118,8 +1118,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (container_memory_working_set_bytes{namespace="$namespace"}) by (namespace) /
-          sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (namespace) * 100
+        sum (rate (container_network_receive_bytes_total{namespace=\"$namespace\"}[1m])) by (namespace)"
       |||,
       legendFormat='<- in',
       interval='',
@@ -1135,16 +1134,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '<- in',
-          yaxis: 1,
-        },
-        {
-          alias: '-> out',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'Bps',
@@ -1185,16 +1174,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         intervalFactor=1,
       )
     ) + {
-      seriesOverrides: [
-        {
-          alias: '<- read',
-          yaxis: 1,
-        },
-        {
-          alias: '<- write',
-          yaxis: 2,
-        },
-      ],
       yaxes: [
         {
           format: 'Bps',
