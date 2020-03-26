@@ -106,7 +106,7 @@ local template = grafana.template;
   cost_ram(current, hide=false):: template.new(
     'costram',
     'Prometheus',
-    'cost_ram',
+    '%(cost_ram)s',
     current=current,
     label= "RAM",
     refresh='load',
@@ -115,7 +115,7 @@ local template = grafana.template;
   cost_pram(current, hide=false):: template.new(
     'costpram',
     'Prometheus',
-    'cost_pram',
+    '%(cost_pram)s',
     current=current,
     label= "PE RAM",
     refresh='load',
