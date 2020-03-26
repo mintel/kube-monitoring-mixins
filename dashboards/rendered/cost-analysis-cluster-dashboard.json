@@ -37,7 +37,7 @@
             "#c15c17"
          ],
          "datasource": null,
-         "decimals": "2",
+         "decimals": 2,
          "description": "This gauge shows the current CPU use vs CPU available",
          "format": "percent",
          "gauge": {
@@ -123,7 +123,7 @@
             "#c15c17"
          ],
          "datasource": null,
-         "decimals": "2",
+         "decimals": 2,
          "description": "This panel shows current CPU reservation requests by applications, vs CPU available",
          "format": "percent",
          "gauge": {
@@ -209,6 +209,7 @@
             "#d44a3a"
          ],
          "datasource": "$ds",
+         "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
             "maxValue": 100,
@@ -292,6 +293,7 @@
             "#d44a3a"
          ],
          "datasource": "$ds",
+         "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
             "maxValue": 100,
@@ -375,7 +377,7 @@
             "#c15c17"
          ],
          "datasource": null,
-         "decimals": "2",
+         "decimals": 2,
          "description": "This gauge shows current RAM use by RAM available",
          "format": "percent",
          "gauge": {
@@ -461,7 +463,7 @@
             "#c15c17"
          ],
          "datasource": null,
-         "decimals": "2",
+         "decimals": 2,
          "description": "This panel shows current RAM reservation requests by applications, vs RAM available",
          "format": "percent",
          "gauge": {
@@ -547,6 +549,7 @@
             "#d44a3a"
          ],
          "datasource": "$ds",
+         "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
             "maxValue": 100,
@@ -630,6 +633,7 @@
             "#d44a3a"
          ],
          "datasource": "$ds",
+         "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
             "maxValue": 100,
@@ -1135,7 +1139,7 @@
          ],
          "targets": [
             {
-               "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
+               "expr": "sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD\n  orsum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard\n",
                "format": "table",
                "instant": "true",
                "interval": "",

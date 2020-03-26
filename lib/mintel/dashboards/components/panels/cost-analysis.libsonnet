@@ -25,7 +25,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         '#c15c17',
       ],
       colorValue=true,
-      decimals='2',
+      decimals=2,
       format='percent',
       gaugeMaxValue=100,
       interval='',
@@ -48,7 +48,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         '#c15c17',
       ],
       colorValue=true,
-      decimals='2',
+      decimals=2,
       format='percent',
       gaugeMaxValue=100,
       interval='',
@@ -68,6 +68,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           * on (node) group_left (label_cloud_google_com_gke_preemptible) kube_node_labels{label_cloud_google_com_gke_preemptible!="true"})
           * ($costcpu - ($costcpu / 100 * $costDiscount))))
       |||,
+      decimals=2,
       format='currencyUSD',
       interval='10s',
       legendFormat=' {{ node }}',
@@ -88,6 +89,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard
           + sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id!="/"}) / 1024 / 1024 / 1024 * $costStorageSSD
       |||,
+      decimals=2,
       format='currencyUSD',
       interval='10s',
       legendFormat=' {{ node }}',
@@ -208,7 +210,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         '#c15c17',
       ],
       colorValue=true,
-      decimals='2',
+      decimals=2,
       format='percent',
       gaugeMaxValue=100,
       interval='',
@@ -233,7 +235,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         '#c15c17',
       ],
       colorValue=true,
-      decimals='2',
+      decimals=2,
       format='percent',
       gaugeMaxValue=100,
       interval='',
@@ -259,6 +261,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
                kube_node_labels{label_cloud_google_com_gke_preemptible!="true"}
              ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))))
       |||,
+      decimals=2,
       format='currencyUSD',
       interval='10s',
       legendFormat=' {{ node }}',
@@ -300,6 +303,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))
         ))
       |||,
+      decimals=2,
       format='currencyUSD',
       interval='10s',
       legendFormat=' {{ node }}',
@@ -646,11 +650,11 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       query=|||
         sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass) +
-          on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
-          by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
-          or sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*"}) by (persistentvolumeclaim, namespace, storageclass) +
-          on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
-          by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
+          on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
+          by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
+          orsum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*"}) by (persistentvolumeclaim, namespace, storageclass) +
+          on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
+          by(persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
       interval='',
       intervalFactor=1,
@@ -868,8 +872,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       promQuery.target(
         |||
           sum(count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name)) by (pod_name)  * on (pod_name)
-          sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[1m])) by (pod_name))
-          by (pod_name) * 1000 / sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
+            sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[1m])) by (pod_name))
+            by (pod_name) * 1000 / sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
         |||,
         format='table',
         instant='true',
@@ -990,7 +994,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~"$namespace"})
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageSSD
           or sum (sum(kube_persistentvolumeclaim_info{storageclass!~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass) +
-          on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~"$namespace\"})
+          on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~"$namespace"})
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
       interval='',
