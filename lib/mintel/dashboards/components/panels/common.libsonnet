@@ -133,7 +133,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       postfix=postfix,
       span=span,
     )
-    .addTarget(promQuery.target(query, format, interval, intervalFactor)),
+    .addTarget(promQuery.target(query, format, interval=interval, intervalFactor=intervalFactor)),
 
   table(
     title='Table',
