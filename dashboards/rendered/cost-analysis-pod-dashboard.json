@@ -171,11 +171,11 @@
          ],
          "targets": [
             {
+               "datasource": "",
                "expr": "(sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\",cloud_google_com_gke_preemptible!=\"true\"}/1000*\n  ($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(\n  count(container_spec_cpu_shares{namespace=\"$namespace\",container_name!=\"POD\",pod_name=\"$pod\"})\n  by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",\n  container_name!=\"POD\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by(container_name)  or\n  count(    count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by(container_name)  ) by(container_name) -1)\n",
                "format": "table",
-               "instant": "true",
-               "interval": "",
-               "intervalFactor": 1,
+               "interval": 1,
+               "intervalFactor": "true",
                "legendFormat": "{{ pod_name }}",
                "refId": "A"
             },
@@ -620,8 +620,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "18.7",
-               "value": "18.7"
+               "text": "17.76",
+               "value": "17.76"
             },
             "datasource": "Prometheus",
             "hide": 0,
@@ -643,8 +643,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "5.6",
-               "value": "5.6"
+               "text": "5.34",
+               "value": "5.34"
             },
             "datasource": "Prometheus",
             "hide": 0,
@@ -666,8 +666,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "3.57",
-               "value": "3.57"
+               "text": "2.38",
+               "value": "2.38"
             },
             "datasource": "Prometheus",
             "hide": 0,
@@ -689,8 +689,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "0.75",
-               "value": "0.75"
+               "text": "0.71",
+               "value": "0.71"
             },
             "datasource": "Prometheus",
             "hide": 0,
