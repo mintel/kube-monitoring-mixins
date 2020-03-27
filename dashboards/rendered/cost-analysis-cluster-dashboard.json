@@ -349,7 +349,7 @@
          "tableColumn": "",
          "targets": [
             {
-               "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n  + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n  + sum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n",
+               "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n  + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n  + sum(node_filesystem_size_bytes{mountpoint=\"/mnt/stateful_partition\"} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD\n",
                "format": "time_series",
                "instant": true,
                "interval": "1m",
@@ -1332,6 +1332,27 @@
                }
             ],
             "query": "30",
+            "refresh": 0,
+            "type": "custom"
+         },
+         {
+            "allValue": null,
+            "current": {
+               "text": "4000000000",
+               "value": "4000000000"
+            },
+            "hide": 2,
+            "includeAll": false,
+            "label": "NS",
+            "multi": false,
+            "name": "unaccountedNodeStorage",
+            "options": [
+               {
+                  "text": "4000000000",
+                  "value": "4000000000"
+               }
+            ],
+            "query": "4000000000",
             "refresh": 0,
             "type": "custom"
          }

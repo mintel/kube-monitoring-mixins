@@ -79,6 +79,7 @@
     cost_storage_standard: '0.040',
     cost_ram: '2.38',
     cost_pram: '0.71',
+    unaccounted_node_storage: '4000000000',
 
   },
 }

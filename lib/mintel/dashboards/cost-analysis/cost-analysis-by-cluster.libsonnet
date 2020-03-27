@@ -42,12 +42,11 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addTemplate(templates.cost_storage_standard($._config.cost_storage_standard,hide=true))
       .addTemplate(templates.cost_storage_ssd($._config.cost_storage_ssd,hide=true))
       .addTemplate(templates.cost_discount($._config.cost_discount, hide=true))
+      .addTemplate(templates.unaccounted_node_storage($._config.unaccounted_node_storage, hide=true))
 
       .addPanel(costAnalysis.overviewText(content=|||
                   This dashboard shows indicative monthly costing for the cluster, based on current requests for CPU, RAM and Storage.
-                  Current Region Prices are for BELGIUM .
-                    Utilisation figures represent utilsation of current, active deployments vs
-                  their request limits, and does not include data from instances no longer running.
+                  Current Region Prices are for BELGIUM.
                 |||),
                 gridPos={
                   x: 0,
