@@ -71,5 +71,14 @@
 
     nodeSelectorRegex: '"^gke.*"',
 
+    // Cost Analysis template values
+    cost_discount: '30',
+    cost_cpu: '17.76',
+    cost_pcpu: '5.34',
+    cost_storage_ssd: '0.170',
+    cost_storage_standard: '0.040',
+    cost_ram: '2.38',
+    cost_pram: '0.71',
+
   },
 }

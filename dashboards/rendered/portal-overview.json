@@ -122,7 +122,7 @@
                "targets": [
                   {
                      "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$service\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$service\"}) \n without (instance, pod)\n",
-                     "format": true,
+                     "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
