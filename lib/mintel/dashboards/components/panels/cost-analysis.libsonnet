@@ -294,7 +294,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         + on (persistentvolumeclaim, namespace) group_right(storageclass)
         sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)
         ) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard +
-        sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id!="/"}) / 1024 / 1024 / 1024 * $costStorageSSD +
+        sum(node_filesystem_size_bytes{mountpoint="/mnt/stateful_partition"} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD +
         # RAM
         sum(((
             sum(kube_node_status_capacity_memory_bytes) by (node)
