@@ -265,7 +265,8 @@
          "targets": [
             {
                "expr": "sum(((sum(kube_node_status_capacity_cpu_cores) by (node)\n  * on (node) group_left (label_cloud_google_com_gke_preemptible) kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"})\n  * $costpcpu) or ((sum(kube_node_status_capacity_cpu_cores) by (node)\n  * on (node) group_left (label_cloud_google_com_gke_preemptible) kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"})\n  * ($costcpu - ($costcpu / 100 * $costDiscount))))\n",
-               "format": true,
+               "format": "time_series",
+               "instant": true,
                "interval": "1m",
                "intervalFactor": 3,
                "legendFormat": "",
@@ -349,7 +350,8 @@
          "targets": [
             {
                "expr": "sum(sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 * $costStorageSSD\n  + (sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"})\n  by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)\n  group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard\n  + sum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD\n",
-               "format": true,
+               "format": "time_series",
+               "instant": true,
                "interval": "1m",
                "intervalFactor": 3,
                "legendFormat": "",
@@ -607,7 +609,8 @@
          "targets": [
             {
                "expr": "sum(((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}\n     ) /1024/1024/1024 * $costpram)\n   or\n   ((\n       sum(kube_node_status_capacity_memory_bytes) by (node)\n        * on (node) group_left (label_cloud_google_com_gke_preemptible)\n       kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n     ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))))\n",
-               "format": true,
+               "format": "time_series",
+               "instant": true,
                "interval": "1m",
                "intervalFactor": 3,
                "legendFormat": "",
@@ -691,7 +694,8 @@
          "targets": [
             {
                "expr": "# CPU\nsum(((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) * $costpcpu)\nor ((sum(kube_node_status_capacity_cpu_cores) by (node) * on (node) group_left (label_cloud_google_com_gke_preemptible)\nkube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}) * ($costcpu - ($costcpu / 100 * $costDiscount)))) +\n# Storage\nsum (\nsum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) / 1024 / 1024 /1024 * $costStorageSSD +\n(sum (\nsum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n+ on (persistentvolumeclaim, namespace) group_right(storageclass)\nsum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)\n) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard +\nsum(container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id!=\"/\"}) / 1024 / 1024 / 1024 * $costStorageSSD +\n# RAM\nsum(((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible=\"true\"}) /1024/1024/1024 * $costpram\n)\nor\n((\n    sum(kube_node_status_capacity_memory_bytes) by (node)\n     * on (node) group_left (label_cloud_google_com_gke_preemptible)\n    kube_node_labels{label_cloud_google_com_gke_preemptible!=\"true\"}\n  ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))\n))\n",
-               "format": true,
+               "format": "time_series",
+               "instant": true,
                "interval": "1m",
                "intervalFactor": 3,
                "legendFormat": "",

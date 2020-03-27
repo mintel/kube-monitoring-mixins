@@ -76,7 +76,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_node_info{node=~\"^gke.*\"})\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -155,7 +156,8 @@
                "targets": [
                   {
                      "expr": "count (\n  count by (\n    label_cloud_google_com_gke_nodepool) (kube_node_labels{node=~\"^gke.*\"}))\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -234,7 +236,8 @@
                "targets": [
                   {
                      "expr": "sum (\n  kube_node_status_allocatable_pods{node=~\"^gke.*\"}) \n  - \n   sum(kube_pod_status_phase{phase=\"Running\"})\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -313,7 +316,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -392,7 +396,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -471,7 +476,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  kube_node_spec_unschedulable{node=~\"^gke.*\"})\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -595,6 +601,7 @@
                "gridPos": { },
                "height": 200,
                "id": 9,
+               "instant": true,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
                "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
@@ -604,6 +611,7 @@
                   {
                      "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"})\n  /\n  sum by (node) (kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"}))\n",
                      "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -718,6 +726,7 @@
                "gridPos": { },
                "height": 200,
                "id": 11,
+               "instant": true,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
                "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
@@ -727,6 +736,7 @@
                   {
                      "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  / \n  sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))\n",
                      "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -841,6 +851,7 @@
                "gridPos": { },
                "height": 200,
                "id": 13,
+               "instant": true,
                "mathColorValue": "data[end]",
                "mathDisplayValue": "data[end]",
                "mathScratchPad": "data = size(data)[1] == 0 ? [NaN] : data",
@@ -850,6 +861,7 @@
                   {
                      "expr": "100 * avg(\n  node:node_filesystem_usage: * on(instance) \n  group_left(nodename) node_uname_info{nodename=~\"^gke.*\"}) \nby (nodename)\n",
                      "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",

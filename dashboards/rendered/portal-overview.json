@@ -298,7 +298,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[2m]))\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -383,7 +384,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\",code=\"5xx\"}[2m]))\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
