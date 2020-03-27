@@ -19,7 +19,7 @@ local dashboardLink = '/d/%(uid)s/%(name)s' % {
   uid: dashboardUID,
   name: dashboardFile
 };
-local dashboardTags = ['capacity', 'resoruces'];
+local dashboardTags = ['capacity', 'resources'];
 
 // End dashboard settings
 

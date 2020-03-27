@@ -13,7 +13,8 @@
     description,
     query='',
     span=null,
-    height=250
+    height=250,
+    instant=true,
   ):: {
     title: title,
     [if description != null then 'description']: description,
@@ -22,6 +23,7 @@
     defaultColor: 'rgb(0, 172, 64)',
     format: 'none',
     height: height,
+    instant: instant,
     span: span,
     mathColorValue: 'data[end]',
     mathDisplayValue: 'data[end]',
