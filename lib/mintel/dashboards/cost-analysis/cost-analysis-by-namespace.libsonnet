@@ -28,7 +28,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
         ($._config.mintel { dashboardTitle: dashboardTitle }),
         time_from='now-15m',
-        editable='true',
+        editable='false',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
