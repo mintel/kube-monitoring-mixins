@@ -123,6 +123,7 @@
                   {
                      "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$service\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$service\"}) \n without (instance, pod)\n",
                      "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -297,7 +298,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[2m]))\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",
@@ -382,7 +384,8 @@
                "targets": [
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\",code=\"5xx\"}[2m]))\n",
-                     "format": true,
+                     "format": "time_series",
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 3,
                      "legendFormat": "",

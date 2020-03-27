@@ -32,6 +32,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     query='',
     height=200,
     span=null,
+    instant=true,
   )::
     statusdotsPanel.new(
       title,
@@ -39,7 +40,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       height=height,
       span=span
     )
-    .addTarget(promQuery.target(query)),
+    .addTarget(promQuery.target(query, instant=instant)),
 
   singlestat(
     title='SingleStat',
@@ -87,7 +88,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       sparklineShow=sparklineShow,
       colorBackground=colorBackground,
     )
-    .addTarget(promQuery.target(query, instant)),
+    .addTarget(promQuery.target(query, instant=instant)),
 
   gauge(
     title='Gauge',
@@ -133,7 +134,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       postfix=postfix,
       span=span,
     )
-    .addTarget(promQuery.target(query, interval=interval, intervalFactor=intervalFactor)),
+    .addTarget(promQuery.target(query, instant=instant, interval=interval, intervalFactor=intervalFactor)),
 
   table(
     title='Table',
