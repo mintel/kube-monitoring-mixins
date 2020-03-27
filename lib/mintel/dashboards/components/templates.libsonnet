@@ -58,67 +58,53 @@ local template = grafana.template;
     label='Celery Task State',
     refresh='load',
   ),
-  cost_discount(current, hide=false):: template.new(
+  cost_discount(current, hide=false):: template.custom(
     'costDiscount',
-    'Prometheus',
-    'label_values("30", costDiscount)',
+    '30',
     current=current,
     label= "Disc.",
-    refresh='load',
     hide=hide,
   ),
-  cost_cpu(current, hide=false):: template.new(
+  cost_cpu(current, hide=false):: template.custom(
     'costcpu',
-    'Prometheus',
-    'label_values("17.76", costcpu)',
+    '17.76',
     current=current,
     label= "CPU",
-    refresh='load',
     hide=hide,
   ),
-  cost_pcpu(current, hide=false):: template.new(
+  cost_pcpu(current, hide=false):: template.custom(
     'costpcpu',
-    'Prometheus',
-    'label_values("5.34", costpcpu)',
+    '5.34',
     current=current,
     label= "PE CPU",
-    refresh='load',
     hide=hide,
   ),
-  cost_storage_ssd(current, hide=false):: template.new(
+  cost_storage_ssd(current, hide=false):: template.custom(
     'costStorageSSD',
-    'Prometheus',
-    'label_values("0.170", costStorageSSD)',
+    '0.170',
     current=current,
     label= "SSD",
-    refresh='load',
     hide=hide,
   ),
-  cost_storage_standard(current, hide=false):: template.new(
+  cost_storage_standard(current, hide=false):: template.custom(
     'costStorageStandard',
-    'Prometheus',
-    'label_values("0.040", costStorageStandard)',
+    '0.040',
     current=current,
     label= "Storage",
-    refresh='load',
     hide=hide,
   ),
-  cost_ram(current, hide=false):: template.new(
+  cost_ram(current, hide=false):: template.custom(
     'costram',
-    'Prometheus',
-    'label_values("2.38", costram)',
+    '2.38',
     current=current,
     label= "RAM",
-    refresh='load',
     hide=hide,
   ),
-  cost_pram(current, hide=false):: template.new(
+  cost_pram(current, hide=false):: template.custom(
     'costpram',
-    'Prometheus',
-    'label_values("0.71", costpram)',
+    '0.71',
     current=current,
     label= "PE RAM",
-    refresh='load',
     hide=hide,
   ),
   cost_namespace(current, hide=false):: template.new(
