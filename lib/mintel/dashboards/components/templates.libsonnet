@@ -125,4 +125,11 @@ local template = grafana.template;
     label='Pod',
     refresh='load',
   ),
+  unaccounted_node_storage(current, hide=false):: template.custom(
+    'unaccountedNodeStorage',
+    current,
+    current=current,
+    label='NS',
+    hide=hide,
+  ),
 }
