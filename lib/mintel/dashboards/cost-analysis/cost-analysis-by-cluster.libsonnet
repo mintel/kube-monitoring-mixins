@@ -73,7 +73,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         w: 4,
         h: 4,
       })
-      .addPanel(costAnalysis.storageCost(), gridPos={
+      .addPanel(costAnalysis.storageCost($._config.hostMountpointSelector), gridPos={
         x: 10,
         y: 0,
         w: 4,
@@ -98,7 +98,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         w: 4,
         h: 4,
       })
-      .addPanel(costAnalysis.totalCost(), gridPos={
+      .addPanel(costAnalysis.totalCost($._config.hostMountpointSelector), gridPos={
         x: 10,
         y: 4,
         w: 4,

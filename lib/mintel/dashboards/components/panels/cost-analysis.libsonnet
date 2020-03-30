@@ -76,7 +76,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legendFormat=' {{ node }}',
     ),
 
-  storageCost()::
+  storageCost(hostMountpointSelector)::
+    local config = {
+      hostMountpointSelector: hostMountpointSelector,
+    };
 
     commonPanels.singlestat(
       title='Storage Cost (Cluster and PVC)',
@@ -89,8 +92,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           by (persistentvolumeclaim, namespace, storageclass) + on (persistentvolumeclaim, namespace)
           group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
           by (persistentvolumeclaim, namespace)) / 1024 / 1024 / 1024 or on() vector(0) )* $costStorageStandard
-          + sum(node_filesystem_size_bytes{$hostMountpointSelector} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD
-      |||,
+          + sum(node_filesystem_size_bytes{%(hostMountpointSelector)s} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD
+      ||| % config,
       decimals=2,
       format='currencyUSD',
       interval='10s',
@@ -273,7 +276,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legendFormat=' {{ node }}',
     ),
 
-  totalCost()::
+  totalCost(hostMountpointSelector)::
+    local config = {
+      hostMountpointSelector: hostMountpointSelector,
+    };
 
     commonPanels.singlestat(
       title='Total Cost',
@@ -294,7 +300,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         + on (persistentvolumeclaim, namespace) group_right(storageclass)
         sum(kube_persistentvolumeclaim_resource_requests_storage_bytes) by (persistentvolumeclaim, namespace)
         ) or on() vector(0)) / 1024 / 1024 /1024 * $costStorageStandard +
-        sum(node_filesystem_size_bytes{$hostMountpointSelector} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD +
+        sum(node_filesystem_size_bytes{%(hostMountpointSelector)s} + $unaccountedNodeStorage) / 1024 / 1024 / 1024 * $costStorageSSD +
         # RAM
         sum(((
             sum(kube_node_status_capacity_memory_bytes) by (node)
@@ -308,7 +314,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             kube_node_labels{label_cloud_google_com_gke_preemptible!="true"}
           ) /1024/1024/1024 * ($costram - ($costram / 100 * $costDiscount))
         ))
-      |||,
+      ||| % config,
       decimals=2,
       format='currencyUSD',
       interval='10s',
