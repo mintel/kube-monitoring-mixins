@@ -37,7 +37,6 @@ local template = grafana.template;
     label='Service',
     refresh='load',
   ),
-
   app_deployment:: template.new(
     'deployment',
     'Prometheus',
@@ -45,7 +44,6 @@ local template = grafana.template;
     label='Deployment',
     refresh='load',
   ),
-
   celery_task_name:: template.new(
     'celery_task_name',
     'Prometheus',
@@ -53,7 +51,6 @@ local template = grafana.template;
     label='Celery Task Name',
     refresh='load',
   ),
-
   celery_task_state:: template.new(
     'celery_task_state',
     'Prometheus',
@@ -61,5 +58,78 @@ local template = grafana.template;
     label='Celery Task State',
     refresh='load',
   ),
-
+  cost_discount(current, hide=false):: template.custom(
+    'costDiscount',
+    current,
+    current= current,
+    label= "Disc.",
+    hide=hide,
+  ),
+  cost_cpu(current, hide=false):: template.custom(
+    'costcpu',
+    current,
+    current=current,
+    label= "CPU",
+    hide=hide,
+  ),
+  cost_pcpu(current, hide=false):: template.custom(
+    'costpcpu',
+    current,
+    current=current,
+    label= "PE CPU",
+    hide=hide,
+  ),
+  cost_storage_ssd(current, hide=false):: template.custom(
+    'costStorageSSD',
+    current,
+    current=current,
+    label= "SSD",
+    hide=hide,
+  ),
+  cost_storage_standard(current, hide=false):: template.custom(
+    'costStorageStandard',
+    current,
+    current=current,
+    label= "Storage",
+    hide=hide,
+  ),
+  cost_ram(current, hide=false):: template.custom(
+    'costram',
+    current,
+    current=current,
+    label= "RAM",
+    hide=hide,
+  ),
+  cost_pram(current, hide=false):: template.custom(
+    'costpram',
+    current,
+    current=current,
+    label= "PE RAM",
+    hide=hide,
+  ),
+  cost_namespace(current, hide=false):: template.new(
+    'namespace',
+    'Prometheus',
+    'query_result(sum(container_memory_working_set_bytes{namespace!=""}) by (namespace))',
+    regex='/namespace=\"(.*?)(\")/',
+    current=current,
+    label='NS',
+    refresh='load',
+  ),
+  cost_pod(current, hide=false):: template.new(
+    'pod',
+    'Prometheus',
+    'query_result(sum(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name))',
+    regex='/pod_name=\"(.*?)(\")/',
+    current=current,
+    label='Pod',
+    refresh='load',
+  ),
+  unaccounted_node_storage(current, hide=false):: template.custom(
+    'unaccountedNodeStorage',
+    current,
+    current=current,
+    label='NS',
+    hide=hide,
+  ),
 }

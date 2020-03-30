@@ -9,13 +9,30 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
 local timepickerlib = import 'grafonnet/timepicker.libsonnet';
 local templates = import 'components/templates.libsonnet';
 local statusdotsPanel = import 'statusdots_panel.libsonnet';
+
 {
+  text(
+    title='Table',
+    mode='markdown',
+    content='',
+    datasource=null,
+    transparent=null,
+  )::
+    text.new(
+      title= title,
+      mode= mode,
+      content= content,
+      datasource= datasource,
+      transparent= transparent,
+    ),
+
   statusdots(
     title='StatusDotPanel',
     description='',
     query='',
     height=200,
     span=null,
+    instant=true,
   )::
     statusdotsPanel.new(
       title,
@@ -23,7 +40,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       height=height,
       span=span
     )
-    .addTarget(promQuery.target(query)),
+    .addTarget(promQuery.target(query, instant=instant)),
 
   singlestat(
     title='SingleStat',
@@ -34,6 +51,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       'rgba(237, 129, 40, 0.89)',
       '#d44a3a',
     ],
+    decimals=null,
     legendFormat='',
     format='none',
     gaugeMinValue=0,
@@ -57,6 +75,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       title,
       description=description,
       datasource='$ds',
+      decimals=decimals,
       colors=colors,
       format=format,
       gaugeMaxValue=gaugeMaxValue,
@@ -69,7 +88,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       sparklineShow=sparklineShow,
       colorBackground=colorBackground,
     )
-    .addTarget(promQuery.target(query, instant)),
+    .addTarget(promQuery.target(query, instant=instant)),
 
   gauge(
     title='Gauge',
@@ -80,6 +99,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       'rgba(237, 129, 40, 0.89)',
       'rgba(245, 54, 54, 0.9)',
     ],
+    colorValue=false,
+    decimals=null,
     thresholds='.8, .9',
     format='percentunit',
     gaugeMinValue=0,
@@ -89,6 +110,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     valueFontSize='100%',
     transparent=true,
     interval='1m',
+    intervalFactor=3,
     postfix=null,
     valueName='avg',
     span=null,
@@ -97,6 +119,8 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       title=title,
       description=description,
       colors=colors,
+      colorValue=colorValue,
+      decimals=decimals,
       thresholds=thresholds,
       format=format,
       gaugeShow=true,
@@ -104,12 +128,13 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       gaugeMaxValue=gaugeMaxValue,
       height=height,
       valueFontSize=valueFontSize,
+      valueName=valueName,
       transparent=transparent,
       interval=interval,
       postfix=postfix,
       span=span,
     )
-    .addTarget(promQuery.target(query, instant)),
+    .addTarget(promQuery.target(query, instant=instant, interval=interval, intervalFactor=intervalFactor)),
 
   table(
     title='Table',
@@ -118,6 +143,12 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     min_span=null,
     styles=[],
     columns=[],
+    query='',
+    format='table',
+    instant= 'true',
+    legendFormat='',
+    interval='',
+    intervalFactor='',
   )::
     tablePanel.new(
       title,
@@ -125,15 +156,18 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       span=span,
       min_span=min_span,
       datasource='$ds',
-      styles=[],
-      columns=[],
-    ),
+      styles=styles,
+      columns=columns,
+    )
+    .addTarget(promQuery.target(query, format=format, instant=instant, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor)),
 
   timeseries(
     title='Timeseries',
     description='',
+    decimals=0,
     query='',
     legendFormat='',
+    fill=0,
     format='short',
     interval='1m',
     intervalFactor=3,
@@ -144,6 +178,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     linewidth=2,
     max=null,
     height=200,
+    nullPointMode='null',
     span=null,
   )::
     graphPanel.new(
@@ -151,9 +186,9 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       description=description,
       sort=sort,
       linewidth=linewidth,
-      fill=0,
+      fill=fill,
       datasource='$ds',
-      decimals=0,
+      decimals=decimals,
       legend_rightSide=legend_rightSide,
       legend_show=legend_show,
       legend_values=true,
@@ -165,6 +200,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       legend_alignAsTable=true,
       legend_hideEmpty=true,
       height=height,
+      nullPointMode=nullPointMode,
       span=span
     )
     .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
