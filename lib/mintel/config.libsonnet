@@ -23,6 +23,9 @@
     // Criticality of containerIo Alerts
     containerIoCriticality: 'critical',
 
+    // This list of filesystem is referenced in various expressions.
+    hostMountpointSelector: 'mountpoint="/mnt/stateful_partition"',
+
     grafana_prefix: '',
 
     // BaseURL for mintel-specific runbooks.
