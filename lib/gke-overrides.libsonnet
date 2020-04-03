@@ -69,6 +69,7 @@ local page_false_critical = [
   'HAProxyServerInBackendUpPercentageLow',
   'KubePersistentVolumeInodeUsageCritical',
   'KubePersistentVolumeFullInFourDays',
+  'KubePodFailed',
   'PodOOMKilled',
   'PrometheusBadConfig',
   'PrometheusErrorSendingAlertsToAnyAlertmanager',
