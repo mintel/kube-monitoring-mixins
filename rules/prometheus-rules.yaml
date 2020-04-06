@@ -2219,16 +2219,6 @@ spec:
         severity: critical
   - name: redis.alerts
     rules:
-    - alert: RedisMemoryUtilHigh
-      annotations:
-        description: The {{ $labels.service }} Redis instance has consumed >90% of
-          its available memory
-        summary: Redis Memory utilization high
-      expr: (redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 )
-      for: 5m
-      labels:
-        page: "true"
-        severity: critical
     - alert: RedisMaxMemoryUnset
       annotations:
         description: The redis instance {{ $labels.service }} has no maximum memory
