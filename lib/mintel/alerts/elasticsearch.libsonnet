@@ -213,6 +213,19 @@
               severity: 'warning',
             },
           },
+          {
+            alert: 'ElasticsearchSnapshotFailures',
+            annotations: {
+              description: 'Elastic stack {{ $labels.job }}: last snapshot has failed {{ $value }} times',
+              summary: 'Elastic stack {{ $labels.job }}: last snapshot has failed {{ $value }} times',
+              runbook_url: '%(runBookBaseURL)s/core/Elasticsearch.md#elasticsearchsnapshotfailures' % $._config,
+            },
+            expr: 'elasticsearch_snapshot_stats_snapshot_number_of_failures > 0',
+            'for': '15m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
