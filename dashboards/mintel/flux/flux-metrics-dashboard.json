@@ -239,7 +239,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Duration of cache requests, in seconds.",
+      "title": "Duration of cache requests",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -409,7 +409,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Duration of job execution, in seconds",
+      "title": "Duration of job execution",
       "tooltip": {
         "shared": true,
         "sort": 0,
