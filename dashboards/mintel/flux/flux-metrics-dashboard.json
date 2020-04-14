@@ -60,7 +60,7 @@
           "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{job=\"$instance\"}[5m])) by (success, namespace)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - success: {{success}}",
+          "legendFormat": "{{namespace}} success - {{success}}",
           "refId": "A"
         }
       ],
