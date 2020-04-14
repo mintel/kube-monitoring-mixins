@@ -386,7 +386,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -398,10 +398,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flux_daemon_job_duration_seconds_sum{job=\"$instance\"}",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{job=\"$instance\"}[$__interval])) by (le, namespace, success))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - Total",
+          "legendFormat": "{{namespace}} success - {{success}}",
           "refId": "A"
         }
       ],
