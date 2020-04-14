@@ -57,7 +57,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{job=\"$instance\"}[10m])) by (success, namespace)",
+          "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{service=\"$service\"}[10m])) by (success, namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} success - {{success}}",
@@ -142,7 +142,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{job=\"$instance\"}[10m])) by (kind, namespace)",
+          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{service=\"$service\"}[10m])) by (kind, namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} - {{kind}}",
@@ -227,7 +227,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{job=\"$instance\"}[10m])) by (method, namespace)",
+          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{service=\"$service\"}[10m])) by (method, namespace)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -313,7 +313,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_queue_duration_seconds_bucket{job=\"$instance\"}[10m])) by (le, service))",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_queue_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, service))",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -397,7 +397,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{job=\"$instance\"}[10m])) by (le, namespace, success))",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, namespace, success))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} success - {{success}}",
@@ -482,7 +482,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_fluxd_connection_duration_seconds{job=\"$instance\"}[10m])) by (namespace)",
+          "expr": "sum(rate(flux_fluxd_connection_duration_seconds{service=\"$service\"}[10m])) by (namespace)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -653,7 +653,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_registry_fetch_duration_seconds_sum{job=\"$instance\"}[10m])) by (namespace)",
+          "expr": "sum(rate(flux_registry_fetch_duration_seconds_sum{service=\"$service\"}[10m])) by (namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} - Registry fetch",
@@ -710,19 +710,15 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "text": "flux",
-          "value": "flux"
-        },
         "datasource": "Prometheus",
-        "definition": "label_values(flux_daemon_sync_duration_seconds_sum, job)",
+        "definition": "label_values(flux_daemon_sync_duration_seconds_sum, service)",
         "hide": 0,
         "includeAll": false,
-        "label": "Instance",
-        "multi": true,
-        "name": "instance",
+        "label": "Flux Service",
+        "multi": false,
+        "name": "service",
         "options": [],
-        "query": "label_values(flux_daemon_sync_duration_seconds_sum, job)",
+        "query": "label_values(flux_daemon_sync_duration_seconds_sum, service)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
