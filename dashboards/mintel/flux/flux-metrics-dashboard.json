@@ -142,7 +142,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{service=\"$service\"}[10m])) by (kind)",
+          "expr": "histogram_quantile(1, sum(rate(flux_client_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, kind))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{kind}}",
@@ -227,7 +227,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{service=\"$service\"}[10m])) by (method)",
+          "expr": "histogram_quantile(1, sum(rate(flux_cache_request_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, method))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -652,7 +652,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(flux_registry_fetch_duration_seconds_sum{service=\"$service\"}[10m])",
+          "expr": "histogram_quantile(1, sum(rate(flux_registry_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Registry fetch",
