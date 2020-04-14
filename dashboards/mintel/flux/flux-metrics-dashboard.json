@@ -57,7 +57,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{job=\"$instance\"}[5m])) by (success, namespace)",
+          "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{job=\"$instance\"}[10m])) by (success, namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} success - {{success}}",
@@ -142,7 +142,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{job=\"$instance\"}[5m])) by (kind, namespace)",
+          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{job=\"$instance\"}[10m])) by (kind, namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} - {{kind}}",
@@ -227,7 +227,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{job=\"$instance\"}[5m])) by (method, namespace)",
+          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{job=\"$instance\"}[10m])) by (method, namespace)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -398,7 +398,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{job=\"$instance\"}[$__interval])) by (le, namespace, success))",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{job=\"$instance\"}[10m])) by (le, namespace, success))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} success - {{success}}",
@@ -483,7 +483,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_fluxd_connection_duration_seconds{job=\"$instance\"}[5m])) by (namespace)",
+          "expr": "sum(rate(flux_fluxd_connection_duration_seconds{job=\"$instance\"}[10m])) by (namespace)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -654,7 +654,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_registry_fetch_duration_seconds_sum{job=\"$instance\"}[5m])) by (namespace)",
+          "expr": "sum(rate(flux_registry_fetch_duration_seconds_sum{job=\"$instance\"}[10m])) by (namespace)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{namespace}} - Registry fetch",
