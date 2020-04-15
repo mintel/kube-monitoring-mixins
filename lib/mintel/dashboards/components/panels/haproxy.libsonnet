@@ -1,11 +1,12 @@
-local commonPanels = import 'components/panels/common.libsonnet';
 local layout = import 'components/layout.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  latencyTimeseries(serviceSelectorKey="service", serviceSelectorValue="$service", span=12)::
-      local config = {
-        serviceSelectorKey: serviceSelectorKey,
-        serviceSelectorValue: serviceSelectorValue
+  latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', interval='5m', span=12)::
+    local config = {
+      serviceSelectorKey: serviceSelectorKey,
+      serviceSelectorValue: serviceSelectorValue,
+      interval: interval,
     };
 
     commonPanels.latencyTimeseries(
@@ -20,11 +21,11 @@ local promQuery = import 'components/prom_query.libsonnet';
         histogram_quantile(0.95,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
         by (backend,job,le))
       ||| % config,
-    legendFormat='p95 {{ backend }}',
-    intervalFactor=2,
+      legendFormat='p95 {{ backend }}',
+      intervalFactor=2,
     )
     .addTarget(
       promQuery.target(
@@ -32,7 +33,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.75,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p75 {{ backend }}',
@@ -45,7 +46,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.50,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p50 {{ backend }}',
@@ -53,10 +54,10 @@ local promQuery = import 'components/prom_query.libsonnet';
       )
     ),
 
-  httpResponseStatusTimeseries(serviceSelectorKey="service", serviceSelectorValue="$service", span=12)::
-      local config = {
-        serviceSelectorKey: serviceSelectorKey,
-        serviceSelectorValue: serviceSelectorValue
+  httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
+    local config = {
+      serviceSelectorKey: serviceSelectorKey,
+      serviceSelectorValue: serviceSelectorValue,
     };
 
     commonPanels.timeseries(
@@ -73,7 +74,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           )
         ) by (code)
       ||| % config,
-    legendFormat='{{ code }}',
-    intervalFactor=2,
+      legendFormat='{{ code }}',
+      intervalFactor=2,
     ),
 }
