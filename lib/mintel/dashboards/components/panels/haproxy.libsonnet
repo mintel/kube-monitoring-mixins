@@ -54,10 +54,11 @@ local promQuery = import 'components/prom_query.libsonnet';
       )
     ),
 
-  httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
+  httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', interval='5m', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      interval: interval,
     };
 
     commonPanels.timeseries(
@@ -70,7 +71,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[5m]
+            haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]
           )
         ) by (code)
       ||| % config,
