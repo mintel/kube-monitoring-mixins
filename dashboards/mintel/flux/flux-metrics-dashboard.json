@@ -57,10 +57,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_daemon_sync_duration_seconds_sum{job=\"$instance\"}[5m])) by (success, namespace)",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_sync_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, success))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - success: {{success}}",
+          "legendFormat": "success - {{success}}",
           "refId": "A"
         }
       ],
@@ -142,10 +142,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_client_fetch_duration_seconds_sum{job=\"$instance\"}[5m])) by (kind, namespace)",
+          "expr": "histogram_quantile(1, sum(rate(flux_client_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, kind))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - {{kind}}",
+          "legendFormat": "{{kind}}",
           "refId": "A"
         }
       ],
@@ -227,11 +227,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_cache_request_duration_seconds_sum{job=\"$instance\"}[5m])) by (method, namespace)",
+          "expr": "histogram_quantile(1, sum(rate(flux_cache_request_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, method))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - {{method}}",
+          "legendFormat": "{{method}}",
           "refId": "A"
         }
       ],
@@ -239,7 +239,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Duration of cache requests, in seconds.",
+      "title": "Duration of cache requests",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -278,7 +278,7 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
@@ -298,7 +298,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -313,11 +313,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flux_daemon_queue_duration_seconds_sum{job=~\"$instance\"}",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_queue_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, service))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "Total {{namespace}}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "success - {{success}}"
         }
       ],
       "thresholds": [],
@@ -363,7 +363,7 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
@@ -383,7 +383,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -398,18 +398,27 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flux_daemon_job_duration_seconds_sum{job=\"$instance\"}",
+          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, success))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - Total",
+          "legendFormat": "success - {{success}}",
           "refId": "A"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "value": 120,
+          "colorMode": "critical",
+          "op": "gt",
+          "fill": false,
+          "line": true,
+          "yaxis": "left"
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Duration of job execution, in seconds",
+      "title": "Duration of job execution",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -464,7 +473,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -483,11 +492,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_fluxd_connection_duration_seconds{job=\"$instance\"}[5m])) by (namespace)",
+          "expr": "rate(flux_fluxd_connection_duration_seconds{service=\"$service\"}[10m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - Connection duration",
           "refId": "A"
         }
       ],
@@ -495,7 +503,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Duration in seconds of the current connection to fluxsvc",
+      "title": "Duration of the current connection to fluxsvc",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -534,7 +542,7 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
@@ -550,11 +558,11 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -572,7 +580,7 @@
           "expr": "flux_daemon_queue_length_count",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - jobs",
+          "legendFormat": "jobs",
           "refId": "A"
         }
       ],
@@ -654,10 +662,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(flux_registry_fetch_duration_seconds_sum{job=\"$instance\"}[5m])) by (namespace)",
+          "expr": "histogram_quantile(1, sum(rate(flux_registry_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{namespace}} - Registry fetch",
+          "legendFormat": "Registry fetch",
           "refId": "A"
         }
       ],
@@ -711,19 +719,15 @@
     "list": [
       {
         "allValue": null,
-        "current": {
-          "text": "flux",
-          "value": "flux"
-        },
         "datasource": "Prometheus",
-        "definition": "label_values(flux_daemon_sync_duration_seconds_sum, job)",
+        "definition": "label_values(flux_daemon_sync_duration_seconds_sum, service)",
         "hide": 0,
         "includeAll": false,
-        "label": "Instance",
-        "multi": true,
-        "name": "instance",
+        "label": "Flux Service",
+        "multi": false,
+        "name": "service",
         "options": [],
-        "query": "label_values(flux_daemon_sync_duration_seconds_sum, job)",
+        "query": "label_values(flux_daemon_sync_duration_seconds_sum, service)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
