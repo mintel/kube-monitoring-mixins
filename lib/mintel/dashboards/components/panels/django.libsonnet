@@ -3,15 +3,16 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local haproxyPanels = import 'components/panels/haproxy.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  requestResponsePanels(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
+  requestResponsePanels(serviceSelectorKey='service', serviceSelectorValue='$service', interval='$__interval', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      interval: interval,
     };
     layout.grid([
 
-      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=4),
-      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=4),
+      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
+      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
 
       commonPanels.timeseries(
         title='App Requests by Method/View',
