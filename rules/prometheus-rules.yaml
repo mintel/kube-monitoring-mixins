@@ -1438,6 +1438,17 @@ spec:
       for: 5m
       labels:
         severity: warning
+    - alert: ElasticsearchSnapshotFailures
+      annotations:
+        description: 'Elastic stack {{ $labels.job }}: last snapshot has failed {{
+          $value }} times'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/Elasticsearch.md#elasticsearchsnapshotfailures
+        summary: 'Elastic stack {{ $labels.job }}: last snapshot has failed {{ $value
+          }} times'
+      expr: elasticsearch_snapshot_stats_snapshot_number_of_failures > 0
+      for: 15m
+      labels:
+        severity: warning
   - name: haproxy-ingress.alerts
     rules:
     - alert: HAProxyIngressSSLCertificateAboutToExpire
@@ -2219,16 +2230,6 @@ spec:
         severity: critical
   - name: redis.alerts
     rules:
-    - alert: RedisMemoryUtilHigh
-      annotations:
-        description: The {{ $labels.service }} Redis instance has consumed >90% of
-          its available memory
-        summary: Redis Memory utilization high
-      expr: (redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 )
-      for: 5m
-      labels:
-        page: "true"
-        severity: critical
     - alert: RedisMaxMemoryUnset
       annotations:
         description: The redis instance {{ $labels.service }} has no maximum memory
