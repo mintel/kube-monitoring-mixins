@@ -5,19 +5,6 @@
         name: 'redis.alerts',
         rules: [
           {
-            alert: 'RedisMemoryUtilHigh',
-            expr: '(redis_memory_used_bytes / redis_memory_max_bytes  * 100 > 90 )',
-            'for': '5m',
-            labels: {
-              page: 'false',
-              severity: 'critical'
-            },
-            annotations: {
-              summary: 'Redis Memory utilization high',
-              description: 'The {{ $labels.service }} Redis instance has consumed >90% of its available memory',
-            },
-          },
-          {
             alert: 'RedisMaxMemoryUnset',
             expr: 'redis_memory_max_bytes <= 0',
             'for': '5m',
