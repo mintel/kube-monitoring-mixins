@@ -3,11 +3,11 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local haproxyPanels = import 'components/panels/haproxy.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  requestResponsePanels(serviceSelectorKey='job', serviceSelectorValue='$deployment', startRow=1000)::
+  requestResponsePanels(serviceSelectorKey='job', serviceSelectorValue='$deployment', interval='$__interval', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
-      interval: '$__interval',  // Automatic grafana selection of interval based on time range
+      interval: interval,
     };
     layout.grid([
 
