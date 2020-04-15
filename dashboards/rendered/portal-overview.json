@@ -463,7 +463,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
+                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -471,7 +471,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
+                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -479,7 +479,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]))\nby (backend,job,le))\n",
+                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -568,7 +568,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[5m]\n  )\n) by (code)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,

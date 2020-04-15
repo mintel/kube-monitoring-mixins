@@ -7,11 +7,12 @@ local promQuery = import 'components/prom_query.libsonnet';
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      interval: '$__interval',
     };
     layout.grid([
 
-      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=4),
-      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=4),
+      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
+      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
 
       commonPanels.timeseries(
         title='App Requests by Method/View',

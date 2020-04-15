@@ -7,12 +7,13 @@ local promQuery = import 'components/prom_query.libsonnet';
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      interval: '$__interval',  // Automatic grafana selection of interval based on time range
     };
     layout.grid([
 
-      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=6),
-      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, span=6),
-  
+      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, config.interval, span=6),
+      haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, config.interval, span=6),
+
     ], cols=12, rowHeight=10, startRow=startRow),
 
   resourcePanels(serviceSelectorKey='job', serviceSelectorValue='$deployment', startRow=1000)::
