@@ -463,7 +463,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=\"$namespace-$service\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -471,7 +471,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:75{mintel_com_service=\"$namespace-$service\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -479,7 +479,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_backend_request_duration_seconds_bucket{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\nby (backend,job,le))\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:50{mintel_com_service=\"$namespace-$service\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
