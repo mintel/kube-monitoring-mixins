@@ -130,6 +130,18 @@
             |||,
             record: 'haproxy:http_frontend_session_usage:percentage',
           },
+        ] + [
+          {
+            expr: |||
+              label_replace(
+              histogram_quantile(%(quantile)s,sum (rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)"}[1m])) by (backend,job,le)),
+              "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              * on(mintel_com_service) group_left(label_app_mintel_com_owner)
+              label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+            ||| % quantile,
+            record: std.format('haproxy:http_backend_request_seconds_quantile:%s', std.substr(quantile, 2, 2)),
+          }
+          for quantile in ['0.50', '0.75', '0.95', '0.99']
         ],
       },
     ],

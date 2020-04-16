@@ -54,6 +54,45 @@ local promQuery = import 'components/prom_query.libsonnet';
       )
     ),
 
+  latencyTimeseriesPreRecorded(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
+    local config = {
+      serviceSelectorKey: serviceSelectorKey,
+      serviceSelectorValue: serviceSelectorValue,
+    };
+
+    commonPanels.latencyTimeseries(
+      title='HAProxy Latency',
+      description='Percentile Latency from HAProxy Ingress',
+      yAxisLabel='Time',
+      format='s',
+      span=span,
+      legend_show=false,
+      height=200,
+      query=|||
+        haproxy:http_backend_request_seconds_quantile:95{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+      ||| % config,
+      legendFormat='p95 {{ backend }}',
+      intervalFactor=2,
+    )
+    .addTarget(
+      promQuery.target(
+        |||
+          haproxy:http_backend_request_seconds_quantile:75{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+        ||| % config,
+        legendFormat='p75 {{ backend }}',
+        intervalFactor=2,
+      )
+    )
+    .addTarget(
+      promQuery.target(
+        |||
+          haproxy:http_backend_request_seconds_quantile:50{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+        ||| % config,
+        legendFormat='p50 {{ backend }}',
+        intervalFactor=2,
+      )
+    ),
+
   httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', interval='5m', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
