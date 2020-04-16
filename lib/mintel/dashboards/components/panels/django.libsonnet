@@ -11,7 +11,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
 
-      haproxyPanels.latencyTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
+      haproxyPanels.latencyTimeseriesPreRecorded(config.serviceSelectorKey, config.serviceSelectorValue, span=4),
       haproxyPanels.httpResponseStatusTimeseries(config.serviceSelectorKey, config.serviceSelectorValue, interval=config.interval, span=4),
 
       commonPanels.timeseries(
