@@ -79,7 +79,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -159,7 +159,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -239,7 +239,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -319,7 +319,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -399,7 +399,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -479,7 +479,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -573,7 +573,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -613,7 +613,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -698,7 +698,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -738,7 +738,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -823,7 +823,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -863,7 +863,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -928,7 +928,7 @@
                      "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "% Idle",
                      "refId": "A"
                   }
@@ -1012,7 +1012,7 @@
                      "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) \n              /  \n              sum(node_memory_MemTotal_bytes)))\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "% Free",
                      "refId": "A"
                   }
@@ -1105,7 +1105,7 @@
                      "expr": "sum(\n  rate(\n    node_disk_read_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "read",
                      "refId": "A"
                   },
@@ -1113,7 +1113,7 @@
                      "expr": "sum(\n  rate(\n    node_disk_written_bytes_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "written",
                      "refId": "B"
                   },
@@ -1121,7 +1121,7 @@
                      "expr": "sum(\n  rate(\n    node_disk_io_time_seconds_total{device=~\"sd(a9|[b-z])\"}[5m]))\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "io time",
                      "refId": "C"
                   }
