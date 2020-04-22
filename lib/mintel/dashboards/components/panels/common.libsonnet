@@ -177,6 +177,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legend_rightSide=false,
     linewidth=2,
     stack=false,
+    min=0,
     max=null,
     height=200,
     nullPointMode='null',
@@ -209,7 +210,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     .resetYaxes()
     .addYaxis(
       format=format,
-      min=0,
+      min=min,
       max=max,
       label=yAxisLabel,
     )
