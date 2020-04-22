@@ -754,7 +754,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       decimals=null,
       fill=1,
       min=null,
-      yAxisLabel='Number of Series',
+      yAxisLabel='Number of TimeSeries',
       legend_show=false,
       query=|||
         sum(increase(prometheus_tsdb_head_series_created_total{%(selector)s}[5m]))
