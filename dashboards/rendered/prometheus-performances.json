@@ -1269,19 +1269,11 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": "number of timeseries",
+                     "label": "Number of Series",
                      "logBase": 1,
                      "max": null,
-                     "min": 0,
+                     "min": null,
                      "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
                   }
                ]
             },
