@@ -775,6 +775,12 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       min=null,
       max=null,
       label='Number of Series',
+    )
+    .addYaxis(
+      format='short',
+      max=1,
+      min=0,
+      show=false,
     ) + {
       seriesOverrides: [
         {
