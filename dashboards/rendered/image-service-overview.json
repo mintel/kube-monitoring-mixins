@@ -125,7 +125,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -192,7 +192,7 @@
                      "expr": "sum(up{job=\"$deployment\", namespace=\"$namespace\"})\n",
                      "format": "time_series",
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -301,7 +301,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
@@ -387,7 +387,7 @@
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
-                     "intervalFactor": 3,
+                     "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }

@@ -3,4 +3,5 @@
 (import './services/image-service/overview.libsonnet') +
 (import './cost-analysis/cost-analysis-by-cluster.libsonnet') +
 (import './cost-analysis/cost-analysis-by-namespace.libsonnet') +
-(import './cost-analysis/cost-analysis-by-pod.libsonnet')
+(import './cost-analysis/cost-analysis-by-pod.libsonnet') +
+(import './prometheus/performance.libsonnet')

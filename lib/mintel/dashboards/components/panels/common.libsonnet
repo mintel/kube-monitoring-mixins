@@ -19,11 +19,11 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     transparent=null,
   )::
     text.new(
-      title= title,
-      mode= mode,
-      content= content,
-      datasource= datasource,
-      transparent= transparent,
+      title=title,
+      mode=mode,
+      content=content,
+      datasource=datasource,
+      transparent=transparent,
     ),
 
   statusdots(
@@ -60,7 +60,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     sparklineShow=true,
     instant=true,
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     postfix=null,
     thresholds='',
     yAxisLabel='',
@@ -110,7 +110,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     valueFontSize='100%',
     transparent=true,
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     postfix=null,
     valueName='avg',
     span=null,
@@ -145,7 +145,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     columns=[],
     query='',
     format='table',
-    instant= 'true',
+    instant='true',
     legendFormat='',
     interval='',
     intervalFactor='',
@@ -170,12 +170,14 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     fill=0,
     format='short',
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     yAxisLabel='',
     sort='decreasing',
     legend_show=true,
     legend_rightSide=false,
     linewidth=2,
+    stack=false,
+    min=0,
     max=null,
     height=200,
     nullPointMode='null',
@@ -185,6 +187,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       title,
       description=description,
       sort=sort,
+      stack=stack,
       linewidth=linewidth,
       fill=fill,
       datasource='$ds',
@@ -207,7 +210,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     .resetYaxes()
     .addYaxis(
       format=format,
-      min=0,
+      min=min,
       max=max,
       label=yAxisLabel,
     )
@@ -225,7 +228,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legendFormat='',
     format='short',
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     yAxisLabel='Queue Length',
     linewidth=2,
   )::
@@ -269,7 +272,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     format='ms',
     yAxisLabel='Duration',
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     legend_show=true,
     logBase=1,
     decimals=2,
@@ -321,7 +324,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     legendFormat='',
     yAxisLabel='SLA',
     interval='1m',
-    intervalFactor=3,
+    intervalFactor=2,
     points=false,
     pointradius=3,
   )::
@@ -377,7 +380,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     sendQuery,
     legendFormat='{{ fqdn }}',
     receiveQuery,
-    intervalFactor=3,
+    intervalFactor=2,
     legend_show=true
   )::
     graphPanel.new(
