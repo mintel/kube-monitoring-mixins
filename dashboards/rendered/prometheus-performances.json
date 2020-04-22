@@ -4,7 +4,7 @@
    "annotations": {
       "list": [ ]
    },
-   "description": "Provides an overview of Prometheus Performances",
+   "description": "Provides an overview of Prometheus Performance",
    "editable": true,
    "gnetId": null,
    "graphTooltip": 1,
@@ -3223,7 +3223,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Prometheus / Performances",
+   "title": "Mintel /  Prometheus / Performance",
    "uid": "0b48c7ea13bef637226e6a2e515cccc6",
    "version": 0
 }

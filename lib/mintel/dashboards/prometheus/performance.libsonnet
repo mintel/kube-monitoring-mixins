@@ -9,8 +9,8 @@ local containers = import 'components/panels/containers.libsonnet';
 local layout = import 'components/layout.libsonnet';
 
 // Dashboard settings
-local dashboardTitle = 'Prometheus / Performances';
-local dashboardDescription = 'Provides an overview of Prometheus Performances';
+local dashboardTitle = 'Prometheus / Performance';
+local dashboardDescription = 'Provides an overview of Prometheus Performance';
 local dashboardFile = 'prometheus-performances.json';
 
 local dashboardUID = std.md5(dashboardFile);
