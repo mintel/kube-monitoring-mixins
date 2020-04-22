@@ -753,6 +753,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       span=span,
       decimals=null,
       fill=1,
+      min=null,
+      yAxisLabel='Number of TimeSeries',
       legend_show=false,
       query=|||
         sum(increase(prometheus_tsdb_head_series_created_total{%(selector)s}[5m]))
@@ -768,13 +770,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         legendFormat='Removed - {{ pod }}',
         intervalFactor=1,
       )
-    )
-    .resetYaxes()
-    .addYaxis(
-      format='short',
-      min=null,
-      max=null,
-      label='Number of Series',
     ) + {
       seriesOverrides: [
         {
