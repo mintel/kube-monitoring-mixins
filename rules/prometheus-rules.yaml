@@ -1427,6 +1427,17 @@ spec:
       for: 15m
       labels:
         severity: warning
+    - alert: ElasticsearchSnapshotRepoFailures
+      annotations:
+        description: 'Elastic stack {{ $labels.job }}: {{ $labels.repository }} respository
+          is currently unavailable'
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/Elasticsearch.md#elasticsearchsnapshotrepofailures
+        summary: 'Elastic stack {{ $labels.job }}: {{ $labels.repository }} respository
+          is currently unavailable'
+      expr: elasticsearch_snapshot_stats_repository_up == 0
+      for: 15m
+      labels:
+        severity: warning
   - name: haproxy-ingress.alerts
     rules:
     - alert: HAProxyIngressSSLCertificateAboutToExpire
