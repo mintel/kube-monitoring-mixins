@@ -105,48 +105,12 @@
             },
           },
           {
-            alert: 'HAProxyBackendRequestQueued',
-            annotations: {
-              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued' % $._config,
-              summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service }} backend',
-            },
-            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled) > 100',
-            'for': '10m',
-            labels: {
-              severity: 'critical',
-            },
-          },
-          {
-            alert: 'HAProxyBackendRequestQueuedTime',
-            annotations: {
-              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueuedTime' % $._config,
-              summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service }} backend',
-            },
-            expr: 'haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.3',
-            'for': '2m',
-            labels: {
-              severity: 'warning',
-            },
-          },
-          {
-            alert: 'HAProxyBackendRequestQueuedTime',
-            annotations: {
-              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueuedTime' % $._config,
-              summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service }} backend',
-            },
-            expr: 'haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5',
-            'for': '10m',
-            labels: {
-              severity: 'critical',
-            },
-          },
-          {
             alert: 'HAProxyBackendResponseErrors',
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors' % $._config,
               summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 1',
+            expr: 'haproxy:haproxy_backend_response_errors_total:rate:1m > 1',
             'for': '2m',
             labels: {
               severity: 'warning',
@@ -158,7 +122,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors' % $._config,
               summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service }} backend',
             },
-            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m])) > 10',
+            expr: 'haproxy:haproxy_backend_response_errors_total:rate:1m > 10',
             'for': '10m',
             labels: {
               severity: 'critical',
@@ -170,13 +134,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: |||
-              (
-              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
-              /
-              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-              ) * 100 > 1
-            |||,
+            expr: 'haproxy:haproxy_backend_http_responses_total:percentage:1m > 1',
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -188,13 +146,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: |||
-              (
-              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
-              /
-              sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-              ) * 100 > 10
-            |||,
+            expr: 'haproxy:haproxy_backend_http_responses_total:percentage:1m > 10',
             'for': '10m',
             labels: {
               severity: 'critical',
@@ -206,7 +158,7 @@
               description: 'HAProxy: {{ $labels.mintel_com_service }} backend has been down for at least 1m on all Ingress pods',
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendDown' % $._config,
             },
-            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:labeled) == 0',
+            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:counter) == 0',
             'for': '5m',
             labels: {
               severity: 'critical',
@@ -219,11 +171,7 @@
               summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service }} service is low on ingress {{ $labels.pod }} : {{ $value }}%',
             },
             expr: |||
-              (
-              sum by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-              /
-              count by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-              ) * 100 < 75 
+              haproxy:haproxy_server_up:percentage < 75
             |||,
             'for': '5m',
             labels: {
@@ -238,10 +186,7 @@
             },
             expr: |||
               (
-              sum by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-              /
-              count by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-              ) * 100 < 50
+              haproxy:haproxy_server_up:percentage < 50
             |||,
             'for': '5m',
             labels: {
