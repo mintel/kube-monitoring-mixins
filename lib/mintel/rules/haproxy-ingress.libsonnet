@@ -9,7 +9,6 @@
               label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
                 * on(mintel_com_service) group_left(label_app_mintel_com_owner)
                 label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
-              )
             |||,
             record: 'haproxy:haproxy_backend_response_errors_total:counter',
           },
@@ -29,6 +28,7 @@
           },
           {
             expr: |||
+              (
               sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (rate(haproxy:haproxy_backend_http_responses_total:counter{code=~"5.."}[1m]))
               /
               sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (rate(haproxy:haproxy_backend_http_responses_total:counter[1m]))

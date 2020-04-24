@@ -170,9 +170,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow' % $._config,
               summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service }} service is low on ingress {{ $labels.pod }} : {{ $value }}%',
             },
-            expr: |||
-              haproxy:haproxy_server_up:percentage < 75
-            |||,
+            expr: 'haproxy:haproxy_server_up:percentage < 75',
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -184,10 +182,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow' % $._config,
               summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service }} service is low on ingress {{ $labels.pod }} : {{ $value }}%',
             },
-            expr: |||
-              (
-              haproxy:haproxy_server_up:percentage < 50
-            |||,
+            expr: 'haproxy:haproxy_server_up:percentage < 50',
             'for': '5m',
             labels: {
               severity: 'critical',
