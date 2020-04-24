@@ -226,6 +226,19 @@
               severity: 'warning',
             },
           },
+          {
+            alert: 'ElasticsearchSnapshotRepoFailures',
+            annotations: {
+              description: 'Elastic stack {{ $labels.job }}: {{ $labels.repository }} respository is currently unavailable',
+              summary: 'Elastic stack {{ $labels.job }}: {{ $labels.repository }} respository is currently unavailable',
+              runbook_url: '%(runBookBaseURL)s/core/Elasticsearch.md#elasticsearchsnapshotrepofailures' % $._config,
+            },
+            expr: 'elasticsearch_snapshot_stats_repository_up == 0',
+            'for': '15m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
