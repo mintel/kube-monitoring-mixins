@@ -8,10 +8,10 @@
             alert: 'ImageServiceHAProxyBackendResponseTime',
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#haproxybackendresponsetime' % $._config,
-              summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service }} backend.',
+              summary: 'HAProxy: 95th percentile of response times increased to 5s on {{ $labels.mintel_com_service }} backend.',
             },
-            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 5\n',
-            'for': '2m',
+            expr: 'haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*image-service.*"} > 5',
+            'for': '5m',
             labels: {
               severity: 'critical',
             },
@@ -20,10 +20,10 @@
             alert: 'ImageServiceHAProxyBackendResponseTime',
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#haproxybackendresponsetime' % $._config,
-              summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service }} backend.',
+              summary: 'HAProxy: 95th percentile of response times increased to 1s on {{ $labels.mintel_com_service }} backend.',
             },
-            expr: 'haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 1\n',
-            'for': '5m',
+            expr: 'haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*image-service.*"} > 1',
+            'for': '10m',
             labels: {
               severity: 'warning',
             },
