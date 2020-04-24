@@ -14,7 +14,7 @@
           },
           {
             expr: |||
-              sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (rate(haproxy:haproxy_backend_response_errors_total:counter[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_response_errors_total:counter[1m]))
             |||,
             record: 'haproxy:haproxy_backend_response_errors_total:rate:1m',
           },
@@ -29,9 +29,9 @@
           {
             expr: |||
               (
-              sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (rate(haproxy:haproxy_backend_http_responses_total:counter{code=~"5.."}[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_http_responses_total:counter{code=~"5.."}[1m]))
               /
-              sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (rate(haproxy:haproxy_backend_http_responses_total:counter[1m]))
+              sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_http_responses_total:counter[1m]))
               ) * 100
             |||,
             record: 'haproxy:haproxy_backend_http_responses_total:percentage:1m',
