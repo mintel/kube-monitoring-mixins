@@ -103,19 +103,19 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (pod) (\n  irate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[1m])\n)\n",
+                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[1m])\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
-                     "legendFormat": "Current irate 1m - {{ pod }}",
+                     "legendFormat": "Current rate 1m - {{ pod }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[$__interval])\n)\n",
+                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[5m])\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "Current rate $__interval - {{ pod }}",
+                     "legendFormat": "Current rate 5m - {{ pod }}",
                      "refId": "B"
                   },
                   {

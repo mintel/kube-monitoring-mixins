@@ -5,7 +5,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
 
 {
 
-  podResourcesRow(namespace, pod, container='.*', title='', interval='$__interval', startRow=1000)::
+  podResourcesRow(namespace, pod, container='.*', title='', interval='5m', startRow=1000)::
     local config = {
       kubeletSelector: std.format('namespace="%s", pod=~"%s", image!="", job="kubelet", container=~"%s", container!="POD"', [namespace, pod, container]),
       kubeStateSelector: std.format('namespace="%s", pod=~"%s", container=~"%s", job="kube-state-metrics"', [namespace, pod, container]),
@@ -67,10 +67,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         legend_show=false,
         query=|||
           sum by (pod) (
-            irate(container_cpu_usage_seconds_total{%(kubeletSelector)s}[1m])
+            rate(container_cpu_usage_seconds_total{%(kubeletSelector)s}[1m])
           )
         ||| % config,
-        legendFormat='Current irate 1m - {{ pod }}',
+        legendFormat='Current rate 1m - {{ pod }}',
         intervalFactor=1,
       )
       .addTarget(

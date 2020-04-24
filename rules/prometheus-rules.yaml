@@ -218,94 +218,44 @@ spec:
   - name: haproxy-ingress.rules
     rules:
     - expr: |
-        label_replace(
-        label_replace(http_backend_response_wait_seconds_bucket{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-        * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:http_backend_response_wait_seconds_bucket:labeled
-    - expr: |
-        label_replace(
-        label_replace(http_backend_queue_time_seconds_bucket{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:http_backend_queue_time_seconds_bucket:labeled
-    - expr: |
-        label_replace(
-        label_replace(haproxy_backend_current_queue{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
-          * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:haproxy_backend_current_queue:labeled
-    - expr: |
-        label_replace(
         label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
           * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:haproxy_backend_response_errors_total:labeled
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+      record: haproxy:haproxy_backend_response_errors_total:counter
     - expr: |
-        label_replace(
+        sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_response_errors_total:counter[1m]))
+      record: haproxy:haproxy_backend_response_errors_total:rate:1m
+    - expr: |
         label_replace(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
           * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:haproxy_backend_http_responses_total:labeled
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+      record: haproxy:haproxy_backend_http_responses_total:counter
     - expr: |
-        label_replace(
+        (
+        sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_http_responses_total:counter{code=~"5.."}[1m]))
+        /
+        sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_http_responses_total:counter[1m]))
+        ) * 100
+      record: haproxy:haproxy_backend_http_responses_total:percentage:1m
+    - expr: |
         label_replace(haproxy_backend_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
           * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:haproxy_backend_up:labeled
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+      record: haproxy:haproxy_backend_up:counter
     - expr: |
-        label_replace(
         label_replace(haproxy_server_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
           * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service"),
-        "label_app_mintel_com_owner",
-        "satoshi",
-        "label_app_mintel_com_owner",
-        ""
-        )
-      record: haproxy:haproxy_server_up:labeled
+          label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+      record: haproxy:haproxy_server_up:counter
     - expr: |
-        histogram_quantile(0.95, sum(rate(haproxy:http_backend_response_wait_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_mintel_com_owner))
-      labels:
-        quantile: "0.95"
-      record: haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile
-    - expr: |
-        histogram_quantile(0.95, sum(rate(haproxy:http_backend_queue_time_seconds_bucket:labeled[5m])) by (mintel_com_service, le, label_app_mintel_com_owner))
-      labels:
-        quantile: "0.95"
-      record: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile
-    - expr: "100 * (\n  sum by (frontend) (haproxy_frontend_current_sessions) \n  /
-        \n  sum by (frontend) (haproxy_frontend_limit_sessions)\n)\n"
+        (
+        sum by (mintel_com_service, label_app_mintel_com_owner, job, pod) (haproxy:haproxy_server_up:counter)
+        /
+        count by (mintel_com_service, label_app_mintel_com_owner, job, pod) (haproxy:haproxy_server_up:counter)
+        ) * 100
+      record: haproxy:haproxy_server_up:percentage
+    - expr: "100 * (\n  sum by (frontend, job, pod) (haproxy_frontend_current_sessions)
+        \n  / \n  sum by (frontend, job, pod) (haproxy_frontend_limit_sessions)\n)\n"
       record: haproxy:http_frontend_session_usage:percentage
     - expr: |
         label_replace(
@@ -1553,53 +1503,12 @@ spec:
       labels:
         page: "true"
         severity: critical
-    - alert: HAProxyBackendRequestQueued
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
-        summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
-          }} backend'
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
-        > 10
-      for: 2m
-      labels:
-        severity: warning
-    - alert: HAProxyBackendRequestQueued
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
-        summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
-          }} backend'
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
-        > 100
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
-    - alert: HAProxyBackendRequestQueuedTime
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
-        summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
-          }} backend'
-      expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.3
-      for: 2m
-      labels:
-        severity: warning
-    - alert: HAProxyBackendRequestQueuedTime
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueuedTime
-        summary: 'HAProxy: Excessive request queue time on the {{ $labels.mintel_com_service
-          }} backend'
-      expr: haproxy:http_backend_queue_time_seconds_bucket:histogram_quantile > 0.5
-      for: 10m
-      labels:
-        page: "true"
-        severity: critical
     - alert: HAProxyBackendResponseErrors
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
-        > 1
+      expr: haproxy:haproxy_backend_response_errors_total:rate:1m > 1
       for: 2m
       labels:
         severity: warning
@@ -1608,8 +1517,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors
         summary: 'HAProxy: Response errors detected on {{ $labels.mintel_com_service
           }} backend'
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_response_errors_total:labeled[1m]))
-        > 10
+      expr: haproxy:haproxy_backend_response_errors_total:rate:1m > 10
       for: 10m
       labels:
         page: "false"
@@ -1619,12 +1527,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
         summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
           }} service'
-      expr: |
-        (
-        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
-        /
-        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-        ) * 100 > 1
+      expr: haproxy:haproxy_backend_http_responses_total:percentage:1m > 1
       for: 5m
       labels:
         severity: warning
@@ -1633,12 +1536,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors5xx
         summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service
           }} service'
-      expr: |
-        (
-        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled{code=~"5.."}[1m]))
-        /
-        sum by (mintel_com_service, label_app_mintel_com_owner) (rate(haproxy:haproxy_backend_http_responses_total:labeled[1m]))
-        ) * 100 > 10
+      expr: haproxy:haproxy_backend_http_responses_total:percentage:1m > 10
       for: 10m
       labels:
         page: "true"
@@ -1648,7 +1546,7 @@ spec:
         description: 'HAProxy: {{ $labels.mintel_com_service }} backend has been down
           for at least 1m on all Ingress pods'
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:labeled)
+      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:counter)
         == 0
       for: 5m
       labels:
@@ -1659,9 +1557,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow
         summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service
           }} service is low on ingress {{ $labels.pod }} : {{ $value }}%'
-      expr: "(\nsum by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)\n/\ncount
-        by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)\n)
-        * 100 < 75 \n"
+      expr: haproxy:haproxy_server_up:percentage < 75
       for: 5m
       labels:
         severity: warning
@@ -1670,12 +1566,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow
         summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service
           }} service is low on ingress {{ $labels.pod }} : {{ $value }}%'
-      expr: |
-        (
-        sum by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-        /
-        count by (mintel_com_service, label_app_mintel_com_owner, pod) (haproxy:haproxy_server_up:labeled)
-        ) * 100 < 50
+      expr: haproxy:haproxy_server_up:percentage < 50
       for: 5m
       labels:
         page: "false"
@@ -1697,22 +1588,22 @@ spec:
     - alert: ImageServiceHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
-        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
-          }} backend.'
-      expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 5
-      for: 2m
+        summary: 'HAProxy: 95th percentile of response times is more than 5s on {{
+          $labels.mintel_com_service }} backend.'
+      expr: haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*image-service.*"}
+        > 5
+      for: 5m
       labels:
         page: "true"
         severity: critical
     - alert: ImageServiceHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
-        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
-          }} backend.'
-      expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="moat", mintel_com_service=~".*image-service.*"} > 1
-      for: 5m
+        summary: 'HAProxy: 95th percentile of response times is more than 1s on {{
+          $labels.mintel_com_service }} backend.'
+      expr: haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*image-service.*"}
+        > 1
+      for: 10m
       labels:
         severity: warning
     - alert: ImageServiceAuthIssues
@@ -2152,21 +2043,21 @@ spec:
     - alert: PortalHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
-        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
-          }} backend.'
-      expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 0.5
-      for: 5m
+        summary: 'HAProxy: 95th percentile of response times is more than 0.5s on
+          {{ $labels.mintel_com_service }} backend.'
+      expr: haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*portal-web"}
+        > 0.5
+      for: 10m
       labels:
         severity: warning
     - alert: PortalHAProxyBackendResponseTime
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#haproxybackendresponsetime
-        summary: 'HAProxy: Average response times increased on {{ $labels.mintel_com_service
-          }} backend.'
-      expr: |
-        haproxy:http_backend_response_wait_seconds_bucket:histogram_quantile{label_app_mintel_com_owner="portal",mintel_com_service=~".*-portal-web"} > 1
-      for: 30m
+        summary: 'HAProxy: 95th percentile of response times is more than 1s on {{
+          $labels.mintel_com_service }} backend.'
+      expr: haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=~".*portal-web"}
+        > 1
+      for: 5m
       labels:
         page: "true"
         severity: critical
