@@ -1503,16 +1503,6 @@ spec:
       labels:
         page: "true"
         severity: critical
-    - alert: HAProxyBackendRequestQueued
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendRequestQueued
-        summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service
-          }} backend'
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled)
-        > 10
-      for: 2m
-      labels:
-        severity: warning
     - alert: HAProxyBackendResponseErrors
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendResponseErrors

@@ -93,18 +93,6 @@
             },
           },
           {
-            alert: 'HAProxyBackendRequestQueued',
-            annotations: {
-              runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendRequestQueued' % $._config,
-              summary: 'HAProxy: Request are queuing up on the {{ $labels.mintel_com_service }} backend',
-            },
-            expr: 'sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_current_queue:labeled) > 10',
-            'for': '2m',
-            labels: {
-              severity: 'warning',
-            },
-          },
-          {
             alert: 'HAProxyBackendResponseErrors',
             annotations: {
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors' % $._config,
