@@ -1,18 +1,18 @@
+local layout = import 'components/layout.libsonnet';
 local commonPanels = import 'components/panels/common.libsonnet';
 local haproxyPanels = import 'components/panels/haproxy.libsonnet';
-local layout = import 'components/layout.libsonnet';
 {
 
-  overview(serviceSelectorKey="service", serviceSelectorValue="$service", startRow=1000)::
+  overview(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
-      serviceSelectorValue: serviceSelectorValue
+      serviceSelectorValue: serviceSelectorValue,
     };
     layout.grid([
 
       commonPanels.gauge(
         title='Instances Up',
-        description='Number of instances running as a percentage (should be 100%)', 
+        description='Number of instances running as a percentage (should be 100%)',
         instant=true,
         format='percent',
         span=2,
@@ -20,15 +20,15 @@ local layout = import 'components/layout.libsonnet';
         colors=[
           '#d44a3a',
           'rgba(237, 129, 40, 0.89)',
-          '#299c46'
+          '#299c46',
         ],
         query=|||
-         100 * min(
-           kube_deployment_status_replicas_available{deployment="%(serviceSelectorValue)s"})
+          100 * min(
+            kube_deployment_status_replicas_available{deployment="%(serviceSelectorValue)s"})
+            without (instance, pod)
+            /
+            max(kube_deployment_spec_replicas{deployment="%(serviceSelectorValue)s"}) 
            without (instance, pod)
-           /
-           max(kube_deployment_spec_replicas{deployment="%(serviceSelectorValue)s"}) 
-          without (instance, pod)
         ||| % config,
       ),
 
@@ -39,7 +39,7 @@ local layout = import 'components/layout.libsonnet';
         legend_show=false,
         query=|||
           sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
-      ||| % config,
+        ||| % config,
       ),
 
       commonPanels.singlestat(
@@ -52,7 +52,7 @@ local layout = import 'components/layout.libsonnet';
         query=|||
           sum(
             rate(
-              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
+              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
         ||| % config,
       ),
 
@@ -66,7 +66,7 @@ local layout = import 'components/layout.libsonnet';
         query=|||
           sum(
             rate(
-              haproxy:haproxy_backend_http_responses_total:labeled{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
+              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
         ||| % config,
       ),
 
