@@ -329,7 +329,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -351,9 +351,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (service) (rate(flux_daemon_queue_duration_seconds_sum{service=\"$service\"}[$__interval]) / rate(flux_daemon_queue_duration_seconds_count{service=\"$service\"}[$__interval]))",
+          "expr": "rate(flux_daemon_queue_duration_seconds_sum{service=\"$service\"}[$__interval]) / rate(flux_daemon_queue_duration_seconds_count{service=\"$service\"}[$__interval])",
           "intervalFactor": 1,
-          "legendFormat": "{{ service }}",
+          "legendFormat": "{{ pod }}",
           "refId": "A"
         }
       ],
@@ -552,6 +552,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
+          "legendFormat": "{{ pod }}",
           "refId": "A"
         }
       ],
@@ -642,7 +643,7 @@
           "expr": "flux_daemon_queue_length_count",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "jobs",
+          "legendFormat": "{{ pod }}",
           "refId": "A"
         }
       ],
