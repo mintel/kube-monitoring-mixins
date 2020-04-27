@@ -568,7 +568,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
