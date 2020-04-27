@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 10475,
   "graphTooltip": 0,
-  "id": 60,
-  "iteration": 1573056496829,
+  "id": 170,
+  "iteration": 1587988044941,
   "links": [],
   "panels": [
     {
@@ -25,13 +25,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 12,
       "legend": {
         "avg": false,
@@ -45,7 +48,10 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -57,11 +63,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_sync_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, success))",
-          "format": "time_series",
+          "expr": "sum by (success) (rate(flux_daemon_sync_duration_seconds_sum{service=\"$service\", success=\"true\"}[$__interval]) / rate(flux_daemon_sync_duration_seconds_count{service=\"$service\", success=\"true\"}[$__interval]))",
           "intervalFactor": 1,
-          "legendFormat": "success - {{success}}",
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum by (success) (rate(flux_daemon_sync_duration_seconds_sum{service=\"$service\", success=\"false\"}[$__interval]) / rate(flux_daemon_sync_duration_seconds_count{service=\"$service\", success=\"false\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Failed",
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -110,13 +121,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "avg": false,
@@ -130,7 +144,10 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -142,11 +159,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_client_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, kind))",
-          "format": "time_series",
+          "expr": "sum by (success) (rate(flux_client_fetch_duration_seconds_sum{service=\"$service\", success=\"true\"}[$__interval]) / rate(flux_client_fetch_duration_seconds_count{service=\"$service\", success=\"true\"}[$__interval]))",
           "intervalFactor": 1,
-          "legendFormat": "{{kind}}",
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum by (success) (rate(flux_client_fetch_duration_seconds_sum{service=\"$service\", success=\"false\"}[$__interval]) / rate(flux_client_fetch_duration_seconds_count{service=\"$service\", success=\"false\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Failed",
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -195,13 +217,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -215,7 +240,10 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -227,12 +255,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_cache_request_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, method))",
-          "format": "time_series",
-          "hide": false,
+          "expr": "sum by (success) (rate(flux_cache_request_duration_seconds_sum{service=\"$service\", success=\"true\"}[$__interval]) / rate(flux_cache_request_duration_seconds_count{service=\"$service\", success=\"true\"}[$__interval]))",
           "intervalFactor": 1,
-          "legendFormat": "{{method}}",
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum by (success) (rate(flux_cache_request_duration_seconds_sum{service=\"$service\", success=\"false\"}[$__interval]) / rate(flux_cache_request_duration_seconds_count{service=\"$service\", success=\"false\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Failed",
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -278,16 +310,19 @@
     },
     {
       "aliasColors": {},
-      "bars": true,
+      "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "avg": false,
@@ -298,10 +333,13 @@
         "total": false,
         "values": false
       },
-      "lines": false,
+      "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -313,11 +351,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_queue_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, service))",
-          "format": "time_series",
+          "expr": "sum by (service) (rate(flux_daemon_queue_duration_seconds_sum{service=\"$service\"}[$__interval]) / rate(flux_daemon_queue_duration_seconds_count{service=\"$service\"}[$__interval]))",
           "intervalFactor": 1,
-          "refId": "A",
-          "legendFormat": "success - {{success}}"
+          "legendFormat": "{{ service }}",
+          "refId": "A"
         }
       ],
       "thresholds": [],
@@ -363,16 +400,19 @@
     },
     {
       "aliasColors": {},
-      "bars": true,
+      "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -383,10 +423,13 @@
         "total": false,
         "values": false
       },
-      "lines": false,
+      "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -398,20 +441,25 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_daemon_job_duration_seconds_bucket{service=\"$service\"}[10m])) by (le, success))",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "success - {{success}}",
+          "expr": "sum by (success) (rate(flux_daemon_job_duration_seconds_sum{service=\"$service\", success=\"true\"}[$__interval]) / rate(flux_daemon_job_duration_seconds_count{service=\"$service\", success=\"true\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum by (success) (rate(flux_daemon_job_duration_seconds_sum{service=\"$service\", success=\"false\"}[$__interval]) / rate(flux_daemon_job_duration_seconds_count{service=\"$service\", success=\"false\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Failed",
+          "refId": "B"
         }
       ],
       "thresholds": [
         {
-          "value": 120,
           "colorMode": "critical",
-          "op": "gt",
           "fill": false,
           "line": true,
+          "op": "gt",
+          "value": 120,
           "yaxis": "left"
         }
       ],
@@ -434,14 +482,16 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "s",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "decimals": null,
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -460,13 +510,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 14
       },
+      "hiddenSeries": false,
       "id": 16,
       "legend": {
         "avg": false,
@@ -480,7 +533,10 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -492,7 +548,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(flux_fluxd_connection_duration_seconds{service=\"$service\"}[10m])",
+          "expr": "rate(flux_fluxd_connection_duration_seconds{service=\"$service\"}[$__interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -545,13 +601,16 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "avg": false,
@@ -566,6 +625,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -630,13 +692,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 14,
       "legend": {
         "avg": false,
@@ -650,7 +715,10 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "paceLength": 10,
       "percentage": false,
       "pointradius": 2,
@@ -662,11 +730,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(1, sum(rate(flux_registry_fetch_duration_seconds_bucket{service=\"$service\"}[10m])) by (le))",
-          "format": "time_series",
+          "expr": "sum by (success) (rate(flux_registry_fetch_duration_seconds_sum{service=\"$service\", success=\"true\"}[$__interval]) / rate(flux_registry_fetch_duration_seconds_count{service=\"$service\", success=\"true\"}[$__interval]))",
           "intervalFactor": 1,
-          "legendFormat": "Registry fetch",
+          "legendFormat": "Success",
           "refId": "A"
+        },
+        {
+          "expr": "sum by (success) (rate(flux_registry_fetch_duration_seconds_sum{service=\"$service\", success=\"false\"}[$__interval]) / rate(flux_registry_fetch_duration_seconds_count{service=\"$service\", success=\"false\"}[$__interval]))",
+          "hide": false,
+          "legendFormat": "Failed",
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -711,14 +784,19 @@
       }
     }
   ],
-  "refresh": "5s",
-  "schemaVersion": 18,
+  "refresh": "",
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "flux-apps",
+          "value": "flux-apps"
+        },
         "datasource": "Prometheus",
         "definition": "label_values(flux_daemon_sync_duration_seconds_sum, service)",
         "hide": 0,
@@ -741,7 +819,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {
@@ -771,6 +849,6 @@
   },
   "timezone": "",
   "title": "Flux Daemon Metrics",
-  "uid": "vJMuruVWk",
-  "version": 1
+  "uid": "vJMuruVWkx",
+  "version": 4
 }
