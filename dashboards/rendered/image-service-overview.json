@@ -297,7 +297,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[2m]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[2m]))\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -383,7 +383,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\",code=\"5xx\"}[2m]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\",code=\"5xx\"}[2m]))\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -568,7 +568,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:labeled{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
