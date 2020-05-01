@@ -7,7 +7,7 @@
    "description": "Provides an analysis of costs by namespace",
    "editable": "false",
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "id": null,
    "links": [ ],

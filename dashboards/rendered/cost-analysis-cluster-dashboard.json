@@ -7,7 +7,7 @@
    "description": "Provides an analysis of costs by cluster",
    "editable": "false",
    "gnetId": null,
-   "graphTooltip": 1,
+   "graphTooltip": 0,
    "hideControls": false,
    "id": null,
    "links": [ ],
@@ -1359,7 +1359,7 @@
       ]
    },
    "time": {
-      "from": "now-15m",
+      "from": "now-7d",
       "to": "now"
    },
    "timepicker": {
