@@ -57,6 +57,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     gaugeMinValue=0,
     gaugeMaxValue=100,
     gaugeShow=false,
+    sparklineFull=false,
     sparklineShow=true,
     instant=true,
     interval='1m',
@@ -85,6 +86,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       valueName=valueName,
       span=span,
       height=height,
+      sparklineFull=sparklineFull,
       sparklineShow=sparklineShow,
       colorBackground=colorBackground,
     )

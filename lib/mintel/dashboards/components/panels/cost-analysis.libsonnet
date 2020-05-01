@@ -75,6 +75,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       instant=false,
       interval='10s',
       legendFormat=' {{ node }}',
+      sparklineFull=true,
     ),
 
   storageCost(hostMountpointSelector)::
@@ -101,6 +102,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       interval='10s',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
+      sparklineFull=true,
     ),
 
   tableNode()::
@@ -277,6 +279,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       interval='10s',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
+      sparklineFull=true,
     ),
 
   totalCost(hostMountpointSelector)::
@@ -323,6 +326,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       instant=false,
       interval='10s',
       legendFormat=' {{ node }}',
+      sparklineFull=true,
     ),
 
   tableNamespace()::
