@@ -207,7 +207,7 @@
                "refId": "D"
             },
             {
-               "expr": "sum(count(count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name))\n  by (container_name) * on (container_name) sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m]))\n  by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100\n",
+               "expr": "sum(count(count(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name))\n  by (container_name) * on (container_name) sum(irate(container_cpu_usage_seconds_total{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[5m]))\n  by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -216,7 +216,7 @@
                "refId": "E"
             },
             {
-               "expr": "sum(count(count(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"})\n  by (container_name)) by (container_name) * on (container_name)\n  sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[1m]))\n  by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100\n",
+               "expr": "sum(count(count(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"})\n  by (container_name)) by (container_name) * on (container_name)\n  sum(avg_over_time(container_memory_working_set_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}[5m]))\n  by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace=\"$namespace\",pod_name=\"$pod\",container_name!=\"POD\"}) by (container_name) * 100\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -274,7 +274,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=~\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[1m])) by (container_name)\n",
+               "expr": "sum (rate (container_cpu_usage_seconds_total{namespace=~\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[5m])) by (container_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -364,7 +364,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (avg_over_time (container_memory_working_set_bytes{namespace=\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[1m])) by (container_name)\n",
+               "expr": "sum (avg_over_time (container_memory_working_set_bytes{namespace=\"$namespace\", pod_name=\"$pod\", container_name!=\"POD\"}[5m])) by (container_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -454,7 +454,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_network_receive_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
+               "expr": "sum (rate (container_network_receive_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[5m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -462,7 +462,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
+               "expr": "- sum (rate (container_network_transmit_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[5m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -544,7 +544,7 @@
          "steppedLine": false,
          "targets": [
             {
-               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
+               "expr": "sum (rate (container_fs_writes_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[5m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -552,7 +552,7 @@
                "refId": "A"
             },
             {
-               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[1m])) by (pod_name)\n",
+               "expr": "- sum (rate (container_fs_reads_bytes_total{namespace=\"$namespace\",pod_name=\"$pod\"}[5m])) by (pod_name)\n",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
