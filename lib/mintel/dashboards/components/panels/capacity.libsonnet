@@ -220,6 +220,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       title='Number of Nodes',
       span=span,
       height=100,
+      instant=false,
+      sparklineFull=true,
       query=|||
         sum(
           kube_node_info{node=~%(nodeSelectorRegex)s})
@@ -235,6 +237,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       title='Number of NodePools',
       span=span,
       height=100,
+      instant=false,
+      sparklineFull=true,
       query=|||
         count (
           count by (
@@ -251,6 +255,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       title='Pods Allocatables Slots',
       span=span,
       height=100,
+      instant=false,
+      sparklineFull=true,
       query=|||
         sum (
           kube_node_status_allocatable_pods{node=~%(nodeSelectorRegex)s}) 

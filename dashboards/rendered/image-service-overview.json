@@ -34,7 +34,7 @@
    "description": "Provides an overview of the Image Service stack",
    "editable": false,
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "id": null,
    "links": [

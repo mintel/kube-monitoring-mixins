@@ -32,6 +32,7 @@ local dashboardTags = ['portal'];
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
+        graphTooltip='shared_crosshair',
       )
 
       .addLink(link.dashboards(tags="",
