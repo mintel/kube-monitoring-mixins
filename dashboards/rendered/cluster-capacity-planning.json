@@ -308,7 +308,7 @@
                "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -317,7 +317,7 @@
                   {
                      "expr": "sum(\n  kube_node_status_condition{condition=\"DiskPressure\", node=~\"^gke.*\", status=\"true\"})\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -388,7 +388,7 @@
                "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -397,7 +397,7 @@
                   {
                      "expr": "sum(\n  kube_node_status_condition{condition=\"Ready\", node=~\"^gke.*\", status=\"false\"})\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -468,7 +468,7 @@
                "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -477,7 +477,7 @@
                   {
                      "expr": "sum(\n  kube_node_spec_unschedulable{node=~\"^gke.*\"})\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",

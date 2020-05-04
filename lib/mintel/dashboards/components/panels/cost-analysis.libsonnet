@@ -72,10 +72,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       |||,
       decimals=2,
       format='currencyUSD',
-      instant=false,
       interval='2m',
       legendFormat=' {{ node }}',
-      sparklineFull=true,
     ),
 
   storageCost(hostMountpointSelector)::
@@ -98,11 +96,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
       decimals=2,
       format='currencyUSD',
-      instant=false,
       interval='2m',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
-      sparklineFull=true,
     ),
 
   tableNode()::
@@ -275,11 +271,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       |||,
       decimals=2,
       format='currencyUSD',
-      instant=false,
       interval='2m',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
-      sparklineFull=true,
     ),
 
   totalCost(hostMountpointSelector)::
@@ -323,10 +317,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
       decimals=2,
       format='currencyUSD',
-      instant=false,
       interval='2m',
       legendFormat=' {{ node }}',
-      sparklineFull=true,
     ),
 
   tableNamespace()::

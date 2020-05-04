@@ -738,7 +738,7 @@
                "span": 1,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -747,7 +747,7 @@
                   {
                      "expr": "sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -819,7 +819,7 @@
                "span": 1,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -828,7 +828,7 @@
                   {
                      "expr": "sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -900,7 +900,7 @@
                "span": 1,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -909,7 +909,7 @@
                   {
                      "expr": "prometheus_tsdb_compaction_chunk_size_bytes_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_size_bytes_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -981,7 +981,7 @@
                "span": 1,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -990,7 +990,7 @@
                   {
                      "expr": "prometheus_tsdb_compaction_chunk_samples_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_samples_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",

@@ -290,7 +290,7 @@
                "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -299,7 +299,7 @@
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[2m]))\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -376,7 +376,7 @@
                "span": 2,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
                   "show": true
                },
@@ -385,7 +385,7 @@
                   {
                      "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\",code=\"5xx\"}[2m]))\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
