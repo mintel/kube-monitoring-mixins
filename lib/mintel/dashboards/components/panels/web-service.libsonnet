@@ -26,10 +26,7 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
           'line': true
         }],
         query=|||
-          100 * (kube_deployment_status_replicas_available{namespace=~"$namespace"}) /(kube_deployment_spec_replicas{namespace=~"$namespace"})
-          or
-          100 * (kube_statefulset_status_replicas_current{namespace=~"$namespace"}) /(kube_statefulset_status_replicas{namespace=~"$namespace"})
-
+          100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namepace-%(serviceSelectorValue)s"}
         ||| % config,
       ),
 
