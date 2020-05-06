@@ -58,24 +58,14 @@
          "height": 5,
          "panels": [
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#d44a3a",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#299c46"
-               ],
-               "datasource": null,
-               "description": "Number of instances running as a percentage (should be 100%)",
-               "format": "percent",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Percentage of instances up (by workload)",
+               "fill": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -84,7 +74,114 @@
                },
                "height": 200,
                "id": 2,
-               "interval": "1m",
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 4,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "100 * (kube_deployment_status_replicas_available{namespace=~\"$namespace\"}) /(kube_deployment_spec_replicas{namespace=~\"$namespace\"})\nor\n100 * (kube_statefulset_status_replicas_current{namespace=~\"$namespace\"}) /(kube_statefulset_status_replicas{namespace=~\"$namespace\"})\n\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [
+                  {
+                     "colorMode": "critical",
+                     "fill": true,
+                     "line": true,
+                     "op": "lt",
+                     "value": 50
+                  }
+               ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Workloads Status",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "percent",
+                     "label": "",
+                     "logBase": 1,
+                     "max": 100,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": true,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "description": "Requests per second (all http-status)",
+               "format": "rps",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 2,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 3,
+               "interval": null,
                "links": [ ],
                "mappingType": 1,
                "mappingTypes": [
@@ -111,30 +208,29 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
+               "span": 4,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
-                  "show": false
+                  "show": true
                },
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$deployment\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$deployment\"}) \n without (instance, pod)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]))\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": ".8, .9",
-               "title": "Instances Up",
-               "transparent": true,
+               "thresholds": "",
+               "title": "Incoming Request Volume",
                "type": "singlestat",
-               "valueFontSize": "50%",
+               "valueFontSize": "80%",
                "valueMaps": [
                   {
                      "op": "=",
@@ -142,109 +238,20 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "Number of instances running over time",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 2,
-                  "x": 2,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 3,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": false,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 6,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(up{job=\"$deployment\", namespace=\"$namespace\"})\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Instances Running Over Time",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
                "colorBackground": true,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
-               "description": "Requests per second (all http-status)",
-               "format": "rps",
+               "description": "Percentage of successful (non http-5xx) requests",
+               "format": "percent",
                "gauge": {
                   "maxValue": 100,
                   "minValue": 0,
@@ -287,7 +294,7 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
+               "span": 4,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": true,
@@ -297,7 +304,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[2m]))\n",
+                     "expr": "100 * (sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{code!~\"5.*\", backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]))\n/\nsum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval])))\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -306,94 +313,8 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
-               "title": "RPS (Total)",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": true,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "description": "Requests per second (HTTP 500 errors)",
-               "format": "rps",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 10,
-                  "w": 2,
-                  "x": 6,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 5,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": true,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\",code=\"5xx\"}[2m]))\n",
-                     "format": "time_series",
-                     "instant": false,
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "RPS (Errors)",
+               "thresholds": "99,95",
+               "title": "Incoming Success Rate",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -434,7 +355,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 6,
+               "id": 5,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -539,7 +460,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 7,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -576,7 +497,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": null,
                "timeFrom": null,
                "timeShift": null,
                "title": "HAProxy Responses",
@@ -641,7 +562,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 8,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -678,7 +599,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": null,
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance CPU",
@@ -730,7 +651,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 9,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -767,7 +688,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": null,
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance Memory",
@@ -832,7 +753,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 10,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
