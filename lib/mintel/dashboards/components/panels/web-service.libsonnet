@@ -11,8 +11,8 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
     layout.grid([
 
       commonPanels.timeseries(
-        title='Workloads',
-        description='Number of instances running over time',
+        title='Workloads Status',
+        description='Percentage of instances up (by workload)',
         span=4,
         max=100,
         format='percent',
@@ -34,28 +34,39 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
       ),
 
       commonPanels.singlestat(
-        title='RPS (Total)',
+        title='Incoming Request Volume',
         description='Requests per second (all http-status)',
         colorBackground=true,
         format='rps',
+        sparklineShow=true,
         span=4,
         query=|||
           sum(
             rate(
-              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
+              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
         ||| % config,
       ),
-
       commonPanels.singlestat(
-        title='RPS (Errors)',
-        description='Requests per second (HTTP 500 errors)',
+        title='Incoming Success Rate',
+        description='Percentage of successful (non http-5xx) requests',
         colorBackground=true,
-        format='rps',
+        format='percent',
+        sparklineShow=true,
+        thresholds="99,95",
+        colors=[
+          '#d44a3a',
+          'rgba(237, 129, 40, 0.89)',
+          '#299c46',
+        ],
         span=4,
         query=|||
+          100 * (sum(
+            rate(
+              haproxy:haproxy_backend_http_responses_total:counter{code!~"5.*", backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
+          /
           sum(
             rate(
-              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
+              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval])))
         ||| % config,
       ),
 
