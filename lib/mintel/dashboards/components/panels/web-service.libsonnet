@@ -10,35 +10,26 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
     };
     layout.grid([
 
-      commonPanels.gauge(
-        title='Instances Up',
-        description='Number of instances running as a percentage (should be 100%)',
-        instant=true,
-        format='percent',
-        span=2,
-        valueFontSize='50%',
-        colors=[
-          '#d44a3a',
-          'rgba(237, 129, 40, 0.89)',
-          '#299c46',
-        ],
-        query=|||
-          100 * min(
-            kube_deployment_status_replicas_available{deployment="%(serviceSelectorValue)s"})
-            without (instance, pod)
-            /
-            max(kube_deployment_spec_replicas{deployment="%(serviceSelectorValue)s"}) 
-           without (instance, pod)
-        ||| % config,
-      ),
-
       commonPanels.timeseries(
-        title='Instances Running Over Time',
+        title='Workloads',
         description='Number of instances running over time',
-        span=6,
+        span=4,
+        max=100,
+        format='percent',
         legend_show=false,
+        // Fix legendFormat to display deployment/statefulset (needs relabel)
+        thresholds=[
+          {'value': 50,
+          'colorMode': 'critical',
+          'op': 'lt',
+          'fill': true,
+          'line': true
+        }],
         query=|||
-          sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
+          100 * (kube_deployment_status_replicas_available{namespace=~"$namespace"}) /(kube_deployment_spec_replicas{namespace=~"$namespace"})
+          or
+          100 * (kube_statefulset_status_replicas_current{namespace=~"$namespace"}) /(kube_statefulset_status_replicas{namespace=~"$namespace"})
+
         ||| % config,
       ),
 
@@ -47,7 +38,7 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
         description='Requests per second (all http-status)',
         colorBackground=true,
         format='rps',
-        span=2,
+        span=4,
         query=|||
           sum(
             rate(
@@ -60,7 +51,7 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
         description='Requests per second (HTTP 500 errors)',
         colorBackground=true,
         format='rps',
-        span=2,
+        span=4,
         query=|||
           sum(
             rate(
