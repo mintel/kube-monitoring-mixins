@@ -17,7 +17,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       title='CPU Utilisation',
       description='This gauge shows the current CPU use vs CPU available',
       query=|||
-        sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[1m])) / sum (machine_cpu_cores{service="kubelet"}) * 100
+        sum (rate (container_cpu_usage_seconds_total{id!="/",service="kubelet"}[$__interval])) / sum (machine_cpu_cores{service="kubelet"}) * 100
       |||,
       colors=[
         'rgba(245, 54, 54, 0.9)',
@@ -26,7 +26,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       format='percent',
       gaugeMaxValue=100,
-      interval='',
       intervalFactor= 1,
       colorValue=true,
       decimals=2,
@@ -50,7 +49,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       format='percent',
       gaugeMaxValue=100,
-      interval='',
       intervalFactor= 1,
       colorValue=true,
       decimals=2,
@@ -72,7 +70,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       |||,
       decimals=2,
       format='currencyUSD',
-      interval='10s',
       legendFormat=' {{ node }}',
     ),
 
@@ -96,7 +93,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
       decimals=2,
       format='currencyUSD',
-      interval='10s',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
     ),
@@ -185,7 +181,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       query=|||
         (sum(kube_pod_container_resource_requests_memory_bytes) by (node) / sum(kube_node_status_allocatable_memory_bytes) by (node)) * 100
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ node }}',
     )
@@ -195,9 +190,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           (sum(kube_pod_container_resource_requests_cpu_cores) by (node) / sum(kube_node_status_allocatable_cpu_cores) by (node)) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ node }}',
-        interval='',
         intervalFactor=1,
       )
     ),
@@ -217,7 +211,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       format='percent',
       gaugeMaxValue=100,
-      interval='',
       intervalFactor= 1,
       colorValue=true,
       decimals=2,
@@ -243,7 +236,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ],
       format='percent',
       gaugeMaxValue=100,
-      interval='',
       intervalFactor= 1,
       colorValue=true,
       decimals=2,
@@ -271,7 +263,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       |||,
       decimals=2,
       format='currencyUSD',
-      interval='10s',
       intervalFactor= 1,
       legendFormat=' {{ node }}',
     ),
@@ -317,7 +308,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       ||| % config,
       decimals=2,
       format='currencyUSD',
-      interval='10s',
       legendFormat=' {{ node }}',
     ),
 
@@ -478,7 +468,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by (namespace)
           or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ namespace }}',
     )
@@ -490,9 +479,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -508,9 +496,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -535,22 +522,20 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
     .addTarget(
       promQuery.target(
         |||
-          (sum by (namespace) (rate(container_cpu_usage_seconds_total{container_name!="",image!="",service="kubelet"}[1m]))
+          (sum by (namespace) (rate(container_cpu_usage_seconds_total{container_name!="",image!="",service="kubelet"}[$__interval]))
             /  ignoring(namespace) group_left() (sum (kube_node_status_allocatable_cpu_cores)) ) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -558,13 +543,12 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       promQuery.target(
         |||
           sum(count(count(container_memory_working_set_bytes{namespace!=""}) by (pod_name, namespace)) by (pod_name, namespace) *
-            on (pod_name, namespace) sum(avg_over_time(container_memory_working_set_bytes{namespace!=""}[1m]))
+            on (pod_name, namespace) sum(avg_over_time(container_memory_working_set_bytes{namespace!=""}[$__interval]))
             by (pod_name, namespace)) by (namespace) / sum(container_spec_memory_limit_bytes{namespace!=""}) by (namespace) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     ),
@@ -668,7 +652,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           on(persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ persistentvolumeclaim }}',
     ),
@@ -844,7 +827,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
               ) by(pod_name) -1
             )
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ pod_name }}',
     )
@@ -870,9 +852,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           )
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -882,9 +863,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           vector(0)
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -931,8 +911,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           )
         |||,
         format='table',
-        instant='true',
-        interval='',
+        instant=true,
         intervalFactor=1,
       )
     )
@@ -942,15 +921,14 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
            sum(
               count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name)) by (pod_name)
               * on (pod_name)
-              sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[1m])) by (pod_name)
+              sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[$__interval])) by (pod_name)
            ) by (pod_name) * 1000
            /
            sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ pod_name }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -960,15 +938,14 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(
              count(count(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name)) by (pod_name)
              * on (pod_name)
-             sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[1m])) by (pod_name)
+             sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[$__interval])) by (pod_name)
           ) by (pod_name)
           /
           sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (pod_name) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     ),
@@ -1073,7 +1050,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace=~"$namespace"})
           by (persistentvolumeclaim, namespace)) by (namespace,persistentvolumeclaim,storageclass) / 1024 / 1024 / 1024 * $costStorageStandard
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ persistentvolumeclaim }}',
     ),
@@ -1087,11 +1063,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (rate (container_cpu_usage_seconds_total{namespace="$namespace"}[1m]))
-          by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace="$namespace"}[1m])) by (namespace) * 100
+        sum (rate (container_cpu_usage_seconds_total{namespace="$namespace"}[$__interval]))
+          by (namespace) * 1000 / sum(avg_over_time(container_spec_cpu_shares{namespace="$namespace"}[$__interval])) by (namespace) * 100
       |||,
       legendFormat='% cpu',
-      interval='',
       intervalFactor=1,
       max="110",
     ),
@@ -1109,7 +1084,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (namespace) * 100
       |||,
       legendFormat='% ram',
-      interval='',
       intervalFactor=1,
       max="110",
     ),
@@ -1125,19 +1099,17 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       fill=1,
       format='percent',
       query=|||
-        sum (rate (container_network_receive_bytes_total{namespace="$namespace"}[1m])) by (namespace)
+        sum (rate (container_network_receive_bytes_total{namespace="$namespace"}[$__interval])) by (namespace)
       |||,
       legendFormat='<- in',
-      interval='',
       intervalFactor=1,
     )
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace"}[1m])) by (namespace)
+          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace"}[$__interval])) by (namespace)
         |||,
         legendFormat='-> out',
-        interval='',
         intervalFactor=1,
       )
     ) + {
@@ -1166,19 +1138,17 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       fill=1,
       format='percent',
       query=|||
-        sum (rate (container_fs_writes_bytes_total{namespace="$namespace"}[1m])) by (namespace)
+        sum (rate (container_fs_writes_bytes_total{namespace="$namespace"}[$__interval])) by (namespace)
       |||,
       legendFormat='<- write',
-      interval='',
       intervalFactor=1,
     )
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace"}[1m])) by (namespace)
+          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace"}[$__interval])) by (namespace)
         |||,
         legendFormat='-> read',
-        interval='',
         intervalFactor=1,
       )
     ) + {
@@ -1354,7 +1324,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           container_name!="POD",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(container_name)  or
           count(    count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
       |||,
-      interval='',
       intervalFactor=1,
       legendFormat='{{ pod_name }}',
     )
@@ -1369,9 +1338,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             by(container_name)  ) by(container_name) -1)
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -1381,9 +1349,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           vector(0)
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -1402,8 +1369,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
         |||,
         format='table',
-        instant='true',
-        interval='',
+        instant=true,
         intervalFactor=1,
       )
     )
@@ -1411,13 +1377,12 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       promQuery.target(
         |||
           sum(count(count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name))
-            by (container_name) * on (container_name) sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
+            by (container_name) * on (container_name) sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$pod",container_name!="POD"}[$__interval]))
             by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ pod_name }}',
-        interval='',
         intervalFactor=1,
       )
     )
@@ -1426,13 +1391,12 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         |||
           sum(count(count(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
             by (container_name)) by (container_name) * on (container_name)
-            sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}[1m]))
+            sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}[$__interval]))
             by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
         |||,
         format='table',
-        instant='true',
+        instant=true,
         legendFormat='{{ namespace }}',
-        interval='',
         intervalFactor=1,
       )
     ),
@@ -1446,10 +1410,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
+        sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[$__interval])) by (container_name)
       |||,
       legendFormat='{{ container_name }}',
-      interval='',
       intervalFactor=1,
     )
     .addTarget(
@@ -1458,7 +1421,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(container_spec_cpu_shares{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name) / 1000
         |||,
         legendFormat='{{ container_name }} (requested)',
-        interval='',
         intervalFactor=1,
       )
     ) + {
@@ -1485,10 +1447,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[1m])) by (container_name)
+        sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[$__interval])) by (container_name)
       |||,
       legendFormat='{{ container_name }}',
-      interval='',
       intervalFactor=1,
     )
     .addTarget(
@@ -1497,7 +1458,6 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           sum(container_spec_memory_limit_bytes{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name)
         |||,
         legendFormat='{{ container_name }} (requested)',
-        interval='',
         intervalFactor=1,
       )
     ) + {
@@ -1524,20 +1484,18 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       nullPointMode='connected',
       fill=1,
       format='percent',
-      interval='',
       intervalFactor=1,
       query=|||
-        sum (rate (container_network_receive_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
+        sum (rate (container_network_receive_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
       |||,
       legendFormat='<- in',
     )
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
+          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
         |||,
         legendFormat='-> out',
-        interval='',
         intervalFactor=1,
       )
     ) + {
@@ -1565,19 +1523,17 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       fill=1,
       format='percent',
       query=|||
-        sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
+        sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
       |||,
       legendFormat='<- write',
-      interval='',
       intervalFactor=1,
     )
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace",pod_name="$pod"}[1m])) by (pod_name)
+          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
         |||,
         legendFormat='-> read',
-        interval='',
         intervalFactor=1,
       )
     ) + {

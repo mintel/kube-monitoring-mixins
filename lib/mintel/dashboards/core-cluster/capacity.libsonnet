@@ -33,6 +33,7 @@ local dashboardTags = ['capacity', 'resources'];
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
+        graphTooltip='shared_crosshair',
       )
 
       .addTemplate(templates.ds)

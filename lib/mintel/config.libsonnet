@@ -1,6 +1,11 @@
 {
   _config+:: {
     local this = self,
+
+    // Set namespace here to allow jsonnet rendering from this directory.
+    // Note, this will get overwritten by the main config (default is 'monitoring)'...
+    namespace: 'monitoring',
+
     // Selectors are inserted between {} in Prometheus queries.
     namespaceSelector: null,
     prefixedNamespaceSelector: if self.namespaceSelector != null then self.namespaceSelector + ',' else '',

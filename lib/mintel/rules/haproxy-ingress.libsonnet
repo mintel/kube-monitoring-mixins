@@ -34,7 +34,7 @@
               sum by (mintel_com_service, label_app_mintel_com_owner, job) (rate(haproxy:haproxy_backend_http_responses_total:counter[1m]))
               ) * 100
             |||,
-            record: 'haproxy:haproxy_backend_http_responses_total:percentage:1m',
+            record: 'haproxy:haproxy_backend_http_error_rate:percentage:1m',
           },
           {
             expr: |||

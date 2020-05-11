@@ -122,7 +122,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: 'haproxy:haproxy_backend_http_responses_total:percentage:1m > 1',
+            expr: 'haproxy:haproxy_backend_http_error_rate:percentage:1m > 1',
             'for': '5m',
             labels: {
               severity: 'warning',
@@ -134,7 +134,7 @@
               runbook_url: '%(runBookBaseURL)s/core/HAProxy.md#HAProxyBackendResponseErrors5xx' % $._config,
               summary: 'HAProxy: Increased number of 5xx responses on {{ $labels.mintel_com_service }} service',
             },
-            expr: 'haproxy:haproxy_backend_http_responses_total:percentage:1m > 10',
+            expr: 'haproxy:haproxy_backend_http_error_rate:percentage:1m > 10',
             'for': '10m',
             labels: {
               severity: 'critical',
