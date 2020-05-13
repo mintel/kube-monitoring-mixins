@@ -354,7 +354,7 @@
                   "x": 0,
                   "y": 1000
                },
-               "height": 200,
+               "height": 300,
                "id": 5,
                "legend": {
                   "alignAsTable": true,
@@ -364,7 +364,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
@@ -459,7 +459,7 @@
                   "x": 2,
                   "y": 1000
                },
-               "height": 200,
+               "height": 300,
                "id": 6,
                "legend": {
                   "alignAsTable": true,
@@ -469,7 +469,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
@@ -548,7 +548,7 @@
                   "x": 4,
                   "y": 1000
                },
-               "height": 200,
+               "height": 300,
                "id": 7,
                "legend": {
                   "alignAsTable": true,
@@ -558,7 +558,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
