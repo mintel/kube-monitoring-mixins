@@ -102,7 +102,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "100 * (kube_deployment_status_replicas_available{namespace=~\"$namespace\"}) /(kube_deployment_spec_replicas{namespace=~\"$namespace\"})\n  or\n100 * (kube_statefulset_status_replicas_current{namespace=~\"$namespace\"}) /(kube_statefulset_status_replicas{namespace=~\"$namespace\"})\n",
+                     "expr": "sum by (deployment, statefulset)\n  (\n    100 * (kube_deployment_status_replicas_available{namespace=~\"$namespace\"}) /(kube_deployment_spec_replicas{namespace=~\"$namespace\"})\n    or\n    100 * (kube_statefulset_status_replicas_ready{namespace=~\"$namespace\"}) /(kube_statefulset_status_replicas{namespace=~\"$namespace\"})\n  )\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
