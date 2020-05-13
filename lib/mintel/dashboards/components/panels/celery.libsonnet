@@ -8,67 +8,31 @@ local promQuery = import 'components/prom_query.libsonnet';
     };
     layout.grid([
 
-      commonPanels.timeseries(
+      commonPanels.singlestat(
         title='Num Workers',
-        yAxisLabel='Workers',
+        description='Number of Celery workers up',
         query=|||
-          sum(avg_over_time(celery_workers{namespace=~"^$namespace$"}[5m]))
+          sum(avg_over_time(celery_workers{namespace="$namespace"}[$__interval]))
         ||| % config,
         legendFormat='{{ name }}',
         intervalFactor=2,
+        span=2,
       ),
-
       commonPanels.timeseries(
-        title='Task Rate',
-        yAxisLabel='Tasks',
+        title='Celery Events',
+        yAxisLabel='Num Events',
         query=|||
           sum(
             rate(
-              celery_tasks_total{namespace=~"^namespace$", name=~"^$celery_task_name$", state=~"^$celery_task_state$"}[5m]))
+              celery_tasks_total{namespace="$namespace"}[10m]))
           by (name, state)
         ||| % config,
-        legendFormat='{{ name }}/{{ state }}',
+        legendFormat='{{ name }} / {{ state }}',
         intervalFactor=2,
+        legend_show=true,
+        legend_rightSide=true,
+        span=10,
       ),
 
-      commonPanels.timeseries(
-        title='Runtime Rate',
-        yAxisLabel='Tasks',
-        query=|||
-          sum(
-            rate(
-              celery_tasks_runtime_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m]))
-          by (le)
-        ||| % config,
-        legendFormat='{{ name }}/{{ state }}',
-        intervalFactor=2,
-      ),
-
-      commonPanels.timeseries(
-        title='Latency',
-        yAxisLabel='Tasks',
-        query=|||
-          sum(
-            rate(
-              celery_tasks_latency_seconds_bucket{namespace=~"^$namespace$", name=~"^$celery_task_name$"}[5m]))
-          by (le)
-        ||| % config,
-        legendFormat='{{ le }}',
-        intervalFactor=2,
-      ),
-    
-      commonPanels.timeseries(
-        title='Top 15 Tasks',
-        yAxisLabel='Tasks',
-        query=|||
-          topk(15,
-            sum(
-              rate(
-                celery_tasks_total{namespace=~"^$namespace$"}[5m])))
-            by (name)
-        ||| % config,
-        legendFormat='{{ name }}',
-        intervalFactor=2,
-      ),
-    ], cols=2, rowHeight=10, startRow=startRow),
+    ], cols=12, rowHeight=10, startRow=startRow),
 }
