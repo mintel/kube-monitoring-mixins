@@ -24,7 +24,8 @@ local promQuery = import 'components/prom_query.libsonnet';
            by(method, view)
         ||| % config,
         legendFormat='{{ method }}/{{ view }}',
-        legend_show=false,
+        legend_show=true,
+        height=300,
         intervalFactor=2,
       ),
     ], cols=12, rowHeight=10, startRow=startRow),

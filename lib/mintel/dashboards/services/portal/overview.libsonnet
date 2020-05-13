@@ -50,8 +50,6 @@ local dashboardTags = ['portal'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('portal', hide=true))
       .addTemplate(templates.app_service)
-      .addTemplate(templates.celery_task_name)
-      .addTemplate(templates.celery_task_state)
 
       .addRow(
         row.new('Overview', height=5)

@@ -398,7 +398,7 @@
                "refId": "A"
             }
          ],
-         "thresholds": [ ],
+         "thresholds": null,
          "timeFrom": null,
          "timeShift": null,
          "title": "Overall CPU Utilisation",
@@ -486,7 +486,7 @@
                "refId": "A"
             }
          ],
-         "thresholds": [ ],
+         "thresholds": null,
          "timeFrom": null,
          "timeShift": null,
          "title": "Overall RAM Utilisation",
@@ -582,7 +582,7 @@
                "refId": "B"
             }
          ],
-         "thresholds": [ ],
+         "thresholds": null,
          "timeFrom": null,
          "timeShift": null,
          "title": "Network IO",
@@ -672,7 +672,7 @@
                "refId": "B"
             }
          ],
-         "thresholds": [ ],
+         "thresholds": null,
          "timeFrom": null,
          "timeShift": null,
          "title": "Disk IO",
