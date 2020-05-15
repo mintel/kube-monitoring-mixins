@@ -58,24 +58,14 @@
          "height": 5,
          "panels": [
             {
-               "cacheTimeout": null,
-               "colorBackground": false,
-               "colorValue": false,
-               "colors": [
-                  "#d44a3a",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#299c46"
-               ],
-               "datasource": null,
-               "description": "Number of instances running as a percentage (should be 100%)",
-               "format": "percent",
-               "gauge": {
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "show": true,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 0,
+               "description": "Percentage of instances up (by workload)",
+               "fill": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -84,7 +74,114 @@
                },
                "height": 200,
                "id": 2,
-               "interval": "1m",
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": false,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "null",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 4,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum by (deployment, statefulset)\n  (\n    100 * (kube_deployment_status_replicas_available{namespace=~\"$namespace\"}) /(kube_deployment_spec_replicas{namespace=~\"$namespace\"})\n    or\n    100 * (kube_statefulset_status_replicas_ready{namespace=~\"$namespace\"}) /(kube_statefulset_status_replicas{namespace=~\"$namespace\"})\n  )\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [
+                  {
+                     "colorMode": "critical",
+                     "fill": true,
+                     "line": true,
+                     "op": "lt",
+                     "value": 50
+                  }
+               ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Workloads Status",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "percent",
+                     "label": "",
+                     "logBase": 1,
+                     "max": 100,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": true,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "description": "Requests per second (all http-status)",
+               "format": "rps",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 2,
+                  "y": 1000
+               },
+               "height": 200,
+               "id": 3,
+               "interval": null,
                "links": [ ],
                "mappingType": 1,
                "mappingTypes": [
@@ -111,30 +208,29 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
+               "span": 4,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": false,
+                  "full": true,
                   "lineColor": "rgb(31, 120, 193)",
-                  "show": false
+                  "show": true
                },
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 * min(\n  kube_deployment_status_replicas_available{deployment=\"$service\"})\n  without (instance, pod)\n  /\n  max(kube_deployment_spec_replicas{deployment=\"$service\"}) \n without (instance, pod)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\n",
                      "format": "time_series",
-                     "instant": true,
+                     "instant": false,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": ".8, .9",
-               "title": "Instances Up",
-               "transparent": true,
+               "thresholds": "",
+               "title": "Incoming Request Volume",
                "type": "singlestat",
-               "valueFontSize": "50%",
+               "valueFontSize": "80%",
                "valueMaps": [
                   {
                      "op": "=",
@@ -142,109 +238,20 @@
                      "value": "null"
                   }
                ],
-               "valueName": "avg"
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "Number of instances running over time",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 2,
-                  "x": 2,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 3,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": false,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 6,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(up{service=\"$service\", namespace=\"$namespace\"})\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Instances Running Over Time",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
+               "valueName": "current"
             },
             {
                "cacheTimeout": null,
                "colorBackground": true,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
-               "description": "Requests per second (all http-status)",
-               "format": "rps",
+               "description": "Percentage of successful (non http-5xx) requests",
+               "format": "percent",
                "gauge": {
                   "maxValue": 100,
                   "minValue": 0,
@@ -287,7 +294,7 @@
                      "to": "null"
                   }
                ],
-               "span": 2,
+               "span": 4,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": true,
@@ -297,7 +304,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[2m]))\n",
+                     "expr": "100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service=\"$namespace-$service\"}\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -306,94 +313,8 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
-               "title": "RPS (Total)",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": true,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "description": "Requests per second (HTTP 500 errors)",
-               "format": "rps",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 10,
-                  "w": 2,
-                  "x": 6,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 5,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 2,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": true,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\",code=\"5xx\"}[2m]))\n",
-                     "format": "time_series",
-                     "instant": false,
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "RPS (Errors)",
+               "thresholds": "99,95",
+               "title": "Incoming Success Rate",
                "type": "singlestat",
                "valueFontSize": "80%",
                "valueMaps": [
@@ -433,8 +354,8 @@
                   "x": 0,
                   "y": 1000
                },
-               "height": 200,
-               "id": 6,
+               "height": 300,
+               "id": 5,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -443,7 +364,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
@@ -538,8 +459,8 @@
                   "x": 2,
                   "y": 1000
                },
-               "height": 200,
-               "id": 7,
+               "height": 300,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -548,7 +469,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
@@ -627,8 +548,8 @@
                   "x": 4,
                   "y": 1000
                },
-               "height": 200,
-               "id": 8,
+               "height": 300,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -637,7 +558,7 @@
                   "max": true,
                   "min": true,
                   "rightSide": false,
-                  "show": false,
+                  "show": true,
                   "total": false,
                   "values": true
                },
@@ -729,7 +650,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 9,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -818,7 +739,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 10,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -920,7 +841,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 11,
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1007,6 +928,92 @@
          "collapsed": true,
          "panels": [
             {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "description": "Number of Celery workers up",
+               "format": "none",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 2,
+                  "x": 0,
+                  "y": 1001
+               },
+               "height": 200,
+               "id": 11,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "span": 2,
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": true,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "sum(avg_over_time(celery_workers{namespace=\"$namespace\"}[$__interval]))\n",
+                     "format": "time_series",
+                     "instant": false,
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "Num Workers",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
+            },
+            {
                "aliasColors": { },
                "bars": false,
                "dashLength": 10,
@@ -1017,8 +1024,8 @@
                "fill": 0,
                "gridPos": {
                   "h": 10,
-                  "w": 12,
-                  "x": 0,
+                  "w": 2,
+                  "x": 2,
                   "y": 1001
                },
                "height": 200,
@@ -1030,7 +1037,7 @@
                   "hideEmpty": true,
                   "max": true,
                   "min": true,
-                  "rightSide": false,
+                  "rightSide": true,
                   "show": true,
                   "total": false,
                   "values": true
@@ -1046,22 +1053,23 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
+               "span": 10,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(avg_over_time(celery_workers{namespace=~\"^$namespace$\"}[5m]))\n",
+                     "expr": "sum(\n  rate(\n    celery_tasks_total{namespace=\"$namespace\"}[10m]))\nby (name, state)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ name }}",
+                     "legendFormat": "{{ name }} / {{ state }}",
                      "refId": "A"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Num Workers",
+               "title": "Celery Events",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -1078,359 +1086,7 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": "Workers",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 12,
-                  "y": 1001
-               },
-               "height": 200,
-               "id": 13,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    celery_tasks_total{namespace=~\"^namespace$\", name=~\"^$celery_task_name$\", state=~\"^$celery_task_state$\"}[5m]))\nby (name, state)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ name }}/{{ state }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Task Rate",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Tasks",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1011
-               },
-               "height": 200,
-               "id": 14,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    celery_tasks_runtime_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ name }}/{{ state }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Runtime Rate",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Tasks",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 12,
-                  "y": 1011
-               },
-               "height": 200,
-               "id": 15,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    celery_tasks_latency_seconds_bucket{namespace=~\"^$namespace$\", name=~\"^$celery_task_name$\"}[5m]))\nby (le)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ le }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Latency",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Tasks",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            },
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 0,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 1021
-               },
-               "height": 200,
-               "id": 16,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "null",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "topk(15,\n  sum(\n    rate(\n      celery_tasks_total{namespace=~\"^$namespace$\"}[5m])))\n  by (name)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ name }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Top 15 Tasks",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": "Tasks",
+                     "label": "Num Events",
                      "logBase": 1,
                      "max": null,
                      "min": 0,
@@ -1475,7 +1131,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 17,
+               "id": 13,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1563,7 +1219,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 18,
+               "id": 14,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1651,7 +1307,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 19,
+               "id": 15,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1739,7 +1395,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 20,
+               "id": 16,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1827,7 +1483,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 21,
+               "id": 17,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1915,7 +1571,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 22,
+               "id": 18,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2003,7 +1659,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 23,
+               "id": 19,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2091,7 +1747,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 24,
+               "id": 20,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2179,7 +1835,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 25,
+               "id": 21,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2267,7 +1923,7 @@
                   "y": 1032
                },
                "height": 200,
-               "id": 26,
+               "id": 22,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2355,7 +2011,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 27,
+               "id": 23,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2443,7 +2099,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 28,
+               "id": 24,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2531,7 +2187,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 29,
+               "id": 25,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2619,7 +2275,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 30,
+               "id": 26,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2707,7 +2363,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 31,
+               "id": 27,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2795,7 +2451,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 32,
+               "id": 28,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2933,46 +2589,6 @@
             "name": "service",
             "options": [ ],
             "query": "label_values(kube_service_labels{namespace=\"$namespace\"}, label_app_kubernetes_io_instance)",
-            "refresh": 1,
-            "regex": "",
-            "sort": 0,
-            "tagValuesQuery": "",
-            "tags": [ ],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "current": { },
-            "datasource": "Prometheus",
-            "hide": 0,
-            "includeAll": false,
-            "label": "Celery Task Name",
-            "multi": false,
-            "name": "celery_task_name",
-            "options": [ ],
-            "query": "label_values(celery_tasks_total,name)",
-            "refresh": 1,
-            "regex": "",
-            "sort": 0,
-            "tagValuesQuery": "",
-            "tags": [ ],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "current": { },
-            "datasource": "Prometheus",
-            "hide": 0,
-            "includeAll": false,
-            "label": "Celery Task State",
-            "multi": false,
-            "name": "celery_task_state",
-            "options": [ ],
-            "query": "label_values(celery_tasks_total,state)",
             "refresh": 1,
             "regex": "",
             "sort": 0,
