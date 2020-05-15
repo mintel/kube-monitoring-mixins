@@ -184,7 +184,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     height=200,
     nullPointMode='null',
     span=null,
-    thresholds=null,
+    thresholds=[],
   )::
     graphPanel.new(
       title,
