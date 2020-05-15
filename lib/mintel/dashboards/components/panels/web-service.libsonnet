@@ -10,61 +10,59 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
     };
     layout.grid([
 
-      commonPanels.gauge(
-        title='Instances Up',
-        description='Number of instances running as a percentage (should be 100%)',
-        instant=true,
+      commonPanels.timeseries(
+        title='Workloads Status',
+        description='Percentage of instances up (by workload)',
+        span=4,
+        max=100,
         format='percent',
-        span=2,
-        valueFontSize='50%',
+        legend_show=false,
+        // Fix legendFormat to display deployment/statefulset (needs relabel)
+        thresholds=[
+          {'value': 50,
+          'colorMode': 'critical',
+          'op': 'lt',
+          'fill': true,
+          'line': true
+        }],
+        query=|||
+          sum by (deployment, statefulset)
+            (
+              100 * (kube_deployment_status_replicas_available{namespace=~"$namespace"}) /(kube_deployment_spec_replicas{namespace=~"$namespace"})
+              or
+              100 * (kube_statefulset_status_replicas_ready{namespace=~"$namespace"}) /(kube_statefulset_status_replicas{namespace=~"$namespace"})
+            )
+        ||| % config,
+      ),
+
+      commonPanels.singlestat(
+        title='Incoming Request Volume',
+        description='Requests per second (all http-status)',
+        colorBackground=true,
+        format='rps',
+        sparklineShow=true,
+        span=4,
+        query=|||
+          sum(
+            rate(
+              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
+        ||| % config,
+      ),
+      commonPanels.singlestat(
+        title='Incoming Success Rate',
+        description='Percentage of successful (non http-5xx) requests',
+        colorBackground=true,
+        format='percent',
+        sparklineShow=true,
+        thresholds="99,95",
         colors=[
           '#d44a3a',
           'rgba(237, 129, 40, 0.89)',
           '#299c46',
         ],
+        span=4,
         query=|||
-          100 * min(
-            kube_deployment_status_replicas_available{deployment="%(serviceSelectorValue)s"})
-            without (instance, pod)
-            /
-            max(kube_deployment_spec_replicas{deployment="%(serviceSelectorValue)s"}) 
-           without (instance, pod)
-        ||| % config,
-      ),
-
-      commonPanels.timeseries(
-        title='Instances Running Over Time',
-        description='Number of instances running over time',
-        span=6,
-        legend_show=false,
-        query=|||
-          sum(up{%(serviceSelectorKey)s="%(serviceSelectorValue)s", namespace="$namespace"})
-        ||| % config,
-      ),
-
-      commonPanels.singlestat(
-        title='RPS (Total)',
-        description='Requests per second (all http-status)',
-        colorBackground=true,
-        format='rps',
-        span=2,
-        query=|||
-          sum(
-            rate(
-              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[2m]))
-        ||| % config,
-      ),
-
-      commonPanels.singlestat(
-        title='RPS (Errors)',
-        description='Requests per second (HTTP 500 errors)',
-        colorBackground=true,
-        format='rps',
-        span=2,
-        query=|||
-          sum(
-            rate(
-              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*",code="5xx"}[2m]))
+          100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
         ||| % config,
       ),
 

@@ -15,8 +15,8 @@ local promQuery = import 'components/prom_query.libsonnet';
       yAxisLabel='Time',
       format='s',
       span=span,
-      legend_show=false,
-      height=200,
+      legend_show=true,
+      height=300,
       query=|||
         histogram_quantile(0.95,
           sum(
@@ -66,8 +66,8 @@ local promQuery = import 'components/prom_query.libsonnet';
       yAxisLabel='Time',
       format='s',
       span=span,
-      legend_show=false,
-      height=200,
+      legend_show=true,
+      height=300,
       query=|||
         haproxy:http_backend_request_seconds_quantile:95{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
       ||| % config,
@@ -105,8 +105,8 @@ local promQuery = import 'components/prom_query.libsonnet';
       description='HTTP Responses from HAProxy Ingress for backend %(serviceSelectorValue)s' % config,
       yAxisLabel='Num Responses',
       span=span,
-      legend_show=false,
-      height=200,
+      legend_show=true,
+      height=300,
       query=|||
         sum(
           rate(
