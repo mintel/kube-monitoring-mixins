@@ -497,7 +497,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "HAProxy Responses",
@@ -599,7 +599,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance CPU",
@@ -688,7 +688,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance Memory",

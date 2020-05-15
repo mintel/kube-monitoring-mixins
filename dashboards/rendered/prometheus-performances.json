@@ -143,7 +143,7 @@
                      "refId": "E"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Pod Cpu prometheus container",
@@ -297,7 +297,7 @@
                      "refId": "D"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Pod Memory prometheus container",
@@ -512,7 +512,7 @@
                      "refId": "R"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Failures and Errors",
@@ -636,7 +636,7 @@
                      "refId": "E"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Prometheus GOlang Memory Usage",
@@ -1056,7 +1056,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Head TimeSeries",
@@ -1153,7 +1153,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Head TimeSeries Appended/s",
@@ -1249,7 +1249,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Series Created / Removed",
@@ -1331,7 +1331,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Head Chunks",
@@ -1421,7 +1421,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Head Chunks Ops",
@@ -1503,7 +1503,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Scrape Time worst 10 job/instance",
@@ -1586,7 +1586,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "0.99 percentile of intervals between scrapes",
@@ -1668,7 +1668,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Largest 10 Scrapes job/instance",
@@ -1787,7 +1787,7 @@
                      "refId": "C"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Prometheus Queries",
@@ -1869,7 +1869,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Prometheus Queries ops by slice",
@@ -1951,7 +1951,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Prometheus Queries Latency by slice",
@@ -2049,7 +2049,7 @@
                      "refId": "C"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Rule Groups Latency",
@@ -2131,7 +2131,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Rule Groups Last Duration top 5",
@@ -2209,7 +2209,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "HTTP requests/s",
@@ -2287,7 +2287,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "HTTP requests Latency",
@@ -2365,7 +2365,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Time spent in HTTP Requests/s",
@@ -2461,7 +2461,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Block Size",
@@ -2564,7 +2564,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "File Descriptors",
@@ -2646,7 +2646,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Active Blocks",
@@ -2748,7 +2748,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Reload block data from disk",
@@ -2830,7 +2830,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "WAL Average fsync - 2h",
@@ -2912,7 +2912,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Compaction Average time - 2h",
@@ -3009,7 +3009,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Compactions",
@@ -3099,7 +3099,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Retention Cutoffs",

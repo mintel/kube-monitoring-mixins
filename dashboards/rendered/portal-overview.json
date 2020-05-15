@@ -497,7 +497,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "HAProxy Responses",
@@ -585,7 +585,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "App Requests by Method/View",
@@ -687,7 +687,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance CPU",
@@ -776,7 +776,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Per Instance Memory",
@@ -878,7 +878,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "DB Operations",
@@ -1066,7 +1066,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Celery Events",
@@ -1167,7 +1167,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Connected Clients",
@@ -1255,7 +1255,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Blocked Clients",
@@ -1343,7 +1343,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Connections Received",
@@ -1431,7 +1431,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Operation Rate",
@@ -1519,7 +1519,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Redis Network Out",
@@ -1607,7 +1607,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Redis Network In",
@@ -1695,7 +1695,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Slowlog Events",
@@ -1783,7 +1783,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Operation Rate per Command",
@@ -2047,7 +2047,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Used",
@@ -2135,7 +2135,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Used Rate of Change",
@@ -2223,7 +2223,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Redis RSS Usage",
@@ -2311,7 +2311,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Fragmentation",
@@ -2399,7 +2399,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Expired Keys",
@@ -2487,7 +2487,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Keys Rate of Change",

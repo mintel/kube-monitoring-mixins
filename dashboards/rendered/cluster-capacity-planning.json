@@ -933,7 +933,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Idle CPU",
@@ -1017,7 +1017,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Free",
@@ -1126,7 +1126,7 @@
                      "refId": "C"
                   }
                ],
-               "thresholds": null,
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
                "title": "Ephemeral Disk IO",
