@@ -352,7 +352,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
          "fill": 0,
          "gridPos": {
@@ -440,7 +440,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
          "fill": 0,
          "gridPos": {

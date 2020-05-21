@@ -236,7 +236,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "This graph attempts to show you CPU use of your application vs its requests",
          "fill": 0,
          "gridPos": {
@@ -326,7 +326,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "This graph attempts to show you RAM use of your application vs its requests",
          "fill": 0,
          "gridPos": {
@@ -416,7 +416,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "Traffic in and out of this pod, as a sum of its containers",
          "fill": 1,
          "gridPos": {
@@ -506,7 +506,7 @@
          "dashLength": 10,
          "dashes": false,
          "datasource": "$ds",
-         "decimals": 0,
+         "decimals": 2,
          "description": "Disk read writes",
          "fill": 1,
          "gridPos": {
