@@ -63,7 +63,7 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "decimals": 0,
+               "decimals": 2,
                "description": "Percentage of instances up (by workload)",
                "fill": 0,
                "gridPos": {
@@ -450,7 +450,7 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "decimals": 0,
+               "decimals": 2,
                "description": "HTTP Responses from HAProxy Ingress for backend $deployment",
                "fill": 0,
                "gridPos": {
@@ -552,7 +552,7 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "decimals": 0,
+               "decimals": 2,
                "description": "",
                "fill": 0,
                "gridPos": {
@@ -641,7 +641,7 @@
                "dashLength": 10,
                "dashes": false,
                "datasource": "$ds",
-               "decimals": 0,
+               "decimals": 2,
                "description": "",
                "fill": 0,
                "gridPos": {
