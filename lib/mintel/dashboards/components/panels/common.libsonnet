@@ -166,7 +166,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
   timeseries(
     title='Timeseries',
     description='',
-    decimals=0,
+    decimals=2,
     query='',
     legendFormat='',
     fill=0,
