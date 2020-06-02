@@ -2,6 +2,7 @@
 
 (import './alerts/blackbox.libsonnet') +
 (import './alerts/elasticsearch.libsonnet') +
+(import './alerts/external-dns.libsonnet') +
 (import './alerts/haproxy-ingress.libsonnet') +
 (import './alerts/image-service.libsonnet') +
 (import './alerts/git-sync.libsonnet') +
