@@ -212,7 +212,7 @@
             "$__all"
           ]
         },
-        "datasource": "prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(contour_eventhandler_operation_total, op)",
         "hide": 0,
         "includeAll": true,
@@ -261,7 +261,7 @@
             "$__all"
           ]
         },
-        "datasource": "prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(contour_eventhandler_operation_total, kind)",
         "hide": 0,
         "includeAll": true,
