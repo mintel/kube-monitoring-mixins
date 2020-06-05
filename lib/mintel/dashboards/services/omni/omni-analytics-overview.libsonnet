@@ -6,7 +6,7 @@ local link = grafana.link;
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
 local backendService = import 'components/panels/backend-service.libsonnet';
-//local omniAnalytics = import 'analytics.libsonnet';
+local omniAnalytics = import 'analytics.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
 
 // Dashboard settings
@@ -54,10 +54,10 @@ local dashboardTags = ['omni'];
         row.new('Overview', height=5)
         .addPanels(backendService.overview())
       )
-      //.addRow(
-      //  row.new('Analytics', height=5)
-      //  .addPanels(omniAnalytics.overview())
-     // )
+      .addRow(
+        row.new('Analytics', height=5)
+        .addPanels(omniAnalytics.latencyTimeseries())
+      )
       .addRow(
         row.new('Resources')
         .addPanels(containerResources.containerResourcesPanel("$service"))
