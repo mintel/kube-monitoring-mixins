@@ -65,8 +65,12 @@ local dashboardTags = ['omni'];
         .addPanels(backendService.overview())
       )
       .addRow(
-        row.new('Analytics', height=5)
-        .addPanels(omniAnalytics.latencyTimeseries())
+        row.new('API Service', height=5)
+        .addPanels(omniAnalytics.apiServiceLatency())
+      )
+      .addRow(
+        row.new('ES Responses', height=5)
+        .addPanels(omniAnalytics.elasticSearchResponses())
       )
       .addRow(
         row.new('Resources')
