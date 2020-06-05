@@ -347,7 +347,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "Percentile Latency For Analytics API Server",
+               "description": "Percentile Latency For Analytics API Service",
                "fill": 0,
                "gridPos": {
                   "h": 10,
@@ -412,7 +412,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "API Server Latency",
+               "title": "API Service Latency",
                "tooltip": {
                   "shared": true,
                   "sort": 2,

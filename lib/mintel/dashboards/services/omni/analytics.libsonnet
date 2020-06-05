@@ -12,8 +12,8 @@ local promQuery = import 'components/prom_query.libsonnet';
     layout.grid([
 
     commonPanels.latencyTimeseries(
-      title='API Server Latency',
-      description='Percentile Latency For Analytics API Server',
+      title='API Service Latency',
+      description='Percentile Latency For Analytics API Service',
       yAxisLabel='Time',
       format='s',
       legend_show=true,
