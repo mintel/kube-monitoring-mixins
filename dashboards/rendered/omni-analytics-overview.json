@@ -338,6 +338,125 @@
       {
          "collapse": false,
          "collapsed": false,
+         "height": 5,
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "Percentile Latency For Analytics API Server",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
+               },
+               "height": 300,
+               "id": 5,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "connected",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 12,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_request_duration_seconds_bucket{namespace=\"$namespace\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p95 {{ service }}/{{ analytics_type }}",
+                     "refId": "A"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_request_duration_seconds_bucket{namespace=\"$namespace\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p75 {{ service }}/{{ analytics_type }}",
+                     "refId": "B"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_request_duration_seconds_bucket{namespace=\"$namespace\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p50 {{ service }}/{{ analytics_type }}",
+                     "refId": "C"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "API Server Latency",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "s",
+                     "label": "Time",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Analytics",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
          "panels": [
             {
                "aliasColors": { },
@@ -355,7 +474,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 5,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -444,7 +563,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 6,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
