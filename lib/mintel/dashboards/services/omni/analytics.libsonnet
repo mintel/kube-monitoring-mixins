@@ -23,7 +23,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         histogram_quantile(0.95,
           sum(
             rate(
-              http_request_duration_seconds_bucket{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
+              http_request_duration_seconds_bucket{namespace="$namespace", analytics_type=~"$analytics_type", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
         by (service, analytics_type, le))
       ||| % config,
       legendFormat='p95 {{ %(serviceSelectorKey)s }}/{{ analytics_type }}' % (config),
@@ -35,7 +35,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.75,
           sum(
             rate(
-              http_request_duration_seconds_bucket{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
+              http_request_duration_seconds_bucket{namespace="$namespace", analytics_type=~"$analytics_type", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
           by (service, analytics_type, le))
         ||| % config,
         legendFormat='p75 {{ %(serviceSelectorKey)s }}/{{ analytics_type }}' % (config),
@@ -48,7 +48,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.50,
           sum(
             rate(
-              http_request_duration_seconds_bucket{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
+              http_request_duration_seconds_bucket{namespace="$namespace", analytics_type=~"$analytics_type", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
           by (service, analytics_type, le))
         ||| % config,
         legendFormat='p50 {{ %(serviceSelectorKey)s }}/{{ analytics_type }}' % (config),

@@ -49,7 +49,17 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
-
+      .addTemplate(grafana.template.new(
+        'analytics_type',
+        'Prometheus',
+        'label_values(http_request_duration_seconds_count{namespace="omni"}, analytics_type)',
+        label='Analytics Type',
+        refresh='time',
+        allValues='.*',
+        current='',
+        includeAll=true,
+        multi=true,
+      ))
       .addRow(
         row.new('Overview', height=5)
         .addPanels(backendService.overview())
