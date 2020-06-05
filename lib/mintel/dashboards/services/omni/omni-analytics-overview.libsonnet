@@ -16,7 +16,7 @@ local dashboardFile = 'omni-analytics-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/' + std.md5(dashboardFile);
-local dashboardWorkloadLink = '/d/fixme';
+local dashboardWorkloadLink = '/d/a164a7f0339f99e89cea5cb47e9be617';
 
 local dashboardTags = ['omni'];
 // End dashboard settings
