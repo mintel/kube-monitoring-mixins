@@ -218,7 +218,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\n",
+                     "expr": "sum(\n  rate(\n    http_request_duration_seconds_count{namespace=\"$namespace\", service=\"$service\"}[$__interval]))\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -304,7 +304,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service=\"$namespace-$service\"}\n",
+                     "expr": "100 - (\n  sum by (service, app_mintel_com_owner)\n    (\n      rate(http_request_duration_seconds_count{namespace=\"$namespace\", service=\"$service\", status_code=~\"5..\"}[$__interval])\n          or 0 * up{namespace=\"$namespace\", service=\"$service\"}\n    )\n\n  /\n  sum by (service, app_mintel_com_owner)\n    (\n      rate(http_request_duration_seconds_count{namespace=\"$namespace\", service=\"$service\"}[$__interval])\n        or 0 * up{namespace=\"$namespace\", service=\"$service\"}\n    )\n) * 100\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
