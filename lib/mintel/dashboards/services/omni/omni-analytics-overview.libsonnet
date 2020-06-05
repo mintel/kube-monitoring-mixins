@@ -5,7 +5,7 @@ local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
-local webService = import 'components/panels/web-service.libsonnet';
+local backendService = import 'components/panels/backend-service.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Omni Analytics';
@@ -50,7 +50,7 @@ local dashboardTags = ['omni'];
 
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(webService.overview())
+        .addPanels(backendService.overview())
       )
   },
 }
