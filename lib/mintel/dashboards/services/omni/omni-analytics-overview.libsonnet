@@ -5,9 +5,10 @@ local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
+local containerResources = import 'components/panels/container_resources.libsonnet';
 local backendService = import 'components/panels/backend-service.libsonnet';
 local omniAnalytics = import 'analytics.libsonnet';
-local containerResources = import 'components/panels/container_resources.libsonnet';
+
 
 // Dashboard settings
 local dashboardTitle = 'Omni Analytics';

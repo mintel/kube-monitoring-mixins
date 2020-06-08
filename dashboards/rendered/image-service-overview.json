@@ -556,7 +556,7 @@
                "description": "",
                "fill": 0,
                "gridPos": {
-                  "h": 200,
+                  "h": 10,
                   "w": 12,
                   "x": 0,
                   "y": 1000
@@ -645,7 +645,7 @@
                "description": "",
                "fill": 0,
                "gridPos": {
-                  "h": 200,
+                  "h": 10,
                   "w": 12,
                   "x": 12,
                   "y": 1000
@@ -680,7 +680,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment-.*\", container=\"main\"}) by (pod)\n",
+                     "expr": "container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment.*\", container=\"main\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
