@@ -1256,6 +1256,45 @@ spec:
       labels:
         page: "true"
         severity: critical
+  - name: cert-manager.alerts
+    rules:
+    - alert: CertManagerCertificateExpireSoon
+      annotations:
+        description: Cert Manager managed certificate for {{ $labels.namespace }}/{{
+          $labels.name }} will expire in less then 29 days
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
+        summary: Certificate managed by Cert-Manager will expire soon in less then
+          29 days
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+        - time() < 2506000
+      for: 60m
+      labels:
+        severity: warning
+    - alert: CertManagerCertificateExpireSoon
+      annotations:
+        description: Cert Manager managed certificate for {{ $labels.namespace }}/{{
+          $labels.name }} will expire in less then 14 days
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
+        summary: Certificate managed by Cert-Manager will expire soon in less then
+          14 days
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+        - time() < 1210000
+      for: 60m
+      labels:
+        page: "true"
+        severity: critical
+    - alert: CertManagerCertificateNotReady
+      annotations:
+        description: Cert Manager certificate for {{ $labels.namespace }}/{{ $labels.name
+          }} has not reached Ready status in 60 minutes
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateNotReady
+        summary: Certificate managed by Cert-Manager has not reached Ready Status
+          in 60 minutes
+      expr: certmanager_certificate_ready_status{job="cert-manager",condition="True"}
+        == 0
+      for: 60m
+      labels:
+        severity: warning
   - name: elasticsearch.alerts
     rules:
     - alert: ElasticsearchOperatorReconcileErrors
@@ -1445,9 +1484,20 @@ spec:
         description: External DNS Last Sync is very Old
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ExternalDNS.md#ExternalDnsLastSyncOld
         summary: External DNS Last Sync is very Old
-      expr: time() - external_dns_controller_last_sync_timestamp_seconds{job="external-dns"}
-        > 90
+      expr: (time() - external_dns_controller_last_sync_timestamp_seconds{job="external-dns"}
+        > 90) or external_dns_controller_last_sync_timestamp_seconds{job="external-dns"}
+        == 0
       for: 10m
+      labels:
+        severity: warning
+    - alert: ExternalDnsRegistryErrorsIncrease
+      annotations:
+        description: External DNS registry Errors increasing constantly
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ExternalDNS.md#ExternalDnsRegistryErrorsIncrease
+        summary: External DNS registry Errors increasing constantly
+      expr: increase(external_dns_registry_errors_total{job="external-dns"}[5m]) >
+        0
+      for: 30m
       labels:
         severity: warning
   - name: haproxy-ingress.alerts
