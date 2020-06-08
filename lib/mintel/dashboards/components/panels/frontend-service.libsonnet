@@ -1,5 +1,4 @@
 local layout = import 'components/layout.libsonnet';
-local commonPanels = import 'components/panels/common.libsonnet';
 local haproxyPanels = import 'components/panels/haproxy.libsonnet';
 local workloadPanels = import 'components/panels/workloads.libsonnet';
 

@@ -161,8 +161,4 @@ local promQuery = import 'components/prom_query.libsonnet';
         100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
       ||| % config,
     ),
-
-
-
-
 }
