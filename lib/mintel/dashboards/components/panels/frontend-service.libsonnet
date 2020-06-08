@@ -35,36 +35,7 @@ local haproxyPanels = import 'components/panels/haproxy.libsonnet';
         ||| % config,
       ),
 
-      commonPanels.singlestat(
-        title='Incoming Request Volume',
-        description='Requests per second (all http-status)',
-        colorBackground=true,
-        format='rps',
-        sparklineShow=true,
-        span=4,
-        query=|||
-          sum(
-            rate(
-              haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
-        ||| % config,
-      ),
-      commonPanels.singlestat(
-        title='Incoming Success Rate',
-        description='Percentage of successful (non http-5xx) requests',
-        colorBackground=true,
-        format='percent',
-        sparklineShow=true,
-        thresholds="99,95",
-        colors=[
-          '#d44a3a',
-          'rgba(237, 129, 40, 0.89)',
-          '#299c46',
-        ],
-        span=4,
-        query=|||
-          100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
-        ||| % config,
-      ),
-
+      haproxyPanels.httpBackendRequestsPerSecond(config.serviceSelectorKey, config.serviceSelectorValue),
+      haproxyPanels.httpBackendSuccessRatioPercentage(config.serviceSelectorKey, config.serviceSelectorValue),
     ], cols=12, rowHeight=10, startRow=startRow),
 }
