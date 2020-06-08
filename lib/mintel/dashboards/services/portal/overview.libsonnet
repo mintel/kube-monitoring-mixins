@@ -9,6 +9,7 @@ local redis = import 'components/panels/redis.libsonnet';
 local django = import 'components/panels/django.libsonnet';
 local celery = import 'components/panels/celery.libsonnet';
 local webService = import 'components/panels/web-service.libsonnet';
+local containerResources = import 'components/panels/container_resources.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Portal';
@@ -61,7 +62,7 @@ local dashboardTags = ['portal'];
       )
       .addRow(
         row.new('Resources')
-        .addPanels(django.resourcePanels())  
+        .addPanels(containerResources.containerResourcesPanel("$service"))
       )
       .addRow(
         row.new('Database', collapse=true)
