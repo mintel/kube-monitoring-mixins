@@ -7,7 +7,7 @@ local annotations = import 'components/annotations.libsonnet';
 
 local templates = import 'components/templates.libsonnet';
 local thumbor = import 'components/panels/thumbor.libsonnet';
-local webService = import 'components/panels/web-service.libsonnet';
+local webService = import 'components/panels/frontend-service.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
 
 // Dashboard settings
