@@ -1995,7 +1995,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxdaemongeneralsyncerror
         summary: General Flux Daemon sync error
       expr: delta(flux_daemon_sync_duration_seconds_count{job="flux",success="true"}[6m])
-        < 1
+        < 1 or absent(flux_daemon_sync_duration_seconds_count{job="flux",success="true"})
       for: 120m
       labels:
         severity: warning
