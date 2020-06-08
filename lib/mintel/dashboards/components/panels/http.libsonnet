@@ -15,7 +15,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       query=|||
         sum(
           rate(
-            http_request_duration_seconds_count{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
+            http_requests_total{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval]))
       ||| % config,
     ),
 
@@ -39,20 +39,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       ],
       span=4,
       query=|||
-        100 - (
-          sum by (service, app_mintel_com_owner)
-            (
-              rate(http_request_duration_seconds_count{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s", status_code=~"5.."}[$__interval])
-                  or 0 * up{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}
-            )
-
-          /
-          sum by (service, app_mintel_com_owner)
-            (
-              rate(http_request_duration_seconds_count{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}[$__interval])
-                or 0 * up{namespace="$namespace", %(serviceSelectorKey)s="%(serviceSelectorValue)s"}
-            )
-        ) * 100
+        100 - mintel:http_error_rate:percentage:1m{%(serviceSelectorKey)s="%(serviceSelectorValue)s"}
       ||| % config,
     ),
 }
