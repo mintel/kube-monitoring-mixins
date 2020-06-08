@@ -1,6 +1,7 @@
 (import './config.libsonnet') +
 
 (import './alerts/blackbox.libsonnet') +
+(import './alerts/cert-manager.libsonnet') +
 (import './alerts/elasticsearch.libsonnet') +
 (import './alerts/external-dns.libsonnet') +
 (import './alerts/haproxy-ingress.libsonnet') +
