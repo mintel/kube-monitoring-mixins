@@ -4,7 +4,7 @@ local httpPanels = import 'components/panels/http.libsonnet';
 
 {
 
-  overview(segitrviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
+  overview(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
