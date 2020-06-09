@@ -42,6 +42,7 @@ local template = grafana.template;
     current=current,
     hide=hide,
   ),
+
   app_service:: template.new(
     'service',
     'Prometheus',
