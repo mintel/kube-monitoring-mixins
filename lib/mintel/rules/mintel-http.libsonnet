@@ -18,7 +18,7 @@
           {
             expr: |||
               histogram_quantile(%(quantile)s,
-                sum without(instnace, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+                sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
               )
             ||| % quantile,
             record: std.format('mintel:http_request_duration_seconds_quantile:%s', std.substr(quantile, 2, 2)),

@@ -382,22 +382,22 @@ spec:
       record: mintel:http_error_rate:percentage:1m
     - expr: |
         histogram_quantile(0.50,
-          sum without(instnace, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
         )
       record: mintel:http_request_duration_seconds_quantile:50
     - expr: |
         histogram_quantile(0.75,
-          sum without(instnace, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
         )
       record: mintel:http_request_duration_seconds_quantile:75
     - expr: |
         histogram_quantile(0.95,
-          sum without(instnace, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
         )
       record: mintel:http_request_duration_seconds_quantile:95
     - expr: |
         histogram_quantile(0.99,
-          sum without(instnace, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
         )
       record: mintel:http_request_duration_seconds_quantile:99
   - name: node-exporter

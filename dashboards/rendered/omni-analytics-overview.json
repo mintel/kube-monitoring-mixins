@@ -385,7 +385,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      http_request_duration_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:95{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -393,7 +393,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    http_request_duration_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:75{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -401,7 +401,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    http_request_duration_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:50{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
