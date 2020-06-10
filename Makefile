@@ -8,31 +8,50 @@ RENDERED_RULES="rules"
 
 all: install dashboards rules test
 
+CONTAINER_CMD:=docker run --rm -it \
+	-u="$(shell id -u):$(shell id -g)" \
+	-v $$(pwd):/src/satoshi/kube-monitoring-mixins/ \
+	--workdir /src/satoshi/kube-monitoring-mixins \
+	mintel/satoshi-gitops-ci:0.13.0
+
 clean:
+	$(CONTAINER_CMD) make _clean
+rules:
+	$(CONTAINER_CMD) make _rules
+dashboards:
+	$(CONTAINER_CMD) make _dashboards
+test:
+	$(CONTAINER_CMD) make _test
+install:
+	$(CONTAINER_CMD) make _install
+diff:
+	$(CONTAINER_CMD) make _diff
+
+_clean:
 	# Remove all files and directories ignored by git.
 	git clean -Xfd .
 
-rules:
+_rules:
 	@mkdir -p $(RENDERED_RULES)
 	@rm -f $(RENDERED_RULES)/*.yaml
 	$(JSONNET_CMD) -m $(RENDERED_RULES) prometheus-rules.jsonnet \
 		| xargs -I{} sh -c 'cat {} \
 		| gojsontoyaml > {}.yaml; rm -f {}' -- {}
 
-dashboards:
+_dashboards:
 	@mkdir -p $(RENDERED_DASHBOARDS)/rendered
 	@rm -rf $(RENDERED_DASHBOARDS)/rendered/*.json
 	$(JSONNET_CMD) -J lib/mintel/dashboards -m $(RENDERED_DASHBOARDS)/rendered dashboards.jsonnet
 
-test:
+_test:
 	@cd tests; \
 	bash_unit -f tap *
 
-install:
+_install:
 	$(JSONNETBUNDLERCMD) install
 
-diff: install dashboards rules
+_diff: install dashboards rules
 	@git status
 	git --no-pager diff --exit-code dashboards rules
 
-.PHONY: clean install rules dashboards diff test
+.PHONY: _clean _install _rules _dashboards _diff _test clean install rules dashboards diff test
