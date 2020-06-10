@@ -44,20 +44,6 @@
             },
           },
           {
-            alert: 'TargetIsDown',
-            annotations: {
-              description: 'Target {{$labels.target}} has been down for 5 minutes according to {{ $value }}% of Blackbox probes',
-              summary: 'Target {{$labels.target}} is down',
-              runbook_url: '%(runBookBaseURL)s/core/TargetIsDown.md' % $._config,
-
-            },
-            expr: '100 * count by (target,job,app_mintel_com_owner) (up{job="blackbox"} == 0) / blackbox_node_count >= 50',
-            'for': '5m',
-            labels: {
-              severity: 'critical',
-            },
-          },
-          {
             alert: 'TargetSSLCertExpireNear',
             annotations: {
               description: 'Target {{$labels.target}} SSL Certificate is due to expire in less than 29 days',
