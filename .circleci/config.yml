@@ -3,13 +3,13 @@ version: 2.1
 jobs:
   diff-golden:
     docker:
-    - image: mintel/satoshi-gitops-ci:latest
+    - image: mintel/satoshi-gitops-ci:0:13.0
     steps:
     - checkout
     - run:
         name: Run Golden Tests
         command: |
-          make diff 
+          make _diff 
   unit-tests:
     docker:
     - image: mintel/satoshi-gitops-ci:latest
@@ -18,7 +18,7 @@ jobs:
     - run:
         name: Unit Tests
         command: |
-          make test
+          make _test
 workflows:
   version: 2
   ci:
