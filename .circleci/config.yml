@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   diff-golden:
     docker:
-    - image: mintel/satoshi-gitops-ci:0:13.0
+    - image: mintel/satoshi-gitops-ci:0.13.0
     steps:
     - checkout
     - run:
