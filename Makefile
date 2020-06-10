@@ -50,7 +50,7 @@ _test:
 _install:
 	$(JSONNETBUNDLERCMD) install
 
-_diff: install dashboards rules
+_diff: _install _dashboards _rules
 	@git status
 	git --no-pager diff --exit-code dashboards rules
 
