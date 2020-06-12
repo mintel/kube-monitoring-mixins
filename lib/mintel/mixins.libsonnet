@@ -1,6 +1,7 @@
 (import './config.libsonnet') +
 
 (import './alerts/blackbox.libsonnet') +
+(import './alerts/cert-manager.libsonnet') +
 (import './alerts/elasticsearch.libsonnet') +
 (import './alerts/external-dns.libsonnet') +
 (import './alerts/haproxy-ingress.libsonnet') +
@@ -30,4 +31,5 @@
 (import './rules/mintel-overcommit.libsonnet') +
 (import './rules/mintel-pod.libsonnet') +
 (import './rules/mintel-web-frontend.libsonnet') +
+(import './rules/mintel-http.libsonnet') +
 (import './dashboards/dashboards.libsonnet')

@@ -11,7 +11,7 @@
               summary: 'General Flux Daemon sync error',
               runbook_url: '%(runBookBaseURL)s/core/flux.md#fluxdaemongeneralsyncerror' % $._config,
             },
-            expr: 'delta(flux_daemon_sync_duration_seconds_count{%(fluxJobSelector)s,success="true"}[%(fluxDeltaIntervalMinutes)sm]) < 1' % $._config,
+            expr: 'delta(flux_daemon_sync_duration_seconds_count{%(fluxJobSelector)s,success="true"}[%(fluxDeltaIntervalMinutes)sm]) < 1 or absent(flux_daemon_sync_duration_seconds_count{%(fluxJobSelector)s,success="true"})' % $._config,
             'for': '120m',
             labels: {
               severity: 'warning',
