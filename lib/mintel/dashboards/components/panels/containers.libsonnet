@@ -25,7 +25,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             alias: '/Requested - .*/',
             color: '#73BF69',
             fill: 1,
-            zindex: -2,
+            zindex: -1,
           },
           {
             alias: '/Current - .*/',
@@ -34,13 +34,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             zindex: 1,
           },
           {
-            alias: '/Current rate .*/',
-            color: '#FADE2A',
-            fill: 0,
-            zindex: 0,
-          },
-          {
-            alias: '/Current irate .*/',
+            alias: '/Current rate 1m .*/',
             color: '#B877D9',
             fill: 0,
             zindex: 1,
@@ -51,7 +45,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
             yaxis: 2,
             bars: true,
             lines: false,
-            zindex: 2,
+            zindex: -2,
             color: 'rgb(232, 0, 4)',
             nullPointMode: 'null as zero',
           },

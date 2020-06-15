@@ -65,7 +65,7 @@
                      "alias": "/Requested - .*/",
                      "color": "#73BF69",
                      "fill": 1,
-                     "zindex": -2
+                     "zindex": -1
                   },
                   {
                      "alias": "/Current - .*/",
@@ -74,13 +74,7 @@
                      "zindex": 1
                   },
                   {
-                     "alias": "/Current rate .*/",
-                     "color": "#FADE2A",
-                     "fill": 0,
-                     "zindex": 0
-                  },
-                  {
-                     "alias": "/Current irate .*/",
+                     "alias": "/Current rate 1m .*/",
                      "color": "#B877D9",
                      "fill": 0,
                      "linewidth": 1,
@@ -93,7 +87,7 @@
                      "lines": false,
                      "nullPointMode": "null as zero",
                      "yaxis": 2,
-                     "zindex": 2
+                     "zindex": -2
                   }
                ],
                "spaceLength": 10,
@@ -227,7 +221,7 @@
                      "alias": "/Requested - .*/",
                      "color": "#73BF69",
                      "fill": 1,
-                     "zindex": -2
+                     "zindex": -1
                   },
                   {
                      "alias": "/Current - .*/",
@@ -236,13 +230,7 @@
                      "zindex": 1
                   },
                   {
-                     "alias": "/Current rate .*/",
-                     "color": "#FADE2A",
-                     "fill": 0,
-                     "zindex": 0
-                  },
-                  {
-                     "alias": "/Current irate .*/",
+                     "alias": "/Current rate 1m .*/",
                      "color": "#B877D9",
                      "fill": 0,
                      "linewidth": 1,
@@ -255,7 +243,7 @@
                      "lines": false,
                      "nullPointMode": "null as zero",
                      "yaxis": 2,
-                     "zindex": 2
+                     "zindex": -2
                   }
                ],
                "spaceLength": 10,
@@ -402,7 +390,7 @@
                      "alias": "/Requested - .*/",
                      "color": "#73BF69",
                      "fill": 1,
-                     "zindex": -2
+                     "zindex": -1
                   },
                   {
                      "alias": "/Current - .*/",
@@ -411,13 +399,7 @@
                      "zindex": 1
                   },
                   {
-                     "alias": "/Current rate .*/",
-                     "color": "#FADE2A",
-                     "fill": 0,
-                     "zindex": 0
-                  },
-                  {
-                     "alias": "/Current irate .*/",
+                     "alias": "/Current rate 1m .*/",
                      "color": "#B877D9",
                      "fill": 0,
                      "linewidth": 1,
@@ -430,7 +412,7 @@
                      "lines": false,
                      "nullPointMode": "null as zero",
                      "yaxis": 2,
-                     "zindex": 2
+                     "zindex": -2
                   }
                ],
                "spaceLength": 10,
@@ -564,7 +546,7 @@
                      "alias": "/Requested - .*/",
                      "color": "#73BF69",
                      "fill": 1,
-                     "zindex": -2
+                     "zindex": -1
                   },
                   {
                      "alias": "/Current - .*/",
@@ -573,13 +555,7 @@
                      "zindex": 1
                   },
                   {
-                     "alias": "/Current rate .*/",
-                     "color": "#FADE2A",
-                     "fill": 0,
-                     "zindex": 0
-                  },
-                  {
-                     "alias": "/Current irate .*/",
+                     "alias": "/Current rate 1m .*/",
                      "color": "#B877D9",
                      "fill": 0,
                      "linewidth": 1,
@@ -592,7 +568,7 @@
                      "lines": false,
                      "nullPointMode": "null as zero",
                      "yaxis": 2,
-                     "zindex": 2
+                     "zindex": -2
                   }
                ],
                "spaceLength": 10,
