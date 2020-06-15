@@ -5,6 +5,7 @@ local row = grafana.row;
 local templates = import 'components/templates.libsonnet';
 local containers = import 'components/panels/containers.libsonnet';
 local haproxy = import 'components/panels/haproxy.libsonnet';
+local contour = import 'components/panels/contour-envoy.libsonnet';
 local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 
@@ -26,6 +27,9 @@ local dashboardTags = ['contour', 'haproxy', 'performace', 'comparison'];
   grafanaDashboards+:: {
     local haproxyResources = containers.podResourcesRow('ingress-controller', 'haproxy-ingress-.*', 'haproxy', title='Haproxy', interval='5m'),
     local envoyResources = containers.podResourcesRow('ingress-controller', 'envoy-.*', 'envoy', title='Contour Envoy', interval='5m'),
+    local clusterSelector = '${namespace}_${deployment}_[0-9]+',
+    local haproxyInterval = '5m',
+    local envoyInterval = '5m',
 
     [std.format('%s', dashboardFile)]:
       dashboard.new(
@@ -47,7 +51,7 @@ local dashboardTags = ['contour', 'haproxy', 'performace', 'comparison'];
       )
       .addRow(
         row.new('Workload Resources')
-        .addPanels(containers.podResourcesRow('$namespace', '$deployment.*', '.*', title='$deployment', interval='5m'))
+        .addPanels(containers.podResourcesRow('$namespace', '$deployment.*', '.*', title='$deployment', interval=haproxyInterval))
       )
       .addRow(
         row.new('Haproxy Performances')
@@ -63,19 +67,22 @@ local dashboardTags = ['contour', 'haproxy', 'performace', 'comparison'];
             query=|||
               sum(
                 rate(
-                  haproxy_backend_http_responses_total{backend=~"$namespace-.*$deployment.*"}[5m]
+                  haproxy_backend_http_responses_total{backend=~"$namespace-.*$deployment.*"}[%(interval)s]
                 )
               ) by (code)
-            |||,
+            ||| % { interval: haproxyInterval },
             legendFormat='{{ code }}',
             intervalFactor=2,
           )
         )
-        .addPanel(haproxy.latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='$deployment', interval='5m', span=6))
+        .addPanel(haproxy.latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='$deployment', interval=haproxyInterval, span=6))
+      )
+      .addRow(
+        row.new('Envoy Performances')
+        .addPanels([
+          contour.clusterResponsesTimeseries(clusterSelector, interval=envoyInterval, span=6),
+          contour.clusterLatencyTimeseries(clusterSelector, interval=envoyInterval, span=6),
+        ])
       ),
-    //.addRow(
-    //  row.new('Envoy Performances')
-    //  .addPanels()
-    //),
   },
 }
