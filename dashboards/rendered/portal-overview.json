@@ -218,7 +218,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service.*\"}[$__interval]))\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -489,7 +489,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$service.*\"}[$__interval]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
