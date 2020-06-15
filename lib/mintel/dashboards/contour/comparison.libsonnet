@@ -4,6 +4,9 @@ local row = grafana.row;
 
 local templates = import 'components/templates.libsonnet';
 local containers = import 'components/panels/containers.libsonnet';
+local haproxy = import 'components/panels/haproxy.libsonnet';
+local commonPanels = import 'components/panels/common.libsonnet';
+local promQuery = import 'components/prom_query.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Haproxy Contour Comparison';
@@ -41,19 +44,38 @@ local dashboardTags = ['contour', 'haproxy', 'performace', 'comparison'];
       .addRow(
         row.new('Ingress Resources')
         .addPanels([haproxyResources[0], envoyResources[0], haproxyResources[1], envoyResources[1]])
+      )
+      .addRow(
+        row.new('Workload Resources')
+        .addPanels(containers.podResourcesRow('$namespace', '$deployment.*', '.*', title='$deployment', interval='5m'))
+      )
+      .addRow(
+        row.new('Haproxy Performances')
+        .addPanel(
+          commonPanels.timeseries(
+            title='HAProxy Responses /s',
+            description='Haproxy Total Responses',
+            yAxisLabel='Num Responses/s',
+            format='reqps',
+            span=6,
+            legend_show=true,
+            height=300,
+            query=|||
+              sum(
+                rate(
+                  haproxy_backend_http_responses_total{backend=~"$namespace-.*$deployment.*"}[5m]
+                )
+              ) by (code)
+            |||,
+            legendFormat='{{ code }}',
+            intervalFactor=2,
+          )
+        )
+        .addPanel(haproxy.latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='$deployment', interval='5m', span=6))
       ),
     //.addRow(
-    //  row.new('Request / Response')
-    //  .addPanels(thumbor.requestResponsePanels())
-    //)
-    //.addRow(
-    //  row.new('Resources')
-    //  .addPanels(containerResources.containerResourcesPanel('$deployment'))
-    //)
-    //.addRow(
-    //  row.new('Storage')
-    //  .addPanels(thumbor.storagePanels())
+    //  row.new('Envoy Performances')
+    //  .addPanels()
     //),
-
   },
 }

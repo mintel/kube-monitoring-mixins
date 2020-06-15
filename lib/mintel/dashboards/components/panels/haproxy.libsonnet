@@ -21,7 +21,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         histogram_quantile(0.95,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s.*"}[%(interval)s]))
         by (backend,job,le))
       ||| % config,
       legendFormat='p95 {{ backend }}',
@@ -33,7 +33,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.75,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s.*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p75 {{ backend }}',
@@ -46,7 +46,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.50,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s.*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p50 {{ backend }}',
@@ -110,7 +110,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]
+            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s.*"}[%(interval)s]
           )
         ) by (code)
       ||| % config,
@@ -134,7 +134,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
+            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s.*"}[$__interval]))
       ||| % config,
     ),
 
