@@ -33,7 +33,7 @@ local template = grafana.template;
     regex='/.*="(.*)".*/',
     sort=0,
   ),
-  namespace(current, hide=false):: template.new(
+  namespace(current, hide=''):: template.new(
     'namespace',
     'Prometheus',
     'label_values(kube_pod_container_info,namespace)',
@@ -71,56 +71,56 @@ local template = grafana.template;
     label='Celery Task State',
     refresh='load',
   ),
-  cost_discount(current, hide=false):: template.custom(
+  cost_discount(current, hide=''):: template.custom(
     'costDiscount',
     current,
     current=current,
     label='Disc.',
     hide=hide,
   ),
-  cost_cpu(current, hide=false):: template.custom(
+  cost_cpu(current, hide=''):: template.custom(
     'costcpu',
     current,
     current=current,
     label='CPU',
     hide=hide,
   ),
-  cost_pcpu(current, hide=false):: template.custom(
+  cost_pcpu(current, hide=''):: template.custom(
     'costpcpu',
     current,
     current=current,
     label='PE CPU',
     hide=hide,
   ),
-  cost_storage_ssd(current, hide=false):: template.custom(
+  cost_storage_ssd(current, hide=''):: template.custom(
     'costStorageSSD',
     current,
     current=current,
     label='SSD',
     hide=hide,
   ),
-  cost_storage_standard(current, hide=false):: template.custom(
+  cost_storage_standard(current, hide=''):: template.custom(
     'costStorageStandard',
     current,
     current=current,
     label='Storage',
     hide=hide,
   ),
-  cost_ram(current, hide=false):: template.custom(
+  cost_ram(current, hide=''):: template.custom(
     'costram',
     current,
     current=current,
     label='RAM',
     hide=hide,
   ),
-  cost_pram(current, hide=false):: template.custom(
+  cost_pram(current, hide=''):: template.custom(
     'costpram',
     current,
     current=current,
     label='PE RAM',
     hide=hide,
   ),
-  cost_namespace(current, hide=false):: template.new(
+  cost_namespace(current, hide=''):: template.new(
     'namespace',
     'Prometheus',
     'query_result(sum(container_memory_working_set_bytes{namespace!=""}) by (namespace))',
@@ -129,7 +129,7 @@ local template = grafana.template;
     label='NS',
     refresh='load',
   ),
-  cost_pod(current, hide=false):: template.new(
+  cost_pod(current, hide=''):: template.new(
     'pod',
     'Prometheus',
     'query_result(sum(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name))',
@@ -138,7 +138,7 @@ local template = grafana.template;
     label='Pod',
     refresh='load',
   ),
-  unaccounted_node_storage(current, hide=false):: template.custom(
+  unaccounted_node_storage(current, hide=''):: template.custom(
     'unaccountedNodeStorage',
     current,
     current=current,

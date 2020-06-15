@@ -6,4 +6,5 @@
 (import './cost-analysis/cost-analysis-by-cluster.libsonnet') +
 (import './cost-analysis/cost-analysis-by-namespace.libsonnet') +
 (import './cost-analysis/cost-analysis-by-pod.libsonnet') +
+(import './contour/comparison.libsonnet') +
 (import './prometheus/performance.libsonnet')

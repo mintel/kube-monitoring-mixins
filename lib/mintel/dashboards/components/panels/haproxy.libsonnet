@@ -150,7 +150,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       colorBackground=true,
       format='percent',
       sparklineShow=true,
-      thresholds="99,95",
+      thresholds='99,95',
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
