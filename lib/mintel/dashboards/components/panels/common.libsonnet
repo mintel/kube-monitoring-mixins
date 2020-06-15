@@ -284,6 +284,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     min=0,
     height=200,
     span=null,
+    nullPointMode='connected',
   )::
     graphPanel.new(
       title,
@@ -304,7 +305,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       legend_hideEmpty=true,
       height=height,
       span=span,
-      nullPointMode='connected'
+      nullPointMode=nullPointMode
     )
     .addTarget(promQuery.target(query, legendFormat=legendFormat, interval=interval, intervalFactor=intervalFactor))
     .resetYaxes()

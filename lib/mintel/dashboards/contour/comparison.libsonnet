@@ -47,7 +47,7 @@ local dashboardTags = ['contour', 'haproxy', 'performace', 'comparison'];
       .addTemplate(templates.app_deployment)
       .addRow(
         row.new('Ingress Resources')
-        .addPanels([haproxyResources[0], envoyResources[0], haproxyResources[1], envoyResources[1]])
+        .addPanels([haproxyResources[0], envoyResources[0]])
       )
       .addRow(
         row.new('Workload Resources')
