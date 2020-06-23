@@ -32,4 +32,5 @@
 (import './rules/mintel-pod.libsonnet') +
 (import './rules/mintel-web-frontend.libsonnet') +
 (import './rules/mintel-http.libsonnet') +
+(import './rules/slislo.libsonnet') +
 (import './dashboards/dashboards.libsonnet')
