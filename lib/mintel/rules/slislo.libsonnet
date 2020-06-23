@@ -43,7 +43,8 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
       {
         record: const.sli_ingress_responses_total_rate_metric_name,
         expr: |||
-          sum by (%(responses_total_rate_sum_by_labels)s) (rate(%(responses_total_metric_name)s{%(responses_total_exclude_selector)s}[%(interval)s]))
+          sum by (%(responses_total_rate_sum_by_labels)s)
+            (rate(%(responses_total_metric_name)s{%(responses_total_exclude_selector)s,job="%(job_name)s"}[%(interval)s]))
         ||| % const[type],
         labels+: {
           rate_interval: const[type].interval,
