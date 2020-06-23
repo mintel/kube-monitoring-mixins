@@ -436,6 +436,30 @@ spec:
         rate_interval: 1m
         scope: sli_slo
       record: sli:ingress:backend_responses_total_by_code:ratio_rate
+    - expr: |
+        label_replace(
+          sum by( job, ingress_type, backend )
+            ( sli:ingress:backend_responses_total_by_code:ratio_rate{code="5xx",job="haproxy-exporter"} ),
+          "backend_service",
+          "$1",
+          "backend",
+          "(.*)"
+        )
+      labels:
+        scope: sli_slo
+      record: sli:ingress:backend_responses_errors:ratio_rate
+    - expr: |
+        label_replace(
+          sum by( job, ingress_type, envoy_cluster_name )
+            ( sli:ingress:backend_responses_total_by_code:ratio_rate{envoy_response_code_class="5",job="contour-ingress"} ),
+          "backend_service",
+          "$1",
+          "envoy_cluster_name",
+          "(.*)"
+        )
+      labels:
+        scope: sli_slo
+      record: sli:ingress:backend_responses_errors:ratio_rate
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
