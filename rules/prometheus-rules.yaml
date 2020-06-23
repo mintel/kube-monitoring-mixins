@@ -403,19 +403,39 @@ spec:
   - name: slislo.rules
     rules:
     - expr: |
-        sum by (job, code, backend) (rate(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)"}[2m]))
+        sum by (job, code, backend, pod) (rate(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)"}[2m]))
       labels:
         ingress_type: haproxy
         rate_interval: 2m
         scope: sli_slo
-      record: ingress:backend_responses_total:rate
+      record: sli:ingress:backend_responses_total_by_code:rate
     - expr: |
-        sum by (job, envoy_response_code_class, envoy_cluster_name) (rate(envoy_cluster_upstream_rq_xx{}[1m]))
+        sum by (job, envoy_response_code_class, envoy_cluster_name, pod) (rate(envoy_cluster_upstream_rq_xx{envoy_cluster_name!~"(ingress-controller_contour_8001)"}[1m]))
       labels:
         ingress_type: contour
         rate_interval: 1m
         scope: sli_slo
-      record: ingress:backend_responses_total:rate
+      record: sli:ingress:backend_responses_total_by_code:rate
+    - expr: |
+        sum by ( job, ingress_type, backend, code )
+          ( sli:ingress:backend_responses_total_by_code:rate{job="haproxy-exporter"} )
+        /
+        ignoring( code ) group_left()
+          sum by( job, ingress_type, backend ) ( sli:ingress:backend_responses_total_by_code:rate{job="haproxy-exporter"} )
+      labels:
+        rate_interval: 2m
+        scope: sli_slo
+      record: sli:ingress:backend_responses_total_by_code:ratio_rate
+    - expr: |
+        sum by ( job, ingress_type, envoy_cluster_name, envoy_response_code_class )
+          ( sli:ingress:backend_responses_total_by_code:rate{job="contour-ingress"} )
+        /
+        ignoring( envoy_response_code_class ) group_left()
+          sum by( job, ingress_type, envoy_cluster_name ) ( sli:ingress:backend_responses_total_by_code:rate{job="contour-ingress"} )
+      labels:
+        rate_interval: 1m
+        scope: sli_slo
+      record: sli:ingress:backend_responses_total_by_code:ratio_rate
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
