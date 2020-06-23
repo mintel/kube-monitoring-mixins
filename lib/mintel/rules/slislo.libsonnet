@@ -3,6 +3,7 @@ local const = {
   sli_ingress_responses_total_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
   sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_ratio_by_code:rate',
   sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
+  sli_ingress_responses_latency_rate_metric_name: 'sli:ingress:backend_responses_latency_seconds:rate',
   sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_latency_seconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
   common_service_label: 'backend_service',
@@ -117,44 +118,62 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
 ////////////////////
 
 
-// Main Recording rule for measuring latency percentiles of requests, normalized to include the common service label
+// Recording rule for rate of latency of requests to be used to calculate quantiles, normalized to include the common service label
 //
-local generate_sli_ingress_latency_precentile_recording_rule(type) =
+local generate_sli_ingress_latency_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
-      [{
-        record: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
+      {
+        record: const.sli_ingress_responses_latency_rate_metric_name,
         expr: |||
           label_replace(
-            histogram_quantile(%(quantile)s,
-              sum (
-                rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s])
-              ) by (%(service_label)s, job, le)
-            ),
+            sum (
+              rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s])
+            ) by (%(service_label)s, job, le),
             "%(common_service_label)s",
             "$1",
             "%(service_label)s",
             "(.*)"
           )
         ||| % (const[type] {
-                 sli_ingress_responses_latency_percentile_metric_name: const.sli_ingress_responses_latency_percentile_metric_name,
-                 quantile: quantile,
                  common_service_label: const.common_service_label,
                }),
         labels+: {
           scope: 'sli_slo',
           rate_interval: const[type].interval,
-          quantile: quantile,
+          ingress_type: type,
         },
-      } for quantile in const.sli_quantiles]
+      }
     else [{}]
+  );
+
+// Recording rule for percentile of latency of requests, normalized to seconds
+//
+local generate_sli_ingress_latency_precentile_recording_rule() =
+  (
+    [{
+      record: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
+      expr: |||
+        histogram_quantile(%(quantile)s,
+          %(sli_ingress_responses_latency_rate_metric_name)s{}
+        )
+      ||| % {
+        sli_ingress_responses_latency_rate_metric_name: const.sli_ingress_responses_latency_rate_metric_name,
+        quantile: quantile,
+      },
+      labels+: {
+        scope: 'sli_slo',
+        quantile: quantile,
+      },
+    } for quantile in const.sli_quantiles]
   );
 
 ////////////////////
 // Jsonnet Rules  //
 ////////////////////
 {
-  prometheusRules+:: {
+  //prometheusRules+:: {
+  prometheusRules+: {
     groups+: [
       {
         name: 'slislo.rules',
@@ -166,9 +185,11 @@ local generate_sli_ingress_latency_precentile_recording_rule(type) =
                  generate_sli_ingress_responses_total_ratio_rate_recording_rule('contour'),
                  generate_sli_ingress_responses_errors_percentage_rate_recording_rule('haproxy'),
                  generate_sli_ingress_responses_errors_percentage_rate_recording_rule('contour'),
+                 generate_sli_ingress_latency_rate_recording_rule('haproxy'),
+                 generate_sli_ingress_latency_rate_recording_rule('contour'),
                ] +
-               generate_sli_ingress_latency_precentile_recording_rule('haproxy') +
-               generate_sli_ingress_latency_precentile_recording_rule('contour'),
+               generate_sli_ingress_latency_precentile_recording_rule(),
+        //generate_sli_ingress_latency_precentile_recording_rule('contour'),
       },
     ],
   },
