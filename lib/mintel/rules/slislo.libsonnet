@@ -3,6 +3,8 @@ local const = {
   sli_ingress_responses_total_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
   sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_ratio_by_code:rate',
   sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
+  sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
+  sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
   common_service_label: 'backend_service',
   haproxy: {
     job_name: 'haproxy-exporter',
@@ -11,7 +13,7 @@ local const = {
     responses_total_exclude_selector: 'backend!~"(error|stats|.*default-backend)"',
     responses_total_error_label: 'code',
     responses_total_error_value: '5xx',
-    responses_total_rate_sum_by_labels: 'job, code, backend, pod',
+    responses_total_rate_sum_by_labels: 'job, code, backend',
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
     interval: '2m',
@@ -23,7 +25,7 @@ local const = {
     responses_total_exclude_selector: 'envoy_cluster_name!~"(ingress-controller_contour_8001)"',
     responses_total_error_label: 'envoy_response_code_class',
     responses_total_error_value: '5',
-    responses_total_rate_sum_by_labels: 'job, envoy_response_code_class, envoy_cluster_name, pod',
+    responses_total_rate_sum_by_labels: 'job, envoy_response_code_class, envoy_cluster_name',
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
     interval: '1m',
@@ -108,6 +110,22 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
 ////////////////////
 // Latency Rules  //
 ////////////////////
+
+
+// Main Recording rule for measuring latency percentiles of requests
+//
+// local generate_sli_ingress_latency_precentile_recording_rule(type) =
+//  (
+//    if type == 'haproxy' || type == 'contour' then
+//      {
+//        histogram_quantile(
+//
+//        )
+//      }
+//
+//    else {}
+//  );
+//histogram_quantile(%(quantile)s,sum (rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)"}[1m])) by (backend,job,le))
 
 
 ////////////////////

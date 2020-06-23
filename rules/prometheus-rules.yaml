@@ -403,7 +403,7 @@ spec:
   - name: slislo.rules
     rules:
     - expr: |
-        sum by (job, code, backend, pod)
+        sum by (job, code, backend)
           (rate(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)",job="haproxy-exporter"}[2m]))
       labels:
         ingress_type: haproxy
@@ -411,7 +411,7 @@ spec:
         scope: sli_slo
       record: sli:ingress:backend_responses_total_by_code:rate
     - expr: |
-        sum by (job, envoy_response_code_class, envoy_cluster_name, pod)
+        sum by (job, envoy_response_code_class, envoy_cluster_name)
           (rate(envoy_cluster_upstream_rq_xx{envoy_cluster_name!~"(ingress-controller_contour_8001)",job="contour-ingress"}[1m]))
       labels:
         ingress_type: contour
