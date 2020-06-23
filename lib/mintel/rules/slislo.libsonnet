@@ -1,8 +1,8 @@
 // Configuration for different Ingress Controller / Metrics sources
 local const = {
   sli_ingress_responses_total_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
-  sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:ratio_rate',
-  sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors:ratio_rate',
+  sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_ratio_by_code:rate',
+  sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
   common_service_label: 'backend_service',
   haproxy: {
     job_name: 'haproxy-exporter',
@@ -33,7 +33,7 @@ local const = {
 // Generate the Top Level recording rules for SLI on backend responses based on the ingress type
 local generate_sli_ingress_responses_total_rate_recording_rule(type) =
   (
-    // requires jsonnet 0.15 if std.member(['haproxy', 'contour'], type) then
+    // requires jsonnet 0.15 to use // if std.member(['haproxy', 'contour'], type) then
     if type == 'haproxy' || type == 'contour' then
       {
         record: const.sli_ingress_responses_total_rate_metric_name,
@@ -79,6 +79,7 @@ local generate_sli_ingress_responses_errors_ratio_rate_recording_rule(type) =
         record: const.sli_ingress_responses_errors_ratio_rate_metric_name,
         expr: |||
           label_replace(
+            100 *
             sum by( %(responses_errors_ratio_rate_sum_by_labels)s )
               ( %(sli_ingress_responses_total_ratio_rate_metric_name)s{%(responses_total_error_label)s="%(responses_total_error_value)s",job="%(job_name)s"} ),
             "%(common_service_label)s",
