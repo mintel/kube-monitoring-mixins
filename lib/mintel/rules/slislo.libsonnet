@@ -3,31 +3,33 @@ local const = {
   sli_ingress_responses_total_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
   sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_ratio_by_code:rate',
   sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
-  sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
+  sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_latency_seconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
   common_service_label: 'backend_service',
   haproxy: {
     job_name: 'haproxy-exporter',
     service_label: 'backend',
     responses_total_metric_name: 'haproxy_backend_http_responses_total',
-    responses_total_exclude_selector: 'backend!~"(error|stats|.*default-backend)"',
+    responses_exclude_selector: 'backend!~"(error|stats|.*default-backend)"',
     responses_total_error_label: 'code',
     responses_total_error_value: '5xx',
     responses_total_rate_sum_by_labels: 'job, code, backend',
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
+    responses_latency_duration_metric_name: 'http_backend_request_duration_seconds_bucket',
     interval: '2m',
   },
   contour: {
     job_name: 'contour-ingress',
     service_label: 'envoy_cluster_name',
     responses_total_metric_name: 'envoy_cluster_upstream_rq_xx',
-    responses_total_exclude_selector: 'envoy_cluster_name!~"(ingress-controller_contour_8001)"',
+    responses_exclude_selector: 'envoy_cluster_name!~"(ingress-controller_contour_8001)"',
     responses_total_error_label: 'envoy_response_code_class',
     responses_total_error_value: '5',
     responses_total_rate_sum_by_labels: 'job, envoy_response_code_class, envoy_cluster_name',
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
+    responses_latency_duration_metric_name: 'envoy_cluster_upstream_rq_time_bucket',
     interval: '1m',
   },
 };
@@ -46,11 +48,12 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
         record: const.sli_ingress_responses_total_rate_metric_name,
         expr: |||
           sum by (%(responses_total_rate_sum_by_labels)s)
-            (rate(%(responses_total_metric_name)s{%(responses_total_exclude_selector)s,job="%(job_name)s"}[%(interval)s]))
+            (rate(%(responses_total_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s]))
         ||| % const[type],
         labels+: {
           rate_interval: const[type].interval,
           ingress_type: type,
+          scope: 'sli_slo',
         },
       }
     else {}
@@ -72,6 +75,7 @@ local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
         ||| % (const[type] { sli_ingress_responses_total_rate_metric_name: const.sli_ingress_responses_total_rate_metric_name }),
         labels+: {
           rate_interval: const[type].interval,
+          scope: 'sli_slo',
         },
       }
     else {}
@@ -101,6 +105,7 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
                }),
         labels+: {
           rate_interval: const[type].interval,
+          scope: 'sli_slo',
         },
       }
     else {}
@@ -112,46 +117,58 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
 ////////////////////
 
 
-// Main Recording rule for measuring latency percentiles of requests
+// Main Recording rule for measuring latency percentiles of requests, normalized to include the common service label
 //
-// local generate_sli_ingress_latency_precentile_recording_rule(type) =
-//  (
-//    if type == 'haproxy' || type == 'contour' then
-//      {
-//        histogram_quantile(
-//
-//        )
-//      }
-//
-//    else {}
-//  );
-//histogram_quantile(%(quantile)s,sum (rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)"}[1m])) by (backend,job,le))
-
+local generate_sli_ingress_latency_precentile_recording_rule(type) =
+  (
+    if type == 'haproxy' || type == 'contour' then
+      [{
+        record: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
+        expr: |||
+          label_replace(
+            histogram_quantile(%(quantile)s,
+              sum (
+                rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s])
+              ) by (%(service_label)s, job, le)
+            ),
+            "%(common_service_label)s",
+            "$1",
+            "%(service_label)s",
+            "(.*)"
+          )
+        ||| % (const[type] {
+                 sli_ingress_responses_latency_percentile_metric_name: const.sli_ingress_responses_latency_percentile_metric_name,
+                 quantile: quantile,
+                 common_service_label: const.common_service_label,
+               }),
+        labels+: {
+          scope: 'sli_slo',
+          rate_interval: const[type].interval,
+          quantile: quantile,
+        },
+      } for quantile in const.sli_quantiles]
+    else [{}]
+  );
 
 ////////////////////
 // Jsonnet Rules  //
 ////////////////////
 {
-  // Common Specs to all rules
-  common:: {
-    labels+: {
-      scope: 'sli_slo',
-    },
-  },
-
   prometheusRules+:: {
     groups+: [
       {
         name: 'slislo.rules',
         rules: [
-          // Common Recording Rules
-          generate_sli_ingress_responses_total_rate_recording_rule('haproxy') + $.common,
-          generate_sli_ingress_responses_total_rate_recording_rule('contour') + $.common,
-          generate_sli_ingress_responses_total_ratio_rate_recording_rule('haproxy') + $.common,
-          generate_sli_ingress_responses_total_ratio_rate_recording_rule('contour') + $.common,
-          generate_sli_ingress_responses_errors_percentage_rate_recording_rule('haproxy') + $.common,
-          generate_sli_ingress_responses_errors_percentage_rate_recording_rule('contour') + $.common,
-        ],
+                 // Common Recording Rules
+                 generate_sli_ingress_responses_total_rate_recording_rule('haproxy'),
+                 generate_sli_ingress_responses_total_rate_recording_rule('contour'),
+                 generate_sli_ingress_responses_total_ratio_rate_recording_rule('haproxy'),
+                 generate_sli_ingress_responses_total_ratio_rate_recording_rule('contour'),
+                 generate_sli_ingress_responses_errors_percentage_rate_recording_rule('haproxy'),
+                 generate_sli_ingress_responses_errors_percentage_rate_recording_rule('contour'),
+               ] +
+               generate_sli_ingress_latency_precentile_recording_rule('haproxy') +
+               generate_sli_ingress_latency_precentile_recording_rule('contour'),
       },
     ],
   },
