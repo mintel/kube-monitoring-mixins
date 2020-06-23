@@ -446,6 +446,7 @@ spec:
           "(.*)"
         )
       labels:
+        rate_interval: 2m
         scope: sli_slo
       record: sli:ingress:backend_responses_errors:ratio_rate
     - expr: |
@@ -458,6 +459,7 @@ spec:
           "(.*)"
         )
       labels:
+        rate_interval: 1m
         scope: sli_slo
       record: sli:ingress:backend_responses_errors:ratio_rate
   - name: node-exporter

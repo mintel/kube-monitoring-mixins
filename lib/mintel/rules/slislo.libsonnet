@@ -90,6 +90,9 @@ local generate_sli_ingress_responses_errors_ratio_rate_recording_rule(type) =
                  sli_ingress_responses_total_ratio_rate_metric_name: const.sli_ingress_responses_total_ratio_rate_metric_name,
                  common_service_label: const.common_service_label,
                }),
+        labels+: {
+          rate_interval: const[type].interval,
+        },
       }
     else {}
 
