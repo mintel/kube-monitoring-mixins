@@ -72,7 +72,7 @@ local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
 
 // Generate Errors ratio metrics
 // Normalize Labels to include common service label
-local generate_sli_ingress_responses_errors_ratio_rate_recording_rule(type) =
+local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
       {
@@ -119,8 +119,8 @@ local generate_sli_ingress_responses_errors_ratio_rate_recording_rule(type) =
           generate_sli_ingress_responses_total_rate_recording_rule('contour') + $.common,
           generate_sli_ingress_responses_total_ratio_rate_recording_rule('haproxy') + $.common,
           generate_sli_ingress_responses_total_ratio_rate_recording_rule('contour') + $.common,
-          generate_sli_ingress_responses_errors_ratio_rate_recording_rule('haproxy') + $.common,
-          generate_sli_ingress_responses_errors_ratio_rate_recording_rule('contour') + $.common,
+          generate_sli_ingress_responses_errors_percentage_rate_recording_rule('haproxy') + $.common,
+          generate_sli_ingress_responses_errors_percentage_rate_recording_rule('contour') + $.common,
         ],
       },
     ],
