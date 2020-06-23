@@ -30,7 +30,12 @@ local const = {
   },
 };
 
-// Generate the Top Level recording rules for SLI on backend responses based on the ingress type
+////////////////////
+// Requests Rules //
+////////////////////
+
+// Main Recording rule for measuring Rate of requests by code
+// sli:ingress:backend_responses_total_by_code:rate{backend="sandbox-podinfo-http",code="5xx",ingress_type="haproxy",job="haproxy-exporter",pod="haproxy-ingress-98d465f5-klsxf",rate_interval="2m",scope="sli_slo"}
 local generate_sli_ingress_responses_total_rate_recording_rule(type) =
   (
     // requires jsonnet 0.15 to use // if std.member(['haproxy', 'contour'], type) then
@@ -48,8 +53,8 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
     else {}
   );
 
-// Generate By Code ratio metrics
-// If the metrics set of the rate rule change then the ignore in this rule will need to be updated
+// Recording rule to measure Ratio of rate of requests by code / total of requests
+// sli:ingress:backend_responses_ratio_by_code:rate{backend="sandbox-podinfo-http",code="5xx",ingress_type="haproxy",job="haproxy-exporter",rate_interval="2m",scope="sli_slo"}
 local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
@@ -70,8 +75,8 @@ local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
 
   );
 
-// Generate Errors ratio metrics
-// Normalize Labels to include common service label
+// Recording rule to measure percentage rate of errors (5xx) , normalized to include the common service label
+// sli:ingress:backend_responses_errors_percentage:rate{backend="sandbox-podinfo-http",backend_service="sandbox-podinfo-http",ingress_type="haproxy",job="haproxy-exporter",rate_interval="2m",scope="sli_slo"}
 local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
@@ -99,8 +104,14 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
 
   );
 
+////////////////////
+// Latency Rules  //
+////////////////////
 
-// Generate Recording Rules
+
+////////////////////
+// Jsonnet Rules  //
+////////////////////
 {
   // Common Specs to all rules
   common:: {
