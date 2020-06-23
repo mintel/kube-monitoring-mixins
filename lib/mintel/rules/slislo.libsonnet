@@ -11,7 +11,7 @@ local const = {
     responses_total_metric_name: 'envoy_cluster_upstream_rq_xx',
     responses_total_exclude_selector: '',
     responses_total_error_selector: 'envoy_response_code_class="5"',
-    responses_total_rate_sum_by_labels: 'job, envoy_response_code_class, cluster_name',
+    responses_total_rate_sum_by_labels: 'job, envoy_response_code_class, envoy_cluster_name',
     interval: '1m',
   },
 };
@@ -21,26 +21,19 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
   (
     local rule = {
       record: const.sli_ingress_responses_total_rate_metric_name,
+      labels+: {
+        ingress_type: type,
+      },
     };
 
-    if type == 'haproxy' then
+    // requires jsonnet 0.15 if std.member(['haproxy', 'contour'], type) then
+    if type == 'haproxy' || type == 'contour' then
       rule {
         expr: |||
           sum by (%(responses_total_rate_sum_by_labels)s) (rate(%(responses_total_metric_name)s{%(responses_total_exclude_selector)s}[%(interval)s]))
-        ||| % const.haproxy,
+        ||| % const[type],
         labels+: {
-          rate_interval: const.haproxy.interval,
-          ingress_type: type,
-        },
-      }
-    else if type == 'contour' then
-      rule {
-        expr: |||
-          sum by (%(responses_total_rate_sum_by_labels)s) (rate(%(responses_total_metric_name)s{%(responses_total_exclude_selector)s}[%(interval)s]))
-        ||| % const.contour,
-        labels+: {
-          rate_interval: const.contour.interval,
-          ingress_type: type,
+          rate_interval: const[type].interval,
         },
       }
     else {}
