@@ -601,6 +601,38 @@ spec:
         quantile: "0.99"
         scope: sli_slo
       record: sli:ingress:backend_responses_duration_milliseconds:pctl99
+    - expr: |
+        sli:ingress:backend_responses_errors_percentage:rate{ingress_type="haproxy", backend_service="image-service-dev-image-service-app-8000"} < bool 1
+      labels:
+        ingress_type: haproxy
+        namespace: image-service
+        port: "8000"
+        scope: sli_slo
+        service: dev-image-service-app
+        service_id: dev_image_service_haproxy
+      record: slo:ingress:backend_responses_errors:ok
+    - expr: |
+        sli:ingress:backend_responses_duration_milliseconds:pctl99{ingress_type="haproxy", backend_service="image-service-dev-image-service-app-8000"} < bool 500
+      labels:
+        ingress_type: haproxy
+        namespace: image-service
+        port: "8000"
+        scope: sli_slo
+        service: dev-image-service-app
+        service_id: dev_image_service_haproxy
+      record: slo:ingress:backend_responses_latency:ok
+    - expr: |
+        slo:ingress:backend_responses_errors:ok
+        *
+        slo:ingress:backend_responses_latency:ok
+      labels:
+        ingress_type: haproxy
+        namespace: image-service
+        port: "8000"
+        scope: sli_slo
+        service: dev-image-service-app
+        service_id: dev_image_service_haproxy
+      record: slo:ingress:backend_responses_combined:ok
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp

@@ -6,9 +6,13 @@ local const = {
   sli_ingress_responses_latency_rate_metric_name: 'ingress:backend_responses_duration_milliseconds:rate',
   sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_duration_milliseconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
+  slo_ingress_responses_errors_threshold_metric_name: 'slo:ingress:backend_responses_errors:ok',
+  slo_ingress_responses_latency_threshold_metric_name: 'slo:ingress:backend_responses_latency:ok',
+  slo_ingress_responses_combined_metric_name: 'slo:ingress:backend_responses_combined:ok',
   common_service_label: 'backend_service',
   haproxy: {
     job_selector: 'job=~"haproxy-(exporter|fluentd)"',
+    service_name_format: '%s-%s-%s',
     service_label: 'backend',
     responses_total_metric_name: 'haproxy_backend_http_responses_total',
     responses_exclude_selector: 'backend!~"(error|stats|.*default-backend)"',
@@ -23,6 +27,7 @@ local const = {
   },
   contour: {
     job_selector: 'job="contour-ingress"',
+    service_name_format: '%s_%s_%s',
     service_label: 'envoy_cluster_name',
     responses_total_metric_name: 'envoy_cluster_upstream_rq_xx',
     responses_exclude_selector: 'envoy_cluster_name!~"(ingress-controller_contour_8001)"',
@@ -172,10 +177,85 @@ local generate_sli_ingress_latency_precentile_recording_rule(type) =
     } for quantile in const.sli_quantiles]
   );
 
+
+// Recording rule to generate SLO Compliance metrics
+local generate_slo_compliance_recording_rules(id, o) =
+  (
+    // Validate object o
+    assert std.objectHas(o, 'backend');
+    assert std.objectHas(o, 'slo');
+    assert std.objectHas(o.backend, 'type');
+    assert std.objectHas(o.backend, 'namespace');
+    assert std.objectHas(o.backend, 'service');
+    assert std.objectHas(o.backend, 'port');
+    assert std.objectHas(o.slo, 'slo_target_percentage');
+    assert std.objectHas(o.slo, 'slo_target_time_window_days');
+    assert std.objectHas(o.slo, 'error_ratio_threshold');
+    assert std.objectHas(o.slo, 'latency_percentile');
+    assert std.objectHas(o.slo, 'latency_threshold_milliseconds');
+
+    local common_labels = {
+      scope: 'sli_slo',
+      service_id: id,
+      ingress_type: o.backend.type,
+      namespace: o.backend.namespace,
+      service: o.backend.service,
+      port: o.backend.port,
+    };
+
+    local service_name = std.format(const[o.backend.type].service_name_format, [o.backend.namespace, o.backend.service, o.backend.port]);
+
+    local slo_error_ratio_rule = {
+      record: const.slo_ingress_responses_errors_threshold_metric_name,
+      labels+: common_labels,
+      expr: |||
+        %(sli_ingress_responses_errors_ratio_rate_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(error_ratio_threshold)s
+      ||| % ({
+               sli_ingress_responses_errors_ratio_rate_metric_name: const.sli_ingress_responses_errors_ratio_rate_metric_name,
+               type: o.backend.type,
+               service_name: service_name,
+               error_ratio_threshold: o.slo.error_ratio_threshold,
+             }),
+    };
+    local slo_latency_rule = {
+      record: const.slo_ingress_responses_latency_threshold_metric_name,
+      labels+: common_labels,
+      expr: |||
+        %(sli_ingress_responses_latency_percentile_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(latency_threshold_milliseconds)s
+      ||| % ({
+               sli_ingress_responses_latency_percentile_metric_name: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, o.slo.latency_percentile]),
+               type: o.backend.type,
+               service_name: service_name,
+               latency_threshold_milliseconds: o.slo.latency_threshold_milliseconds,
+             }),
+    };
+    local slo_combined_rule = {
+      record: const.slo_ingress_responses_combined_metric_name,
+      labels+: common_labels,
+      expr: |||
+        %(slo_ingress_responses_errors_threshold_metric_name)s
+        *
+        %(slo_ingress_responses_latency_threshold_metric_name)s
+      ||| % ({
+               slo_ingress_responses_latency_threshold_metric_name: const.slo_ingress_responses_latency_threshold_metric_name,
+               slo_ingress_responses_errors_threshold_metric_name: const.slo_ingress_responses_errors_threshold_metric_name,
+             }),
+    };
+
+
+    // Return list of rules
+    [slo_error_ratio_rule, slo_latency_rule, slo_combined_rule]
+  );
+
 ////////////////////
 // Jsonnet Rules  //
 ////////////////////
 {
+  // Define the service SLI and SLO
+  _config+: {
+    sli_slo: {},
+  },
+
   //prometheusRules+:: {
   prometheusRules+: {
     groups+: [
@@ -193,7 +273,8 @@ local generate_sli_ingress_latency_precentile_recording_rule(type) =
                  generate_sli_ingress_latency_rate_recording_rule('contour'),
                ] +
                generate_sli_ingress_latency_precentile_recording_rule('haproxy') +
-               generate_sli_ingress_latency_precentile_recording_rule('contour'),
+               generate_sli_ingress_latency_precentile_recording_rule('contour') +
+               std.flattenArrays([generate_slo_compliance_recording_rules(id, $._config.sli_slo[id]) for id in std.objectFields($._config.sli_slo)]),
       },
     ],
   },
