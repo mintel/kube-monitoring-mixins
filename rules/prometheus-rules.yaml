@@ -419,7 +419,7 @@ spec:
     rules:
     - expr: |
         sum by (job, code, backend)
-          (rate(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)",job="haproxy-exporter"}[2m]))
+          (rate(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)", job=~"haproxy-(exporter|fluentd)"}[2m]))
       labels:
         ingress_type: haproxy
         rate_interval: 2m
@@ -427,7 +427,7 @@ spec:
       record: ingress:backend_responses_total_by_code:rate
     - expr: |
         sum by (job, envoy_response_code_class, envoy_cluster_name)
-          (rate(envoy_cluster_upstream_rq_xx{envoy_cluster_name!~"(ingress-controller_contour_8001)",job="contour-ingress"}[1m]))
+          (rate(envoy_cluster_upstream_rq_xx{envoy_cluster_name!~"(ingress-controller_contour_8001)", job="contour-ingress"}[1m]))
       labels:
         ingress_type: contour
         rate_interval: 1m
@@ -435,10 +435,10 @@ spec:
       record: ingress:backend_responses_total_by_code:rate
     - expr: |
         sum by ( job, ingress_type, backend, code )
-          ( ingress:backend_responses_total_by_code:rate{job="haproxy-exporter"} )
+          ( ingress:backend_responses_total_by_code:rate{job=~"haproxy-(exporter|fluentd)"} )
         /
         ignoring( code ) group_left()
-          sum by( job, ingress_type, backend ) ( ingress:backend_responses_total_by_code:rate{job="haproxy-exporter"} )
+          sum by( job, ingress_type, backend ) ( ingress:backend_responses_total_by_code:rate{job=~"haproxy-(exporter|fluentd)"} )
       labels:
         rate_interval: 2m
         scope: sli_slo
@@ -457,7 +457,7 @@ spec:
         label_replace(
           100 *
           sum by( job, ingress_type, backend )
-            ( ingress:backend_responses_ratio_by_code:rate{code="5xx",job="haproxy-exporter"} ),
+            ( ingress:backend_responses_ratio_by_code:rate{code="5xx", job=~"haproxy-(exporter|fluentd)"} ),
           "backend_service",
           "$1",
           "backend",
@@ -471,7 +471,7 @@ spec:
         label_replace(
           100 *
           sum by( job, ingress_type, envoy_cluster_name )
-            ( ingress:backend_responses_ratio_by_code:rate{envoy_response_code_class="5",job="contour-ingress"} ),
+            ( ingress:backend_responses_ratio_by_code:rate{envoy_response_code_class="5", job="contour-ingress"} ),
           "backend_service",
           "$1",
           "envoy_cluster_name",
@@ -485,7 +485,7 @@ spec:
         label_replace(
           1000 *
           sum (
-            rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)",job="haproxy-exporter"}[2m])
+            rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)", job=~"haproxy-(exporter|fluentd)"}[2m])
           ) by (backend, job, le),
           "backend_service",
           "$1",
@@ -496,12 +496,12 @@ spec:
         ingress_type: haproxy
         rate_interval: 2m
         scope: sli_slo
-      record: ingress:backend_responses_latency_seconds:rate
+      record: ingress:backend_responses_duration_milliseconds:rate
     - expr: |
         label_replace(
           1 *
           sum (
-            rate(envoy_cluster_upstream_rq_time_bucket{envoy_cluster_name!~"(ingress-controller_contour_8001)",job="contour-ingress"}[1m])
+            rate(envoy_cluster_upstream_rq_time_bucket{envoy_cluster_name!~"(ingress-controller_contour_8001)", job="contour-ingress"}[1m])
           ) by (envoy_cluster_name, job, le),
           "backend_service",
           "$1",
@@ -512,47 +512,47 @@ spec:
         ingress_type: contour
         rate_interval: 1m
         scope: sli_slo
-      record: ingress:backend_responses_latency_seconds:rate
+      record: ingress:backend_responses_duration_milliseconds:rate
     - expr: |
         histogram_quantile(0.50,
-          ingress:backend_responses_latency_seconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{}
         )
       labels:
         quantile: "0.50"
         scope: sli_slo
-      record: sli:ingress:backend_responses_latency_seconds:pctl50
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl50
     - expr: |
         histogram_quantile(0.75,
-          ingress:backend_responses_latency_seconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{}
         )
       labels:
         quantile: "0.75"
         scope: sli_slo
-      record: sli:ingress:backend_responses_latency_seconds:pctl75
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl75
     - expr: |
         histogram_quantile(0.90,
-          ingress:backend_responses_latency_seconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{}
         )
       labels:
         quantile: "0.90"
         scope: sli_slo
-      record: sli:ingress:backend_responses_latency_seconds:pctl90
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl90
     - expr: |
         histogram_quantile(0.95,
-          ingress:backend_responses_latency_seconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{}
         )
       labels:
         quantile: "0.95"
         scope: sli_slo
-      record: sli:ingress:backend_responses_latency_seconds:pctl95
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl95
     - expr: |
         histogram_quantile(0.99,
-          ingress:backend_responses_latency_seconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{}
         )
       labels:
         quantile: "0.99"
         scope: sli_slo
-      record: sli:ingress:backend_responses_latency_seconds:pctl99
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl99
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp

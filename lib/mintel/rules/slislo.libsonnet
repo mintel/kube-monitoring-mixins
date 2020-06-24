@@ -3,12 +3,12 @@ local const = {
   sli_ingress_responses_total_rate_metric_name: 'ingress:backend_responses_total_by_code:rate',
   sli_ingress_responses_total_ratio_rate_metric_name: 'ingress:backend_responses_ratio_by_code:rate',
   sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
-  sli_ingress_responses_latency_rate_metric_name: 'ingress:backend_responses_latency_seconds:rate',
-  sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_latency_seconds:pctl',
+  sli_ingress_responses_latency_rate_metric_name: 'ingress:backend_responses_duration_milliseconds:rate',
+  sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_duration_milliseconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
   common_service_label: 'backend_service',
   haproxy: {
-    job_name: 'haproxy-exporter',
+    job_selector: 'job=~"haproxy-(exporter|fluentd)"',
     service_label: 'backend',
     responses_total_metric_name: 'haproxy_backend_http_responses_total',
     responses_exclude_selector: 'backend!~"(error|stats|.*default-backend)"',
@@ -22,7 +22,7 @@ local const = {
     interval: '2m',
   },
   contour: {
-    job_name: 'contour-ingress',
+    job_selector: 'job="contour-ingress"',
     service_label: 'envoy_cluster_name',
     responses_total_metric_name: 'envoy_cluster_upstream_rq_xx',
     responses_exclude_selector: 'envoy_cluster_name!~"(ingress-controller_contour_8001)"',
@@ -51,7 +51,7 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
         record: const.sli_ingress_responses_total_rate_metric_name,
         expr: |||
           sum by (%(responses_total_rate_sum_by_labels)s)
-            (rate(%(responses_total_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s]))
+            (rate(%(responses_total_metric_name)s{%(responses_exclude_selector)s, %(job_selector)s}[%(interval)s]))
         ||| % const[type],
         labels+: {
           rate_interval: const[type].interval,
@@ -71,10 +71,10 @@ local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
         record: const.sli_ingress_responses_total_ratio_rate_metric_name,
         expr: |||
           sum by ( %(responses_total_ratio_rate_sum_by_labels)s, %(responses_total_error_label)s )
-            ( %(sli_ingress_responses_total_rate_metric_name)s{job="%(job_name)s"} )
+            ( %(sli_ingress_responses_total_rate_metric_name)s{%(job_selector)s} )
           /
           ignoring( %(responses_total_error_label)s ) group_left()
-            sum by( %(responses_total_ratio_rate_sum_by_labels)s ) ( %(sli_ingress_responses_total_rate_metric_name)s{job="%(job_name)s"} )
+            sum by( %(responses_total_ratio_rate_sum_by_labels)s ) ( %(sli_ingress_responses_total_rate_metric_name)s{%(job_selector)s} )
         ||| % (const[type] { sli_ingress_responses_total_rate_metric_name: const.sli_ingress_responses_total_rate_metric_name }),
         labels+: {
           rate_interval: const[type].interval,
@@ -96,7 +96,7 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
           label_replace(
             100 *
             sum by( %(responses_errors_ratio_rate_sum_by_labels)s )
-              ( %(sli_ingress_responses_total_ratio_rate_metric_name)s{%(responses_total_error_label)s="%(responses_total_error_value)s",job="%(job_name)s"} ),
+              ( %(sli_ingress_responses_total_ratio_rate_metric_name)s{%(responses_total_error_label)s="%(responses_total_error_value)s", %(job_selector)s} ),
             "%(common_service_label)s",
             "$1",
             "%(service_label)s",
@@ -131,7 +131,7 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
           label_replace(
             %(responses_latency_multiplier)s *
             sum (
-              rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s])
+              rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s, %(job_selector)s}[%(interval)s])
             ) by (%(service_label)s, job, le),
             "%(common_service_label)s",
             "$1",
