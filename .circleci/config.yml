@@ -9,7 +9,7 @@ jobs:
     - run:
         name: Run Golden Tests
         command: |
-          make _diff 
+          make _diff
   unit-tests:
     docker:
     - image: mintel/satoshi-gitops-ci:latest

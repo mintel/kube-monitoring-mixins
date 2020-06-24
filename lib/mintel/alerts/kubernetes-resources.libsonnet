@@ -47,10 +47,10 @@
             },
             expr: |||
               100 * (
-                (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1) 
-                / 
-                ignoring(node) 
-                  group_left(created_by_kind, created_by_name) 
+                (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1)
+                /
+                ignoring(node)
+                  group_left(created_by_kind, created_by_name)
                     count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
               ) > %(kubePodDistributionUnbalancedByNodePercentageThreshold)s
             ||| % $._config,
@@ -68,11 +68,11 @@
             },
             expr: |||
               100 * (
-                (count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone) 
-                  (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node) 
+                (count by(created_by_kind, created_by_name, label_failure_domain_beta_kubernetes_io_zone)
+                  (kube_pod_info{created_by_kind!~"<none>|Job"} * on(node)
                    group_left(label_failure_domain_beta_kubernetes_io_zone) kube_node_labels) > 1 )
-                / 
-                ignoring(label_failure_domain_beta_kubernetes_io_zone) group_left(created_by_kind, created_by_name) 
+                /
+                ignoring(label_failure_domain_beta_kubernetes_io_zone) group_left(created_by_kind, created_by_name)
                   count by(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
               ) > %(kubePodDistributionUnbalancedByZonePercentageThreshold)s
             ||| % $._config,

@@ -254,8 +254,12 @@ spec:
         count by (mintel_com_service, label_app_mintel_com_owner, job, pod) (haproxy:haproxy_server_up:counter)
         ) * 100
       record: haproxy:haproxy_server_up:percentage
-    - expr: "100 * (\n  sum by (frontend, job, pod) (haproxy_frontend_current_sessions)
-        \n  / \n  sum by (frontend, job, pod) (haproxy_frontend_limit_sessions)\n)\n"
+    - expr: |
+        100 * (
+          sum by (frontend, job, pod) (haproxy_frontend_current_sessions)
+          /
+          sum by (frontend, job, pod) (haproxy_frontend_limit_sessions)
+        )
       record: haproxy:http_frontend_session_usage:percentage
     - expr: |
         label_replace(
@@ -298,9 +302,12 @@ spec:
     - expr: |
         avg(irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m]))
       record: :node_disk_utilisation:avg_irate
-    - expr: "avg by (node) (\n  irate(node_disk_io_time_seconds_total{job=\"node-exporter\",device=~\"sda\"}[1m])\n*
-        on (namespace, pod) group_left(node)\n  node_namespace_pod:kube_pod_info:\n)
-        \n"
+    - expr: |
+        avg by (node) (
+          irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m])
+        * on (namespace, pod) group_left(node)
+          node_namespace_pod:kube_pod_info:
+        )
       record: node:node_disk_utilisation:avg_irate
     - expr: |
         avg(irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m]))
@@ -368,17 +375,25 @@ spec:
       record: mintel:pod:allocation:totals
   - name: mintel-web-frontend.rules
     rules:
-    - expr: "label_replace( \n  (up) * on (pod) \n    group_left(label_app_mintel_com_owner,label_app_mintel_com_pipeline_stage)
-        \n      kube_pod_labels{label_app_mintel_com_owner=~\".+\", label_app_mintel_com_owner!~\"sre\",
-        \ label_tier=\"frontend\", label_app_mintel_com_pipeline_stage=~\".+\"}, \n
-        \ \"environment\",\n  \"$1\",\n  \"label_app_mintel_com_pipeline_stage\",\n
-        \ \"(.*)\"\n)\n"
+    - expr: |
+        label_replace(
+          (up) * on (pod)
+            group_left(label_app_mintel_com_owner,label_app_mintel_com_pipeline_stage)
+              kube_pod_labels{label_app_mintel_com_owner=~".+", label_app_mintel_com_owner!~"sre",  label_tier="frontend", label_app_mintel_com_pipeline_stage=~".+"},
+          "environment",
+          "$1",
+          "label_app_mintel_com_pipeline_stage",
+          "(.*)"
+        )
       record: mintel:web_frontend:check_up
   - name: mintel-http.rules
     rules:
-    - expr: "(\nsum by (service, app_mintel_com_owner) (rate(http_requests_total{status_code=~\"5..\"}[1m]))\n/
-        \ \nsum by (service, app_mintel_com_owner) (rate(http_requests_total[1m]))\n)
-        * 100\n"
+    - expr: |
+        (
+        sum by (service, app_mintel_com_owner) (rate(http_requests_total{status_code=~"5.."}[1m]))
+        /
+        sum by (service, app_mintel_com_owner) (rate(http_requests_total[1m]))
+        ) * 100
       record: mintel:http_error_rate:percentage:1m
     - expr: |
         histogram_quantile(0.50,
@@ -1699,8 +1714,10 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendSessionUsage
         summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached
           {{ $value }}% and will run out in the next 2h'
-      expr: "haproxy:http_frontend_session_usage:percentage >= 90 \nand\npredict_linear(haproxy:http_frontend_session_usage:percentage[1h],
-        2*60*60) >= 100\n"
+      expr: |
+        haproxy:http_frontend_session_usage:percentage >= 90
+        and
+        predict_linear(haproxy:http_frontend_session_usage:percentage[1h], 2*60*60) >= 100
       for: 10m
       labels:
         page: "true"
@@ -1802,9 +1819,12 @@ spec:
         summary: 'HAProxy: The number of requests on frontend {{ $labels.frontend
           }} has increades by {{ $value }} in the last 10m minutes compared to the
           0.9 quantile over the last 24h'
-      expr: "100 * \navg by (frontend) ( \n  rate(haproxy_frontend_http_requests_total{frontend!~\"stats|healthz|.*default-backend\"}[10m])
-        /\n  quantile_over_time(0.9, rate(haproxy_frontend_http_requests_total{frontend!~\"stats|healthz|.*default-backend\"}[10m])[24h:10m])\n)
-        > 500\n"
+      expr: |
+        100 *
+        avg by (frontend) (
+          rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[10m]) /
+          quantile_over_time(0.9, rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[10m])[24h:10m])
+        ) > 500
       for: 5m
       labels:
         severity: warning
@@ -1902,10 +1922,14 @@ spec:
           , {{ $value }}% are on node {{ $labels.node }}'
         message: Pod Distribution for pods is unbalanced by node
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalancedByNode.md
-      expr: "100 * (\n  (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~\"<none>|Job\"})
-        > 1) \n  / \n  ignoring(node) \n    group_left(created_by_kind, created_by_name)
-        \n      count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
-        > 50\n"
+      expr: |
+        100 * (
+          (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1)
+          /
+          ignoring(node)
+            group_left(created_by_kind, created_by_name)
+              count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+        ) > 50
       for: 15m
       labels:
         severity: warning

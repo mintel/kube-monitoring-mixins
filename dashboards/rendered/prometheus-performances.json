@@ -745,7 +745,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
+                     "expr": "sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) +\nsum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) +\nsum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) +\nsum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"})\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -826,7 +826,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
+                     "expr": "sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"})\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -2453,7 +2453,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_storage_blocks_bytes_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"} or \n  prometheus_tsdb_storage_blocks_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_storage_blocks_bytes_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"} or\n  prometheus_tsdb_storage_blocks_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,

@@ -1,0 +1,19 @@
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.1.0
+  hooks:
+    - id: trailing-whitespace
+    - id: double-quote-string-fixer
+    - id: end-of-file-fixer
+    - id: check-executables-have-shebangs
+    - id: check-merge-conflict
+    - id: check-json
+    - id: check-yaml
+    - id: check-symlinks
+    - id: check-case-conflict
+    - id: check-added-large-files
+      args: ['--maxkb=950']
+    - id: detect-private-key
+    - id: mixed-line-ending
+      args: ['--fix=no']
+    - id: no-commit-to-branch
+      args: ['--branch', 'qa', '--branch', 'production', '--branch', 'master', '--pattern', 'release/*', '--pattern', 'release-*']

@@ -49,7 +49,7 @@
                 irate(node_disk_io_time_seconds_total{%(nodeExporterSelector)s,%(diskDeviceSelector)s}[1m])
               * on (namespace, %(podLabel)s) group_left(node)
                 node_namespace_pod:kube_pod_info:
-              ) 
+              )
             ||| % $._config,
           },
           {

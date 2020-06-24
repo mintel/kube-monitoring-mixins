@@ -59,7 +59,7 @@
               summary: 'HAProxy: Session usage on {{ $labels.frontend }} frontend has reached {{ $value }}% and will run out in the next 2h',
             },
             expr: |||
-              haproxy:http_frontend_session_usage:percentage >= 90 
+              haproxy:http_frontend_session_usage:percentage >= 90
               and
               predict_linear(haproxy:http_frontend_session_usage:percentage[1h], 2*60*60) >= 100
             |||,
@@ -183,8 +183,8 @@
               summary: 'HAProxy: The number of requests on frontend {{ $labels.frontend }} has increades by {{ $value }} in the last %(haProxyFrontendIncreaseRequestsRateInterval)s minutes compared to the %(haProxyFrontendIncreaseRequestsQuantileValue)s quantile over the last %(haProxyFrontendIncreaseRequestsQuantileRange)s' % $._config,
             },
             expr: |||
-              100 * 
-              avg by (frontend) ( 
+              100 *
+              avg by (frontend) (
                 rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[%(haProxyFrontendIncreaseRequestsRateInterval)s]) /
                 quantile_over_time(%(haProxyFrontendIncreaseRequestsQuantileValue)s, rate(haproxy_frontend_http_requests_total{frontend!~"stats|healthz|.*default-backend"}[%(haProxyFrontendIncreaseRequestsRateInterval)s])[%(haProxyFrontendIncreaseRequestsQuantileRange)s:%(haProxyFrontendIncreaseRequestsRateInterval)s])
               ) > %(haProxyFrontendIncreaseRequestsPercentageThreshold)s

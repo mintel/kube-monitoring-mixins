@@ -66,7 +66,7 @@ local dashboardTags = ['portal'];
       )
       .addRow(
         row.new('Database', collapse=true)
-        .addPanels(django.databaseOps())  
+        .addPanels(django.databaseOps())
       )
       .addRow(
         row.new('Celery', collapse=true)

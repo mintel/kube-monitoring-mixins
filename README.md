@@ -91,7 +91,7 @@ jsonnet rules.jsonnet
 jsonnet dashboards.jsonnet -J ../../vendor -J dashboards
 ```
 
-If you are working with dashboards, you may want to render the `json` for only a specific dashboard. 
+If you are working with dashboards, you may want to render the `json` for only a specific dashboard.
 
 For example:
 

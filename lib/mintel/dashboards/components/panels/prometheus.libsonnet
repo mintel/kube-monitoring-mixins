@@ -988,7 +988,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       legend_show=false,
       format='bytes',
       query=|||
-        prometheus_tsdb_storage_blocks_bytes_total{%(selector)s, pod=~"$prometheus"} or 
+        prometheus_tsdb_storage_blocks_bytes_total{%(selector)s, pod=~"$prometheus"} or
           prometheus_tsdb_storage_blocks_bytes{%(selector)s, pod=~"$prometheus"}
       ||| % config,
       legendFormat='TSDB Block Size - {{ pod }}'
@@ -1047,10 +1047,10 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='Sum of all different failures for Scrapes',
       span=span,
       query=|||
-        sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{%(selector)s, pod=~"$prometheus"}) + 
-        sum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{%(selector)s, pod=~"$prometheus"}) + 
-        sum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{%(selector)s, pod=~"$prometheus"}) + 
-        sum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{%(selector)s, pod=~"$prometheus"}) 
+        sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{%(selector)s, pod=~"$prometheus"}) +
+        sum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{%(selector)s, pod=~"$prometheus"}) +
+        sum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{%(selector)s, pod=~"$prometheus"}) +
+        sum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{%(selector)s, pod=~"$prometheus"})
       ||| % config,
       decimals=0,
       format='short'
@@ -1066,7 +1066,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       description='How many times a scrape cache was flushed due to getting big while scrapes are failing',
       span=span,
       query=|||
-        sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{%(selector)s, pod=~"$prometheus"}) 
+        sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{%(selector)s, pod=~"$prometheus"})
       ||| % config,
       decimals=0,
       format='short'

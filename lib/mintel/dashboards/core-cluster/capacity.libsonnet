@@ -15,7 +15,7 @@ local dashboardTitle = 'Capacity Planning';
 local dashboardDescription = 'A Dashboard to highlight current capacity usage and growth for your cluster';
 local dashboardFile = 'cluster-capacity-planning.json';
 local dashboardUID = std.md5(dashboardFile);
-local dashboardLink = '/d/%(uid)s/%(name)s' % { 
+local dashboardLink = '/d/%(uid)s/%(name)s' % {
   uid: dashboardUID,
   name: dashboardFile
 };
@@ -60,6 +60,6 @@ local dashboardTags = ['capacity', 'resources'];
         .addPanel(capacity.cpuIdleGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
         .addPanel(capacity.memoryFreeGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
         .addPanel(capacity.ephemeralDiskIOGraph($._config.nodeSelectorRegex, startRow=startRowCapacityOverview, span=4))
-      )  
+      )
   },
 }

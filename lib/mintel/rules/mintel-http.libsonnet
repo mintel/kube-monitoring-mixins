@@ -8,7 +8,7 @@
             expr: |||
               (
               sum by (service, app_mintel_com_owner) (rate(http_requests_total{status_code=~"5.."}[1m]))
-              /  
+              /
               sum by (service, app_mintel_com_owner) (rate(http_requests_total[1m]))
               ) * 100
             |||,

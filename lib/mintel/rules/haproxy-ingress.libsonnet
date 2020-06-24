@@ -65,8 +65,8 @@
           {
             expr: |||
               100 * (
-                sum by (frontend, job, pod) (haproxy_frontend_current_sessions) 
-                / 
+                sum by (frontend, job, pod) (haproxy_frontend_current_sessions)
+                /
                 sum by (frontend, job, pod) (haproxy_frontend_limit_sessions)
               )
             |||,

@@ -2,7 +2,7 @@ local layout = import 'components/layout.libsonnet';
 local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
- 
+
   containerResourcesPanel(podSelectorValue, containerName='main', startRow=1000)::
     local config = {
       podSelectorValue: podSelectorValue,

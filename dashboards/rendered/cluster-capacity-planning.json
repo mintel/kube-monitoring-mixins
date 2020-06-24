@@ -235,7 +235,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum (\n  kube_node_status_allocatable_pods{node=~\"^gke.*\"}) \n  - \n   sum(kube_pod_status_phase{phase=\"Running\"})\n",
+                     "expr": "sum (\n  kube_node_status_allocatable_pods{node=~\"^gke.*\"})\n  -\n   sum(kube_pod_status_phase{phase=\"Running\"})\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -569,7 +569,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"}) \n    / \n  sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})\n",
+                     "expr": "sum(\n  kube_pod_container_resource_requests_cpu_cores{node=~\"^gke.*\"})\n    /\n  sum(kube_node_status_allocatable_cpu_cores{node=~\"^gke.*\"})\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -694,7 +694,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  /\n  sum(\n    kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})\n",
+                     "expr": "sum(\n  kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"})\n  /\n  sum(\n    kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"})\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -734,7 +734,7 @@
                "span": 2,
                "targets": [
                   {
-                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"}) \n  / \n  sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))\n",
+                     "expr": "100 * (\n  sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~\"^gke.*\"})\n  /\n  sum by (node) (kube_node_status_allocatable_memory_bytes{node=~\"^gke.*\"}))\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -859,7 +859,7 @@
                "span": 2,
                "targets": [
                   {
-                     "expr": "100 * avg(\n  node:node_filesystem_usage: * on(instance) \n  group_left(nodename) node_uname_info{nodename=~\"^gke.*\"}) \nby (nodename)\n",
+                     "expr": "100 * avg(\n  node:node_filesystem_usage: * on(instance)\n  group_left(nodename) node_uname_info{nodename=~\"^gke.*\"})\nby (nodename)\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -925,7 +925,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
+                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m])\n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100)\nby (mode)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1009,7 +1009,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) \n              /  \n              sum(node_memory_MemTotal_bytes)))\n",
+                     "expr": "100 * (1 - ((\n              sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes))\n              /\n              sum(node_memory_MemTotal_bytes)))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,

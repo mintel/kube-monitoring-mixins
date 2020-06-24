@@ -15,8 +15,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       span=span,
       query=|||
         sum(
-          kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s}) 
-            / 
+          kube_pod_container_resource_requests_cpu_cores{node=~%(nodeSelectorRegex)s})
+            /
           sum(kube_node_status_allocatable_cpu_cores{node=~%(nodeSelectorRegex)s})
       ||| % config,
     ),
@@ -36,9 +36,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       query=|||
         avg(
           rate(
-            node_cpu_seconds_total{mode="idle"}[2m]) 
+            node_cpu_seconds_total{mode="idle"}[2m])
             *
-             on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100) 
+             on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100)
         by (mode)
       ||| % config,
       legendFormat='% Idle',
@@ -76,8 +76,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       format='percent',
       query=|||
         100 * (1 - ((
-                      sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes)) 
-                      /  
+                      sum(node_memory_MemTotal_bytes) - sum(node_memory_MemAvailable_bytes))
+                      /
                       sum(node_memory_MemTotal_bytes)))
       ||| % config,
       legendFormat='% Free',
@@ -94,7 +94,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       span=span,
       query=|||
         sum(
-          kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) 
+          kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s})
           /
           sum(
             kube_node_status_allocatable_memory_bytes{node=~%(nodeSelectorRegex)s})
@@ -112,8 +112,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       span=span,
       query=|||
         100 * (
-          sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s}) 
-          / 
+          sum by (node) (kube_pod_container_resource_requests_memory_bytes{node=~%(nodeSelectorRegex)s})
+          /
           sum by (node) (kube_node_status_allocatable_memory_bytes{node=~%(nodeSelectorRegex)s}))
       ||| % config,
     ),
@@ -143,8 +143,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       span=span,
       query=|||
         100 * avg(
-          node:node_filesystem_usage: * on(instance) 
-          group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s}) 
+          node:node_filesystem_usage: * on(instance)
+          group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s})
         by (nodename)
       ||| % config,
     ),
@@ -253,8 +253,8 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       height=100,
       query=|||
         sum (
-          kube_node_status_allocatable_pods{node=~%(nodeSelectorRegex)s}) 
-          - 
+          kube_node_status_allocatable_pods{node=~%(nodeSelectorRegex)s})
+          -
            sum(kube_pod_status_phase{phase="Running"})
       ||| % config,
     ),
