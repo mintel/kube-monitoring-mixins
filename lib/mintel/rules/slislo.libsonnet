@@ -1,9 +1,9 @@
 // Configuration for different Ingress Controller / Metrics sources
 local const = {
-  sli_ingress_responses_total_rate_metric_name: 'sli:ingress:backend_responses_total_by_code:rate',
-  sli_ingress_responses_total_ratio_rate_metric_name: 'sli:ingress:backend_responses_ratio_by_code:rate',
+  sli_ingress_responses_total_rate_metric_name: 'ingress:backend_responses_total_by_code:rate',
+  sli_ingress_responses_total_ratio_rate_metric_name: 'ingress:backend_responses_ratio_by_code:rate',
   sli_ingress_responses_errors_ratio_rate_metric_name: 'sli:ingress:backend_responses_errors_percentage:rate',
-  sli_ingress_responses_latency_rate_metric_name: 'sli:ingress:backend_responses_latency_seconds:rate',
+  sli_ingress_responses_latency_rate_metric_name: 'ingress:backend_responses_latency_seconds:rate',
   sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_latency_seconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
   common_service_label: 'backend_service',
@@ -18,6 +18,7 @@ local const = {
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
     responses_latency_duration_metric_name: 'http_backend_request_duration_seconds_bucket',
+    responses_latency_multiplier: 1000,  // Haproxy represt this field in seconds
     interval: '2m',
   },
   contour: {
@@ -31,6 +32,7 @@ local const = {
     responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
     responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
     responses_latency_duration_metric_name: 'envoy_cluster_upstream_rq_time_bucket',
+    responses_latency_multiplier: 1,  // Contour already represt this field in milliseconds
     interval: '1m',
   },
 };
@@ -118,7 +120,7 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
 ////////////////////
 
 
-// Recording rule for rate of latency of requests to be used to calculate quantiles, normalized to include the common service label
+// Recording rule for rate of latency of requests to be used to calculate quantiles, normalized to include the common service label and normalized to milliseconds
 //
 local generate_sli_ingress_latency_rate_recording_rule(type) =
   (
@@ -127,6 +129,7 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
         record: const.sli_ingress_responses_latency_rate_metric_name,
         expr: |||
           label_replace(
+            %(responses_latency_multiplier)s *
             sum (
               rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s,job="%(job_name)s"}[%(interval)s])
             ) by (%(service_label)s, job, le),
