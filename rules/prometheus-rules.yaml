@@ -624,7 +624,7 @@ spec:
     - expr: |
         slo:ingress:backend_responses_errors:ok
         *
-        slo:ingress:backend_responses_latency:ok
+        ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
       labels:
         ingress_type: haproxy
         namespace: image-service
@@ -676,7 +676,7 @@ spec:
     - expr: |
         slo:ingress:backend_responses_errors:ok
         *
-        slo:ingress:backend_responses_latency:ok
+        ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
       labels:
         ingress_type: contour
         namespace: sandbox

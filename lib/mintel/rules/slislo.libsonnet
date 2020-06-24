@@ -254,13 +254,14 @@ local generate_slo_compliance_recording_rules(id, o) =
              }),
     };
 
+    // Ignore QUANTILE ( which only is on one of the metrics ) and JOB ( which for haproxy differ between one metric and the other )
     local slo_combined_rule = {
       record: const.slo_ingress_responses_combined_metric_name,
       labels+: common_labels,
       expr: |||
         %(slo_ingress_responses_errors_ok_metric_name)s
         *
-        %(slo_ingress_responses_latency_ok_metric_name)s
+        ignoring (quantile, job) %(slo_ingress_responses_latency_ok_metric_name)s
       ||| % ({
                slo_ingress_responses_latency_ok_metric_name: const.slo_ingress_responses_latency_ok_metric_name,
                slo_ingress_responses_errors_ok_metric_name: const.slo_ingress_responses_errors_ok_metric_name,
