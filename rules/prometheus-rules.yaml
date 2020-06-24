@@ -653,6 +653,58 @@ spec:
         service: dev-image-service-app
         service_id: dev_image_service_haproxy
       record: slo:ingress:backend_responses_latency:threshold
+    - expr: |
+        sli:ingress:backend_responses_errors_percentage:rate{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 1
+      labels:
+        ingress_type: contour
+        namespace: sandbox
+        port: "9898"
+        scope: sli_slo
+        service: podinfo
+        service_id: dev_podinfo_contour
+      record: slo:ingress:backend_responses_errors:ok
+    - expr: |
+        sli:ingress:backend_responses_duration_milliseconds:pctl99{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 100
+      labels:
+        ingress_type: contour
+        namespace: sandbox
+        port: "9898"
+        scope: sli_slo
+        service: podinfo
+        service_id: dev_podinfo_contour
+      record: slo:ingress:backend_responses_latency:ok
+    - expr: |
+        slo:ingress:backend_responses_errors:ok
+        *
+        slo:ingress:backend_responses_latency:ok
+      labels:
+        ingress_type: contour
+        namespace: sandbox
+        port: "9898"
+        scope: sli_slo
+        service: podinfo
+        service_id: dev_podinfo_contour
+      record: slo:ingress:backend_responses_combined:ok
+    - expr: |
+        1
+      labels:
+        ingress_type: contour
+        namespace: sandbox
+        port: "9898"
+        scope: sli_slo
+        service: podinfo
+        service_id: dev_podinfo_contour
+      record: slo:ingress:backend_responses_errors:threshold
+    - expr: |
+        100
+      labels:
+        ingress_type: contour
+        namespace: sandbox
+        port: "9898"
+        scope: sli_slo
+        service: podinfo
+        service_id: dev_podinfo_contour
+      record: slo:ingress:backend_responses_latency:threshold
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
