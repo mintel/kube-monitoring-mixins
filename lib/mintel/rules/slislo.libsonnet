@@ -254,10 +254,16 @@ local generate_slo_compliance_recording_rules(id, o) =
              }),
     };
 
+    // Return list of rules
+    [slo_error_ratio_rule, slo_latency_rule, slo_error_ratio_threshold_rule, slo_latency_threshold_rule]
+  );
+
+// Recording rule to generate SLO Compliance common metrics ( mostly useful for grafana )
+local generate_slo_compliance_common_recording_rules() =
+  (
     // Ignore QUANTILE ( which only is on one of the metrics ) and JOB ( which for haproxy differ between one metric and the other )
     local slo_combined_rule = {
       record: const.slo_ingress_responses_combined_metric_name,
-      labels+: common_labels,
       expr: |||
         %(slo_ingress_responses_errors_ok_metric_name)s
         *
@@ -268,10 +274,10 @@ local generate_slo_compliance_recording_rules(id, o) =
              }),
     };
 
-
     // Return list of rules
-    [slo_error_ratio_rule, slo_latency_rule, slo_combined_rule, slo_error_ratio_threshold_rule, slo_latency_threshold_rule]
+    [slo_combined_rule]
   );
+
 
 ////////////////////
 // Jsonnet Rules  //
@@ -300,7 +306,8 @@ local generate_slo_compliance_recording_rules(id, o) =
                ] +
                generate_sli_ingress_latency_precentile_recording_rule('haproxy') +
                generate_sli_ingress_latency_precentile_recording_rule('contour') +
-               std.flattenArrays([generate_slo_compliance_recording_rules(id, $._config.sli_slo[id]) for id in std.objectFields($._config.sli_slo)]),
+               std.flattenArrays([generate_slo_compliance_recording_rules(id, $._config.sli_slo[id]) for id in std.objectFields($._config.sli_slo)]) +
+               generate_slo_compliance_common_recording_rules(),
       },
     ],
   },

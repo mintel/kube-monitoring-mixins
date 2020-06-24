@@ -622,18 +622,6 @@ spec:
         service_id: dev_image_service_haproxy
       record: slo:ingress:backend_responses_latency:ok
     - expr: |
-        slo:ingress:backend_responses_errors:ok
-        *
-        ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
-      labels:
-        ingress_type: haproxy
-        namespace: image-service
-        port: "8000"
-        scope: sli_slo
-        service: dev-image-service-app
-        service_id: dev_image_service_haproxy
-      record: slo:ingress:backend_responses_combined:ok
-    - expr: |
         1
       labels:
         ingress_type: haproxy
@@ -674,18 +662,6 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_latency:ok
     - expr: |
-        slo:ingress:backend_responses_errors:ok
-        *
-        ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
-      labels:
-        ingress_type: contour
-        namespace: sandbox
-        port: "9898"
-        scope: sli_slo
-        service: podinfo
-        service_id: dev_podinfo_contour
-      record: slo:ingress:backend_responses_combined:ok
-    - expr: |
         1
       labels:
         ingress_type: contour
@@ -705,6 +681,11 @@ spec:
         service: podinfo
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_latency:threshold
+    - expr: |
+        slo:ingress:backend_responses_errors:ok
+        *
+        ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
+      record: slo:ingress:backend_responses_combined:ok
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
