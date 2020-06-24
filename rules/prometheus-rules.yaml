@@ -483,7 +483,6 @@ spec:
       record: sli:ingress:backend_responses_errors_percentage:rate
     - expr: |
         label_replace(
-          1000 *
           sum (
             rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)", job=~"haproxy-(exporter|fluentd)"}[2m])
           ) by (backend, job, le),
@@ -499,7 +498,6 @@ spec:
       record: ingress:backend_responses_duration_milliseconds:rate
     - expr: |
         label_replace(
-          1 *
           sum (
             rate(envoy_cluster_upstream_rq_time_bucket{envoy_cluster_name!~"(ingress-controller_contour_8001)", job="contour-ingress"}[1m])
           ) by (envoy_cluster_name, job, le),
@@ -514,40 +512,90 @@ spec:
         scope: sli_slo
       record: ingress:backend_responses_duration_milliseconds:rate
     - expr: |
+        1000 *
         histogram_quantile(0.50,
-          ingress:backend_responses_duration_milliseconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="haproxy"}
         )
       labels:
         quantile: "0.50"
         scope: sli_slo
       record: sli:ingress:backend_responses_duration_milliseconds:pctl50
     - expr: |
+        1000 *
         histogram_quantile(0.75,
-          ingress:backend_responses_duration_milliseconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="haproxy"}
         )
       labels:
         quantile: "0.75"
         scope: sli_slo
       record: sli:ingress:backend_responses_duration_milliseconds:pctl75
     - expr: |
+        1000 *
         histogram_quantile(0.90,
-          ingress:backend_responses_duration_milliseconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="haproxy"}
         )
       labels:
         quantile: "0.90"
         scope: sli_slo
       record: sli:ingress:backend_responses_duration_milliseconds:pctl90
     - expr: |
+        1000 *
         histogram_quantile(0.95,
-          ingress:backend_responses_duration_milliseconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="haproxy"}
         )
       labels:
         quantile: "0.95"
         scope: sli_slo
       record: sli:ingress:backend_responses_duration_milliseconds:pctl95
     - expr: |
+        1000 *
         histogram_quantile(0.99,
-          ingress:backend_responses_duration_milliseconds:rate{}
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="haproxy"}
+        )
+      labels:
+        quantile: "0.99"
+        scope: sli_slo
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl99
+    - expr: |
+        1 *
+        histogram_quantile(0.50,
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="contour"}
+        )
+      labels:
+        quantile: "0.50"
+        scope: sli_slo
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl50
+    - expr: |
+        1 *
+        histogram_quantile(0.75,
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="contour"}
+        )
+      labels:
+        quantile: "0.75"
+        scope: sli_slo
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl75
+    - expr: |
+        1 *
+        histogram_quantile(0.90,
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="contour"}
+        )
+      labels:
+        quantile: "0.90"
+        scope: sli_slo
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl90
+    - expr: |
+        1 *
+        histogram_quantile(0.95,
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="contour"}
+        )
+      labels:
+        quantile: "0.95"
+        scope: sli_slo
+      record: sli:ingress:backend_responses_duration_milliseconds:pctl95
+    - expr: |
+        1 *
+        histogram_quantile(0.99,
+          ingress:backend_responses_duration_milliseconds:rate{ingress_type="contour"}
         )
       labels:
         quantile: "0.99"

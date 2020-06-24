@@ -129,7 +129,6 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
         record: const.sli_ingress_responses_latency_rate_metric_name,
         expr: |||
           label_replace(
-            %(responses_latency_multiplier)s *
             sum (
               rate(%(responses_latency_duration_metric_name)s{%(responses_exclude_selector)s, %(job_selector)s}[%(interval)s])
             ) by (%(service_label)s, job, le),
@@ -150,20 +149,22 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
     else [{}]
   );
 
-// Recording rule for percentile of latency of requests, normalized to seconds
+// Recording rule for percentile of latency of requests, normalized to milliseconds
 //
-local generate_sli_ingress_latency_precentile_recording_rule() =
+local generate_sli_ingress_latency_precentile_recording_rule(type) =
   (
     [{
       record: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
       expr: |||
+        %(responses_latency_multiplier)s *
         histogram_quantile(%(quantile)s,
-          %(sli_ingress_responses_latency_rate_metric_name)s{}
+          %(sli_ingress_responses_latency_rate_metric_name)s{ingress_type="%(type)s"}
         )
-      ||| % {
-        sli_ingress_responses_latency_rate_metric_name: const.sli_ingress_responses_latency_rate_metric_name,
-        quantile: quantile,
-      },
+      ||| % (const[type] {
+               sli_ingress_responses_latency_rate_metric_name: const.sli_ingress_responses_latency_rate_metric_name,
+               quantile: quantile,
+               type: type,
+             }),
       labels+: {
         scope: 'sli_slo',
         quantile: quantile,
@@ -191,8 +192,8 @@ local generate_sli_ingress_latency_precentile_recording_rule() =
                  generate_sli_ingress_latency_rate_recording_rule('haproxy'),
                  generate_sli_ingress_latency_rate_recording_rule('contour'),
                ] +
-               generate_sli_ingress_latency_precentile_recording_rule(),
-        //generate_sli_ingress_latency_precentile_recording_rule('contour'),
+               generate_sli_ingress_latency_precentile_recording_rule('haproxy') +
+               generate_sli_ingress_latency_precentile_recording_rule('contour'),
       },
     ],
   },
