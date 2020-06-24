@@ -1,6 +1,5 @@
 // Import the Constants
 local constants = import '../constants.libsonnet';
-local const = constants.sli_slo;
 
 ////////////////////
 // Requests Rules //
@@ -13,13 +12,13 @@ local generate_sli_ingress_responses_total_rate_recording_rule(type) =
     // requires jsonnet 0.15 to use // if std.member(['haproxy', 'contour'], type) then
     if type == 'haproxy' || type == 'contour' then
       {
-        record: const.sli_ingress_responses_total_rate_metric_name,
+        record: constants.sli_slo.sli_ingress_responses_total_rate_metric_name,
         expr: |||
           sum by (%(responses_total_rate_sum_by_labels)s)
             (rate(%(responses_total_metric_name)s{%(responses_exclude_selector)s, %(job_selector)s}[%(interval)s]))
-        ||| % const[type],
+        ||| % constants.sli_slo[type],
         labels+: {
-          rate_interval: const[type].interval,
+          rate_interval: constants.sli_slo[type].interval,
           ingress_type: type,
           scope: 'sli_slo',
         },
@@ -33,16 +32,16 @@ local generate_sli_ingress_responses_total_ratio_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
       {
-        record: const.sli_ingress_responses_total_ratio_rate_metric_name,
+        record: constants.sli_slo.sli_ingress_responses_total_ratio_rate_metric_name,
         expr: |||
           sum by ( %(responses_total_ratio_rate_sum_by_labels)s, %(responses_total_error_label)s )
             ( %(sli_ingress_responses_total_rate_metric_name)s{%(job_selector)s} )
           /
           ignoring( %(responses_total_error_label)s ) group_left()
             sum by( %(responses_total_ratio_rate_sum_by_labels)s ) ( %(sli_ingress_responses_total_rate_metric_name)s{%(job_selector)s} )
-        ||| % (const[type] { sli_ingress_responses_total_rate_metric_name: const.sli_ingress_responses_total_rate_metric_name }),
+        ||| % (constants.sli_slo[type] { sli_ingress_responses_total_rate_metric_name: constants.sli_slo.sli_ingress_responses_total_rate_metric_name }),
         labels+: {
-          rate_interval: const[type].interval,
+          rate_interval: constants.sli_slo[type].interval,
           scope: 'sli_slo',
         },
       }
@@ -56,7 +55,7 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
   (
     if type == 'haproxy' || type == 'contour' then
       {
-        record: const.sli_ingress_responses_errors_ratio_rate_metric_name,
+        record: constants.sli_slo.sli_ingress_responses_errors_ratio_rate_metric_name,
         expr: |||
           label_replace(
             100 *
@@ -67,12 +66,12 @@ local generate_sli_ingress_responses_errors_percentage_rate_recording_rule(type)
             "%(service_label)s",
             "(.*)"
           )
-        ||| % (const[type] {
-                 sli_ingress_responses_total_ratio_rate_metric_name: const.sli_ingress_responses_total_ratio_rate_metric_name,
-                 common_service_label: const.common_service_label,
+        ||| % (constants.sli_slo[type] {
+                 sli_ingress_responses_total_ratio_rate_metric_name: constants.sli_slo.sli_ingress_responses_total_ratio_rate_metric_name,
+                 common_service_label: constants.sli_slo.common_service_label,
                }),
         labels+: {
-          rate_interval: const[type].interval,
+          rate_interval: constants.sli_slo[type].interval,
           scope: 'sli_slo',
         },
       }
@@ -91,7 +90,7 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
   (
     if type == 'haproxy' || type == 'contour' then
       {
-        record: const.sli_ingress_responses_latency_rate_metric_name,
+        record: constants.sli_slo.sli_ingress_responses_latency_rate_metric_name,
         expr: |||
           label_replace(
             sum (
@@ -102,12 +101,12 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
             "%(service_label)s",
             "(.*)"
           )
-        ||| % (const[type] {
-                 common_service_label: const.common_service_label,
+        ||| % (constants.sli_slo[type] {
+                 common_service_label: constants.sli_slo.common_service_label,
                }),
         labels+: {
           scope: 'sli_slo',
-          rate_interval: const[type].interval,
+          rate_interval: constants.sli_slo[type].interval,
           ingress_type: type,
         },
       }
@@ -119,14 +118,14 @@ local generate_sli_ingress_latency_rate_recording_rule(type) =
 local generate_sli_ingress_latency_precentile_recording_rule(type) =
   (
     [{
-      record: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
+      record: std.format('%s%s', [constants.sli_slo.sli_ingress_responses_latency_percentile_metric_name, std.substr(quantile, 2, 2)]),
       expr: |||
         %(responses_latency_multiplier)s *
         histogram_quantile(%(quantile)s,
           %(sli_ingress_responses_latency_rate_metric_name)s{ingress_type="%(type)s"}
         )
-      ||| % (const[type] {
-               sli_ingress_responses_latency_rate_metric_name: const.sli_ingress_responses_latency_rate_metric_name,
+      ||| % (constants.sli_slo[type] {
+               sli_ingress_responses_latency_rate_metric_name: constants.sli_slo.sli_ingress_responses_latency_rate_metric_name,
                quantile: quantile,
                type: type,
              }),
@@ -134,7 +133,7 @@ local generate_sli_ingress_latency_precentile_recording_rule(type) =
         scope: 'sli_slo',
         quantile: quantile,
       },
-    } for quantile in const.sli_quantiles]
+    } for quantile in constants.sli_slo.sli_quantiles]
   );
 
 
@@ -163,10 +162,10 @@ local generate_slo_compliance_recording_rules(id, o) =
       port: o.backend.port,
     };
 
-    local service_name = std.format(const[o.backend.type].service_name_format, [o.backend.namespace, o.backend.service, o.backend.port]);
+    local service_name = std.format(constants.sli_slo[o.backend.type].service_name_format, [o.backend.namespace, o.backend.service, o.backend.port]);
 
     local slo_error_ratio_threshold_rule = {
-      record: const.slo_ingress_responses_errors_threshold_metric_name,
+      record: constants.sli_slo.slo_ingress_responses_errors_threshold_metric_name,
       labels+: common_labels,
       expr: |||
         %(error_ratio_threshold)s
@@ -176,7 +175,7 @@ local generate_slo_compliance_recording_rules(id, o) =
     };
 
     local slo_latency_threshold_rule = {
-      record: const.slo_ingress_responses_latency_threshold_metric_name,
+      record: constants.sli_slo.slo_ingress_responses_latency_threshold_metric_name,
       labels+: common_labels,
       expr: |||
         %(latency_threshold_milliseconds)s
@@ -187,12 +186,12 @@ local generate_slo_compliance_recording_rules(id, o) =
 
 
     local slo_error_ratio_rule = {
-      record: const.slo_ingress_responses_errors_ok_metric_name,
+      record: constants.sli_slo.slo_ingress_responses_errors_ok_metric_name,
       labels+: common_labels,
       expr: |||
         %(sli_ingress_responses_errors_ratio_rate_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(error_ratio_threshold)s
       ||| % ({
-               sli_ingress_responses_errors_ratio_rate_metric_name: const.sli_ingress_responses_errors_ratio_rate_metric_name,
+               sli_ingress_responses_errors_ratio_rate_metric_name: constants.sli_slo.sli_ingress_responses_errors_ratio_rate_metric_name,
                type: o.backend.type,
                service_name: service_name,
                error_ratio_threshold: o.slo.error_ratio_threshold,
@@ -200,12 +199,12 @@ local generate_slo_compliance_recording_rules(id, o) =
     };
 
     local slo_latency_rule = {
-      record: const.slo_ingress_responses_latency_ok_metric_name,
+      record: constants.sli_slo.slo_ingress_responses_latency_ok_metric_name,
       labels+: common_labels,
       expr: |||
         %(sli_ingress_responses_latency_percentile_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(latency_threshold_milliseconds)s
       ||| % ({
-               sli_ingress_responses_latency_percentile_metric_name: std.format('%s%s', [const.sli_ingress_responses_latency_percentile_metric_name, o.slo.latency_percentile]),
+               sli_ingress_responses_latency_percentile_metric_name: std.format('%s%s', [constants.sli_slo.sli_ingress_responses_latency_percentile_metric_name, o.slo.latency_percentile]),
                type: o.backend.type,
                service_name: service_name,
                latency_threshold_milliseconds: o.slo.latency_threshold_milliseconds,
@@ -221,14 +220,14 @@ local generate_slo_compliance_common_recording_rules() =
   (
     // Ignore QUANTILE ( which only is on one of the metrics ) and JOB ( which for haproxy differ between one metric and the other )
     local slo_combined_rule = {
-      record: const.slo_ingress_responses_combined_metric_name,
+      record: constants.sli_slo.slo_ingress_responses_combined_metric_name,
       expr: |||
         %(slo_ingress_responses_errors_ok_metric_name)s
         *
         ignoring (quantile, job) %(slo_ingress_responses_latency_ok_metric_name)s
       ||| % ({
-               slo_ingress_responses_latency_ok_metric_name: const.slo_ingress_responses_latency_ok_metric_name,
-               slo_ingress_responses_errors_ok_metric_name: const.slo_ingress_responses_errors_ok_metric_name,
+               slo_ingress_responses_latency_ok_metric_name: constants.sli_slo.slo_ingress_responses_latency_ok_metric_name,
+               slo_ingress_responses_errors_ok_metric_name: constants.sli_slo.slo_ingress_responses_errors_ok_metric_name,
              }),
     };
 
