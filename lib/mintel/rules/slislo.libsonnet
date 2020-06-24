@@ -6,8 +6,10 @@ local const = {
   sli_ingress_responses_latency_rate_metric_name: 'ingress:backend_responses_duration_milliseconds:rate',
   sli_ingress_responses_latency_percentile_metric_name: 'sli:ingress:backend_responses_duration_milliseconds:pctl',
   sli_quantiles: ['0.50', '0.75', '0.90', '0.95', '0.99'],
-  slo_ingress_responses_errors_threshold_metric_name: 'slo:ingress:backend_responses_errors:ok',
-  slo_ingress_responses_latency_threshold_metric_name: 'slo:ingress:backend_responses_latency:ok',
+  slo_ingress_responses_errors_threshold_metric_name: 'slo:ingress:backend_responses_errors:threshold',
+  slo_ingress_responses_latency_threshold_metric_name: 'slo:ingress:backend_responses_latency:threshold',
+  slo_ingress_responses_errors_ok_metric_name: 'slo:ingress:backend_responses_errors:ok',
+  slo_ingress_responses_latency_ok_metric_name: 'slo:ingress:backend_responses_latency:ok',
   slo_ingress_responses_combined_metric_name: 'slo:ingress:backend_responses_combined:ok',
   common_service_label: 'backend_service',
   haproxy: {
@@ -205,8 +207,29 @@ local generate_slo_compliance_recording_rules(id, o) =
 
     local service_name = std.format(const[o.backend.type].service_name_format, [o.backend.namespace, o.backend.service, o.backend.port]);
 
-    local slo_error_ratio_rule = {
+    local slo_error_ratio_threshold_rule = {
       record: const.slo_ingress_responses_errors_threshold_metric_name,
+      labels+: common_labels,
+      expr: |||
+        %(error_ratio_threshold)s
+      ||| % ({
+               error_ratio_threshold: o.slo.error_ratio_threshold,
+             }),
+    };
+
+    local slo_latency_threshold_rule = {
+      record: const.slo_ingress_responses_latency_threshold_metric_name,
+      labels+: common_labels,
+      expr: |||
+        %(latency_threshold_milliseconds)s
+      ||| % ({
+               latency_threshold_milliseconds: o.slo.latency_threshold_milliseconds,
+             }),
+    };
+
+
+    local slo_error_ratio_rule = {
+      record: const.slo_ingress_responses_errors_ok_metric_name,
       labels+: common_labels,
       expr: |||
         %(sli_ingress_responses_errors_ratio_rate_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(error_ratio_threshold)s
@@ -217,8 +240,9 @@ local generate_slo_compliance_recording_rules(id, o) =
                error_ratio_threshold: o.slo.error_ratio_threshold,
              }),
     };
+
     local slo_latency_rule = {
-      record: const.slo_ingress_responses_latency_threshold_metric_name,
+      record: const.slo_ingress_responses_latency_ok_metric_name,
       labels+: common_labels,
       expr: |||
         %(sli_ingress_responses_latency_percentile_metric_name)s{ingress_type="%(type)s", backend_service="%(service_name)s"} < bool %(latency_threshold_milliseconds)s
@@ -229,22 +253,23 @@ local generate_slo_compliance_recording_rules(id, o) =
                latency_threshold_milliseconds: o.slo.latency_threshold_milliseconds,
              }),
     };
+
     local slo_combined_rule = {
       record: const.slo_ingress_responses_combined_metric_name,
       labels+: common_labels,
       expr: |||
-        %(slo_ingress_responses_errors_threshold_metric_name)s
+        %(slo_ingress_responses_errors_ok_metric_name)s
         *
-        %(slo_ingress_responses_latency_threshold_metric_name)s
+        %(slo_ingress_responses_latency_ok_metric_name)s
       ||| % ({
-               slo_ingress_responses_latency_threshold_metric_name: const.slo_ingress_responses_latency_threshold_metric_name,
-               slo_ingress_responses_errors_threshold_metric_name: const.slo_ingress_responses_errors_threshold_metric_name,
+               slo_ingress_responses_latency_ok_metric_name: const.slo_ingress_responses_latency_ok_metric_name,
+               slo_ingress_responses_errors_ok_metric_name: const.slo_ingress_responses_errors_ok_metric_name,
              }),
     };
 
 
     // Return list of rules
-    [slo_error_ratio_rule, slo_latency_rule, slo_combined_rule]
+    [slo_error_ratio_rule, slo_latency_rule, slo_combined_rule, slo_error_ratio_threshold_rule, slo_latency_threshold_rule]
   );
 
 ////////////////////

@@ -633,6 +633,26 @@ spec:
         service: dev-image-service-app
         service_id: dev_image_service_haproxy
       record: slo:ingress:backend_responses_combined:ok
+    - expr: |
+        1
+      labels:
+        ingress_type: haproxy
+        namespace: image-service
+        port: "8000"
+        scope: sli_slo
+        service: dev-image-service-app
+        service_id: dev_image_service_haproxy
+      record: slo:ingress:backend_responses_errors:threshold
+    - expr: |
+        500
+      labels:
+        ingress_type: haproxy
+        namespace: image-service
+        port: "8000"
+        scope: sli_slo
+        service: dev-image-service-app
+        service_id: dev_image_service_haproxy
+      record: slo:ingress:backend_responses_latency:threshold
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
