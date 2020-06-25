@@ -642,7 +642,7 @@ spec:
         service_id: dev_image_service_haproxy
       record: slo:ingress:backend_responses_latency:threshold
     - expr: |
-        sli:ingress:backend_responses_errors_percentage:rate{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 1
+        sli:ingress:backend_responses_errors_percentage:rate{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 3
       labels:
         ingress_type: contour
         namespace: sandbox
@@ -652,7 +652,7 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_errors:ok
     - expr: |
-        sli:ingress:backend_responses_duration_milliseconds:pctl99{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 100
+        sli:ingress:backend_responses_duration_milliseconds:pctl90{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 4000
       labels:
         ingress_type: contour
         namespace: sandbox
@@ -662,7 +662,7 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_latency:ok
     - expr: |
-        1
+        3
       labels:
         ingress_type: contour
         namespace: sandbox
@@ -672,7 +672,7 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_errors:threshold
     - expr: |
-        100
+        4000
       labels:
         ingress_type: contour
         namespace: sandbox

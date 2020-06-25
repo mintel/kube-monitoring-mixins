@@ -24,7 +24,7 @@
       responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
       responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, backend',
       responses_latency_duration_metric_name: 'http_backend_request_duration_seconds_bucket',
-      responses_latency_multiplier: 1000,  // Haproxy represt this field in seconds
+      responses_latency_multiplier: 1000,  // Haproxy represent this field in seconds
       interval: '2m',
     },
     contour: {
@@ -39,7 +39,7 @@
       responses_total_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
       responses_errors_ratio_rate_sum_by_labels: 'job, ingress_type, envoy_cluster_name',
       responses_latency_duration_metric_name: 'envoy_cluster_upstream_rq_time_bucket',
-      responses_latency_multiplier: 1,  // Contour already represt this field in milliseconds
+      responses_latency_multiplier: 1,  // Contour already represent this field in milliseconds
       interval: '1m',
     },
   },
