@@ -75,7 +75,7 @@
           slo_target_time_window_days: 7,  // SLO time window over 7 Days
           error_ratio_threshold: 20,  // 1% of error to total of requests
           latency_percentile: 90,  // Consider the 95th percentile for latency
-          latency_threshold_milliseconds: 4350,  // Latency for the latency percentile
+          latency_threshold_milliseconds: 4475,  // Latency for the latency percentile
         },
       },
       dev_image_service_haproxy: {

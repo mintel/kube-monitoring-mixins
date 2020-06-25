@@ -652,7 +652,7 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_errors:ok
     - expr: |
-        sli:ingress:backend_responses_duration_milliseconds:pctl90{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 4350
+        sli:ingress:backend_responses_duration_milliseconds:pctl90{ingress_type="contour", backend_service="sandbox_podinfo_9898"} < bool 4475
       labels:
         ingress_type: contour
         namespace: sandbox
@@ -672,7 +672,7 @@ spec:
         service_id: dev_podinfo_contour
       record: slo:ingress:backend_responses_errors:threshold
     - expr: |
-        4350
+        4475
       labels:
         ingress_type: contour
         namespace: sandbox
