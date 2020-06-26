@@ -353,7 +353,7 @@
                "format": "time_series",
                "instant": false,
                "interval": "1m",
-               "intervalFactor": 2,
+               "intervalFactor": 1,
                "legendFormat": "",
                "refId": "A"
             }
@@ -612,7 +612,7 @@
                "format": "time_series",
                "instant": false,
                "interval": "1m",
-               "intervalFactor": 2,
+               "intervalFactor": 1,
                "legendFormat": "",
                "refId": "A"
             }

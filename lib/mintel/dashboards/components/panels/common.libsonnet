@@ -90,7 +90,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       sparklineShow=sparklineShow,
       colorBackground=colorBackground,
     )
-    .addTarget(promQuery.target(query, instant=instant)),
+    .addTarget(promQuery.target(query, instant=instant, intervalFactor=intervalFactor)),
 
   gauge(
     title='Gauge',

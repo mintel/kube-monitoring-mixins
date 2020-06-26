@@ -3,6 +3,7 @@
 (import './services/image-service/overview.libsonnet') +
 (import './services/omni/omni-web-overview.libsonnet') +
 (import './services/omni/omni-analytics-overview.libsonnet') +
+(import './services/slo/overview.libsonnet') +
 (import './cost-analysis/cost-analysis-by-cluster.libsonnet') +
 (import './cost-analysis/cost-analysis-by-namespace.libsonnet') +
 (import './cost-analysis/cost-analysis-by-pod.libsonnet') +
