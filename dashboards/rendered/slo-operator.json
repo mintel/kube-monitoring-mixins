@@ -4,7 +4,7 @@
    "annotations": {
       "list": [ ]
    },
-   "description": "Provides an overview of slo for a given service",
+   "description": "Provides an overview of slo",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 1,
@@ -77,7 +77,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum_over_time(slo:ingress:backend_responses_combined:ok{backend_service=\"$slo_backend_service\"}[$slo_availability_span])\n/\ncount_over_time(slo:ingress:backend_responses_combined:ok{backend_service=\"$slo_backend_service\"}[$slo_availability_span])\n",
+                     "expr": "1 - max(\n         (\n         increase(service_level_sli_result_error_ratio_total{namespace=\"$namespace\", service_level=\"$slo_service\", slo=~\"$slo\"}[$slo_availability_span])\n         /\n         increase(service_level_sli_result_count_total{namespace=\"$namespace\", service_level=\"$slo_service\", slo=~\"$slo\"}[$slo_availability_span])\n         )\n    )\n",
                      "format": "time_series",
                      "instant": true,
                      "interval": "1m",
@@ -140,12 +140,58 @@
             "datasource": "Prometheus",
             "hide": 0,
             "includeAll": false,
+            "label": "Namespace",
+            "multi": false,
+            "name": "namespace",
+            "options": [ ],
+            "query": "label_values(kube_pod_container_info,namespace)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": {
+               "text": "",
+               "value": ""
+            },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
             "label": "SLO Service",
             "multi": false,
-            "name": "slo_backend_service",
+            "name": "slo_service",
             "options": [ ],
-            "query": "label_values(slo:ingress:backend_responses_combined:ok,backend_service)",
-            "refresh": 1,
+            "query": "label_values(service_level_sli_result_count_total{namespace=\"$namespace\"}, service_level)",
+            "refresh": 2,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": {
+               "text": "",
+               "value": ""
+            },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": true,
+            "label": "SLO",
+            "multi": true,
+            "name": "slo",
+            "options": [ ],
+            "query": "label_values(service_level_sli_result_count_total{namespace=\"$namespace\", service_level=\"$slo_service\"}, slo)",
+            "refresh": 2,
             "regex": "",
             "sort": 0,
             "tagValuesQuery": "",
@@ -209,7 +255,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  SLO Overview",
-   "uid": "7c7005dad6161be6d72651b50ff5af08",
+   "title": "Mintel /  SLO Operator",
+   "uid": "3f65a6510f29a5869bdbe09ff0f2577e",
    "version": 0
 }

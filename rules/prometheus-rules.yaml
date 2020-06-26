@@ -686,6 +686,16 @@ spec:
         *
         ignoring (quantile, job) slo:ingress:backend_responses_latency:ok
       record: slo:ingress:backend_responses_combined:ok
+  - name: slo-operator.rules
+    rules:
+    - expr: |
+        (
+          sum by (app_mintel_com_owner, job, namespace, service_level, slo) (increase(service_level_sli_result_error_ratio_total{}[30s]))
+          /
+          sum by (app_mintel_com_owner, job, namespace, service_level, slo) (increase(service_level_sli_result_count_total{}[30s]))
+        ) > bool sum by (app_mintel_com_owner, job, namespace, service_level, slo) (1 - service_level_slo_objective_ratio{})
+      labels: {}
+      record: sli:error_ratio_above_slo:bool
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp

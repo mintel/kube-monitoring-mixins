@@ -154,6 +154,26 @@ local template = grafana.template;
     current=current,
     hide=hide,
   ),
+  slo_operator_services(current='', hide=''):: template.new(
+    'slo_service',
+    'Prometheus',
+    'label_values(service_level_sli_result_count_total{namespace="$namespace"}, service_level)',
+    label='SLO Service',
+    refresh='time',
+    current=current,
+    hide=hide,
+  ),
+  slo_operator_slo(current='', hide=''):: template.new(
+    'slo',
+    'Prometheus',
+    'label_values(service_level_sli_result_count_total{namespace="$namespace", service_level="$slo_service"}, slo)',
+    label='SLO',
+    refresh='time',
+    multi=true,
+    includeAll=true,
+    current=current,
+    hide=hide,
+  ),
   slo_availability_span():: template.new(
     'slo_availability_span',
     null,
@@ -162,42 +182,5 @@ local template = grafana.template;
     current='7d',
   ) {
     type: 'custom',
-    options: [
-      {
-        selected: false,
-        text: '10m',
-        value: '10m',
-      },
-      {
-        selected: false,
-        text: '1h',
-        value: '1h',
-      },
-      {
-        selected: false,
-        text: '1d',
-        value: '1d',
-      },
-      {
-        selected: true,
-        text: '7d',
-        value: '7d',
-      },
-      {
-        selected: false,
-        text: '21d',
-        value: '21d',
-      },
-      {
-        selected: false,
-        text: '30d',
-        value: '30d',
-      },
-      {
-        selected: false,
-        text: '90d',
-        value: '90d',
-      },
-    ],
   },
 }
