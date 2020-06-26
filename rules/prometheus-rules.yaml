@@ -693,9 +693,9 @@ spec:
           sum by (app_mintel_com_owner, job, namespace, service_level, slo) (increase(service_level_sli_result_error_ratio_total{}[30s]))
           /
           sum by (app_mintel_com_owner, job, namespace, service_level, slo) (increase(service_level_sli_result_count_total{}[30s]))
-        ) > bool sum by (app_mintel_com_owner, job, namespace, service_level, slo) (1 - service_level_slo_objective_ratio{})
+        ) < bool sum by (app_mintel_com_owner, job, namespace, service_level, slo) (1 - service_level_slo_objective_ratio{})
       labels: {}
-      record: sli:error_ratio_above_slo:bool
+      record: sli:error_ratio_above_slo_bool:ok
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp

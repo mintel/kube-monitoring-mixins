@@ -14,14 +14,14 @@
         name: 'slo-operator.rules',
         rules: [
           {
-            record: 'sli:error_ratio_above_slo:bool',
+            record: 'sli:error_ratio_above_slo_bool:ok',
             labels: $._config.slo_operator.recording_rules_extra_labels,
             expr: |||
               (
                 sum by (%(recording_rules_sum_by_labels)s) (increase(service_level_sli_result_error_ratio_total{}[%(recording_rules_interval)s]))
                 /
                 sum by (%(recording_rules_sum_by_labels)s) (increase(service_level_sli_result_count_total{}[%(recording_rules_interval)s]))
-              ) > bool sum by (%(recording_rules_sum_by_labels)s) (1 - service_level_slo_objective_ratio{})
+              ) < bool sum by (%(recording_rules_sum_by_labels)s) (1 - service_level_slo_objective_ratio{})
             ||| % $._config.slo_operator,
           },
         ],
