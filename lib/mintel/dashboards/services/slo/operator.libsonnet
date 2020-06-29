@@ -24,7 +24,7 @@ local dashboardTags = ['slo'];
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
         ($._config.mintel { dashboardTitle: dashboardTitle }),
-        time_from='now-1d',
+        time_from='now-1h',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
@@ -35,11 +35,12 @@ local dashboardTags = ['slo'];
       .addTemplate(templates.namespace('', ''))
       .addTemplate(templates.slo_operator_services())
       .addTemplate(templates.slo_operator_slo())
-      .addTemplate(templates.slo_availability_span())
+      .addTemplate(templates.slo_availability_span(current='1h'))
 
       .addRow(
-        row.new('Overview', height=3)
+        row.new('SLI/SLO for service ${slo_service} on ${slo}', repeat='slo', height=300)
         .addPanel(slo.serviceLevelAvailabilityOverTime(namespace='$namespace', sloService='$slo_service', slo='$slo', availabilitySpan='$slo_availability_span'))
+        .addPanel(slo.serviceLevelAvailabilityBreachesTimeSeries(namespace='$namespace', sloService='$slo_service', slo='$slo', interval='15s'))
       ),
     //.addRow(
     //  row.new('Request / Response')

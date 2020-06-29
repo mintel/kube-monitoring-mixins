@@ -14,6 +14,7 @@
         name: 'slo-operator.rules',
         rules: [
           {
+            // This rule is bad since, because of the evaluation interval to 30s , we  loose a lot of precision compared to the real data
             record: 'sli:error_ratio_above_slo_bool:ok',
             labels: $._config.slo_operator.recording_rules_extra_labels,
             expr: |||
