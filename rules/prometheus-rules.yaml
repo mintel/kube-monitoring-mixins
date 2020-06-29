@@ -374,6 +374,32 @@ spec:
         \ \"environment\",\n  \"$1\",\n  \"label_app_mintel_com_pipeline_stage\",\n
         \ \"(.*)\"\n)\n"
       record: mintel:web_frontend:check_up
+  - name: mintel-http.rules
+    rules:
+    - expr: "(\nsum by (service, app_mintel_com_owner) (rate(http_requests_total{status_code=~\"5..\"}[1m]))\n/
+        \ \nsum by (service, app_mintel_com_owner) (rate(http_requests_total[1m]))\n)
+        * 100\n"
+      record: mintel:http_error_rate:percentage:1m
+    - expr: |
+        histogram_quantile(0.50,
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+        )
+      record: mintel:http_request_duration_seconds_quantile:50
+    - expr: |
+        histogram_quantile(0.75,
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+        )
+      record: mintel:http_request_duration_seconds_quantile:75
+    - expr: |
+        histogram_quantile(0.95,
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+        )
+      record: mintel:http_request_duration_seconds_quantile:95
+    - expr: |
+        histogram_quantile(0.99,
+          sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
+        )
+      record: mintel:http_request_duration_seconds_quantile:99
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
@@ -1215,18 +1241,6 @@ spec:
         summary: Site {{$labels.target}} status (non 2xx code) is flapping
       expr: 100 * count by (target,job,app_mintel_com_owner) (changes(probe_success{job="blackbox"}[10m])
         > 5) / blackbox_node_count >= 50
-      for: 5m
-      labels:
-        page: "true"
-        severity: critical
-    - alert: TargetIsDown
-      annotations:
-        description: Target {{$labels.target}} has been down for 5 minutes according
-          to {{ $value }}% of Blackbox probes
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/TargetIsDown.md
-        summary: Target {{$labels.target}} is down
-      expr: 100 * count by (target,job,app_mintel_com_owner) (up{job="blackbox"} ==
-        0) / blackbox_node_count >= 50
       for: 5m
       labels:
         page: "true"
