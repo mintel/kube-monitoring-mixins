@@ -3,10 +3,15 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 
 {
+  local commonVars = {
+    sum_by_labels: 'namespace, service_level, slo',
+  },
+
   serviceLevelAvailabilityOverTime(namespace='$namespace', sloService='$slo_service', slo='.*', availabilitySpan='$slo_availability_span', span=3)::
     local config = {
       slo_selector: std.format('namespace="%s", service_level="%s", slo=~"%s"', [namespace, sloService, slo]),
       availabilitySpan: availabilitySpan,
+      sum_by_labels: commonVars.sum_by_labels,
     };
 
     commonPanels.singlestat(
@@ -20,11 +25,11 @@ local promQuery = import 'components/prom_query.libsonnet';
       valueName='current',
       intervalFactor=1,
       query=|||
-        1 - max(
+        1 - (
                  (
-                 increase(service_level_sli_result_error_ratio_total{%(slo_selector)s}[%(availabilitySpan)s])
+                 sum by (%(sum_by_labels)s) (increase(service_level_sli_result_error_ratio_total{%(slo_selector)s}[%(availabilitySpan)s]))
                  /
-                 increase(service_level_sli_result_count_total{%(slo_selector)s}[%(availabilitySpan)s])
+                 sum by (%(sum_by_labels)s) (increase(service_level_sli_result_count_total{%(slo_selector)s}[%(availabilitySpan)s]))
                  )
             )
       ||| % config
@@ -39,7 +44,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     commonPanels.timeseries(
       title='Availability Breaches and Burn Rate',
       description='Breaches of availability over time, error ratio > threshold',
-      decimals=0,
+      decimals=2,
       format='none',
       span=span,
       legend_show=false,
@@ -58,6 +63,8 @@ local promQuery = import 'components/prom_query.libsonnet';
       promQuery.target(
         |||
           increase(service_level_sli_result_error_ratio_total{%(slo_selector)s}[%(interval)s])
+          /
+          increase(service_level_sli_result_count_total{%(slo_selector)s}[%(interval)s])
         ||| % config,
         legendFormat='Budget Burn Rate',
         interval=config.interval,
@@ -67,7 +74,6 @@ local promQuery = import 'components/prom_query.libsonnet';
       promQuery.target(
         |||
           ( 1 - service_level_slo_objective_ratio{%(slo_selector)s} )
-          * increase(service_level_sli_result_count_total{%(slo_selector)s}[%(interval)s])
         ||| % config,
         legendFormat='Max Budget',
         interval=config.interval,
@@ -83,6 +89,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         bars: true,
         yaxis: 2,
         zindex: '-3',
+        hideTooltip: true,
       },
     )
     .addSeriesOverride(
@@ -114,7 +121,48 @@ local promQuery = import 'components/prom_query.libsonnet';
     .addYaxis(
       format='short',
       min=0,
+      show=false,
       max=1,
       label='Breach',
     ),
+
+  serviceLevelBurndownChart(namespace='$namespace', sloService='$slo_service', slo='.*', projection='week', span=3)::
+    local config = {
+      slo_selector: std.format('namespace="%s", service_level="%s", slo=~"%s"', [namespace, sloService, slo]),
+      projection_string: if projection == 'week' then '7d' else '30d',  // Week or anything else is 1 month
+      minutes_multiplier: if projection == 'week' then 10080 else 43200,  // Week or anything else is 1 month
+      interval_in_minutes: 10,
+      multiplier: config.minutes_multiplier / config.interval_in_minutes,
+    };
+
+    commonPanels.timeseries(
+      title=std.format('Burndown Chart %s projection', config.projection_string),
+      description=std.format('Error budget Burndown chart with projection of %s', config.projection_string),
+      decimals=2,
+      format='percent',
+      fill='1',
+      span=span,
+      legend_show=false,
+      yAxisLabel='Error Budget left',
+      min=0,
+      max=100,
+      height=200,
+      interval='1m',
+      intervalFactor=1,
+      query=|||
+        (
+          (
+            (1 - service_level_slo_objective_ratio{%(slo_selector)s}) * %(multiplier)s * increase(service_level_sli_result_count_total{%(slo_selector)s}[%(interval_in_minutes)sm])
+            -
+            increase(service_level_sli_result_error_ratio_total{%(slo_selector)s}[${__range}])
+          )
+          /
+          (
+            (1 - service_level_slo_objective_ratio{%(slo_selector)s}) * %(multiplier)s * increase(service_level_sli_result_count_total{%(slo_selector)s}[%(interval_in_minutes)sm])
+          )
+        ) * 100
+      ||| % config
+    ),
+
+
 }

@@ -24,7 +24,7 @@ local dashboardTags = ['slo'];
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
         ($._config.mintel { dashboardTitle: dashboardTitle }),
-        time_from='now-1h',
+        time_from='now-7d',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
         description=dashboardDescription,
@@ -35,34 +35,13 @@ local dashboardTags = ['slo'];
       .addTemplate(templates.namespace('', ''))
       .addTemplate(templates.slo_operator_services())
       .addTemplate(templates.slo_operator_slo())
-      .addTemplate(templates.slo_availability_span(current='1h'))
+      .addTemplate(templates.slo_availability_span(current='7d'))
 
       .addRow(
         row.new('SLI/SLO for service ${slo_service} on ${slo}', repeat='slo', height=300)
         .addPanel(slo.serviceLevelAvailabilityOverTime(namespace='$namespace', sloService='$slo_service', slo='$slo', availabilitySpan='$slo_availability_span'))
-        .addPanel(slo.serviceLevelAvailabilityBreachesTimeSeries(namespace='$namespace', sloService='$slo_service', slo='$slo', interval='15s'))
+        .addPanel(slo.serviceLevelAvailabilityBreachesTimeSeries(namespace='$namespace', sloService='$slo_service', slo='$slo', interval='30s'))
+        .addPanel(slo.serviceLevelBurndownChart(namespace='$namespace', sloService='$slo_service', projection='week', slo='$slo'))
       ),
-    //.addRow(
-    //  row.new('Request / Response')
-    //  .addPanels(django.requestResponsePanels())
-    //)
-    //.addRow(
-    //  row.new('Resources')
-    //  .addPanels(containerResources.containerResourcesPanel('$service'))
-    //)
-    //.addRow(
-    //  row.new('Database', collapse=true)
-    //  .addPanels(django.databaseOps())
-    //)
-    //.addRow(
-    //  row.new('Celery', collapse=true)
-    //  .addPanels(celery.celeryPanels(serviceType='', startRow=1001))
-    //)
-    //.addRow(
-    //  row.new('Redis', collapse=true)
-    //  .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-    //  .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-    //  .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-    //),
   },
 }
