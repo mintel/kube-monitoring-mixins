@@ -28,9 +28,6 @@
     // Criticality of containerIo Alerts
     containerIoCriticality: 'critical',
 
-    // This list of filesystem is referenced in various expressions.
-    hostMountpointSelector: 'mountpoint="/mnt/stateful_partition"',
-
     grafana_prefix: '',
 
     // BaseURL for mintel-specific runbooks.
@@ -88,6 +85,17 @@
     cost_ram: '2.38',
     cost_pram: '0.71',
     unaccounted_node_storage: '4000000000',
+
+    // This list of disk device names is referenced in various expressions.
+    diskDevices: ['sda'],
+    diskDeviceSelector: 'device=~"sda"',
+
+    podLabel: 'pod',
+
+    // This list of filesystem is referenced in various expressions.
+    fstypes: ['ext4'],
+    fstypeSelector: 'fstype="ext4", mountpoint="/mnt/stateful_partition"',
+    hostMountpointSelector: 'mountpoint="/mnt/stateful_partition"',
 
   },
 }
