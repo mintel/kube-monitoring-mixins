@@ -31,7 +31,7 @@
          }
       ]
    },
-   "description": "Provides an overview of the Portal stack",
+   "description": "Provides an overview of the Omni Web Stack",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 1,
@@ -2537,7 +2537,7 @@
    "style": "dark",
    "tags": [
       "mintel",
-      "portal"
+      "omni"
    ],
    "templating": {
       "list": [
@@ -2558,8 +2558,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "portal",
-               "value": "portal"
+               "text": "omni",
+               "value": "omni"
             },
             "datasource": "Prometheus",
             "hide": 2,
@@ -2630,7 +2630,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Portal",
-   "uid": "cee4e8059425a65429cce97a09899644",
+   "title": "Mintel /  Omni Web",
+   "uid": "ae79eb1d0f5c628dd450d1e8367f6735",
    "version": 0
 }

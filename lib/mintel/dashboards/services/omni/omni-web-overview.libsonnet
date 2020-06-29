@@ -11,16 +11,17 @@ local celery = import 'components/panels/celery.libsonnet';
 local webService = import 'components/panels/frontend-service.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
 
+
 // Dashboard settings
-local dashboardTitle = 'Portal';
-local dashboardDescription = "Provides an overview of the Portal stack";
-local dashboardFile = 'portal-overview.json';
+local dashboardTitle = 'Omni Web';
+local dashboardDescription = "Provides an overview of the Omni Web Stack";
+local dashboardFile = 'omni-web-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/' + std.md5(dashboardFile);
 local dashboardWorkloadLink = '/d/a164a7f0339f99e89cea5cb47e9be617';
 
-local dashboardTags = ['portal'];
+local dashboardTags = ['omni'];
 // End dashboard settings
 
 {
@@ -49,7 +50,7 @@ local dashboardTags = ['portal'];
       .addAnnotation(annotations.fluxAutoRelease)
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace('portal', hide=true))
+      .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
 
       .addRow(

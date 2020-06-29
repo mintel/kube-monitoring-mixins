@@ -31,7 +31,7 @@
          }
       ]
    },
-   "description": "Provides an overview of the Image Service stack",
+   "description": "Provides an overview of the Omni Analytics Stack",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 1,
@@ -218,7 +218,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]))\n",
+                     "expr": "sum(\n  rate(\n    http_requests_total{namespace=\"$namespace\", service=\"$service\"}[$__interval]))\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -304,7 +304,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service=\"$namespace-$deployment\"}\n",
+                     "expr": "100 - mintel:http_error_rate:percentage:1m{service=\"$service\"}\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -338,6 +338,7 @@
       {
          "collapse": false,
          "collapsed": false,
+         "height": 5,
          "panels": [
             {
                "aliasColors": { },
@@ -346,13 +347,13 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "Percentile Latency from HAProxy Ingress",
+               "description": "Percentile Latency For Analytics API Service",
                "fill": 0,
                "gridPos": {
                   "h": 10,
-                  "w": 2,
+                  "w": 12,
                   "x": 0,
-                  "y": 1000
+                  "y": 0
                },
                "height": 300,
                "id": 5,
@@ -379,39 +380,39 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 6,
+               "span": 12,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=\"$namespace-$deployment\"}\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:95{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "p95 {{ backend }}",
+                     "legendFormat": "p95 {{ service }}/{{ analytics_type }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:75{mintel_com_service=\"$namespace-$deployment\"}\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:75{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "p75 {{ backend }}",
+                     "legendFormat": "p75 {{ service }}/{{ analytics_type }}",
                      "refId": "B"
                   },
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:50{mintel_com_service=\"$namespace-$deployment\"}\n",
+                     "expr": "mintel:http_request_duration_seconds_quantile:50{service=\"$service\", analytics_type=~\"$analytics_type\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "p50 {{ backend }}",
+                     "legendFormat": "p50 {{ service }}/{{ analytics_type }}",
                      "refId": "C"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "HAProxy Latency",
+               "title": "API Service Latency",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -443,7 +444,21 @@
                      "show": false
                   }
                ]
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "API Service",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "height": 5,
+         "panels": [
             {
                "aliasColors": { },
                "bars": false,
@@ -451,13 +466,13 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "HTTP Responses from HAProxy Ingress for backend $deployment",
+               "description": "Percentile Latency For Analytics ElasticSearch Responses",
                "fill": 0,
                "gridPos": {
                   "h": 10,
-                  "w": 2,
-                  "x": 2,
-                  "y": 1000
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
                },
                "height": 300,
                "id": 6,
@@ -476,7 +491,7 @@
                "lines": true,
                "linewidth": 2,
                "links": [ ],
-               "nullPointMode": "null",
+               "nullPointMode": "connected",
                "percentage": false,
                "pointradius": 5,
                "points": false,
@@ -484,23 +499,39 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 6,
+               "span": 12,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"$namespace-.*$deployment-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
+                     "expr": "histogram_quantile(0.95,\n  sum(\n    rate(\n      omni_analytics_es_request_processing_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ code }}",
+                     "legendFormat": "p95 {{ service }}/{{ analytics_type }}",
                      "refId": "A"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.75,\nsum(\n  rate(\n    omni_analytics_es_request_processing_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p75 {{ service }}/{{ analytics_type }}",
+                     "refId": "B"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.50,\nsum(\n  rate(\n    omni_analytics_es_request_processing_seconds_bucket{namespace=\"$namespace\", analytics_type=~\"$analytics_type\", service=\"$service\"}[$__interval]))\nby (service, analytics_type, le))\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "p50 {{ service }}/{{ analytics_type }}",
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "HAProxy Responses",
+               "title": "ElasticSearch Response Latency",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -516,8 +547,8 @@
                },
                "yaxes": [
                   {
-                     "format": "short",
-                     "label": "Num Responses",
+                     "format": "s",
+                     "label": "Time",
                      "logBase": 1,
                      "max": null,
                      "min": 0,
@@ -538,7 +569,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Request / Response",
+         "title": "ES Responses",
          "titleSize": "h6",
          "type": "row"
       },
@@ -591,7 +622,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$deployment.*\", container=\"main\"}[5m])) by (pod)\n",
+                     "expr": "sum(\n  rate(\n    container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$service.*\", container=\"main\"}[5m])) by (pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -680,7 +711,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$deployment.*\", container=\"main\"}\n",
+                     "expr": "container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$service.*\", container=\"main\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -732,115 +763,13 @@
          "title": "Resources",
          "titleSize": "h6",
          "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 2,
-               "description": "",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 24,
-                  "x": 0,
-                  "y": 1000
-               },
-               "height": 200,
-               "id": 9,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "connected",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 12,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "rate(thumbor_gcs_fetch_sum{job=\"$deployment\"}[$__interval])\n /\n rate(thumbor_gcs_fetch_count{job=\"$deployment\"}[$__interval])\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ pod }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Storage R/W Latency",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "ms",
-                     "label": "",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Storage",
-         "titleSize": "h6",
-         "type": "row"
       }
    ],
    "schemaVersion": 14,
    "style": "dark",
    "tags": [
       "mintel",
-      "image-service"
+      "omni"
    ],
    "templating": {
       "list": [
@@ -861,8 +790,8 @@
          {
             "allValue": null,
             "current": {
-               "text": "image-service",
-               "value": "image-service"
+               "text": "omni",
+               "value": "omni"
             },
             "datasource": "Prometheus",
             "hide": 2,
@@ -887,12 +816,35 @@
             "datasource": "Prometheus",
             "hide": 0,
             "includeAll": false,
-            "label": "Deployment",
+            "label": "Service",
             "multi": false,
-            "name": "deployment",
+            "name": "service",
             "options": [ ],
-            "query": "label_values(kube_deployment_labels{namespace=\"$namespace\"}, deployment)",
+            "query": "label_values(kube_service_labels{namespace=\"$namespace\"}, label_app_kubernetes_io_instance)",
             "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": ".*",
+            "current": {
+               "text": "",
+               "value": ""
+            },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Analytics Type",
+            "multi": true,
+            "name": "analytics_type",
+            "options": [ ],
+            "query": "label_values(http_request_duration_seconds_count{namespace=\"omni\"}, analytics_type)",
+            "refresh": 2,
             "regex": "",
             "sort": 0,
             "tagValuesQuery": "",
@@ -933,7 +885,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Image Service",
-   "uid": "d6516a7ed168f353851be1f9f0a9de0c",
+   "title": "Mintel /  Omni Analytics",
+   "uid": "d3ee911e9ec93c9452af29ab7166ee72",
    "version": 0
 }

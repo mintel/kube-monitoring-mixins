@@ -5,22 +5,21 @@ local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
-local redis = import 'components/panels/redis.libsonnet';
-local django = import 'components/panels/django.libsonnet';
-local celery = import 'components/panels/celery.libsonnet';
-local webService = import 'components/panels/frontend-service.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
+local backendService = import 'components/panels/backend-service.libsonnet';
+local omniAnalytics = import 'analytics.libsonnet';
+
 
 // Dashboard settings
-local dashboardTitle = 'Portal';
-local dashboardDescription = "Provides an overview of the Portal stack";
-local dashboardFile = 'portal-overview.json';
+local dashboardTitle = 'Omni Analytics';
+local dashboardDescription = "Provides an overview of the Omni Analytics Stack";
+local dashboardFile = 'omni-analytics-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/' + std.md5(dashboardFile);
 local dashboardWorkloadLink = '/d/a164a7f0339f99e89cea5cb47e9be617';
 
-local dashboardTags = ['portal'];
+local dashboardTags = ['omni'];
 // End dashboard settings
 
 {
@@ -49,34 +48,35 @@ local dashboardTags = ['portal'];
       .addAnnotation(annotations.fluxAutoRelease)
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace('portal', hide=true))
+      .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
-
+      .addTemplate(grafana.template.new(
+        'analytics_type',
+        'Prometheus',
+        'label_values(http_request_duration_seconds_count{namespace="omni"}, analytics_type)',
+        label='Analytics Type',
+        refresh='time',
+        allValues='.*',
+        current='',
+        includeAll=true,
+        multi=true,
+      ))
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(webService.overview())
+        .addPanels(backendService.overview())
       )
       .addRow(
-        row.new('Request / Response')
-        .addPanels(django.requestResponsePanels())
+        row.new('API Service', height=5)
+        .addPanels(omniAnalytics.apiServiceLatency())
+      )
+      .addRow(
+        row.new('ES Responses', height=5)
+        .addPanels(omniAnalytics.elasticSearchResponses())
       )
       .addRow(
         row.new('Resources')
         .addPanels(containerResources.containerResourcesPanel("$service"))
       )
-      .addRow(
-        row.new('Database', collapse=true)
-        .addPanels(django.databaseOps())  
-      )
-      .addRow(
-        row.new('Celery', collapse=true)
-        .addPanels(celery.celeryPanels(serviceType='', startRow=1001))
-      )
-       .addRow(
-        row.new('Redis', collapse=true)
-        .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-      )
+
   },
 }
