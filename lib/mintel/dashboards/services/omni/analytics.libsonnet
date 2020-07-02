@@ -45,13 +45,9 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
   ]),
 
-    widgetRequest(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
-      local config = {
-        serviceSelectorKey: serviceSelectorKey,
-        serviceSelectorValue: serviceSelectorValue,
-      };
+  widgetRequest(span=12)::
 
-      layout.grid([
+    layout.grid([
 
       commonPanels.latencyTimeseries(
         title='Widget Request Time',
@@ -63,8 +59,8 @@ local promQuery = import 'components/prom_query.libsonnet';
         height=300,
         query=|||
           sum without (instance) (rate(django_widget_request_time_sum{job="omni-web", dashboard_id="$dashboard_id"}[$interval])) / sum without (instance) (rate(django_widget_request_time_count{job="omni-web", dashboard_id="$dashboard_id"}[$interval]))
-        ||| % config,
-        legendFormat='p95 {{ %(serviceSelectorKey)s }}/{{ analytics_type }}' % (config),
+        |||,
+        legendFormat='{{ $dashboard_id }}',
         intervalFactor=2,
       ),
     ]),
