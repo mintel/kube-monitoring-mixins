@@ -45,6 +45,30 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
   ]),
 
+    widgetRequest(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
+      local config = {
+        serviceSelectorKey: serviceSelectorKey,
+        serviceSelectorValue: serviceSelectorValue,
+      };
+
+      layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Widget Request Time',
+        description='Widget Request Time by Widget ID',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=300,
+        query=|||
+          sum without (instance) (rate(django_widget_request_time_sum{job="omni-web", dashboard_id="$dashboard_id"}[$interval])) / sum without (instance) (rate(django_widget_request_time_count{job="omni-web", dashboard_id="$dashboard_id"}[$interval]))
+        ||| % config,
+        legendFormat='p95 {{ %(serviceSelectorKey)s }}/{{ analytics_type }}' % (config),
+        intervalFactor=2,
+      ),
+    ]),
+
   elasticSearchResponses(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,

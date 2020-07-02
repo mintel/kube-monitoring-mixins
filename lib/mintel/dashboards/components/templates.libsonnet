@@ -211,4 +211,15 @@ local template = grafana.template;
       },
     ],
   },
+  dashboard_id(current, hide=false):: template.new(
+    'dashboard_id',
+    'Prometheus',
+    'label_values(django_widget_request_time_count{job="omni-web"}, dashboard_id)',
+    label='Widget ID',
+    refresh='time',
+    allValues='.*',
+    current='',
+    includeAll=true,
+    multi=true,
+  ),
 }
