@@ -2710,7 +2710,7 @@
             "multi": false,
             "name": "dashboard_id",
             "options": [ ],
-            "query": "label_values(django_widget_request_time,dashboard_id)",
+            "query": "label_values(django_widget_request_time_count,dashboard_id)",
             "refresh": 1,
             "regex": "",
             "sort": 0,
