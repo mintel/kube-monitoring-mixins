@@ -58,11 +58,11 @@ local promQuery = import 'components/prom_query.libsonnet';
         span=span,
         height=300,
         query=|||
-          sum without (instance) (rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+          sum without (instance) (rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
           /
-          sum without (instance) (rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+          sum without (instance) (rate(django_widget_request_time_count{service="$service"}[$__interval])) by (dashboard_id)
         |||,
-        legendFormat='{{ widget_id }}',
+        legendFormat='{{ dashboard_id }}',
         intervalFactor=2,
       ),
     ]),

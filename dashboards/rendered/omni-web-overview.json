@@ -346,108 +346,6 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "Widget Request Time by Widget ID",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 0
-               },
-               "height": 300,
-               "id": 5,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "connected",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 12,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n/\nsum without (instance) (rate(django_widget_request_time_count{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ widget_id }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Widget Request Time",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "s",
-                     "label": "Time",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Widget Request Time by Widget Id",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 2,
                "description": "Percentile Latency from HAProxy Ingress",
                "fill": 0,
                "gridPos": {
@@ -457,7 +355,7 @@
                   "y": 1000
                },
                "height": 300,
-               "id": 6,
+               "id": 5,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -562,7 +460,7 @@
                   "y": 1000
                },
                "height": 300,
-               "id": 7,
+               "id": 6,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -651,7 +549,7 @@
                   "y": 1000
                },
                "height": 300,
-               "id": 8,
+               "id": 7,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -752,7 +650,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 9,
+               "id": 8,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -841,7 +739,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 10,
+               "id": 9,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -920,6 +818,108 @@
          "repeatRowId": null,
          "showTitle": true,
          "title": "Resources",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$ds",
+               "decimals": 2,
+               "description": "Widget Request Time by Widget ID",
+               "fill": 0,
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
+               },
+               "height": 300,
+               "id": 10,
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "connected",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 12,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{service=\"$service\"}[$__interval])) by (dashboard_id)\n/\nsum without (instance) (rate(django_widget_request_time_count{service=\"$service\"}[$__interval])) by (dashboard_id)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{ dashboard_id }}",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Widget Request Time",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "s",
+                     "label": "Time",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Widget Request Time by Widget Id",
          "titleSize": "h6",
          "type": "row"
       },
@@ -2691,26 +2691,6 @@
             "name": "service",
             "options": [ ],
             "query": "label_values(kube_service_labels{namespace=\"$namespace\"}, label_app_kubernetes_io_instance)",
-            "refresh": 1,
-            "regex": "",
-            "sort": 0,
-            "tagValuesQuery": "",
-            "tags": [ ],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "current": { },
-            "datasource": "Prometheus",
-            "hide": 0,
-            "includeAll": false,
-            "label": "Dashboard ID",
-            "multi": false,
-            "name": "dashboard_id",
-            "options": [ ],
-            "query": "label_values(django_widget_request_time_count{namespace=\"$namespace\"},dashboard_id)",
             "refresh": 1,
             "regex": "",
             "sort": 0,

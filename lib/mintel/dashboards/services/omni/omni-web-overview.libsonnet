@@ -53,15 +53,10 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
-      .addTemplate(templates.dashboard_id)
 
       .addRow(
         row.new('Overview', height=5)
         .addPanels(webService.overview())
-      )
-      .addRow(
-        row.new('Widget Request Time by Widget Id')
-        .addPanels(omniWeb.widgetRequest())
       )
       .addRow(
         row.new('Request / Response')
@@ -70,6 +65,10 @@ local dashboardTags = ['omni'];
       .addRow(
         row.new('Resources')
         .addPanels(containerResources.containerResourcesPanel("$service"))
+      )
+      .addRow(
+        row.new('Widget Request Time by Widget Id')
+        .addPanels(omniWeb.widgetRequest())
       )
       .addRow(
         row.new('Database', collapse=true)
