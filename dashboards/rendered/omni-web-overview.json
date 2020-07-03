@@ -384,11 +384,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$interval])) / sum without (instance) (rate(django_widget_request_time_count{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$interval]))\n",
+                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval])) / sum without (instance) (rate(django_widget_request_time_count{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ $dashboard_id }}",
+                     "legendFormat": "{{ $widget_id }}",
                      "refId": "A"
                   }
                ],
