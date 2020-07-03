@@ -384,7 +384,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval])) / sum without (instance) (rate(django_widget_request_time_count{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n",
+                     "expr": "sum without (instance) (rate(django_widget_request_time_sum{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n/\nsum without (instance) (rate(django_widget_request_time_count{job=\"omni-web\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2710,7 +2710,7 @@
             "multi": false,
             "name": "dashboard_id",
             "options": [ ],
-            "query": "label_values(django_widget_request_time_count,dashboard_id)",
+            "query": "label_values(django_widget_request_time_count{namespace=\"$namespace\"},dashboard_id)",
             "refresh": 1,
             "regex": "",
             "sort": 0,
