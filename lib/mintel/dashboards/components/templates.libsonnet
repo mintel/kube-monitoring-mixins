@@ -215,7 +215,7 @@ local template = grafana.template;
     'dashboard_id',
     'Prometheus',
     'label_values(django_widget_request_time_count{namespace="$namespace"},dashboard_id)',
-    label='Widget ID',
+    label='Dashboard ID',
     refresh='load',
   ),
 }

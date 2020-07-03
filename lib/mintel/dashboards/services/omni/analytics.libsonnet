@@ -62,7 +62,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           /
           sum without (instance) (rate(django_widget_request_time_count{job="omni-web", dashboard_id="$dashboard_id"}[$__interval]))
         |||,
-        legendFormat='{{ $widget_id }}',
+        legendFormat='{{ widget_id }}',
         intervalFactor=2,
       ),
     ]),

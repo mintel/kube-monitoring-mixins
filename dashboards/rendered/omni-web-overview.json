@@ -388,7 +388,7 @@
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
-                     "legendFormat": "{{ $widget_id }}",
+                     "legendFormat": "{{ widget_id }}",
                      "refId": "A"
                   }
                ],
@@ -2706,7 +2706,7 @@
             "datasource": "Prometheus",
             "hide": 0,
             "includeAll": false,
-            "label": "Widget ID",
+            "label": "Dashboard ID",
             "multi": false,
             "name": "dashboard_id",
             "options": [ ],
