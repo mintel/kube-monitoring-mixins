@@ -80,9 +80,9 @@ local promQuery = import 'components/prom_query.libsonnet';
         span=span,
         height=300,
         query=|||
-          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
           /
-          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
         |||,
         legendFormat='Widget ID: {{ widget_id }}',
         intervalFactor=2,
