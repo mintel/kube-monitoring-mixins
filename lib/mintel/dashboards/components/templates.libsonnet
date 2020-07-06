@@ -217,6 +217,5 @@ local template = grafana.template;
     'label_values(django_widget_request_time_count{namespace="$namespace"},dashboard_id)',
     label='Dashboard ID',
     refresh='load',
-    includeAll=true,
   ),
  }

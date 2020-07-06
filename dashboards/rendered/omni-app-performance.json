@@ -308,7 +308,7 @@
                      "pattern": "Value",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "currencyUSD"
+                     "unit": "short"
                   },
                   {
                      "alias": "",
@@ -330,7 +330,7 @@
                ],
                "targets": [
                   {
-                     "expr": "sum(widget_total_requests_total{service=\"$service\"}) by dashboard_id\n",
+                     "expr": "sum(widget_total_requests_total{service=\"$service\"}) by (dashboard_id)\n",
                      "format": "table",
                      "instant": "true",
                      "interval": "",
@@ -405,7 +405,7 @@
                      "pattern": "Value",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "currencyUSD"
+                     "unit": "short"
                   },
                   {
                      "alias": "",
@@ -427,7 +427,7 @@
                ],
                "targets": [
                   {
-                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard=\"$dashboard_id\"}) by widget_id\n",
+                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard=\"$dashboard_id\"}) by (widget_id)\n",
                      "format": "table",
                      "instant": "true",
                      "interval": "",
@@ -521,7 +521,7 @@
             "current": { },
             "datasource": "Prometheus",
             "hide": 0,
-            "includeAll": true,
+            "includeAll": false,
             "label": "Dashboard ID",
             "multi": false,
             "name": "dashboard_id",

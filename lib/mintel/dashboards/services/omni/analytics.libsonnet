@@ -199,7 +199,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             pattern: 'Value',
             thresholds: [],
             type: 'number',
-            unit: 'currencyUSD',
+            unit: 'short',
           },
           {
             alias: '',
@@ -220,7 +220,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           },
         ],
         query=|||
-          sum(widget_total_requests_total{service="$service"}) by dashboard_id
+          sum(widget_total_requests_total{service="$service"}) by (dashboard_id)
         |||,
         intervalFactor=1,
         legendFormat='{{ dashboard_id }}',
@@ -283,7 +283,7 @@ local promQuery = import 'components/prom_query.libsonnet';
             pattern: 'Value',
             thresholds: [],
             type: 'number',
-            unit: 'currencyUSD',
+            unit: 'short',
           },
           {
             alias: '',
@@ -304,7 +304,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           },
         ],
         query=|||
-          sum(widget_total_requests_total{service="$service", dashboard="$dashboard_id"}) by widget_id
+          sum(widget_total_requests_total{service="$service", dashboard="$dashboard_id"}) by (widget_id)
         |||,
         intervalFactor=1,
         legendFormat='{{ widget_id }}',
