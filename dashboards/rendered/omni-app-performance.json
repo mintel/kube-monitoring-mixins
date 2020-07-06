@@ -286,12 +286,12 @@
                         "rgba(50, 172, 45, 0.97)"
                      ],
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
+                     "decimals": 0,
                      "mappingType": 1,
                      "pattern": "dashboard_id",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "short"
+                     "unit": "none"
                   },
                   {
                      "alias": "Requests",
@@ -303,12 +303,12 @@
                         "rgba(50, 172, 45, 0.97)"
                      ],
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
+                     "decimals": 0,
                      "mappingType": 1,
                      "pattern": "Value",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "short"
+                     "unit": "none"
                   },
                   {
                      "alias": "",
@@ -383,12 +383,12 @@
                         "rgba(50, 172, 45, 0.97)"
                      ],
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
+                     "decimals": 0,
                      "mappingType": 1,
                      "pattern": "widget_id",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "short"
+                     "unit": "none"
                   },
                   {
                      "alias": "Requests",
@@ -400,12 +400,12 @@
                         "rgba(50, 172, 45, 0.97)"
                      ],
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
+                     "decimals": 0,
                      "mappingType": 1,
                      "pattern": "Value",
                      "thresholds": [ ],
                      "type": "number",
-                     "unit": "short"
+                     "unit": "none"
                   },
                   {
                      "alias": "",
@@ -427,7 +427,7 @@
                ],
                "targets": [
                   {
-                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard=\"$dashboard_id\"}) by (widget_id)\n",
+                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard_id=\"$dashboard_id\"}) by (widget_id)\n",
                      "format": "table",
                      "instant": "true",
                      "interval": "",
