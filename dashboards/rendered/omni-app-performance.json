@@ -101,7 +101,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (dashboard_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (dashboard_id)\n",
+                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\"}[$__interval])) by (dashboard_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\"}[$__interval])) by (dashboard_id)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
