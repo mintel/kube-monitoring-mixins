@@ -321,6 +321,26 @@
             "tagsQuery": "",
             "type": "query",
             "useTags": false
+         },
+         {
+            "allValue": null,
+            "current": { },
+            "datasource": "Prometheus",
+            "hide": 0,
+            "includeAll": false,
+            "label": "Dashboard ID",
+            "multi": false,
+            "name": "dashboard_id",
+            "options": [ ],
+            "query": "label_values(django_widget_request_time_count{namespace=\"$namespace\"},dashboard_id)",
+            "refresh": 1,
+            "regex": "",
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tags": [ ],
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
          }
       ]
    },

@@ -48,6 +48,7 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
+      .addTemplate(templates.dashboard_id)
 
       .addRow(
         row.new('Dashboard Request Time')
