@@ -9,7 +9,7 @@ local omniWeb = import 'analytics.libsonnet';
 
 
 // Dashboard settings
-local dashboardTitle = 'Omni Web';
+local dashboardTitle = 'Omni App Performance';
 local dashboardDescription = "Provides performance breakdown of the Omni Web Stack";
 local dashboardFile = 'omni-app-performance.json';
 
