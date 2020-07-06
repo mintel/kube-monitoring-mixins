@@ -62,7 +62,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           /
           sum(rate(django_widget_request_time_count{service="$service"}[$__interval])) by (dashboard_id)
         |||,
-        legendFormat='{{ dashboard_id }}',
+        legendFormat='Dashboard ID: {{ dashboard_id }}',
         intervalFactor=2,
       ),
     ]),

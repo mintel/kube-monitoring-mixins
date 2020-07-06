@@ -822,108 +822,6 @@
          "type": "row"
       },
       {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$ds",
-               "decimals": 2,
-               "description": "Widget Request Time by Dashboard ID",
-               "fill": 0,
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 0
-               },
-               "height": 300,
-               "id": 10,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "connected",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 12,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\"}[$__interval])) by (dashboard_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\"}[$__interval])) by (dashboard_id)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "{{ dashboard_id }}",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Widget Request Time",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "s",
-                     "label": "Time",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Widget Request Time by Widget Id",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
          "collapse": true,
          "collapsed": true,
          "panels": [
@@ -943,7 +841,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 11,
+               "id": 10,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1055,7 +953,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 12,
+               "id": 11,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1131,7 +1029,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 13,
+               "id": 12,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1233,7 +1131,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 14,
+               "id": 13,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1321,7 +1219,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 15,
+               "id": 14,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1409,7 +1307,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 16,
+               "id": 15,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1497,7 +1395,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 17,
+               "id": 16,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1585,7 +1483,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 18,
+               "id": 17,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1673,7 +1571,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 19,
+               "id": 18,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1761,7 +1659,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 20,
+               "id": 19,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1849,7 +1747,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 21,
+               "id": 20,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1937,7 +1835,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 22,
+               "id": 21,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2025,7 +1923,7 @@
                   "y": 1032
                },
                "height": 200,
-               "id": 23,
+               "id": 22,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2113,7 +2011,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 24,
+               "id": 23,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2201,7 +2099,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 25,
+               "id": 24,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2289,7 +2187,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 26,
+               "id": 25,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2377,7 +2275,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 27,
+               "id": 26,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2465,7 +2363,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 28,
+               "id": 27,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2553,7 +2451,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 29,
+               "id": 28,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,

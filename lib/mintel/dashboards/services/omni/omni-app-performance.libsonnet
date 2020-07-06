@@ -5,18 +5,13 @@ local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
-local redis = import 'components/panels/redis.libsonnet';
-local django = import 'components/panels/django.libsonnet';
-local celery = import 'components/panels/celery.libsonnet';
-local webService = import 'components/panels/frontend-service.libsonnet';
-local containerResources = import 'components/panels/container_resources.libsonnet';
 local omniWeb = import 'analytics.libsonnet';
 
 
 // Dashboard settings
 local dashboardTitle = 'Omni Web';
-local dashboardDescription = "Provides an overview of the Omni Web Stack";
-local dashboardFile = 'omni-web-overview.json';
+local dashboardDescription = "Provides performance breakdown of the Omni Web Stack";
+local dashboardFile = 'omni-app-performance.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/' + std.md5(dashboardFile);
@@ -55,30 +50,8 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.app_service)
 
       .addRow(
-        row.new('Overview', height=5)
-        .addPanels(webService.overview())
-      )
-      .addRow(
-        row.new('Request / Response')
-        .addPanels(django.requestResponsePanels())
-      )
-      .addRow(
-        row.new('Resources')
-        .addPanels(containerResources.containerResourcesPanel("$service"))
-      )
-      .addRow(
-        row.new('Database', collapse=true)
-        .addPanels(django.databaseOps())  
-      )
-      .addRow(
-        row.new('Celery', collapse=true)
-        .addPanels(celery.celeryPanels(serviceType='', startRow=1001))
-      )
-       .addRow(
-        row.new('Redis', collapse=true)
-        .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
+        row.new('Widget Request Time by Widget Id')
+        .addPanels(omniWeb.widgetRequest())
       )
   },
 }
