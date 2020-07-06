@@ -45,13 +45,13 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
   ]),
 
-  widgetRequest(span=12)::
+  dashboardRequest(span=12)::
 
     layout.grid([
 
       commonPanels.latencyTimeseries(
-        title='Widget Request Time',
-        description='Widget Request Time by Dashboard ID',
+        title='Dashboard Request Time',
+        description='Dashboard Request Time by dashboard id',
         yAxisLabel='Time',
         format='s',
         legend_show=true,
@@ -63,6 +63,28 @@ local promQuery = import 'components/prom_query.libsonnet';
           sum(rate(django_widget_request_time_count{service="$service"}[$__interval])) by (dashboard_id)
         |||,
         legendFormat='Dashboard ID: {{ dashboard_id }}',
+        intervalFactor=2,
+      ),
+    ]),
+
+  widgetRequest(span=12)::
+
+    layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Widget Request Time',
+        description='Widget Request Time by dashboard id',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=300,
+        query=|||
+          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+          /
+          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
+        |||,
+        legendFormat='Widget ID: {{ widget_id }}',
         intervalFactor=2,
       ),
     ]),

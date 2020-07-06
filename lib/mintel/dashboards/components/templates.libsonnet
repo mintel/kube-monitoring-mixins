@@ -211,4 +211,12 @@ local template = grafana.template;
       },
     ],
   },
-}
+  dashboard_id:: template.new(
+    'dashboard_id',
+    'Prometheus',
+    'label_values(django_widget_request_time_count,dashboard_id)',
+    'label_values(django_widget_request_time_count{namespace="$namespace"},dashboard_id)',
+    label='Widget ID',
+    refresh='load',
+  ),
+ }

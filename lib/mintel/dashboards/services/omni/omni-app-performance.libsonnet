@@ -50,7 +50,11 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.app_service)
 
       .addRow(
-        row.new('Widget Request Time by Widget Id')
+        row.new('Dashboard Request Time')
+        .addPanels(omniWeb.dashboardRequest())
+      )
+      .addRow(
+        row.new('Widget Request Time')
         .addPanels(omniWeb.widgetRequest())
       )
   },
