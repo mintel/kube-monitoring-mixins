@@ -45,50 +45,6 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
   ]),
 
-  dashboardRequest(span=12)::
-
-    layout.grid([
-
-      commonPanels.latencyTimeseries(
-        title='Dashboard Request Time',
-        description='Dashboard Request Time by dashboard id',
-        yAxisLabel='Time',
-        format='s',
-        legend_show=true,
-        span=span,
-        height=300,
-        query=|||
-          sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
-          /
-          sum(rate(django_widget_request_time_count{service="$service"}[$__interval])) by (dashboard_id)
-        |||,
-        legendFormat='Dashboard ID: {{ dashboard_id }}',
-        intervalFactor=2,
-      ),
-    ]),
-
-  widgetRequest(span=12)::
-
-    layout.grid([
-
-      commonPanels.latencyTimeseries(
-        title='Widget Request Time',
-        description='Widget Request Time by dashboard id',
-        yAxisLabel='Time',
-        format='s',
-        legend_show=true,
-        span=span,
-        height=300,
-        query=|||
-          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
-          /
-          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
-        |||,
-        legendFormat='Widget ID: {{ widget_id }}',
-        intervalFactor=2,
-      ),
-    ]),
-
   elasticSearchResponses(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
@@ -142,4 +98,217 @@ local promQuery = import 'components/prom_query.libsonnet';
       )
     ),
  ]),
+
+  dashboardRequest(span=6)::
+
+    layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Dashboard Request Time',
+        description='Dashboard Request Time by dashboard id',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=300,
+        query=|||
+          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (dashboard_id)
+          /
+          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (dashboard_id)
+        |||,
+        legendFormat='Dashboard ID: {{ dashboard_id }}',
+        intervalFactor=2,
+      ),
+    ]),
+
+  widgetRequest(span=6)::
+
+    layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Widget Request Time',
+        description='Widget Request Time by dashboard id',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=300,
+        query=|||
+          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
+          /
+          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
+        |||,
+        legendFormat='Widget ID: {{ widget_id }}',
+        intervalFactor=2,
+      ),
+    ]),
+
+  dashboardTotalRequest(span=6)::
+
+    layout.grid([
+
+      commonPanels.table(
+        title='Dashboard Total Requests',
+        styles=[
+          {
+            alias: 'Namespace',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'namespace',
+            thresholds: [],
+            type: 'hidden',
+            unit: 'short',
+          },
+          {
+            alias: 'Dashboard',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'dashboard_id',
+            thresholds: [],
+            type: 'number',
+            unit: 'short',
+          },
+          {
+            alias: 'Requests',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'Value',
+            thresholds: [],
+            type: 'number',
+            unit: 'currencyUSD',
+          },
+          {
+            alias: '',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'Time',
+            thresholds: [],
+            type: 'hidden',
+            unit: 'short',
+          },
+        ],
+        query=|||
+          sum(widget_total_requests_total{service="$service"}) by dashboard_id
+        |||,
+        intervalFactor=1,
+        legendFormat='{{ dashboard_id }}',
+      )
+    ]),
+
+  widgetTotalRequest(span=6)::
+
+    layout.grid([
+
+      commonPanels.table(
+        title='Widget Total Requests',
+        styles=[
+          {
+            alias: 'Namespace',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'namespace',
+            thresholds: [],
+            type: 'hidden',
+            unit: 'short',
+          },
+          {
+            alias: 'Widget',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'widget_id',
+            thresholds: [],
+            type: 'number',
+            unit: 'short',
+          },
+          {
+            alias: 'Requests',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'Value',
+            thresholds: [],
+            type: 'number',
+            unit: 'currencyUSD',
+          },
+          {
+            alias: '',
+            align: 'auto',
+            colorMode: null,
+            colors: [
+              'rgba(245, 54, 54, 0.9)',
+              'rgba(237, 129, 40, 0.89)',
+              'rgba(50, 172, 45, 0.97)',
+            ],
+            dateFormat: 'YYYY-MM-DD HH:mm:ss',
+            decimals: 2,
+            mappingType: 1,
+            pattern: 'Time',
+            thresholds: [],
+            type: 'hidden',
+            unit: 'short',
+          },
+        ],
+        query=|||
+          sum(widget_total_requests_total{service="$service", dashboard="$dashboard_id"}) by widget_id
+        |||,
+        intervalFactor=1,
+        legendFormat='{{ widget_id }}',
+      ),
+    ])
+
 }

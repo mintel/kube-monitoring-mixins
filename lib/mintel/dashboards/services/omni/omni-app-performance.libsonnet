@@ -51,12 +51,16 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.dashboard_id)
 
       .addRow(
-        row.new('Dashboard Request Time')
+        row.new('Request Time')
         .addPanels(omniWeb.dashboardRequest())
-      )
-      .addRow(
-        row.new('Widget Request Time')
         .addPanels(omniWeb.widgetRequest())
       )
+
+      .addRow(
+        row.new('Total Requests')
+        .addPanels(omniWeb.dashboardTotalRequest())
+        .addPanels(omniWeb.widgetTotalRequest())
+      )
+
   },
 }

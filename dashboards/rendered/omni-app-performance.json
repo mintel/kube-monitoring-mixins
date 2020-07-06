@@ -96,12 +96,12 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\"}[$__interval])) by (dashboard_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\"}[$__interval])) by (dashboard_id)\n",
+                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (dashboard_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (dashboard_id)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -144,20 +144,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Dashboard Request Time",
-         "titleSize": "h6",
-         "type": "row"
-      },
-      {
-         "collapse": false,
-         "collapsed": false,
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -198,7 +185,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 12,
+               "span": 6,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -252,7 +239,214 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Widget Request Time",
+         "title": "Request Time",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
+            {
+               "columns": [ ],
+               "datasource": "$ds",
+               "description": "",
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
+               },
+               "id": 4,
+               "styles": [
+                  {
+                     "alias": "Namespace",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "namespace",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Dashboard",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "dashboard_id",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Requests",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "currencyUSD"
+                  },
+                  {
+                     "alias": "",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Time",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  }
+               ],
+               "targets": [
+                  {
+                     "expr": "sum(widget_total_requests_total{service=\"$service\"}) by dashboard_id\n",
+                     "format": "table",
+                     "instant": "true",
+                     "interval": "",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ dashboard_id }}",
+                     "refId": "A"
+                  }
+               ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Dashboard Total Requests",
+               "type": "table"
+            },
+            {
+               "columns": [ ],
+               "datasource": "$ds",
+               "description": "",
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
+               },
+               "id": 5,
+               "styles": [
+                  {
+                     "alias": "Namespace",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "namespace",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Widget",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "widget_id",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Requests",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Value",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "currencyUSD"
+                  },
+                  {
+                     "alias": "",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Time",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  }
+               ],
+               "targets": [
+                  {
+                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard=\"$dashboard_id\"}) by widget_id\n",
+                     "format": "table",
+                     "instant": "true",
+                     "interval": "",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ widget_id }}",
+                     "refId": "A"
+                  }
+               ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Widget Total Requests",
+               "type": "table"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Total Requests",
          "titleSize": "h6",
          "type": "row"
       }
@@ -327,7 +521,7 @@
             "current": { },
             "datasource": "Prometheus",
             "hide": 0,
-            "includeAll": false,
+            "includeAll": true,
             "label": "Dashboard ID",
             "multi": false,
             "name": "dashboard_id",
