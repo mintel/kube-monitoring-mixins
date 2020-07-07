@@ -37,7 +37,7 @@
                "decimals": 2,
                "link": true,
                "linkTooltip": "Click to drill down into pod",
-               "linkUrl": "d/at-cost-analysis-pod/cost-analysis-by-pod?&var-namespace=$namespace&var-pod=$__cell",
+               "linkUrl": "d/cc2d75415c9020802dfdfeb039f4b2ee/mintel-cost-analysis-by-pod?var-namespace=$namespace&var-pod=$__cell",
                "pattern": "pod_name",
                "thresholds": [
                   "30",

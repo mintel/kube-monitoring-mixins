@@ -115,13 +115,13 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
       .addPanel(costAnalysis.tableNamespace(), gridPos={
         x: 0,
         y: 8,
-        w: 11,
+        w: 14,
         h: 11,
       })
       .addPanel(costAnalysis.tablePVCCluster(), gridPos={
-        x: 11,
+        x: 14,
         y: 8,
-        w: 13,
+        w: 10,
         h: 11,
       }),
 
