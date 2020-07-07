@@ -467,7 +467,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
         },
       ],
       query=|||
-        (sum by (namespace) (kube_pod_container_resource_requests_cpu_cores) * ($costcpu - ($costcpu / 100 * $costDiscount)) )
+        (namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)) )
           +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costcpu) by (namespace)
           or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
       |||,
@@ -477,7 +477,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          (sum by (namespace) (kube_pod_container_resource_requests_memory_bytes)/1024/1024/1024*($costram- ($costram
+          (namespace:kube_pod_container_resource_requests_memory_bytes:sum/1024/1024/1024*($costram- ($costram
             / 100 * $costDiscount)))+(sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
             by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
@@ -508,11 +508,11 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       promQuery.target(
         |||
           # Add the CPU
-            ((sum by (namespace) (kube_pod_container_resource_requests_cpu_cores) * ($costcpu - ($costcpu / 100 * $costDiscount)))
+            (namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)))
             + (sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu)
             by (namespace) or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)) +
             # Add the RAM
-            ((sum by (namespace) (kube_pod_container_resource_requests_memory_bytes)/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
+            (namespace:kube_pod_container_resource_requests_memory_bytes:sum/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
             + (sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
             by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)) +
             # Add the storage
