@@ -2,6 +2,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 local seriesOverrides = import 'components/series_overrides.libsonnet';
 
+local namespaceDashboard = std.md5('cost-analysis-namespace-dashboard.json');
+local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
+
 {
 
   overviewText(content)::
@@ -329,7 +332,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           decimals: 2,
           link: true,
           linkTooltip: 'View namespace cost analysis',
-          linkUrl: 'd/at-cost-analysis-namespace/cost-analysis-by-namespace?&var-namespace=$__cell',
+          linkUrl: std.format('d/%s/mintel-cost-analysis-by-namespace?var-namespace=$__cell', namespaceDashboard),
           pattern: 'namespace',
           thresholds: [
             '30',
@@ -674,7 +677,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           decimals: 2,
           link: true,
           linkTooltip: 'Click to drill down into pod',
-          linkUrl: 'd/at-cost-analysis-pod/cost-analysis-by-pod?&var-namespace=$namespace&var-pod=$__cell',
+          linkUrl: std.format('d/%s/mintel-cost-analysis-by-pod?var-namespace=$namespace&var-pod=$__cell', podDashboard),
           pattern: 'pod_name',
           thresholds: [
             '30',

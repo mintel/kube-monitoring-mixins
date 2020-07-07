@@ -852,7 +852,7 @@
                "decimals": 2,
                "link": true,
                "linkTooltip": "View namespace cost analysis",
-               "linkUrl": "d/at-cost-analysis-namespace/cost-analysis-by-namespace?&var-namespace=$__cell",
+               "linkUrl": "d/c4190832ac79f23e775e70c7ddbf66a2/mintel-cost-analysis-by-namespace?var-namespace=$__cell",
                "pattern": "namespace",
                "thresholds": [
                   "30",
