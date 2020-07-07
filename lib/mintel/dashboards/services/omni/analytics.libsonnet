@@ -222,6 +222,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(widget_total_requests_total{service="$service"}) by (dashboard_id)
         |||,
+        span=span,
         intervalFactor=1,
         legendFormat='{{ dashboard_id }}',
       )
@@ -306,6 +307,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         query=|||
           sum(widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}) by (widget_id)
         |||,
+        span=span,
         intervalFactor=1,
         legendFormat='{{ widget_id }}',
       ),
