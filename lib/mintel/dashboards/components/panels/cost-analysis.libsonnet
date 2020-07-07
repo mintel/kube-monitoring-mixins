@@ -2,6 +2,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 local seriesOverrides = import 'components/series_overrides.libsonnet';
 
+local namespaceDashboard = std.md5('cost-analysis-namespace-dashboard.json');
+local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
+
 {
 
   overviewText(content)::
@@ -329,7 +332,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           decimals: 2,
           link: true,
           linkTooltip: 'View namespace cost analysis',
-          linkUrl: 'd/at-cost-analysis-namespace/cost-analysis-by-namespace?&var-namespace=$__cell',
+          linkUrl: std.format('d/%s/mintel-cost-analysis-by-namespace?var-namespace=$__cell', namespaceDashboard),
           pattern: 'namespace',
           thresholds: [
             '30',
@@ -464,7 +467,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
         },
       ],
       query=|||
-        (sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)) )
+        (namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)) )
           +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by (namespace)
           or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
       |||,
@@ -474,7 +477,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          (sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram
+          (namespace:kube_pod_container_resource_requests_memory_bytes:sum/1024/1024/1024*($costram- ($costram
             / 100 * $costDiscount)))+(sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
             by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)
         |||,
@@ -505,13 +508,13 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       promQuery.target(
         |||
           # Add the CPU
-            ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)))
+            (namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)))
             + (sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu)
-            by (namespace) or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)) +
+            by (namespace) or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1) +
             # Add the RAM
-            ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
+            (namespace:kube_pod_container_resource_requests_memory_bytes:sum/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))
             + (sum(container_spec_memory_limit_bytes{namespace!="",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram)
-            by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1)) +
+            by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=""}) by (namespace)) by (namespace) -1) +
             # Add the storage
             (sum (sum(kube_persistentvolumeclaim_info{storageclass=~".*ssd.*|fast"}) by (persistentvolumeclaim, namespace, storageclass)
             + on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)
@@ -674,7 +677,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
           decimals: 2,
           link: true,
           linkTooltip: 'Click to drill down into pod',
-          linkUrl: 'd/at-cost-analysis-pod/cost-analysis-by-pod?&var-namespace=$namespace&var-pod=$__cell',
+          linkUrl: std.format('d/%s/mintel-cost-analysis-by-pod?var-namespace=$namespace&var-pod=$__cell', podDashboard),
           pattern: 'pod_name',
           thresholds: [
             '30',

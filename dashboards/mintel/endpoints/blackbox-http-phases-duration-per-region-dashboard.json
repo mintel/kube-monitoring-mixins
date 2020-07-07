@@ -102,7 +102,7 @@
       "linewidth": 1,
       "links": [],
       "minSpan": 4,
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "percentage": false,
       "pointradius": 5,
       "points": false,
