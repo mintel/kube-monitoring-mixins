@@ -119,7 +119,7 @@ local dashboardTags = ['cost', 'utilisation', 'metrics'];
         h: 11,
       })
       .addPanel(costAnalysis.tablePVCCluster(), gridPos={
-        x: 11,
+        x: 13,
         y: 8,
         w: 11,
         h: 11,
