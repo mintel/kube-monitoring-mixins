@@ -833,7 +833,7 @@
          "description": "",
          "gridPos": {
             "h": 11,
-            "w": 11,
+            "w": 13,
             "x": 0,
             "y": 8
          },
@@ -988,7 +988,7 @@
          ],
          "targets": [
             {
-               "expr": "(sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)) )\n  +(sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by (namespace)\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
+               "expr": "(sum by (namespace) (kube_pod_container_resource_requests_cpu_cores) * ($costcpu - ($costcpu / 100 * $costDiscount)) )\n  +(sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costcpu) by (namespace)\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
                "format": "table",
                "instant": "true",
                "interval": "",
@@ -997,7 +997,7 @@
                "refId": "A"
             },
             {
-               "expr": "(sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram\n  / 100 * $costDiscount)))+(sum(container_spec_memory_limit_bytes{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
+               "expr": "(sum by (namespace) (kube_pod_container_resource_requests_memory_bytes)/1024/1024/1024*($costram- ($costram\n  / 100 * $costDiscount)))+(sum(container_spec_memory_limit_bytes{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
                "format": "table",
                "instant": true,
                "interval": "1m",
@@ -1015,7 +1015,7 @@
                "refId": "C"
             },
             {
-               "expr": "# Add the CPU\n  ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_cpu_cores:sum) * ($costcpu - ($costcpu / 100 * $costDiscount)))\n  + (sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu)\n  by (namespace) or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)) +\n  # Add the RAM\n  ((sum by (namespace) (namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))\n  + (sum(container_spec_memory_limit_bytes{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=\"\"}) by (namespace)) by (namespace) -1)) +\n  # Add the storage\n  (sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
+               "expr": "# Add the CPU\n  ((sum by (namespace) (kube_pod_container_resource_requests_cpu_cores) * ($costcpu - ($costcpu / 100 * $costDiscount)))\n  + (sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu)\n  by (namespace) or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)) +\n  # Add the RAM\n  ((sum by (namespace) (kube_pod_container_resource_requests_memory_bytes)/1024/1024/1024*($costram- ($costram / 100 * $costDiscount)))\n  + (sum(container_spec_memory_limit_bytes{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1024/1024/1024*$costpram)\n  by (namespace) or count(count(container_spec_memory_limit_bytes{namespace!=\"\"}) by (namespace)) by (namespace) -1)) +\n  # Add the storage\n  (sum (sum(kube_persistentvolumeclaim_info{storageclass=~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass)\n  + on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace) / 1024 / 1024 / 1024 * $costStorageSSD\n  or sum (sum(kube_persistentvolumeclaim_info{storageclass!~\".*ssd.*|fast\"}) by (persistentvolumeclaim, namespace, storageclass) +\n  on (persistentvolumeclaim, namespace) group_right(storageclass) sum(kube_persistentvolumeclaim_resource_requests_storage_bytes)\n  by (persistentvolumeclaim, namespace)) by (namespace) / 1024 / 1024 / 1024 * $costStorageStandard\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
                "format": "table",
                "instant": true,
                "interval": "1m",
@@ -1053,7 +1053,7 @@
          "description": "",
          "gridPos": {
             "h": 11,
-            "w": 13,
+            "w": 11,
             "x": 11,
             "y": 8
          },
