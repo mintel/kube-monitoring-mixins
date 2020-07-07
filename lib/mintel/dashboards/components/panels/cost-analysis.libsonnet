@@ -468,7 +468,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       ],
       query=|||
         (namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)) )
-          +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costcpu) by (namespace)
+          +(sum(container_spec_cpu_shares{namespace!="",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by (namespace)
           or count(count(container_spec_cpu_shares{namespace!=""}) by (namespace)) by (namespace) -1)
       |||,
       intervalFactor=1,

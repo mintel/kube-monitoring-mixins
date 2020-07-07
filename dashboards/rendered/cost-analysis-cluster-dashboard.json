@@ -988,7 +988,7 @@
          ],
          "targets": [
             {
-               "expr": "(namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)) )\n  +(sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costcpu) by (namespace)\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
+               "expr": "(namespace:kube_pod_container_resource_requests_cpu_cores:sum * ($costcpu - ($costcpu / 100 * $costDiscount)) )\n  +(sum(container_spec_cpu_shares{namespace!=\"\",cloud_google_com_gke_preemptible=\"true\"}/1000*$costpcpu) by (namespace)\n  or count(count(container_spec_cpu_shares{namespace!=\"\"}) by (namespace)) by (namespace) -1)\n",
                "format": "table",
                "instant": "true",
                "interval": "",
