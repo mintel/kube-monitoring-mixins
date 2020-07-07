@@ -9,9 +9,9 @@ local omniWeb = import 'analytics.libsonnet';
 
 
 // Dashboard settings
-local dashboardTitle = 'Omni App Performance';
-local dashboardDescription = "Provides performance breakdown of the Omni Web Stack";
-local dashboardFile = 'omni-app-performance.json';
+local dashboardTitle = 'Omni Web Dashboard Performance';
+local dashboardDescription = "Provides performance breakdown of the Omni Web dashboards";
+local dashboardFile = 'omni-web-dashboard-performance.json';
 
 local dashboardUID = std.md5(dashboardFile);
 local dashboardLink = '/d/' + std.md5(dashboardFile);
@@ -51,15 +51,15 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.dashboard_id)
 
       .addRow(
-        row.new('Request Time')
+        row.new('Dashboards')
         .addPanels(omniWeb.dashboardRequest())
-        .addPanels(omniWeb.widgetRequest())
+        .addPanels(omniWeb.widgetTotalRequest())
       )
 
       .addRow(
-        row.new('Total Requests')
+        row.new('Widgets')
         .addPanels(omniWeb.dashboardTotalRequest())
-        .addPanels(omniWeb.widgetTotalRequest())
+        .addPanels(omniWeb.widgetRequest())
       )
 
   },

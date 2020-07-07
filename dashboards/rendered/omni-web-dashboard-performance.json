@@ -31,7 +31,7 @@
          }
       ]
    },
-   "description": "Provides performance breakdown of the Omni Web Stack",
+   "description": "Provides performance breakdown of the Omni Web dashboards",
    "editable": false,
    "gnetId": null,
    "graphTooltip": 1,
@@ -146,100 +146,108 @@
                ]
             },
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
+               "columns": [ ],
                "datasource": "$ds",
-               "decimals": 2,
-               "description": "Widget Request Time by dashboard id",
-               "fill": 0,
+               "description": "",
                "gridPos": {
                   "h": 10,
                   "w": 12,
                   "x": 0,
                   "y": 0
                },
-               "height": 300,
                "id": 3,
-               "legend": {
-                  "alignAsTable": true,
-                  "avg": true,
-                  "current": true,
-                  "hideEmpty": true,
-                  "max": true,
-                  "min": true,
-                  "rightSide": false,
-                  "show": true,
-                  "total": false,
-                  "values": true
-               },
-               "lines": true,
-               "linewidth": 2,
-               "links": [ ],
-               "nullPointMode": "connected",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "repeat": null,
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 6,
-               "stack": false,
-               "steppedLine": false,
+               "styles": [
+                  {
+                     "alias": "Namespace",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "namespace",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  },
+                  {
+                     "alias": "Widget",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 0,
+                     "mappingType": 1,
+                     "pattern": "widget_id",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "none"
+                  },
+                  {
+                     "alias": "Requests",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 0,
+                     "mappingType": 1,
+                     "pattern": "Value",
+                     "thresholds": [ ],
+                     "type": "number",
+                     "unit": "none"
+                  },
+                  {
+                     "alias": "",
+                     "align": "auto",
+                     "colorMode": null,
+                     "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                     ],
+                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                     "decimals": 2,
+                     "mappingType": 1,
+                     "pattern": "Time",
+                     "thresholds": [ ],
+                     "type": "hidden",
+                     "unit": "short"
+                  }
+               ],
                "targets": [
                   {
-                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (widget_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (widget_id)\n",
-                     "format": "time_series",
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "Widget ID: {{ widget_id }}",
+                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard_id=\"$dashboard_id\"}) by (widget_id)\n",
+                     "format": "table",
+                     "instant": "true",
+                     "interval": "",
+                     "intervalFactor": 1,
+                     "legendFormat": "{{ widget_id }}",
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Widget Request Time",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "s",
-                     "label": "Time",
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": 1,
-                     "min": 0,
-                     "show": false
-                  }
-               ]
+               "title": "Widget Total Requests",
+               "type": "table"
             }
          ],
          "repeat": null,
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Request Time",
+         "title": "Dashboards",
          "titleSize": "h6",
          "type": "row"
       },
@@ -345,108 +353,100 @@
                "type": "table"
             },
             {
-               "columns": [ ],
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
                "datasource": "$ds",
-               "description": "",
+               "decimals": 2,
+               "description": "Widget Request Time by dashboard id",
+               "fill": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
                   "x": 0,
                   "y": 0
                },
+               "height": 300,
                "id": 5,
-               "styles": [
-                  {
-                     "alias": "Namespace",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "namespace",
-                     "thresholds": [ ],
-                     "type": "hidden",
-                     "unit": "short"
-                  },
-                  {
-                     "alias": "Widget",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 0,
-                     "mappingType": 1,
-                     "pattern": "widget_id",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "none"
-                  },
-                  {
-                     "alias": "Requests",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 0,
-                     "mappingType": 1,
-                     "pattern": "Value",
-                     "thresholds": [ ],
-                     "type": "number",
-                     "unit": "none"
-                  },
-                  {
-                     "alias": "",
-                     "align": "auto",
-                     "colorMode": null,
-                     "colors": [
-                        "rgba(245, 54, 54, 0.9)",
-                        "rgba(237, 129, 40, 0.89)",
-                        "rgba(50, 172, 45, 0.97)"
-                     ],
-                     "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                     "decimals": 2,
-                     "mappingType": 1,
-                     "pattern": "Time",
-                     "thresholds": [ ],
-                     "type": "hidden",
-                     "unit": "short"
-                  }
-               ],
+               "legend": {
+                  "alignAsTable": true,
+                  "avg": true,
+                  "current": true,
+                  "hideEmpty": true,
+                  "max": true,
+                  "min": true,
+                  "rightSide": false,
+                  "show": true,
+                  "total": false,
+                  "values": true
+               },
+               "lines": true,
+               "linewidth": 2,
+               "links": [ ],
+               "nullPointMode": "connected",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "repeat": null,
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 6,
+               "stack": false,
+               "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(widget_total_requests_total{service=\"$service\", dashboard_id=\"$dashboard_id\"}) by (widget_id)\n",
-                     "format": "table",
-                     "instant": "true",
-                     "interval": "",
-                     "intervalFactor": 1,
-                     "legendFormat": "{{ widget_id }}",
+                     "expr": "sum(rate(django_widget_request_time_sum{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (widget_id)\n/\nsum(rate(django_widget_request_time_count{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval])) by (widget_id)\n",
+                     "format": "time_series",
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "Widget ID: {{ widget_id }}",
                      "refId": "A"
                   }
                ],
+               "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Widget Total Requests",
-               "type": "table"
+               "title": "Widget Request Time",
+               "tooltip": {
+                  "shared": true,
+                  "sort": 2,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "s",
+                     "label": "Time",
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": 1,
+                     "min": 0,
+                     "show": false
+                  }
+               ]
             }
          ],
          "repeat": null,
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Total Requests",
+         "title": "Widgets",
          "titleSize": "h6",
          "type": "row"
       }
@@ -568,7 +568,7 @@
       ]
    },
    "timezone": "browser",
-   "title": "Mintel /  Omni App Performance",
-   "uid": "483dfacd2dccc77b09ae2e35a7f22d07",
+   "title": "Mintel /  Omni Web Dashboard Performance",
+   "uid": "43227e827f411fb07c9e729043bffb6a",
    "version": 0
 }
