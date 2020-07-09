@@ -32,7 +32,7 @@ local dashboardTags = ['slo'];
       )
 
       .addTemplate(templates.ds)
-      .addTemplate(templates.namespace('', ''))
+      .addTemplate(templates.slo_operator_namespaces())
       .addTemplate(templates.slo_operator_services())
       .addTemplate(templates.slo_operator_slo())
       .addTemplate(templates.slo_availability_span(current='7d'))
