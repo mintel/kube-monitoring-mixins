@@ -16,7 +16,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
     commonPanels.singlestat(
       title=std.format('Availability over %s', config.availabilitySpan),
-      decimals=2,
+      decimals=5,
       format='percentunit',
       thresholds='0.99',
       sparklineShow=false,
@@ -126,7 +126,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       label='Breach',
     ),
 
-  serviceLevelBurndownChart(namespace='$namespace', sloService='$slo_service', slo='.*', projection='week', span=3)::
+  serviceLevelBurndownStat(namespace='$namespace', sloService='$slo_service', slo='.*', projection='week', span=3)::
     local config = {
       slo_selector: std.format('namespace="%s", service_level="%s", slo=~"%s"', [namespace, sloService, slo]),
       projection_string: if projection == 'week' then '7d' else '30d',  // Week or anything else is 1 month
@@ -135,19 +135,16 @@ local promQuery = import 'components/prom_query.libsonnet';
       multiplier: config.minutes_multiplier / config.interval_in_minutes,
     };
 
-    commonPanels.timeseries(
-      title=std.format('Burndown Chart %s projection', config.projection_string),
-      description=std.format('Error budget Burndown chart with projection of %s', config.projection_string),
-      decimals=2,
+    commonPanels.singlestat(
+      title=std.format('Error Budget left for the current %s', config.projection_string),
       format='percent',
-      fill='1',
       span=span,
-      legend_show=false,
-      yAxisLabel='Error Budget left',
-      min=0,
-      max=100,
       height=200,
-      interval='1m',
+      decimals=5,
+      thresholds='0.99, 0.95',  // Can we make this dynamic ?
+      sparklineShow=false,
+      instant=true,
+      valueName='current',
       intervalFactor=1,
       query=|||
         (
@@ -163,6 +160,4 @@ local promQuery = import 'components/prom_query.libsonnet';
         ) * 100
       ||| % config
     ),
-
-
 }
