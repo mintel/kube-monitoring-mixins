@@ -145,7 +145,7 @@ local template = grafana.template;
     label='NS',
     hide=hide,
   ),
-  slo_operator_namespaces(current='', hide=''):: template.new(
+  slo_operator_slo_namespaces(current='', hide=''):: template.new(
     'slo_namespace',
     'Prometheus',
     'label_values(service_level_sli_result_count_total{}, namespace)',
