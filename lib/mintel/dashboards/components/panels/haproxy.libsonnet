@@ -69,7 +69,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       legend_show=true,
       height=300,
       query=|||
-        haproxy:http_backend_request_seconds_quantile:95{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+        haproxy:http_backend_request_seconds_quantile:95{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
       ||| % config,
       legendFormat='p95 {{ backend }}',
       intervalFactor=2,
@@ -77,7 +77,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          haproxy:http_backend_request_seconds_quantile:75{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+          haproxy:http_backend_request_seconds_quantile:75{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
         ||| % config,
         legendFormat='p75 {{ backend }}',
         intervalFactor=2,
@@ -86,7 +86,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          haproxy:http_backend_request_seconds_quantile:50{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+          haproxy:http_backend_request_seconds_quantile:50{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
         ||| % config,
         legendFormat='p50 {{ backend }}',
         intervalFactor=2,
@@ -150,7 +150,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       colorBackground=true,
       format='percent',
       sparklineShow=true,
-      thresholds="99,95",
+      thresholds='99,95',
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -158,7 +158,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ],
       span=span,
       query=|||
-        100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace-%(serviceSelectorValue)s"}
+        100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
       ||| % config,
     ),
 }
