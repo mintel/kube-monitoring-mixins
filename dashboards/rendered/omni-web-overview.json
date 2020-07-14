@@ -384,7 +384,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=\"${namespace}_$service\"}\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:95{mintel_com_service=\"${namespace}_${service}\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -392,7 +392,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:75{mintel_com_service=\"${namespace}_$service\"}\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:75{mintel_com_service=\"${namespace}_${service}\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -400,7 +400,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "haproxy:http_backend_request_seconds_quantile:50{mintel_com_service=\"${namespace}_$service\"}\n",
+                     "expr": "haproxy:http_backend_request_seconds_quantile:50{mintel_com_service=\"${namespace}_${service}\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -451,7 +451,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "HTTP Responses from HAProxy Ingress for backend $service",
+               "description": "HTTP Responses from HAProxy Ingress for backend ${service}",
                "fill": 0,
                "gridPos": {
                   "h": 10,
@@ -489,7 +489,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"${namespace}_$service_[0-9a-zA-Z]+\"}-.*$service-[0-9].*\"}[$__interval]\n  )\n) by (code)\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"${namespace}_${service}_[0-9a-zA-Z]+\"}[$__interval]\n  )\n) by (code)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -577,7 +577,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=\"$service\"}[5m]))\n by(method, view)\n",
+                     "expr": "sum(\n   irate(\n     django_http_requests_total_by_view_transport_method_total{namespace=~\"$namespace\", service=\"${service}\"}[5m]))\n by(method, view)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,

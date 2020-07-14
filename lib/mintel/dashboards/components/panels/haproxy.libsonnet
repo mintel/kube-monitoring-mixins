@@ -116,7 +116,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:counter{%(backendSelector)s}-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]
+            haproxy:haproxy_backend_http_responses_total:counter{%(backendSelector)s}[%(interval)s]
           )
         ) by (code)
       ||| % config,
