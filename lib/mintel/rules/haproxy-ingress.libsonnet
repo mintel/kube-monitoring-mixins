@@ -6,9 +6,9 @@
         rules: [
           {
             expr: |||
-              label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              label_replace(haproxy_backend_response_errors_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(?:_tcp_)?([0-9a-zA-Z-]+_[0-9a-zA-Z-]+)_[0-9a-zA-Z-]+$")
                 * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-                label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+                label_join(kube_service_labels, "mintel_com_service", "_", "namespace", "service")
             |||,
             record: 'haproxy:haproxy_backend_response_errors_total:counter',
           },
@@ -20,9 +20,9 @@
           },
           {
             expr: |||
-              label_replace(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              label_replace(haproxy_backend_http_responses_total{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(?:_tcp_)?([0-9a-zA-Z-]+_[0-9a-zA-Z-]+)_[0-9a-zA-Z-]+$")
                 * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-                label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+                label_join(kube_service_labels, "mintel_com_service", "_", "namespace", "service")
             |||,
             record: 'haproxy:haproxy_backend_http_responses_total:counter',
           },
@@ -38,17 +38,17 @@
           },
           {
             expr: |||
-              label_replace(haproxy_backend_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              label_replace(haproxy_backend_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(?:_tcp_)?([0-9a-zA-Z-]+_[0-9a-zA-Z-]+)_[0-9a-zA-Z-]+$")
                 * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-                label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+                label_join(kube_service_labels, "mintel_com_service", "_", "namespace", "service")
             |||,
             record: 'haproxy:haproxy_backend_up:counter',
           },
           {
             expr: |||
-              label_replace(haproxy_server_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              label_replace(haproxy_server_up{backend!~"(error|stats|.*default-backend)"}, "mintel_com_service", "$1", "backend", "(?:_tcp_)?([0-9a-zA-Z-]+_[0-9a-zA-Z-]+)_[0-9a-zA-Z-]+$")
                 * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-                label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+                label_join(kube_service_labels, "mintel_com_service", "_", "namespace", "service")
             |||,
             record: 'haproxy:haproxy_server_up:counter',
           },
@@ -77,9 +77,9 @@
             expr: |||
               label_replace(
               histogram_quantile(%(quantile)s,sum (rate(http_backend_request_duration_seconds_bucket{backend!~"(error|stats|.*default-backend)"}[1m])) by (backend,job,le)),
-              "mintel_com_service", "$1", "backend", "(.*)-\\d+$")
+              "mintel_com_service", "$1", "backend", "(?:_tcp_)?([0-9a-zA-Z-]+_[0-9a-zA-Z-]+)_[0-9a-zA-Z-]+$")
               * on(mintel_com_service) group_left(label_app_mintel_com_owner)
-              label_join(kube_service_labels, "mintel_com_service", "-", "namespace", "service")
+              label_join(kube_service_labels, "mintel_com_service", "_", "namespace", "service")
             ||| % quantile,
             record: std.format('haproxy:http_backend_request_seconds_quantile:%s', std.substr(quantile, 2, 2)),
           }
