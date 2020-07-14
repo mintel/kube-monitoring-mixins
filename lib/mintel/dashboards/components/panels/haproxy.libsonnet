@@ -2,10 +2,12 @@ local layout = import 'components/layout.libsonnet';
 local commonPanels = import 'components/panels/common.libsonnet';
 local promQuery = import 'components/prom_query.libsonnet';
 {
-  latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', interval='5m', span=12)::
+  latencyTimeseries(serviceSelectorKey='service', serviceSelectorValue='${service}', interval='5m', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      mintelComSelector: std.format('mintel_com_service="%s_%s"', ['${namespace}', serviceSelectorValue]),
+      backendSelector: std.format('backend=~"%s_%s_[0-9a-zA-Z]+"', ['${namespace}', serviceSelectorValue]),
       interval: interval,
     };
 
@@ -21,7 +23,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         histogram_quantile(0.95,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{%(backendSelector)s}[%(interval)s]))
         by (backend,job,le))
       ||| % config,
       legendFormat='p95 {{ backend }}',
@@ -33,7 +35,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.75,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{%(backendSelector)s}-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p75 {{ backend }}',
@@ -46,7 +48,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           histogram_quantile(0.50,
           sum(
             rate(
-              http_backend_request_duration_seconds_bucket{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
+              http_backend_request_duration_seconds_bucket{%(backendSelector)s}-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]))
           by (backend,job,le))
         ||| % config,
         legendFormat='p50 {{ backend }}',
@@ -54,10 +56,12 @@ local promQuery = import 'components/prom_query.libsonnet';
       )
     ),
 
-  latencyTimeseriesPreRecorded(serviceSelectorKey='service', serviceSelectorValue='$service', span=12)::
+  latencyTimeseriesPreRecorded(serviceSelectorKey='service', serviceSelectorValue='${service}', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      mintelComSelector: std.format('mintel_com_service="%s_%s"', ['${namespace}', serviceSelectorValue]),
+      backendSelector: std.format('backend=~"%s_%s_[0-9a-zA-Z]+"', ['${namespace}', serviceSelectorValue]),
     };
 
     commonPanels.latencyTimeseries(
@@ -69,7 +73,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       legend_show=true,
       height=300,
       query=|||
-        haproxy:http_backend_request_seconds_quantile:95{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
+        haproxy:http_backend_request_seconds_quantile:95{%(mintelComSelector)s}
       ||| % config,
       legendFormat='p95 {{ backend }}',
       intervalFactor=2,
@@ -77,7 +81,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          haproxy:http_backend_request_seconds_quantile:75{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
+          haproxy:http_backend_request_seconds_quantile:75{%(mintelComSelector)s}
         ||| % config,
         legendFormat='p75 {{ backend }}',
         intervalFactor=2,
@@ -86,17 +90,19 @@ local promQuery = import 'components/prom_query.libsonnet';
     .addTarget(
       promQuery.target(
         |||
-          haproxy:http_backend_request_seconds_quantile:50{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
+          haproxy:http_backend_request_seconds_quantile:50{%(mintelComSelector)s}
         ||| % config,
         legendFormat='p50 {{ backend }}',
         intervalFactor=2,
       )
     ),
 
-  httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='$service', interval='5m', span=12)::
+  httpResponseStatusTimeseries(serviceSelectorKey='service', serviceSelectorValue='${service}', interval='5m', span=12)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      mintelComSelector: std.format('mintel_com_service="%s_%s"', ['${namespace}', serviceSelectorValue]),
+      backendSelector: std.format('backend=~"%s_%s_[0-9a-zA-Z]+"', ['${namespace}', serviceSelectorValue]),
       interval: interval,
     };
 
@@ -110,7 +116,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]
+            haproxy:haproxy_backend_http_responses_total:counter{%(backendSelector)s}-.*%(serviceSelectorValue)s-[0-9].*"}[%(interval)s]
           )
         ) by (code)
       ||| % config,
@@ -119,10 +125,12 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
 
 
-  httpBackendRequestsPerSecond(serviceSelectorKey='service', serviceSelectorValue='$service', span=4)::
+  httpBackendRequestsPerSecond(serviceSelectorKey='service', serviceSelectorValue='${service}', span=4)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      mintelComSelector: std.format('mintel_com_service="%s_%s"', ['${namespace}', serviceSelectorValue]),
+      backendSelector: std.format('backend=~"%s_%s_[0-9a-zA-Z]+"', ['${namespace}', serviceSelectorValue]),
     };
     commonPanels.singlestat(
       title='Incoming Request Volume',
@@ -134,14 +142,16 @@ local promQuery = import 'components/prom_query.libsonnet';
       query=|||
         sum(
           rate(
-            haproxy:haproxy_backend_http_responses_total:counter{backend=~"$namespace-.*%(serviceSelectorValue)s-[0-9].*"}[$__interval]))
+            haproxy:haproxy_backend_http_responses_total:counter{%(backendSelector)s}[$__interval]))
       ||| % config,
     ),
 
-  httpBackendSuccessRatioPercentage(serviceSelectorKey='service', serviceSelectorValue='$service', span=4)::
+  httpBackendSuccessRatioPercentage(serviceSelectorKey='service', serviceSelectorValue='${service}', span=4)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,
+      mintelComSelector: std.format('mintel_com_service="%s_%s"', ['${namespace}', serviceSelectorValue]),
+      backendSelector: std.format('backend=~"%s_%s_[0-9a-zA-Z]+"', ['${namespace}', serviceSelectorValue]),
     };
 
     commonPanels.singlestat(
@@ -158,7 +168,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ],
       span=span,
       query=|||
-        100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service="$namespace_%(serviceSelectorValue)s"}
+        100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{%(mintelComSelector)s}
       ||| % config,
     ),
 }
