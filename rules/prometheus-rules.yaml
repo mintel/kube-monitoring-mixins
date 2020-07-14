@@ -1639,25 +1639,6 @@ spec:
       labels:
         page: "false"
         severity: critical
-    - alert: HAProxyServerInBackendUpPercentageLow
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow
-        summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service
-          }} service is low on ingress {{ $labels.pod }} : {{ $value }}%'
-      expr: haproxy:haproxy_server_up:percentage < 75
-      for: 5m
-      labels:
-        severity: warning
-    - alert: HAProxyServerInBackendUpPercentageLow
-      annotations:
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyServerInBackendUpPercentageLow
-        summary: 'HAProxy: The percentage of server up in backend for {{ $labels.mintel_com_service
-          }} service is low on ingress {{ $labels.pod }} : {{ $value }}%'
-      expr: haproxy:haproxy_server_up:percentage < 50
-      for: 5m
-      labels:
-        page: "false"
-        severity: critical
     - alert: HAProxyFrontendIncreasedRequests
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendIncreasedRequests
