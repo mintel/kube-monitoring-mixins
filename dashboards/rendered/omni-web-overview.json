@@ -218,7 +218,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"${namespace}_$service_[0-9a-zA-Z]+\"}[$__interval]))\n",
+                     "expr": "sum(\n  rate(\n    haproxy:haproxy_backend_http_responses_total:counter{backend=~\"${namespace}_${service}_[0-9a-zA-Z]+\"}[$__interval]))\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -304,7 +304,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service=\"${namespace}_$service\"}\n",
+                     "expr": "100 - haproxy:haproxy_backend_http_error_rate:percentage:1m{mintel_com_service=\"${namespace}_${service}\"}\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
