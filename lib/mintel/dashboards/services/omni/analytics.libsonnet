@@ -313,6 +313,25 @@ local promQuery = import 'components/prom_query.libsonnet';
         intervalFactor=1,
         legendFormat='{{ widget_id }}',
       ),
-    ])
+    ]),
+
+    dashboardRequestsRate(span=4)::
+
+    layout.grid([
+
+      commonPanels.singlestat(
+        title='Incoming Request Volume',
+        description='Requests Rate',
+        colorBackground=true,
+        format='rps',
+        sparklineShow=true,
+        span=span,
+        query=|||
+          sum(
+            rate(
+              widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}}[$__interval]))
+        |||,
+      ),
+    ]),
 
 }
