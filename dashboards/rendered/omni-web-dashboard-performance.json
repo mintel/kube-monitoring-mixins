@@ -71,7 +71,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 600,
+               "height": 500,
                "id": 2,
                "legend": {
                   "alignAsTable": true,
@@ -173,7 +173,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 250,
+               "height": 200,
                "id": 3,
                "legend": {
                   "alignAsTable": true,
@@ -272,7 +272,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 250,
+               "height": 200,
                "id": 4,
                "interval": null,
                "links": [ ],

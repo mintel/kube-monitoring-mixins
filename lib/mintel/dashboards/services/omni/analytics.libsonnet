@@ -110,7 +110,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=600,
+        height=500,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
           /
@@ -132,7 +132,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=250,
+        height=200,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
           /
@@ -154,7 +154,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='rps',
         sparklineShow=true,
         span=span,
-        height=250,
+        height=200,
         query=|||
           sum(
             rate(
