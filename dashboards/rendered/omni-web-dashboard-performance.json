@@ -71,7 +71,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 300,
+               "height": 400,
                "id": 2,
                "legend": {
                   "alignAsTable": true,
@@ -96,7 +96,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 6,
+               "span": 8,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -155,8 +155,9 @@
                   "x": 0,
                   "y": 0
                },
+               "height": 400,
                "id": 3,
-               "span": 6,
+               "span": 4,
                "styles": [
                   {
                      "alias": "Namespace",
@@ -271,7 +272,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 300,
+               "height": 400,
                "id": 4,
                "legend": {
                   "alignAsTable": true,
@@ -296,7 +297,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 6,
+               "span": 8,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -355,8 +356,9 @@
                   "x": 0,
                   "y": 0
                },
+               "height": 400,
                "id": 5,
-               "span": 6,
+               "span": 4,
                "styles": [
                   {
                      "alias": "Namespace",

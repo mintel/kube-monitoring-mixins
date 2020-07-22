@@ -99,7 +99,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
  ]),
 
-  dashboardRequest(span=6)::
+  dashboardRequest(span=8)::
 
     layout.grid([
 
@@ -110,7 +110,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=300,
+        height=400,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
           /
@@ -121,7 +121,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
     ]),
 
-  widgetRequest(span=6)::
+  widgetRequest(span=8)::
 
     layout.grid([
 
@@ -132,7 +132,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=300,
+        height=400,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
           /
@@ -143,7 +143,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
     ]),
 
-  dashboardTotalRequest(span=6)::
+  dashboardTotalRequest(span=4)::
 
     layout.grid([
 
@@ -223,12 +223,13 @@ local promQuery = import 'components/prom_query.libsonnet';
           sum(widget_total_requests_total{service="$service"}) by (dashboard_id)
         |||,
         span=span,
+        height=400,
         intervalFactor=1,
         legendFormat='{{ dashboard_id }}',
       )
     ]),
 
-  widgetTotalRequest(span=6)::
+  widgetTotalRequest(span=4)::
 
     layout.grid([
 
@@ -308,6 +309,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           sum(widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}) by (widget_id)
         |||,
         span=span,
+        height=400,
         intervalFactor=1,
         legendFormat='{{ widget_id }}',
       ),
