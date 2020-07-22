@@ -53,12 +53,13 @@ local dashboardTags = ['omni'];
       .addRow(
         row.new('Dashboards')
         .addPanels(omniWeb.dashboardRequest())
-        .addPanels(omniWeb.dashboardRequestsRate())
+
       )
 
       .addRow(
         row.new('Widgets')
         .addPanels(omniWeb.widgetRequest())
+        .addPanels(omniWeb.dashboardRequestsRate())
       )
 
   },

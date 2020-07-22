@@ -99,7 +99,7 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
  ]),
 
-  dashboardRequest(span=8)::
+  dashboardRequest(span=12)::
 
     layout.grid([
 
@@ -326,10 +326,11 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='rps',
         sparklineShow=true,
         span=span,
+        height=400,
         query=|||
           sum(
             rate(
-              widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}}[$__interval]))
+              widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
         |||,
       ),
     ]),
