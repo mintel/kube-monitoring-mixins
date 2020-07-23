@@ -12,7 +12,7 @@ local omniAnalytics = import 'omni-web-analytics.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Omni Analytics';
-local dashboardDescription = "Provides an overview of the Omni Analytics Stack";
+local dashboardDescription = 'Provides an overview of the Omni Analytics Stack';
 local dashboardFile = 'omni-analytics-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
@@ -27,7 +27,7 @@ local dashboardTags = ['omni'];
     [std.format('%s', dashboardFile)]:
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
-           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
+        ($._config.mintel { dashboardTitle: dashboardTitle }),
         time_from='now-1h',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
@@ -35,14 +35,14 @@ local dashboardTags = ['omni'];
         graphTooltip='shared_crosshair',
       )
 
-      .addLink(link.dashboards(tags="",
-        type="link",
-        title="Workload",
-        url=dashboardWorkloadLink,
-        includeVars=true,
-        keepTime=true,
-        asDropdown=false,
-        targetBlank=true))
+      .addLink(link.dashboards(tags='',
+                               type='link',
+                               title='Workload',
+                               url=dashboardWorkloadLink,
+                               includeVars=true,
+                               keepTime=true,
+                               asDropdown=false,
+                               targetBlank=true))
 
       .addAnnotation(annotations.fluxRelease)
       .addAnnotation(annotations.fluxAutoRelease)
@@ -75,8 +75,8 @@ local dashboardTags = ['omni'];
       )
       .addRow(
         row.new('Resources')
-        .addPanels(containerResources.containerResourcesPanel("$service"))
-      )
+        .addPanels(containerResources.containerResourcesPanel('$service'))
+      ),
 
   },
 }

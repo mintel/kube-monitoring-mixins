@@ -12,7 +12,7 @@ local containerResources = import 'components/panels/container_resources.libsonn
 
 // Dashboard settings
 local dashboardTitle = 'Image Service';
-local dashboardDescription = "Provides an overview of the Image Service stack";
+local dashboardDescription = 'Provides an overview of the Image Service stack';
 local dashboardFile = 'image-service-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
@@ -27,7 +27,7 @@ local dashboardTags = ['image-service'];
     [std.format('%s', dashboardFile)]:
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
-           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
+        ($._config.mintel { dashboardTitle: dashboardTitle }),
         time_from='now-1h',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
@@ -35,14 +35,14 @@ local dashboardTags = ['image-service'];
         graphTooltip='shared_crosshair',
       )
 
-      .addLink(link.dashboards(tags="",
-        type="link",
-        title="Workload",
-        url=dashboardWorkloadLink,
-        includeVars=true,
-        keepTime=true,
-        asDropdown=false,
-        targetBlank=true))
+      .addLink(link.dashboards(tags='',
+                               type='link',
+                               title='Workload',
+                               url=dashboardWorkloadLink,
+                               includeVars=true,
+                               keepTime=true,
+                               asDropdown=false,
+                               targetBlank=true))
 
       .addAnnotation(annotations.fluxRelease)
       .addAnnotation(annotations.fluxAutoRelease)
@@ -52,7 +52,7 @@ local dashboardTags = ['image-service'];
       .addTemplate(templates.app_deployment)
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(webService.overview(serviceSelectorKey="job", serviceSelectorValue="$deployment"))
+        .addPanels(webService.overview(serviceSelectorKey='job', serviceSelectorValue='${deployment}'))
       )
       .addRow(
         row.new('Request / Response')
@@ -60,7 +60,7 @@ local dashboardTags = ['image-service'];
       )
       .addRow(
         row.new('Resources')
-        .addPanels(containerResources.containerResourcesPanel("$deployment"))
+        .addPanels(containerResources.containerResourcesPanel('${deployment}'))
       )
       .addRow(
         row.new('Storage')

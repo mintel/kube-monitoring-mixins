@@ -4,7 +4,7 @@ local workloadPanels = import 'components/panels/workloads.libsonnet';
 
 {
 
-  overview(serviceSelectorKey='service', serviceSelectorValue='$service', startRow=1000)::
+  overview(serviceSelectorKey='service', serviceSelectorValue='${service}', startRow=1000)::
     local config = {
       serviceSelectorKey: serviceSelectorKey,
       serviceSelectorValue: serviceSelectorValue,

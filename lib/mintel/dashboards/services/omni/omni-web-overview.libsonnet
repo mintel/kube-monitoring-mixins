@@ -15,7 +15,7 @@ local omniWeb = import 'omni-web-analytics.libsonnet';
 
 // Dashboard settings
 local dashboardTitle = 'Omni Web';
-local dashboardDescription = "Provides an overview of the Omni Web Stack";
+local dashboardDescription = 'Provides an overview of the Omni Web Stack';
 local dashboardFile = 'omni-web-overview.json';
 
 local dashboardUID = std.md5(dashboardFile);
@@ -30,7 +30,7 @@ local dashboardTags = ['omni'];
     [std.format('%s', dashboardFile)]:
       dashboard.new(
         '%(dashboardNamePrefix)s %(dashboardTitle)s' %
-           ($._config.mintel + {'dashboardTitle': dashboardTitle }),
+        ($._config.mintel { dashboardTitle: dashboardTitle }),
         time_from='now-1h',
         uid=dashboardUID,
         tags=($._config.mintel.dashboardTags) + dashboardTags,
@@ -38,14 +38,14 @@ local dashboardTags = ['omni'];
         graphTooltip='shared_crosshair',
       )
 
-      .addLink(link.dashboards(tags="",
-        type="link",
-        title="Workload",
-        url=dashboardWorkloadLink,
-        includeVars=true,
-        keepTime=true,
-        asDropdown=false,
-        targetBlank=true))
+      .addLink(link.dashboards(tags='',
+                               type='link',
+                               title='Workload',
+                               url=dashboardWorkloadLink,
+                               includeVars=true,
+                               keepTime=true,
+                               asDropdown=false,
+                               targetBlank=true))
 
       .addAnnotation(annotations.fluxRelease)
       .addAnnotation(annotations.fluxAutoRelease)
@@ -64,21 +64,21 @@ local dashboardTags = ['omni'];
       )
       .addRow(
         row.new('Resources')
-        .addPanels(containerResources.containerResourcesPanel("$service"))
+        .addPanels(containerResources.containerResourcesPanel('$service'))
       )
       .addRow(
         row.new('Database', collapse=true)
-        .addPanels(django.databaseOps())  
+        .addPanels(django.databaseOps())
       )
       .addRow(
         row.new('Celery', collapse=true)
         .addPanels(celery.celeryPanels(serviceType='', startRow=1001))
       )
-       .addRow(
+      .addRow(
         row.new('Redis', collapse=true)
         .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
         .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
         .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-      )
+      ),
   },
 }

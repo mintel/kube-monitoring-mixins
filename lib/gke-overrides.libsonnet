@@ -3,6 +3,7 @@
 local ignore_alerts = [
   'ElasticsearchTooFewNodesRunning',
   'ElasticsearchTooFewMastersRunning',
+  'HAProxyServerInBackendUpPercentageLow',
   'KubeAPIErrorsHigh',
   'KubeAPILatencyHigh',
   'KubeAPIDown',
