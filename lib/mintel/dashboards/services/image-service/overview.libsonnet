@@ -49,10 +49,11 @@ local dashboardTags = ['image-service'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('image-service', hide=true))
-      .addTemplate(templates.app_deployment)
+      .addTemplate(templates.app_service)
+
       .addRow(
         row.new('Overview', height=5)
-        .addPanels(webService.overview(serviceSelectorKey='job', serviceSelectorValue='${deployment}'))
+        .addPanels(webService.overview())
       )
       .addRow(
         row.new('Request / Response')
@@ -60,7 +61,7 @@ local dashboardTags = ['image-service'];
       )
       .addRow(
         row.new('Resources')
-        .addPanels(containerResources.containerResourcesPanel('${deployment}'))
+        .addPanels(containerResources.containerResourcesPanel('$service'))
       )
       .addRow(
         row.new('Storage')
