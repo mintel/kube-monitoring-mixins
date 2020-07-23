@@ -7,7 +7,7 @@ local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
 local backendService = import 'components/panels/backend-service.libsonnet';
-local omniAnalytics = import 'analytics.libsonnet';
+local omniAnalytics = import 'omni-web-analytics.libsonnet';
 
 
 // Dashboard settings

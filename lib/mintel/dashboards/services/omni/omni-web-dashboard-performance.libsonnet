@@ -5,7 +5,7 @@ local link = grafana.link;
 
 local annotations = import 'components/annotations.libsonnet';
 local templates = import 'components/templates.libsonnet';
-local omniWeb = import 'analytics.libsonnet';
+local omniWeb = import 'omni-web-analytics.libsonnet';
 
 
 // Dashboard settings
@@ -48,17 +48,17 @@ local dashboardTags = ['omni'];
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
       .addTemplate(templates.app_service)
-      .addTemplate(templates.dashboard_id)
+      .addTemplate(templates.omni_dashboard_id)
 
       .addRow(
         row.new('Dashboards')
-        .addPanels(omniWeb.dashboardRequest())
+        .addPanels(omniWeb.omniWebDashboardRequest())
 
       )
 
       .addRow(
         row.new('Widgets')
-        .addPanels(omniWeb.widgetRequest())
+        .addPanels(omniWeb.omniWebWidgetRequest())
       )
 
   },

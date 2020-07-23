@@ -99,13 +99,13 @@ local promQuery = import 'components/prom_query.libsonnet';
     ),
  ]),
 
-  dashboardRequest(span=12)::
+  omniWebDashboardRequest(span=12)::
 
     layout.grid([
 
       commonPanels.latencyTimeseries(
         title='Dashboard Request Time',
-        description='Dashboard Request Time by dashboard id',
+        description='Dashboard Request Time By Dashboard ID',
         yAxisLabel='Time',
         format='s',
         legend_show=true,
@@ -121,13 +121,13 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
     ]),
 
-  widgetRequest(span=12)::
+  omniWebWidgetRequest(span=12)::
 
     layout.grid([
 
       commonPanels.latencyTimeseries(
         title='Widget Request Time',
-        description='Widget Request Time by dashboard id',
+        description='Widget Request Time By Dashboard ID',
         yAxisLabel='Time',
         format='s',
         legend_show=true,

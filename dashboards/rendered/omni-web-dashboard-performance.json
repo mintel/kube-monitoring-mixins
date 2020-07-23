@@ -63,7 +63,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "Dashboard Request Time by dashboard id",
+               "description": "Dashboard Request Time By Dashboard ID",
                "fill": 0,
                "gridPos": {
                   "h": 10,
@@ -165,7 +165,7 @@
                "dashes": false,
                "datasource": "$ds",
                "decimals": 2,
-               "description": "Widget Request Time by dashboard id",
+               "description": "Widget Request Time By Dashboard ID",
                "fill": 0,
                "gridPos": {
                   "h": 10,
