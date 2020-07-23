@@ -220,4 +220,11 @@ local template = grafana.template;
       },
     ],
   },
-}
+  omni_dashboard_id:: template.new(
+    'dashboard_id',
+    'Prometheus',
+    'label_values(django_widget_request_time_count{namespace="$namespace"},dashboard_id)',
+    label='Dashboard ID',
+    refresh='load',
+  ),
+ }
