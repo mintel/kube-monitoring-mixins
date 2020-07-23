@@ -97,5 +97,50 @@ local promQuery = import 'components/prom_query.libsonnet';
           intervalFactor=2,
         )
       ),
+ ]),
+
+  omniWebDashboardRequest(span=12)::
+
+    layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Dashboard Request Time',
+        description='Dashboard Request Time By Dashboard ID',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=450,
+        query=|||
+          sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
+          /
+          sum(rate(django_widget_request_time_count{service="$service"}[$__interval])) by (dashboard_id)
+        |||,
+        legendFormat='Dashboard ID: {{ dashboard_id }}',
+        intervalFactor=2,
+      ),
     ]),
+
+  omniWebWidgetRequest(span=12)::
+
+    layout.grid([
+
+      commonPanels.latencyTimeseries(
+        title='Widget Request Time',
+        description='Widget Request Time By Dashboard ID',
+        yAxisLabel='Time',
+        format='s',
+        legend_show=true,
+        span=span,
+        height=250,
+        query=|||
+          sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
+          /
+          sum(rate(django_widget_request_time_count{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
+        |||,
+        legendFormat='Widget ID: {{ widget_id }}',
+        intervalFactor=2,
+      ),
+    ]),
+
 }

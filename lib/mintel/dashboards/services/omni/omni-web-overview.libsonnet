@@ -10,6 +10,7 @@ local django = import 'components/panels/django.libsonnet';
 local celery = import 'components/panels/celery.libsonnet';
 local webService = import 'components/panels/frontend-service.libsonnet';
 local containerResources = import 'components/panels/container_resources.libsonnet';
+local omniWeb = import 'omni-web-analytics.libsonnet';
 
 
 // Dashboard settings
