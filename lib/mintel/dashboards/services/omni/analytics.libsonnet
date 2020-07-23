@@ -110,7 +110,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=500,
+        height=450,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
           /
@@ -121,7 +121,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       ),
     ]),
 
-  widgetRequest(span=8)::
+  widgetRequest(span=12)::
 
     layout.grid([
 
@@ -132,7 +132,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
-        height=200,
+        height=250,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
           /
@@ -140,26 +140,6 @@ local promQuery = import 'components/prom_query.libsonnet';
         |||,
         legendFormat='Widget ID: {{ widget_id }}',
         intervalFactor=2,
-      ),
-    ]),
-
-    dashboardRequestsRate(span=4)::
-
-    layout.grid([
-
-      commonPanels.singlestat(
-        title='Incoming Request Volume',
-        description='Requests Rate',
-        colorBackground=true,
-        format='rps',
-        sparklineShow=true,
-        span=span,
-        height=200,
-        query=|||
-          sum(
-            rate(
-              widget_total_requests_total{service="$service", dashboard_id="$dashboard_id"}[$__interval]))
-        |||,
       ),
     ]),
 

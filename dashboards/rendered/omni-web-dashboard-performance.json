@@ -71,7 +71,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 500,
+               "height": 450,
                "id": 2,
                "legend": {
                   "alignAsTable": true,
@@ -173,7 +173,7 @@
                   "x": 0,
                   "y": 0
                },
-               "height": 200,
+               "height": 250,
                "id": 3,
                "legend": {
                   "alignAsTable": true,
@@ -198,7 +198,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 8,
+               "span": 12,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -246,92 +246,6 @@
                      "show": false
                   }
                ]
-            },
-            {
-               "cacheTimeout": null,
-               "colorBackground": true,
-               "colorValue": false,
-               "colors": [
-                  "#299c46",
-                  "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
-               ],
-               "datasource": "$ds",
-               "description": "Requests Rate",
-               "format": "rps",
-               "gauge": {
-                  "maxValue": 100,
-                  "minValue": 0,
-                  "show": false,
-                  "thresholdLabels": false,
-                  "thresholdMarkers": true
-               },
-               "gridPos": {
-                  "h": 10,
-                  "w": 12,
-                  "x": 0,
-                  "y": 0
-               },
-               "height": 200,
-               "id": 4,
-               "interval": null,
-               "links": [ ],
-               "mappingType": 1,
-               "mappingTypes": [
-                  {
-                     "name": "value to text",
-                     "value": 1
-                  },
-                  {
-                     "name": "range to text",
-                     "value": 2
-                  }
-               ],
-               "maxDataPoints": 100,
-               "nullPointMode": "connected",
-               "nullText": null,
-               "postfix": null,
-               "postfixFontSize": "50%",
-               "prefix": "",
-               "prefixFontSize": "50%",
-               "rangeMaps": [
-                  {
-                     "from": "null",
-                     "text": "N/A",
-                     "to": "null"
-                  }
-               ],
-               "span": 4,
-               "sparkline": {
-                  "fillColor": "rgba(31, 118, 189, 0.18)",
-                  "full": true,
-                  "lineColor": "rgb(31, 120, 193)",
-                  "show": true
-               },
-               "tableColumn": "",
-               "targets": [
-                  {
-                     "expr": "sum(\n  rate(\n    widget_total_requests_total{service=\"$service\", dashboard_id=\"$dashboard_id\"}[$__interval]))\n",
-                     "format": "time_series",
-                     "instant": false,
-                     "interval": "1m",
-                     "intervalFactor": 2,
-                     "legendFormat": "",
-                     "refId": "A"
-                  }
-               ],
-               "thresholds": "",
-               "title": "Incoming Request Volume",
-               "type": "singlestat",
-               "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
-               "valueName": "current"
             }
          ],
          "repeat": null,
