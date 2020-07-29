@@ -1628,17 +1628,6 @@ spec:
       labels:
         page: "true"
         severity: critical
-    - alert: HAProxyBackendDown
-      annotations:
-        description: 'HAProxy: {{ $labels.mintel_com_service }} backend has been down
-          for at least 1m on all Ingress pods'
-        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyBackendDown
-      expr: sum by (mintel_com_service, label_app_mintel_com_owner) (haproxy:haproxy_backend_up:counter)
-        == 0
-      for: 5m
-      labels:
-        page: "false"
-        severity: critical
     - alert: HAProxyFrontendIncreasedRequests
       annotations:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/HAProxy.md#HAProxyFrontendIncreasedRequests

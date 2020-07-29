@@ -3,6 +3,7 @@
 local ignore_alerts = [
   'ElasticsearchTooFewNodesRunning',
   'ElasticsearchTooFewMastersRunning',
+  'HAProxyBackendDown',
   'HAProxyServerInBackendUpPercentageLow',
   'KubeAPIErrorsHigh',
   'KubeAPILatencyHigh',
@@ -66,7 +67,6 @@ local page_false_critical = [
   'ElasticsearchLowDiskFree',
   'HAProxyFrontendSessionUsage',
   'HAProxyBackendResponseErrors',
-  'HAProxyBackendDown',
   'HAProxyServerInBackendUpPercentageLow',
   'KubePersistentVolumeInodeUsageCritical',
   'KubePersistentVolumeFullInFourDays',
