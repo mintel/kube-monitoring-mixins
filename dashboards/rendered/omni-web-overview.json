@@ -796,7 +796,7 @@
                "yaxes": [
                   {
                      "format": "short",
-                     "label": "CPU Throttling",
+                     "label": "Throttle %",
                      "logBase": 1,
                      "max": null,
                      "min": 0,

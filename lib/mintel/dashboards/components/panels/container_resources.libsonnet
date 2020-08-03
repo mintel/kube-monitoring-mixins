@@ -25,7 +25,7 @@ local promQuery = import 'components/prom_query.libsonnet';
 
       commonPanels.timeseries(
         title='Per Instance CPU Throttling',
-        yAxisLabel='CPU Throttling',
+        yAxisLabel='Throttle %',
         span=4,
         legend_show=false,
         query=|||
