@@ -2293,7 +2293,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, avg(increase(mysql_global_status_commands_total{job=\"portal-web-mysqld-exporter\"}[1h])) by (command)>0)",
+          "expr": "topk(5, avg(increase(mysql_global_status_commands_total{job=\"$job\"}[1h])) by (command)>0)",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
@@ -3794,103 +3794,6 @@
         "type": "interval"
       },
       {
-        "allValue": null,
-        "current": {
-          "selected": true,
-          "text": "portal",
-          "value": "portal"
-        },
-        "datasource": "Prometheus",
-        "definition": "label_values(kube_namespace_labels, label_name)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Namespace",
-        "multi": false,
-        "name": "namespace",
-        "options": [
-          {
-            "selected": false,
-            "text": "kustomize",
-            "value": "kustomize"
-          },
-          {
-            "selected": true,
-            "text": "portal",
-            "value": "portal"
-          },
-          {
-            "selected": false,
-            "text": "ingress-controller",
-            "value": "ingress-controller"
-          },
-          {
-            "selected": false,
-            "text": "sre-tools",
-            "value": "sre-tools"
-          },
-          {
-            "selected": false,
-            "text": "kube-system",
-            "value": "kube-system"
-          },
-          {
-            "selected": false,
-            "text": "kube-public",
-            "value": "kube-public"
-          },
-          {
-            "selected": false,
-            "text": "kube-auth",
-            "value": "kube-auth"
-          },
-          {
-            "selected": false,
-            "text": "sandbox",
-            "value": "sandbox"
-          },
-          {
-            "selected": false,
-            "text": "default",
-            "value": "default"
-          },
-          {
-            "selected": false,
-            "text": "kube-operators",
-            "value": "kube-operators"
-          },
-          {
-            "selected": false,
-            "text": "image-service",
-            "value": "image-service"
-          },
-          {
-            "selected": false,
-            "text": "monitoring",
-            "value": "monitoring"
-          },
-          {
-            "selected": false,
-            "text": "flux-apps",
-            "value": "flux-apps"
-          },
-          {
-            "selected": false,
-            "text": "flux-bootstrap",
-            "value": "flux-bootstrap"
-          }
-        ],
-        "query": "label_values(kube_namespace_labels, label_name)",
-        "refresh": 0,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
         "allFormat": "glob",
         "allValue": null,
         "current": {
@@ -3898,7 +3801,7 @@
           "value": "portal-web-mysqld-exporter"
         },
         "datasource": "Prometheus",
-        "definition": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
+        "definition": "label_values(mysql_up, job)",
         "hide": 0,
         "includeAll": false,
         "label": "Service",
@@ -3906,7 +3809,7 @@
         "multiFormat": "regex values",
         "name": "job",
         "options": [],
-        "query": "label_values(mysql_up{namespace=\"$namespace\"}, job)",
+        "query": "label_values(mysql_up, job)",
         "refresh": 2,
         "refresh_on_load": false,
         "regex": "",
