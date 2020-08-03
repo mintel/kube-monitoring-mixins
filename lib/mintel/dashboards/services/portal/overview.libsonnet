@@ -50,7 +50,7 @@ local dashboardTags = ['portal'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('portal', hide=true))
-      .addTemplate(templates.app_service)
+      .addTemplate(templates.app_service('portal-web'))
 
       .addRow(
         row.new('Overview', height=5)
