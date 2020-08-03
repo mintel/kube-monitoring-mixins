@@ -42,11 +42,10 @@ local template = grafana.template;
     current=current,
     hide=hide,
   ),
-
-  app_service:: template.new(
+  app_service(service=''):: template.new(
     'service',
     'Prometheus',
-    'label_values(kube_service_labels{namespace="$namespace"}, label_app_kubernetes_io_instance)',
+    'label_values(kube_service_labels{namespace="$namespace", service=~".*%(service)s.*"}, label_app_kubernetes_io_instance)' % (service),
     label='Service',
     refresh='load',
   ),
