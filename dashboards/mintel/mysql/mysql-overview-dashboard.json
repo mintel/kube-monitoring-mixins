@@ -2293,7 +2293,7 @@
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "topk(5, avg(increase(mysql_global_status_commands_total{job=\"portal-web-mysqld-exporter\"}[1h])) by (command)>0)",
+          "expr": "topk(5, avg(increase(mysql_global_status_commands_total{job=\"$job\"}[1h])) by (command)>0)",
           "format": "time_series",
           "interval": "1h",
           "intervalFactor": 1,
