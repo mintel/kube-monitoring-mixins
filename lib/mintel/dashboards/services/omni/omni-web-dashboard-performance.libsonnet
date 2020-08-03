@@ -47,7 +47,7 @@ local dashboardTags = ['omni'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
-      .addTemplate(templates.app_service)
+      .addTemplate(templates.app_service('omni-web'))
       .addTemplate(templates.omni_dashboard_id)
 
       .addRow(

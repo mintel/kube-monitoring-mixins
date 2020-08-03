@@ -52,7 +52,7 @@ local dashboardTags = ['omni'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
-      .addTemplate(templates.app_service)
+      .addTemplate(templates.app_service('omni-web'))
 
       .addRow(
         row.new('Overview', height=5)

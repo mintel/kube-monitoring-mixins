@@ -2588,7 +2588,7 @@
             "multi": false,
             "name": "service",
             "options": [ ],
-            "query": "label_values(kube_service_labels{namespace=\"$namespace\"}, label_app_kubernetes_io_instance)",
+            "query": "label_values(kube_service_labels{namespace=\"$namespace\", service=~\".*omni-web.*\"}, label_app_kubernetes_io_instance)",
             "refresh": 1,
             "regex": "",
             "sort": 0,
