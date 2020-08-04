@@ -49,7 +49,7 @@ local dashboardTags = ['omni'];
 
       .addTemplate(templates.ds)
       .addTemplate(templates.namespace('omni', hide=true))
-      .addTemplate(templates.app_service)
+      .addTemplate(templates.app_service('omni-analytics'))
       .addTemplate(grafana.template.new(
         'analytics_type',
         'Prometheus',
