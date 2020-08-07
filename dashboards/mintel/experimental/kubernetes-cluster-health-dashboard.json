@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 410,
+  "id": 60,
   "links": [],
   "panels": [
     {
@@ -103,7 +103,7 @@
         {
           "expr": "sum(ALERTS{alertstate=\"firing\",alertname!~\"DeadMansSwitch|Watchdog\"})",
           "format": "time_series",
-          "instant": false,
+          "instant": true,
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -196,9 +196,9 @@
         {
           "expr": "sum(ALERTS{alertstate=\"pending\",alertname!~\"DeadMansSwitch|Watchdog\"})",
           "format": "time_series",
-          "instant": false,
+          "instant": true,
           "interval": "",
-          "intervalFactor": 2,
+          "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
           "step": 600
@@ -435,7 +435,7 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
+        "w": 16,
         "x": 0,
         "y": 4
       },
@@ -473,13 +473,21 @@
               "Value": true,
               "__name__": true,
               "app_mintel_com_owner": true,
+              "container": true,
+              "created_by_kind": true,
+              "created_by_name": true,
+              "cronjob": true,
+              "deployment": true,
               "endpoint": true,
               "instance": true,
               "job": true,
               "method": true,
               "namespace": true,
-              "pod": true,
-              "severity": true,
+              "node": true,
+              "page": true,
+              "pod": false,
+              "service": true,
+              "severity": false,
               "success": true
             },
             "indexByName": {},
