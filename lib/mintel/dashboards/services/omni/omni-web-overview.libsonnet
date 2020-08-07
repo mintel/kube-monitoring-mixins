@@ -76,9 +76,7 @@ local dashboardTags = ['omni'];
       )
       .addRow(
         row.new('Redis', collapse=true)
-        .addPanels(redis.clientPanels(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.workload(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
-        .addPanels(redis.data(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
+        .addPanels(redis.overview(serviceSelectorKey='service', serviceSelectorValue='$service.*', startRow=1002))
       ),
   },
 }
