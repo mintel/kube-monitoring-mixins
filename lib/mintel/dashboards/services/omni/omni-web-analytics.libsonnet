@@ -18,6 +18,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
+        nullPointMode='null as zero',
         height=300,
         query=|||
           mintel:http_request_duration_seconds_quantile:95{%(serviceSelectorKey)s="%(serviceSelectorValue)s", analytics_type=~"$analytics_type"}
@@ -60,6 +61,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
+        nullPointMode='null as zero',
         height=300,
         query=|||
           histogram_quantile(0.95,
@@ -110,6 +112,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
+        nullPointMode='null as zero',
         height=450,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service"}[$__interval])) by (dashboard_id)
@@ -132,6 +135,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='s',
         legend_show=true,
         span=span,
+        nullPointMode='null as zero',
         height=250,
         query=|||
           sum(rate(django_widget_request_time_sum{service="$service", dashboard_id="$dashboard_id"}[$__interval])) by (widget_id)
