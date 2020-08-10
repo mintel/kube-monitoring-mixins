@@ -15,11 +15,12 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 32,
+  "id": 60,
   "links": [],
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -42,6 +43,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -52,7 +59,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
+        "w": 4,
         "x": 0,
         "y": 1
       },
@@ -96,7 +103,8 @@
         {
           "expr": "sum(ALERTS{alertstate=\"firing\",alertname!~\"DeadMansSwitch|Watchdog\"})",
           "format": "time_series",
-          "instant": false,
+          "instant": true,
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "",
           "refId": "A",
@@ -119,6 +127,7 @@
     {
       "cacheTimeout": null,
       "colorBackground": false,
+      "colorPrefix": false,
       "colorValue": true,
       "colors": [
         "rgba(50, 172, 45, 0.97)",
@@ -127,6 +136,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -138,7 +153,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 5,
+        "x": 4,
         "y": 1
       },
       "hideTimeOverride": false,
@@ -181,13 +196,15 @@
         {
           "expr": "sum(ALERTS{alertstate=\"pending\",alertname!~\"DeadMansSwitch|Watchdog\"})",
           "format": "time_series",
-          "intervalFactor": 2,
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
           "step": 600
         }
       ],
-      "thresholds": "3, 5",
+      "thresholds": "3,5",
       "title": "Alerts Pending",
       "type": "singlestat",
       "valueFontSize": "80%",
@@ -211,6 +228,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -221,8 +244,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
-        "x": 9,
+        "w": 4,
+        "x": 8,
         "y": 1
       },
       "hideTimeOverride": false,
@@ -301,6 +324,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -311,7 +340,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 3,
+        "w": 4,
         "x": 12,
         "y": 1
       },
@@ -381,12 +410,103 @@
       "valueName": "current"
     },
     {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "center"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 16,
+        "x": 0,
+        "y": 4
+      },
+      "id": 34,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "alertname"
+          }
+        ]
+      },
+      "pluginVersion": "7.0.6",
+      "targets": [
+        {
+          "expr": "ALERTS{alertname!~\"DeadMansSwitch|Watchdog\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Alert Details",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "app_mintel_com_owner": true,
+              "container": true,
+              "created_by_kind": true,
+              "created_by_name": true,
+              "cronjob": true,
+              "deployment": true,
+              "endpoint": true,
+              "instance": true,
+              "job": true,
+              "method": true,
+              "namespace": true,
+              "node": true,
+              "page": true,
+              "pod": false,
+              "service": true,
+              "severity": false,
+              "success": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "alertname": ""
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 11
       },
       "id": 19,
       "panels": [],
@@ -404,6 +524,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -416,7 +542,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 4,
@@ -488,6 +614,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -500,7 +632,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 20,
@@ -572,6 +704,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -584,7 +722,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 21,
@@ -656,6 +794,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -668,7 +812,7 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 22,
@@ -740,6 +884,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -752,7 +902,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 23,
@@ -824,6 +974,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -836,7 +992,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 5
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 26,
@@ -900,11 +1056,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 15
       },
       "id": 17,
       "panels": [],
@@ -922,6 +1079,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -934,7 +1097,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 5,
@@ -1006,6 +1169,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1018,7 +1187,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 6,
@@ -1090,6 +1259,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1102,7 +1277,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 7,
@@ -1174,6 +1349,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1186,7 +1367,7 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 8,
@@ -1258,6 +1439,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1270,7 +1457,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 24,
@@ -1342,6 +1529,12 @@
       ],
       "datasource": "Prometheus",
       "editable": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1354,7 +1547,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 9
+        "y": 16
       },
       "hideTimeOverride": false,
       "id": 25,
@@ -1417,7 +1610,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 18,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [
     "kubernetes"
@@ -1431,7 +1624,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
       "10s",
       "30s",
       "1m",
