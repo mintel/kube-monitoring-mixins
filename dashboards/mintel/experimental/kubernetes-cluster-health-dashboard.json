@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 60,
+  "id": 58,
   "links": [],
   "panels": [
     {
@@ -434,8 +434,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 16,
+        "h": 6,
+        "w": 24,
         "x": 0,
         "y": 4
       },
@@ -481,9 +481,7 @@
               "endpoint": true,
               "instance": true,
               "job": true,
-              "label_app_mintel_com_owner": true,
               "method": true,
-              "mintel_com_service": true,
               "namespace": true,
               "node": true,
               "page": true,
@@ -508,7 +506,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 10
       },
       "id": 19,
       "panels": [],
@@ -544,7 +542,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 4,
@@ -634,7 +632,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 20,
@@ -724,7 +722,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 21,
@@ -814,7 +812,7 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 22,
@@ -904,7 +902,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 23,
@@ -994,7 +992,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 12
+        "y": 11
       },
       "hideTimeOverride": false,
       "id": 26,
@@ -1063,7 +1061,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 14
       },
       "id": 17,
       "panels": [],
@@ -1099,7 +1097,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 5,
@@ -1189,7 +1187,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 6,
@@ -1279,7 +1277,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 7,
@@ -1369,7 +1367,7 @@
         "h": 3,
         "w": 4,
         "x": 12,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 8,
@@ -1459,7 +1457,7 @@
         "h": 3,
         "w": 4,
         "x": 16,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 24,
@@ -1549,7 +1547,7 @@
         "h": 3,
         "w": 4,
         "x": 20,
-        "y": 16
+        "y": 15
       },
       "hideTimeOverride": false,
       "id": 25,
