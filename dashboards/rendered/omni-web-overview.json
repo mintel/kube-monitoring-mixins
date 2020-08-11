@@ -674,7 +674,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -763,7 +763,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -852,7 +852,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -900,6 +900,91 @@
                      "show": false
                   }
                ]
+            },
+            {
+               "cacheTimeout": null,
+               "colorBackground": false,
+               "colorValue": false,
+               "colors": [
+                  "#299c46",
+                  "rgba(237, 129, 40, 0.89)",
+                  "#d44a3a"
+               ],
+               "datasource": "$ds",
+               "decimals": 0,
+               "format": "int",
+               "gauge": {
+                  "maxValue": 100,
+                  "minValue": 0,
+                  "show": false,
+                  "thresholdLabels": false,
+                  "thresholdMarkers": true
+               },
+               "gridPos": {
+                  "h": 10,
+                  "w": 12,
+                  "x": 12,
+                  "y": 1010
+               },
+               "height": 200,
+               "id": 11,
+               "interval": null,
+               "links": [ ],
+               "mappingType": 1,
+               "mappingTypes": [
+                  {
+                     "name": "value to text",
+                     "value": 1
+                  },
+                  {
+                     "name": "range to text",
+                     "value": 2
+                  }
+               ],
+               "maxDataPoints": 100,
+               "nullPointMode": "connected",
+               "nullText": null,
+               "postfix": null,
+               "postfixFontSize": "50%",
+               "prefix": "",
+               "prefixFontSize": "50%",
+               "rangeMaps": [
+                  {
+                     "from": "null",
+                     "text": "N/A",
+                     "to": "null"
+                  }
+               ],
+               "sparkline": {
+                  "fillColor": "rgba(31, 118, 189, 0.18)",
+                  "full": true,
+                  "lineColor": "rgb(31, 120, 193)",
+                  "show": true
+               },
+               "tableColumn": "",
+               "targets": [
+                  {
+                     "expr": "sum(count by (pod)(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\", pod=~\"$service.*\"}))\n",
+                     "format": "time_series",
+                     "instant": false,
+                     "interval": "1m",
+                     "intervalFactor": 2,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "thresholds": "",
+               "title": "OOM Killed Pods",
+               "type": "singlestat",
+               "valueFontSize": "80%",
+               "valueMaps": [
+                  {
+                     "op": "=",
+                     "text": "N/A",
+                     "value": "null"
+                  }
+               ],
+               "valueName": "current"
             }
          ],
          "repeat": null,
@@ -930,7 +1015,7 @@
                   "y": 1000
                },
                "height": 200,
-               "id": 11,
+               "id": 12,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1042,7 +1127,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 12,
+               "id": 13,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1118,7 +1203,7 @@
                   "y": 1001
                },
                "height": 200,
-               "id": 13,
+               "id": 14,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1220,7 +1305,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 14,
+               "id": 15,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1308,7 +1393,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 15,
+               "id": 16,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1396,7 +1481,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 16,
+               "id": 17,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1484,7 +1569,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 17,
+               "id": 18,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1572,7 +1657,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 18,
+               "id": 19,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1660,7 +1745,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 19,
+               "id": 20,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1748,7 +1833,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 20,
+               "id": 21,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1836,7 +1921,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 21,
+               "id": 22,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -1924,7 +2009,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 22,
+               "id": 23,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2012,7 +2097,7 @@
                   "y": 1032
                },
                "height": 200,
-               "id": 23,
+               "id": 24,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2100,7 +2185,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 24,
+               "id": 25,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2188,7 +2273,7 @@
                   "y": 1002
                },
                "height": 200,
-               "id": 25,
+               "id": 26,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2276,7 +2361,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 26,
+               "id": 27,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2364,7 +2449,7 @@
                   "y": 1012
                },
                "height": 200,
-               "id": 27,
+               "id": 28,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2452,7 +2537,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 28,
+               "id": 29,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
@@ -2540,7 +2625,7 @@
                   "y": 1022
                },
                "height": 200,
-               "id": 29,
+               "id": 30,
                "legend": {
                   "alignAsTable": true,
                   "avg": true,
