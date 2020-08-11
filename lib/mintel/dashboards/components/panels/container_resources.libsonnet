@@ -12,7 +12,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance CPU',
         yAxisLabel='CPU Usage',
-        span=3,
+        span=4,
         legend_show=false,
         query=|||
           sum(
@@ -26,7 +26,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance CPU Throttling',
         yAxisLabel='Throttle %',
-        span=3,
+        span=4,
         legend_show=false,
         query=|||
           sum by (namespace,pod, container) ((container_cpu_cfs_throttled_periods_total{container="%(containerName)s", pod=~"%(podSelectorValue)s.*", namespace="$namespace"}
@@ -39,7 +39,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
-        span=3,
+        span=4,
         legend_show=false,
         query=|||
           container_memory_usage_bytes{namespace="$namespace", pod=~"%(podSelectorValue)s.*", container="%(containerName)s"}
@@ -54,7 +54,7 @@ local promQuery = import 'components/prom_query.libsonnet';
           sum(count by (pod)(kube_pod_container_status_terminated_reason{reason="OOMKilled", pod=~"$service.*"}))
         |||,
         decimals=0,
-        format='None',
+        format='',
         legendFormat='',
         instant= true,
         span=3,
