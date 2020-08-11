@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 58,
+  "id": 179,
   "links": [],
   "panels": [
     {
@@ -289,6 +289,7 @@
           "expr": "1 + (absent(sum(ALERTS{alertname=\"TargetDown\",alertstate=\"firing\"})) or vector(0))",
           "format": "time_series",
           "instant": true,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
@@ -318,9 +319,9 @@
       "colorBackground": true,
       "colorValue": false,
       "colors": [
-        "#bf1b00",
-        "#bf1b00",
-        "rgba(50, 172, 45, 0.97)"
+        "rgba(50, 172, 45, 0.97)",
+        "#C4162A",
+        "#bf1b00"
       ],
       "datasource": "Prometheus",
       "editable": true,
@@ -382,31 +383,21 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1 + (absent(count(up{job=~\"kubelet|etcd|kube-state-metrics|node-exporter\"} == 0)) or vector(0))",
+          "expr": "sum(kube_node_status_condition{condition!=\"Ready\", status=\"true\"} )",
           "format": "time_series",
           "instant": true,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
           "step": 600
         }
       ],
-      "thresholds": "1,2",
-      "title": "Core Targets down ALERT",
+      "thresholds": "1,100",
+      "title": "Node Conditions",
       "type": "singlestat",
       "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "ALERT",
-          "value": "1"
-        },
-        {
-          "op": "=",
-          "text": "OK",
-          "value": "2"
-        }
-      ],
+      "valueMaps": [],
       "valueName": "current"
     },
     {
@@ -1032,7 +1023,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"})",
+          "expr": "sum(count by (pod)(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"}))",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
