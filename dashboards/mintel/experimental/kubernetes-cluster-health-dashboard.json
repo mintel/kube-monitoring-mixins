@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 179,
+  "id": 62,
   "links": [],
   "panels": [
     {
@@ -1023,9 +1023,10 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(count by (pod)(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"}))",
+          "expr": "sum(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"})",
           "format": "time_series",
           "instant": true,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
