@@ -54,8 +54,10 @@ local promQuery = import 'components/prom_query.libsonnet';
           sum(count by (pod)(kube_pod_container_status_terminated_reason{reason="OOMKilled", pod=~"$service.*"}))
         |||,
         decimals=0,
-        format='int',
-        legendFormat=' {{ pod }}',
+        format='None',
+        legendFormat='',
+        instant= true,
+        span=3,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
 }

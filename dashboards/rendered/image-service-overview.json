@@ -824,7 +824,7 @@
                ],
                "datasource": "$ds",
                "decimals": 0,
-               "format": "int",
+               "format": "None",
                "gauge": {
                   "maxValue": 100,
                   "minValue": 0,
@@ -867,6 +867,7 @@
                      "to": "null"
                   }
                ],
+               "span": 3,
                "sparkline": {
                   "fillColor": "rgba(31, 118, 189, 0.18)",
                   "full": true,
@@ -878,7 +879,7 @@
                   {
                      "expr": "sum(count by (pod)(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\", pod=~\"$service.*\"}))\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
