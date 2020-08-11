@@ -57,7 +57,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='',
         legendFormat='',
         instant= true,
-        span=2,
+        span=1,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
 }
