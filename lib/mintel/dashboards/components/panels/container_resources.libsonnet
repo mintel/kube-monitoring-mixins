@@ -39,7 +39,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
-        span=4,
+        span=3,
         legend_show=false,
         query=|||
           container_memory_usage_bytes{namespace="$namespace", pod=~"%(podSelectorValue)s.*", container="%(containerName)s"}
@@ -57,7 +57,7 @@ local promQuery = import 'components/prom_query.libsonnet';
         format='',
         legendFormat='',
         instant= true,
-        span=1,
+        span=2,
       ),
     ], cols=2, rowHeight=10, startRow=startRow),
 }
