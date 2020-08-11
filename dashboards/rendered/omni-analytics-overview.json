@@ -617,7 +617,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 3,
+               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -795,7 +795,7 @@
                "repeat": null,
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 3,
+               "span": 4,
                "stack": false,
                "steppedLine": false,
                "targets": [

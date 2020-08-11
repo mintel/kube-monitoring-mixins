@@ -12,7 +12,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance CPU',
         yAxisLabel='CPU Usage',
-        span=3,
+        span=4,
         legend_show=false,
         query=|||
           sum(
@@ -39,7 +39,7 @@ local promQuery = import 'components/prom_query.libsonnet';
       commonPanels.timeseries(
         title='Per Instance Memory',
         yAxisLabel='Memory Usage',
-        span=3,
+        span=4,
         legend_show=false,
         query=|||
           container_memory_usage_bytes{namespace="$namespace", pod=~"%(podSelectorValue)s.*", container="%(containerName)s"}
