@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 152,
+  "id": 218,
   "links": [],
   "panels": [
     {
@@ -383,7 +383,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(kube_node_status_condition{condition!=\"Ready\", status=\"true\"} )",
+          "expr": "count(sum by (node)(kube_node_status_condition{condition!=\"Ready\", status=\"true\"}) > 0) OR on() vector(0)",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -394,7 +394,7 @@
         }
       ],
       "thresholds": "1,100",
-      "title": "Bad Node Conditions",
+      "title": "Nodes with Bad Conditions",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
