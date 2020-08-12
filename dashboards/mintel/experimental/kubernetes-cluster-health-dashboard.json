@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 62,
+  "id": 24,
   "links": [],
   "panels": [
     {
@@ -394,7 +394,7 @@
         }
       ],
       "thresholds": "1,100",
-      "title": "Node Conditions",
+      "title": "Bad Node Conditions",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [],
