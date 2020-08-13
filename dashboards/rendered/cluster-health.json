@@ -341,6 +341,50 @@
                   }
                ],
                "valueName": "current"
+            },
+            {
+               "columns": [ ],
+               "datasource": "$ds",
+               "description": "This table shows the current alerts either in a pending or firing state",
+               "gridPos": { },
+               "id": 6,
+               "styles": [
+                  {
+                     "alias": "alertname",
+                     "align": "auto"
+                  },
+                  {
+                     "alias": "alertstate",
+                     "align": "auto"
+                  },
+                  {
+                     "alias": "created_by_name",
+                     "align": "auto"
+                  },
+                  {
+                     "alias": "pod",
+                     "align": "auto"
+                  },
+                  {
+                     "alias": "severity",
+                     "align": "auto"
+                  }
+               ],
+               "targets": [
+                  {
+                     "expr": "ALERTS{alertname!~\"DeadMansSwitch|Watchdog\"}\n",
+                     "format": "table",
+                     "instant": "true",
+                     "interval": "",
+                     "intervalFactor": 1,
+                     "legendFormat": "",
+                     "refId": "A"
+                  }
+               ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Alert Details",
+               "type": "table"
             }
          ],
          "repeat": null,
@@ -375,7 +419,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 6,
+               "id": 7,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -455,7 +499,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 7,
+               "id": 8,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -535,7 +579,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 8,
+               "id": 9,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -615,7 +659,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 9,
+               "id": 10,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -695,7 +739,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 10,
+               "id": 11,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -775,7 +819,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 11,
+               "id": 12,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -868,7 +912,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 12,
+               "id": 13,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -948,7 +992,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 13,
+               "id": 14,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1028,7 +1072,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 14,
+               "id": 15,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1108,7 +1152,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 15,
+               "id": 16,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1188,7 +1232,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 16,
+               "id": 17,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
@@ -1268,7 +1312,7 @@
                },
                "gridPos": { },
                "height": 100,
-               "id": 17,
+               "id": 18,
                "interval": null,
                "links": [ ],
                "mappingType": 1,
