@@ -134,7 +134,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
             unit: 'short',
           },
           {
-            alias: 'Time',
+            alias: '',
             align: 'auto',
             colorMode: null,
             colors: [
@@ -151,7 +151,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
             unit: 'short',
           },
          {
-           alias: 'Value',
+           alias: '',
            align: 'auto',
            colorMode: null,
            colors: [

@@ -40,6 +40,10 @@ local dashboardTags = ['health'];
         .addPanel(health.alertsPending())
         .addPanel(health.targetDownFiring())
         .addPanel(health.nodeBadConditions())
+      )
+
+      .addRow(
+        row.new('Alerts')
         .addPanel(health.alertDetails())
       )
 

@@ -341,7 +341,20 @@
                   }
                ],
                "valueName": "current"
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "General Status",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": false,
+         "collapsed": false,
+         "panels": [
             {
                "columns": [ ],
                "datasource": "$ds",
@@ -367,7 +380,7 @@
                      "unit": "short"
                   },
                   {
-                     "alias": "Time",
+                     "alias": "",
                      "align": "auto",
                      "colorMode": null,
                      "colors": [
@@ -384,7 +397,7 @@
                      "unit": "short"
                   },
                   {
-                     "alias": "Value",
+                     "alias": "",
                      "align": "auto",
                      "colorMode": null,
                      "colors": [
@@ -728,7 +741,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "General Status",
+         "title": "Alerts",
          "titleSize": "h6",
          "type": "row"
       },
