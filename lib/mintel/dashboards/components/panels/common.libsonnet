@@ -78,7 +78,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     singlestatPanel.new(
       title,
       description=description,
-      datasource='datasource',
+      datasource=datasource,
       decimals=decimals,
       colors=colors,
       format=format,

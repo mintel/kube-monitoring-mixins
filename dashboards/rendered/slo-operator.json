@@ -27,7 +27,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "decimals": 5,
                "format": "percentunit",
                "gauge": {
@@ -227,7 +227,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "decimals": 5,
                "format": "percent",
                "gauge": {

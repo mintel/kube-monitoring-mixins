@@ -210,7 +210,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "datasource",
+         "datasource": "$ds",
          "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
@@ -289,7 +289,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "datasource",
+         "datasource": "$ds",
          "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
@@ -542,7 +542,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "datasource",
+         "datasource": "$ds",
          "decimals": 2,
          "format": "currencyUSD",
          "gauge": {
@@ -621,7 +621,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
          ],
-         "datasource": "datasource",
+         "datasource": "$ds",
          "decimals": 2,
          "format": "currencyUSD",
          "gauge": {

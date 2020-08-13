@@ -26,7 +26,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -106,7 +106,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -186,7 +186,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -271,7 +271,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -392,7 +392,7 @@
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
                      "decimals": 2,
                      "mappingType": 1,
-                     "pattern": "time",
+                     "pattern": "Time",
                      "thresholds": [ ],
                      "type": "hidden",
                      "unit": "short"
@@ -409,7 +409,7 @@
                      "dateFormat": "YYYY-MM-DD HH:mm:ss",
                      "decimals": 2,
                      "mappingType": 1,
-                     "pattern": "value",
+                     "pattern": "Value",
                      "thresholds": [ ],
                      "type": "hidden",
                      "unit": "short"
@@ -759,7 +759,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -839,7 +839,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -919,7 +919,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -999,7 +999,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1079,7 +1079,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1159,7 +1159,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "Elasticsearch-events",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1252,7 +1252,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1332,7 +1332,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1412,7 +1412,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1492,7 +1492,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1572,7 +1572,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
@@ -1652,7 +1652,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "rgba(245, 54, 54, 0.9)"
                ],
-               "datasource": "datasource",
+               "datasource": "$ds",
                "format": "none",
                "gauge": {
                   "maxValue": 100,
