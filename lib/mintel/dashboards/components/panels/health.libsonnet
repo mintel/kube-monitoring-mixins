@@ -11,9 +11,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -37,9 +37,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -63,9 +63,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -89,9 +89,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -115,9 +115,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -141,9 +141,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -167,9 +167,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -193,9 +193,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -219,9 +219,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -245,9 +245,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -271,9 +271,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -297,9 +297,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -323,9 +323,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -349,9 +349,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -375,9 +375,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
@@ -401,9 +401,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
       thresholds="3,5",
       colorValue=true,
       colors=[
-        '#d44a3a',
+        'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
-        '#299c46',
+        'rgba(245, 54, 54, 0.9)',
       ],
       valueMaps=[
         {
