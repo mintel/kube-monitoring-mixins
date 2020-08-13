@@ -9,6 +9,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -27,6 +28,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -45,6 +47,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -63,6 +66,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -81,6 +85,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -99,6 +104,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -117,6 +123,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -135,6 +142,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -153,6 +161,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -171,6 +180,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -189,6 +199,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -207,6 +218,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -225,6 +237,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -243,6 +256,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -261,6 +275,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
@@ -279,6 +294,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
+      colorValue=true,
       colors=[
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',

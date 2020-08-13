@@ -20,7 +20,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -100,7 +100,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -180,7 +180,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -260,7 +260,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -353,7 +353,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -433,7 +433,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -513,7 +513,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -593,7 +593,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -673,7 +673,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -753,7 +753,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -846,7 +846,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -926,7 +926,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -1006,7 +1006,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -1086,7 +1086,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -1166,7 +1166,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
@@ -1246,7 +1246,7 @@
             {
                "cacheTimeout": null,
                "colorBackground": false,
-               "colorValue": false,
+               "colorValue": true,
                "colors": [
                   "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
