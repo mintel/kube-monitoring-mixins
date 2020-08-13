@@ -619,7 +619,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       span=span,
       height=100,
       instant=true,
-      thresholds="3,5",
+      thresholds="1,2",
       colorValue=true,
       colors=[
         'rgba(50, 172, 45, 0.97)',
@@ -637,6 +637,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       query=|||
           OOMKilling
       |||,
+      sparklineShow=false,
     ),
 
   nodeNotReady(span=2)::
