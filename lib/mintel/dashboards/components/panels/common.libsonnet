@@ -72,6 +72,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     height=200,
     colorBackground=false,
     colorValue=false,
+    valueMaps=[],
   )::
     singlestatPanel.new(
       title,
@@ -91,6 +92,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       sparklineShow=sparklineShow,
       colorBackground=colorBackground,
       colorValue=colorValue,
+      valueMaps=valueMaps,
     )
     .addTarget(promQuery.target(query, instant=instant)),
 

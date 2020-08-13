@@ -88,13 +88,7 @@
                "title": "Number of Nodes",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -168,13 +162,7 @@
                "title": "Number of NodePools",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -248,13 +236,7 @@
                "title": "Pods Allocatables Slots",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -328,13 +310,7 @@
                "title": "Node Disk Pressures",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -408,13 +384,7 @@
                "title": "Nodes Not Ready",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -488,13 +458,7 @@
                "title": "Nodes Unavailable",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             }
          ],

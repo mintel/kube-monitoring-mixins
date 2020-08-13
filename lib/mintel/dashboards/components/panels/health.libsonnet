@@ -15,6 +15,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           sum(ALERTS{alertstate="firing",alertname!~"DeadMansSwitch|Watchdog"})
       |||,
@@ -33,6 +40,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           sum(ALERTS{alertstate="pending",alertname!~"DeadMansSwitch|Watchdog"})
@@ -53,6 +67,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           1 + (absent(sum(ALERTS{alertname="TargetDown",alertstate="firing"})) or vector(0))
       |||,
@@ -71,6 +92,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           count(sum by (node)(kube_node_status_condition{condition!="Ready", status="true"}) > 0) OR on() vector(0)
@@ -91,6 +119,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           count(increase(kube_pod_container_status_restarts_total[1h]) > 5)
       |||,
@@ -109,6 +144,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           count(ALERTS{alertname="KubeStatefulSetReplicasMismatch"})
@@ -129,6 +171,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           count(ALERTS{alertname="DeploymentReplicasNotUpdated"})
       |||,
@@ -147,6 +196,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           count(ALERTS{alertname="DaemonSetRolloutStuck"})
@@ -167,6 +223,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           count(ALERTS{alertname="K8SDaemonSetsNotScheduled"})
       |||,
@@ -185,6 +248,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           sum(kube_pod_container_status_terminated_reason{reason="OOMKilled"})
@@ -205,6 +275,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           sum(kube_node_status_condition{condition="Ready",status!="true"})
       |||,
@@ -223,6 +300,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           sum(kube_node_status_condition{condition="DiskPressure",status="true"})
@@ -243,6 +327,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           sum(kube_node_status_condition{condition="MemoryPressure",status="true"})
       |||,
@@ -261,6 +352,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           sum(kube_node_spec_unschedulable)
@@ -281,6 +379,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
       ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
+      ],
       query=|||
           sum(ALERTS{alertstate="firing",alertname="NodeCpuAvailableForPodsLow"})
       |||,
@@ -299,6 +404,13 @@ local commonPanels = import 'components/panels/common.libsonnet';
         '#d44a3a',
         'rgba(237, 129, 40, 0.89)',
         '#299c46',
+      ],
+      valueMaps=[
+        {
+          value: 'null',
+          op: '=',
+          text: '0',
+        },
       ],
       query=|||
           sum(ALERTS{alertstate="firing",alertname="NodeMemoryAvailableForPodsLow"})
