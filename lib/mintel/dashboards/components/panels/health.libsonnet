@@ -8,7 +8,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       span=span,
       height=100,
       instant=true,
-      thresholds="3,5",
+      thresholds="1,3",
       colorValue=true,
       colors=[
         'rgba(50, 172, 45, 0.97)',
@@ -61,7 +61,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       height=100,
       instant=true,
       thresholds="3,5",
-      colorValue=true,
+      colorBackground=true,
       colors=[
         'rgba(50, 172, 45, 0.97)',
         'rgba(237, 129, 40, 0.89)',
@@ -69,9 +69,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       ],
       valueMaps=[
         {
-          value: 'null',
+          value: '1',
           op: '=',
-          text: '0',
+          text: 'ALERT',
+        },
+        {
+          value: '2',
+          op: '=',
+          text: 'OK',
         },
       ],
       query=|||
@@ -86,7 +91,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       span=span,
       height=100,
       instant=true,
-      thresholds="3,5",
+      thresholds="1,2",
       colorValue=true,
       colors=[
         'rgba(50, 172, 45, 0.97)',
@@ -112,7 +117,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       span=span,
       height=100,
       instant=true,
-      thresholds="3,5",
+      thresholds="1,2",
       colorValue=true,
       colors=[
         'rgba(50, 172, 45, 0.97)',
