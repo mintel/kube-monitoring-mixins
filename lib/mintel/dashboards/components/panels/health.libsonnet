@@ -479,6 +479,7 @@ local commonPanels = import 'components/panels/common.libsonnet';
       |||,
       intervalFactor=1,
       legendFormat='',
+      span=span,
     ),
 
   crashloopingPods(span=2)::
@@ -632,8 +633,9 @@ local commonPanels = import 'components/panels/common.libsonnet';
           text: '0',
         },
       ],
+      datasource="Elasticsearch-events",
       query=|||
-          sum(kube_pod_container_status_terminated_reason{reason="OOMKilled"})
+          OOMKilling
       |||,
     ),
 

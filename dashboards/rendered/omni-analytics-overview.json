@@ -163,7 +163,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#d44a3a"
                ],
-               "datasource": "$ds",
+               "datasource": "datasource",
                "description": "Requests per second (all http-status)",
                "format": "rps",
                "gauge": {
@@ -243,7 +243,7 @@
                   "rgba(237, 129, 40, 0.89)",
                   "#299c46"
                ],
-               "datasource": "$ds",
+               "datasource": "datasource",
                "description": "Percentage of successful (non http-5xx) requests",
                "format": "percent",
                "gauge": {

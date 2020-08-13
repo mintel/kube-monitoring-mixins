@@ -51,6 +51,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
       'rgba(237, 129, 40, 0.89)',
       '#d44a3a',
     ],
+    datasource='$ds',
     decimals=null,
     legendFormat='',
     format='none',
@@ -77,7 +78,7 @@ local statusdotsPanel = import 'statusdots_panel.libsonnet';
     singlestatPanel.new(
       title,
       description=description,
-      datasource='$ds',
+      datasource='datasource',
       decimals=decimals,
       colors=colors,
       format=format,
