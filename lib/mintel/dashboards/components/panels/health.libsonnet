@@ -110,42 +110,11 @@ local commonPanels = import 'components/panels/common.libsonnet';
       |||,
     ),
 
-  alertDetails(span=2)::
+  alertDetails(span=12)::
 
     commonPanels.table(
       title='Alert Details',
       description='This table shows the current alerts either in a pending or firing state',
-      styles=[
-        {
-          alias: 'alertname',
-          align: 'auto',
-        },
-        {
-          alias: 'alertstate',
-          align: 'auto',
-        },
-        {
-          alias: 'created_by_name',
-          align: 'auto',
-        },
-        {
-          alias: 'pod',
-          align: 'auto',
-        },
-        {
-          alias: 'severity',
-          align: 'auto',
-        },
-      ],
-      query=|||
-        ALERTS{alertname!~"DeadMansSwitch|Watchdog"}
-      |||,
-      intervalFactor=1,
-    ),
-  tablePVCNamespace()::
-
-    commonPanels.table(
-      title='Alert Details',
       styles=[
           {
             alias: 'alertname',
