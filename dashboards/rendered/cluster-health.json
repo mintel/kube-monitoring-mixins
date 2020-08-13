@@ -22,9 +22,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -75,16 +75,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(ALERTS{alertstate=\"firing\",alertname!~\"DeadMansSwitch|Watchdog\"})\n",
+                     "expr": "sum(ALERTS{alertstate=\"firing\",alertname!~\"DeadMansSwitch|Watchdog\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Alerts Firing",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -102,9 +102,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -155,16 +155,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(ALERTS{alertstate=\"pending\",alertname!~\"DeadMansSwitch|Watchdog\"})\n",
+                     "expr": "sum(ALERTS{alertstate=\"pending\",alertname!~\"DeadMansSwitch|Watchdog\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Alerts Pending",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -182,9 +182,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -235,16 +235,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  1 + (absent(sum(ALERTS{alertname=\"TargetDown\",alertstate=\"firing\"})) or vector(0))\n",
+                     "expr": "1 + (absent(sum(ALERTS{alertname=\"TargetDown\",alertstate=\"firing\"})) or vector(0))\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "TargetDown is Firing",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -262,9 +262,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -315,16 +315,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(sum by (node)(kube_node_status_condition{condition!=\"Ready\", status=\"true\"}) > 0) OR on() vector(0)\n",
+                     "expr": "count(sum by (node)(kube_node_status_condition{condition!=\"Ready\", status=\"true\"}) > 0) OR on() vector(0)\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Nodes with Bad Conditions",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -355,9 +355,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -408,16 +408,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(increase(kube_pod_container_status_restarts_total[1h]) > 5)\n",
+                     "expr": "count(increase(kube_pod_container_status_restarts_total[1h]) > 5)\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Crashlooping Pods",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -435,9 +435,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -488,16 +488,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(ALERTS{alertname=\"KubeStatefulSetReplicasMismatch\"})\n",
+                     "expr": "count(ALERTS{alertname=\"KubeStatefulSetReplicasMismatch\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "StatefulSet replica Mismatch",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -515,9 +515,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -568,16 +568,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(ALERTS{alertname=\"DeploymentReplicasNotUpdated\"})\n",
+                     "expr": "count(ALERTS{alertname=\"DeploymentReplicasNotUpdated\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Deployment replicas not updated",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -595,9 +595,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -648,16 +648,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(ALERTS{alertname=\"DaemonSetRolloutStuck\"})\n",
+                     "expr": "count(ALERTS{alertname=\"DaemonSetRolloutStuck\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "DaemonSet Rollout Stuck",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -675,9 +675,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -728,16 +728,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  count(ALERTS{alertname=\"K8SDaemonSetsNotScheduled\"})\n",
+                     "expr": "count(ALERTS{alertname=\"K8SDaemonSetsNotScheduled\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "DaemonSet Not Scheduled",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -755,9 +755,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -808,16 +808,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"})\n",
+                     "expr": "sum(kube_pod_container_status_terminated_reason{reason=\"OOMKilled\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "OOM Killed Pods",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -848,9 +848,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -901,16 +901,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(kube_node_status_condition{condition=\"Ready\",status!=\"true\"})\n",
+                     "expr": "sum(kube_node_status_condition{condition=\"Ready\",status!=\"true\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Node Not Ready",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -928,9 +928,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -981,16 +981,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(kube_node_status_condition{condition=\"DiskPressure\",status=\"true\"})\n",
+                     "expr": "sum(kube_node_status_condition{condition=\"DiskPressure\",status=\"true\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Node Disk Pressure",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -1008,9 +1008,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -1061,16 +1061,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(kube_node_status_condition{condition=\"MemoryPressure\",status=\"true\"})\n",
+                     "expr": "sum(kube_node_status_condition{condition=\"MemoryPressure\",status=\"true\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Node Memory Pressure",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -1088,9 +1088,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -1141,16 +1141,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(kube_node_spec_unschedulable)\n",
+                     "expr": "sum(kube_node_spec_unschedulable)\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Nodes Unschedulable",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -1168,9 +1168,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -1221,16 +1221,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(ALERTS{alertstate=\"firing\",alertname=\"NodeCpuAvailableForPodsLow\"})\n",
+                     "expr": "sum(ALERTS{alertstate=\"firing\",alertname=\"NodeCpuAvailableForPodsLow\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Nodes With low Cpu Cores for new pods",
                "type": "singlestat",
                "valueFontSize": "80%",
@@ -1248,9 +1248,9 @@
                "colorBackground": false,
                "colorValue": false,
                "colors": [
-                  "#299c46",
+                  "#d44a3a",
                   "rgba(237, 129, 40, 0.89)",
-                  "#d44a3a"
+                  "#299c46"
                ],
                "datasource": "$ds",
                "format": "none",
@@ -1301,16 +1301,16 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(\n  sum(ALERTS{alertstate=\"firing\",alertname=\"NodeMemoryAvailableForPodsLow\"})\n",
+                     "expr": "sum(ALERTS{alertstate=\"firing\",alertname=\"NodeMemoryAvailableForPodsLow\"})\n",
                      "format": "time_series",
-                     "instant": false,
+                     "instant": true,
                      "interval": "1m",
                      "intervalFactor": 2,
                      "legendFormat": "",
                      "refId": "A"
                   }
                ],
-               "thresholds": "",
+               "thresholds": "3,5",
                "title": "Nodes With low Memory for new pods",
                "type": "singlestat",
                "valueFontSize": "80%",

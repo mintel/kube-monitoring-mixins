@@ -7,8 +7,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Alerts Firing',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(ALERTS{alertstate="firing",alertname!~"DeadMansSwitch|Watchdog"})
       |||,
     ),
@@ -19,8 +25,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Alerts Pending',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(ALERTS{alertstate="pending",alertname!~"DeadMansSwitch|Watchdog"})
       |||,
     ),
@@ -31,8 +43,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='TargetDown is Firing',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           1 + (absent(sum(ALERTS{alertname="TargetDown",alertstate="firing"})) or vector(0))
       |||,
     ),
@@ -43,8 +61,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Nodes with Bad Conditions',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(sum by (node)(kube_node_status_condition{condition!="Ready", status="true"}) > 0) OR on() vector(0)
       |||,
     ),
@@ -55,8 +79,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Crashlooping Pods',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(increase(kube_pod_container_status_restarts_total[1h]) > 5)
       |||,
     ),
@@ -67,8 +97,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='StatefulSet replica Mismatch',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(ALERTS{alertname="KubeStatefulSetReplicasMismatch"})
       |||,
     ),
@@ -79,8 +115,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Deployment replicas not updated',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(ALERTS{alertname="DeploymentReplicasNotUpdated"})
       |||,
     ),
@@ -91,8 +133,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='DaemonSet Rollout Stuck',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(ALERTS{alertname="DaemonSetRolloutStuck"})
       |||,
     ),
@@ -103,8 +151,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='DaemonSet Not Scheduled',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           count(ALERTS{alertname="K8SDaemonSetsNotScheduled"})
       |||,
     ),
@@ -115,8 +169,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='OOM Killed Pods',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(kube_pod_container_status_terminated_reason{reason="OOMKilled"})
       |||,
     ),
@@ -127,8 +187,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Node Not Ready',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(kube_node_status_condition{condition="Ready",status!="true"})
       |||,
     ),
@@ -139,8 +205,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Node Disk Pressure',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(kube_node_status_condition{condition="DiskPressure",status="true"})
       |||,
     ),
@@ -151,8 +223,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Node Memory Pressure',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(kube_node_status_condition{condition="MemoryPressure",status="true"})
       |||,
     ),
@@ -163,8 +241,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Nodes Unschedulable',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(kube_node_spec_unschedulable)
       |||,
     ),
@@ -175,8 +259,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Nodes With low Cpu Cores for new pods',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(ALERTS{alertstate="firing",alertname="NodeCpuAvailableForPodsLow"})
       |||,
     ),
@@ -187,8 +277,14 @@ local commonPanels = import 'components/panels/common.libsonnet';
       title='Nodes With low Memory for new pods',
       span=span,
       height=100,
+      instant=true,
+      thresholds="3,5",
+      colors=[
+        '#d44a3a',
+        'rgba(237, 129, 40, 0.89)',
+        '#299c46',
+      ],
       query=|||
-        sum(
           sum(ALERTS{alertstate="firing",alertname="NodeMemoryAvailableForPodsLow"})
       |||,
     ),
