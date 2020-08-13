@@ -1,4 +1,5 @@
 (import './core-cluster/capacity.libsonnet') +
+(import './core-cluster/cluster-health.libsonnet') +
 (import './services/portal/overview.libsonnet') +
 (import './services/image-service/overview.libsonnet') +
 (import './services/omni/omni-web-overview.libsonnet') +
