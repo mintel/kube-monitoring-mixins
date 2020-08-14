@@ -758,13 +758,7 @@
                "title": "Skipped Scrapes",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -839,13 +833,7 @@
                "title": "Scrape Cache Forced Flush",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -920,13 +908,7 @@
                "title": "AVG Chunk Size",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -1001,13 +983,7 @@
                "title": "AVG Samples in Chunk",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {

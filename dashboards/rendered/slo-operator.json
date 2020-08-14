@@ -90,13 +90,7 @@
                "title": "Availability over $slo_availability_span",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -296,13 +290,7 @@
                "title": "Error Budget left for the current 7d",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             }
          ],

@@ -231,13 +231,7 @@
                "title": "Incoming Request Volume",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             },
             {
@@ -317,13 +311,7 @@
                "title": "Incoming Success Rate",
                "type": "singlestat",
                "valueFontSize": "80%",
-               "valueMaps": [
-                  {
-                     "op": "=",
-                     "text": "N/A",
-                     "value": "null"
-                  }
-               ],
+               "valueMaps": [ ],
                "valueName": "current"
             }
          ],

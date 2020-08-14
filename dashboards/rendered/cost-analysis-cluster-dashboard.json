@@ -277,13 +277,7 @@
          "title": "CPU Cost",
          "type": "singlestat",
          "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
+         "valueMaps": [ ],
          "valueName": "current"
       },
       {
@@ -362,13 +356,7 @@
          "title": "Storage Cost (Cluster and PVC)",
          "type": "singlestat",
          "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
+         "valueMaps": [ ],
          "valueName": "current"
       },
       {
@@ -621,13 +609,7 @@
          "title": "RAM Cost",
          "type": "singlestat",
          "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
+         "valueMaps": [ ],
          "valueName": "current"
       },
       {
@@ -706,13 +688,7 @@
          "title": "Total Cost",
          "type": "singlestat",
          "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
+         "valueMaps": [ ],
          "valueName": "current"
       },
       {
