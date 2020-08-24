@@ -83,6 +83,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -353,6 +354,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -458,6 +460,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -560,6 +563,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -649,6 +653,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -738,6 +743,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -840,6 +846,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

@@ -23,6 +23,7 @@
             "y": 0
          },
          "id": 2,
+         "links": [ ],
          "styles": [
             {
                "alias": "Pod",
@@ -243,6 +244,7 @@
             "y": 0
          },
          "id": 3,
+         "links": [ ],
          "styles": [
             {
                "alias": "Namespace",
@@ -372,6 +374,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -460,6 +463,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -548,6 +552,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -638,6 +643,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },

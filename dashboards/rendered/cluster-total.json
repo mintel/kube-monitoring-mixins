@@ -64,6 +64,7 @@
             "min": false,
             "rightSide": true,
             "show": true,
+            "sideWidth": null,
             "sort": "current",
             "sortDesc": true,
             "total": false,
@@ -157,6 +158,7 @@
             "min": false,
             "rightSide": true,
             "show": true,
+            "sideWidth": null,
             "sort": "current",
             "sortDesc": true,
             "total": false,
@@ -281,6 +283,7 @@
          "id": 5,
          "lines": true,
          "linewidth": 1,
+         "links": [ ],
          "minSpan": 24,
          "nullPointMode": "null as zero",
          "renderer": "flot",
@@ -548,6 +551,7 @@
                   "min": false,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "sort": "current",
                   "sortDesc": true,
                   "total": false,
@@ -641,6 +645,7 @@
                   "min": false,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "sort": "current",
                   "sortDesc": true,
                   "total": false,
@@ -762,6 +767,7 @@
             "min": true,
             "rightSide": true,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -851,6 +857,7 @@
             "min": true,
             "rightSide": true,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -951,6 +958,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1040,6 +1048,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1149,6 +1158,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1238,6 +1248,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1327,6 +1338,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1365,7 +1377,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of TCP Retransimts out of all sent segments",
+               "title": "Rate of TCP Retransmits out of all sent segments",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -1422,6 +1434,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1460,7 +1473,7 @@
                "thresholds": [ ],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Rate of TCP SYN Retransimts out of all retransmits",
+               "title": "Rate of TCP SYN Retransmits out of all retransmits",
                "tooltip": {
                   "shared": true,
                   "sort": 2,
@@ -1503,7 +1516,7 @@
          "type": "row"
       }
    ],
-   "refresh": "30s",
+   "refresh": "10s",
    "rows": [ ],
    "schemaVersion": 18,
    "style": "dark",
@@ -1633,7 +1646,7 @@
          "30d"
       ]
    },
-   "timezone": "",
+   "timezone": "UTC",
    "title": "Kubernetes / Networking / Cluster",
    "uid": "ff635a025bcfea7bc3dd4f508990a3e9",
    "version": 0

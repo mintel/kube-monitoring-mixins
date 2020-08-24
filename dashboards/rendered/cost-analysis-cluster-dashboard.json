@@ -702,6 +702,7 @@
             "y": 0
          },
          "id": 11,
+         "links": [ ],
          "styles": [
             {
                "alias": "RAM Requests",
@@ -814,6 +815,7 @@
             "y": 8
          },
          "id": 12,
+         "links": [ ],
          "styles": [
             {
                "alias": "Namespace",
@@ -1034,6 +1036,7 @@
             "y": 8
          },
          "id": 13,
+         "links": [ ],
          "styles": [
             {
                "alias": "Namespace",
