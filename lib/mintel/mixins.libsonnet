@@ -10,6 +10,7 @@
 (import './alerts/kubernetes-resources.libsonnet') +
 (import './alerts/mintel-containers.libsonnet') +
 (import './alerts/mintel-disks.libsonnet') +
+(import './alerts/mintel-network.libsonnet') +
 (import './alerts/mintel-node.libsonnet') +
 (import './alerts/mintel-overcommit.libsonnet') +
 (import './alerts/mintel-pod.libsonnet') +

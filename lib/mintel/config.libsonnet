@@ -2,6 +2,9 @@
   _config+:: {
     local this = self,
 
+    // Empty placeholder
+    jobs: {},
+
     // Set namespace here to allow jsonnet rendering from this directory.
     // Note, this will get overwritten by the main config (default is 'monitoring)'...
     namespace: 'monitoring',
