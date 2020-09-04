@@ -1828,7 +1828,7 @@ spec:
               rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m]) -
               avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
             )
-            / stddev_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
           ) > 0
         ) > 10
       for: 30m
@@ -1847,7 +1847,7 @@ spec:
               rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m]) -
               avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
             )
-            / stddev_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
           ) > 0
         ) > 10
       for: 60m
@@ -1867,7 +1867,7 @@ spec:
               rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m]) -
               avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
             )
-            / stddev_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
           ) > 0
         ) > 10
       for: 30m
@@ -1886,7 +1886,7 @@ spec:
               rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m]) -
               avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
             )
-            / stddev_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
           ) > 0
         ) > 10
       for: 60m
