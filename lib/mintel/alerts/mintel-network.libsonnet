@@ -70,7 +70,7 @@
                            rate(%(metricname)s{}[15m]) -
                            avg_over_time(rate(%(metricname)s{}[15m])[1w:5m])
                          )
-                         / stddev_over_time(rate(%(metricname)s{}[15m])[1w:5m])
+                         / avg_over_time(rate(%(metricname)s{}[15m])[1w:5m])
                        ) > 0
                      ) > %(threshold)s
                    ||| % alert,
