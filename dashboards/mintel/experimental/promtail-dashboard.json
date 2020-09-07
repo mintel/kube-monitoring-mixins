@@ -15,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1599480903196,
+  "id": 69,
+  "iteration": 1599491661544,
   "links": [],
   "panels": [
     {
@@ -68,6 +69,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -79,8 +83,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(promtail_targets_active_total{cluster=\"$cluster\", job=\"$namespace/$name\"})",
+          "expr": "sum(promtail_targets_active_total{namespace=\"$namespace\",job=\"$name\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Active Targets",
           "legendLink": null,
@@ -164,6 +169,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -175,8 +183,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(promtail_files_active_total{cluster=\"$cluster\", job=\"$namespace/$name\"})",
+          "expr": "sum(promtail_files_active_total{namespace=\"$namespace\",job=\"$name\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Active Targets",
           "legendLink": null,
@@ -275,6 +284,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -286,8 +298,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(promtail_read_bytes_total{cluster=\"$cluster\", job=\"$namespace/$name\"}[1m]))",
+          "expr": "sum(rate(promtail_read_bytes_total{namespace=\"$namespace\",job=\"$name\"}[5m]))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "logs read",
           "legendLink": null,
@@ -371,6 +384,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -382,8 +398,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(promtail_read_lines_total{cluster=\"$cluster\", job=\"$namespace/$name\"}[1m]))",
+          "expr": "sum(rate(promtail_read_lines_total{namespace=\"$namespace\",job=\"$name\"}[5m]))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "lines read",
           "legendLink": null,
@@ -490,6 +507,9 @@
       "linewidth": 0,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -501,8 +521,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (status) (label_replace(label_replace(rate(promtail_request_duration_seconds_count{cluster=\"$cluster\", job=\"$namespace/$name\"}[$__interval]), \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"), \"status\", \"${1}\",   \"status_code\", \"([a-z]+)\"))",
+          "expr": "sum by (status) (label_replace(label_replace(rate(promtail_request_duration_seconds_count{namespace=\"$namespace\",job=\"$name\"}[$__interval]), \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"), \"status\", \"${1}\",   \"status_code\", \"([a-z]+)\"))",
           "format": "time_series",
+          "interval": "2m",
           "intervalFactor": 2,
           "legendFormat": "{{status}}",
           "refId": "A",
@@ -585,6 +606,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pluginVersion": "7.1.5",
       "pointradius": 5,
@@ -596,24 +620,27 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum by (le) (job:promtail_request_duration_seconds_bucket:sum_rate{job=\"$namespace/$name\", cluster=\"$cluster\"})) * 1e3",
+          "expr": "histogram_quantile(0.99, sum by (le) (job:promtail_request_duration_seconds_bucket:sum_rate{namespace=\"$namespace\",job=\"$name\"})) * 1e3",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "99th Percentile",
           "refId": "A",
           "step": 10
         },
         {
-          "expr": "histogram_quantile(0.50, sum by (le) (job:promtail_request_duration_seconds_bucket:sum_rate{job=\"$namespace/$name\", cluster=\"$cluster\"})) * 1e3",
+          "expr": "histogram_quantile(0.50, sum by (le) (job:promtail_request_duration_seconds_bucket:sum_rate{namespace=\"$namespace\",job=\"$name\"})) * 1e3",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "50th Percentile",
           "refId": "B",
           "step": 10
         },
         {
-          "expr": "1e3 * sum(job:promtail_request_duration_seconds_sum:sum_rate{job=\"$namespace/$name\", cluster=\"$cluster\"}) / sum(job:promtail_request_duration_seconds_count:sum_rate{job=\"$namespace/$name\", cluster=\"$cluster\"})",
+          "expr": "1e3 * sum(job:promtail_request_duration_seconds_sum:sum_rate{namespace=\"$namespace\",job=\"$name\"}) / sum(job:promtail_request_duration_seconds_count:sum_rate{namespace=\"$namespace\",job=\"$name\"})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Average",
           "refId": "C",
@@ -663,7 +690,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 26,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -689,36 +716,9 @@
       {
         "allValue": null,
         "current": {
-          "isNone": true,
           "selected": false,
-          "text": "None",
-          "value": ""
-        },
-        "datasource": "$datasource",
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": "cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": "label_values(kube_pod_container_info{image=~\".*promtail.*\"}, cluster)",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 2,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "loki",
-          "value": "loki"
+          "text": "monitoring",
+          "value": "monitoring"
         },
         "datasource": "$datasource",
         "definition": "",
@@ -773,7 +773,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
       "10s",
       "30s",
       "1m",
@@ -799,5 +798,5 @@
   "timezone": "",
   "title": "Loki / Promtail",
   "uid": "739c15a23c04c6ace0d03f6e14ba26e8",
-  "version": 1
+  "version": 4
 }
