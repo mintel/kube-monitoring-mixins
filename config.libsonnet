@@ -7,6 +7,7 @@
 (import 'kube-prometheus/rules/rules.libsonnet') +
 (import 'kubernetes-mixin/mixin.libsonnet') +
 (import 'prometheus/mixin.libsonnet') +
+(import 'promtail-mixin/mixin.libsonnet') +
 (import 'lib/prometheus.libsonnet') +
 (import 'lib/grafana.libsonnet') +
 (import 'lib/mintel/mixins.libsonnet') +

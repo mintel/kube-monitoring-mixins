@@ -51,6 +51,7 @@ local downgrade_severity_rules = [
 local ignore_dashboards = [
   'apiserver.json',
   'controller-manager.json',
+  'promtail.json',
   'scheduler.json',
 ];
 
@@ -76,6 +77,7 @@ local page_false_critical = [
   'KubePersistentVolumeFullInFourDays',
   'KubePodFailed',
   'PodOOMKilled',
+  'PromtailFileMissing',
   'PrometheusBadConfig',
   'PrometheusErrorSendingAlertsToAnyAlertmanager',  // Why is this page=false ?
   'PrometheusOutboundNetworkTrafficAnomalyDetected',

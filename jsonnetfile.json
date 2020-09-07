@@ -4,7 +4,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/kube-prometheus",
+          "remote": "https://github.com/coreos/kube-prometheus.git",
           "subdir": "jsonnet/kube-prometheus"
         }
       },
@@ -13,7 +13,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/prometheus-operator",
+          "remote": "https://github.com/coreos/prometheus-operator.git",
           "subdir": "jsonnet/prometheus-operator"
         }
       },
@@ -22,7 +22,16 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/prometheus/node_exporter",
+          "remote": "https://github.com/grafana/loki.git",
+          "subdir": "production/promtail-mixin"
+        }
+      },
+      "version": "master"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus/node_exporter.git",
           "subdir": "docs/node-mixin"
         }
       },
@@ -31,7 +40,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/prometheus/prometheus",
+          "remote": "https://github.com/prometheus/prometheus.git",
           "subdir": "documentation/prometheus-mixin"
         }
       },
