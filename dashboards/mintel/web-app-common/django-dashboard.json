@@ -841,10 +841,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_usage_bytes{container_name=\"main\", pod_name=~\"$service-.*\"}",
+          "expr": "container_memory_usage_bytes{container=\"main\", pod=~\"$service-.*\"}",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "refId": "A"
         }
       ],
@@ -927,10 +927,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{container_name=\"main\", pod_name=~\"$service.*\"}[5m])",
+          "expr": "rate(container_cpu_usage_seconds_total{container=\"main\", pod=~\"$service.*\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "refId": "A"
         }
       ],
