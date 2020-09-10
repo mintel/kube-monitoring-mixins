@@ -83,7 +83,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count(container_last_seen{image!=\"\",instance=~\"$instance:.*\",container_name!=\"POD\"})",
+          "expr": "count(container_last_seen{image!=\"\",instance=~\"$instance:.*\",container!=\"POD\"})",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 2,
@@ -171,7 +171,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{image!=\"\",instance=~\"$instance:.*\",container_name!=\"POD\"})/1024/1024",
+          "expr": "sum(container_memory_usage_bytes{image!=\"\",instance=~\"$instance:.*\",container!=\"POD\"})/1024/1024",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 2,
@@ -259,7 +259,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_user_seconds_total{image!=\"\",instance=~\"$instance:.*\",container_name!=\"POD\"}[1m]) * 100)",
+          "expr": "sum(rate(container_cpu_user_seconds_total{image!=\"\",instance=~\"$instance:.*\",container!=\"POD\"}[1m]) * 100)",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 2,
@@ -328,10 +328,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_cpu_user_seconds_total{image!=\"\",instance=~\"$instance:.*\",container_name!=\"POD\"}[1m]) * 100",
+          "expr": "rate(container_cpu_user_seconds_total{image!=\"\",instance=~\"$instance:.*\",container!=\"POD\"}[1m]) * 100",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}/{{container_name}}",
+          "legendFormat": "{{pod}}/{{container}}",
           "metric": "cpu",
           "refId": "A",
           "step": 10
@@ -424,11 +424,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_usage_bytes{image!=\"\",instance=~\"$instance:.*\",container_name!=\"POD\"}",
+          "expr": "container_memory_usage_bytes{image!=\"\",instance=~\"$instance:.*\",container!=\"POD\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}/{{container_name}}",
+          "legendFormat": "{{pod}}/{{container}}",
           "metric": "container_memory_usage_bytes",
           "refId": "A",
           "step": 10
@@ -519,7 +519,7 @@
           "expr": "irate(container_network_receive_bytes_total{image!=\"\",instance=~\"$instance:.*\",interface=\"eth0\"}[1m])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "metric": "container_network_receive_bytes_total",
           "refId": "A",
           "step": 20
@@ -609,7 +609,7 @@
           "expr": "irate(container_network_transmit_bytes_total{image!=\"\",instance=~\"$instance:.*\",interface=\"eth0\"}[1m])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "refId": "A",
           "step": 20
         }
