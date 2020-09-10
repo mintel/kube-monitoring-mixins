@@ -394,11 +394,11 @@
           "refId": "A"
         },
         {
-          "expr": "sum by (container_name,pod_name)(rate(container_cpu_usage_seconds_total{image!=\"\",container_name=\"haproxy\",pod_name=~\"$alias\"}[$interval]))",
+          "expr": "sum by (container,pod)(rate(container_cpu_usage_seconds_total{image!=\"\",container=\"haproxy\",pod=~\"$alias\"}[$interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }}/{{ container_name }}",
+          "legendFormat": "{{ pod }}/{{ container }}",
           "refId": "B"
         }
       ],
@@ -507,11 +507,11 @@
           "refId": "A"
         },
         {
-          "expr": "sum by (container_name,pod_name)(rate(container_cpu_usage_seconds_total{image!=\"\",container_name=~\"$app\", pod_name=~\"$app\"}[$interval]))",
+          "expr": "sum by (container,pod)(rate(container_cpu_usage_seconds_total{image!=\"\",container=~\"$app\", pod=~\"$app\"}[$interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }}/{{ container_name }}",
+          "legendFormat": "{{ pod }}/{{ container }}",
           "refId": "B"
         }
       ],
@@ -718,10 +718,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * sum by(container_name, pod_name, namespace) (increase(container_cpu_cfs_throttled_periods_total{container_name=~\".+\",pod_name=~\"haproxy-.*\"}[5m])) / sum by(container_name, pod_name, namespace) (increase(container_cpu_cfs_periods_total{container_name=~\".+\"}[5m]))",
+          "expr": "100 * sum by(container, pod, namespace) (increase(container_cpu_cfs_throttled_periods_total{container=~\".+\",pod=~\"haproxy-.*\"}[5m])) / sum by(container, pod, namespace) (increase(container_cpu_cfs_periods_total{container=~\".+\"}[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} / {{ container_name }}",
+          "legendFormat": "{{ pod }} / {{ container }}",
           "refId": "A"
         }
       ],

@@ -15,6 +15,8 @@ local ignore_alerts = [
   'KubeSchedulerDown',
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',
+  'PrometheusOutboundNetworkTrafficAnomalyDetected',
+  'PromtailOutboundNetworkTrafficAnomalyDetected',
 ];
 
 // Define a list of record rules to ignore
@@ -65,6 +67,8 @@ local page_false_critical = [
   'ElasticsearchClusterHealthYELLOW',
   'ElasticsearchHeapTooHigh',
   'ElasticsearchLowDiskFree',
+  'GoogleNatGatewayOutboundNetworkAnomalyDetection',
+  'GoogleNatGatewayInboundNetworkAnomalyDetection',
   'HAProxyFrontendSessionUsage',
   'HAProxyBackendResponseErrors',
   'HAProxyServerInBackendUpPercentageLow',
@@ -73,7 +77,9 @@ local page_false_critical = [
   'KubePodFailed',
   'PodOOMKilled',
   'PrometheusBadConfig',
-  'PrometheusErrorSendingAlertsToAnyAlertmanager',
+  'PrometheusErrorSendingAlertsToAnyAlertmanager',  // Why is this page=false ?
+  'PrometheusOutboundNetworkTrafficAnomalyDetected',
+  'PromtailOutboundNetworkTrafficAnomalyDetected',
 ];
 
 // Downgrade severity for a rule

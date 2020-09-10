@@ -10,10 +10,10 @@
 (import './alerts/kubernetes-resources.libsonnet') +
 (import './alerts/mintel-containers.libsonnet') +
 (import './alerts/mintel-disks.libsonnet') +
+(import './alerts/mintel-network.libsonnet') +
 (import './alerts/mintel-node.libsonnet') +
 (import './alerts/mintel-overcommit.libsonnet') +
 (import './alerts/mintel-pod.libsonnet') +
-(import './alerts/mintel-web-frontend.libsonnet') +
 (import './alerts/mintel-workloads.libsonnet') +
 (import './alerts/filebeat.libsonnet') +
 (import './alerts/flux.libsonnet') +
@@ -31,6 +31,5 @@
 (import './rules/mintel-node.libsonnet') +
 (import './rules/mintel-overcommit.libsonnet') +
 (import './rules/mintel-pod.libsonnet') +
-(import './rules/mintel-web-frontend.libsonnet') +
 (import './rules/mintel-http.libsonnet') +
 (import './dashboards/dashboards.libsonnet')
