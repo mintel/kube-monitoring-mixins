@@ -1813,6 +1813,86 @@ spec:
       labels:
         page: "true"
         severity: critical
+  - name: mintel-network.alerts
+    rules:
+    - alert: GoogleNatGatewayOutboundNetworkAnomalyDetection
+      annotations:
+        description: Google Nat Gateway {{ $labels.nat_gateway_name }} traffic Anomaly
+          detected
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NetworkTrafficAnomalyDetected.md
+        summary: Google Nat Gateway Network Traffic Anomaly Detected
+      expr: |
+        sum by (nat_gateway_name) (
+          abs(
+            (
+              rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m]) -
+              avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+            )
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+          ) > 0
+        ) > 10
+      for: 30m
+      labels:
+        severity: warning
+    - alert: GoogleNatGatewayOutboundNetworkAnomalyDetection
+      annotations:
+        description: Google Nat Gateway {{ $labels.nat_gateway_name }} traffic Anomaly
+          detected
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NetworkTrafficAnomalyDetected.md
+        summary: Google Nat Gateway Network Traffic Anomaly Detected
+      expr: |
+        sum by (nat_gateway_name) (
+          abs(
+            (
+              rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m]) -
+              avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+            )
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count{}[15m])[1w:5m])
+          ) > 0
+        ) > 10
+      for: 60m
+      labels:
+        page: "false"
+        severity: critical
+    - alert: GoogleNatGatewayInboundNetworkAnomalyDetection
+      annotations:
+        description: Google Nat Gateway {{ $labels.nat_gateway_name }} traffic Anomaly
+          detected
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NetworkTrafficAnomalyDetected.md
+        summary: Google Nat Gateway Network Traffic Anomaly Detected
+      expr: |
+        sum by (nat_gateway_name) (
+          abs(
+            (
+              rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m]) -
+              avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+            )
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+          ) > 0
+        ) > 10
+      for: 30m
+      labels:
+        severity: warning
+    - alert: GoogleNatGatewayInboundNetworkAnomalyDetection
+      annotations:
+        description: Google Nat Gateway {{ $labels.nat_gateway_name }} traffic Anomaly
+          detected
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/NetworkTrafficAnomalyDetected.md
+        summary: Google Nat Gateway Network Traffic Anomaly Detected
+      expr: |
+        sum by (nat_gateway_name) (
+          abs(
+            (
+              rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m]) -
+              avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+            )
+            / avg_over_time(rate(stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count{}[15m])[1w:5m])
+          ) > 0
+        ) > 10
+      for: 60m
+      labels:
+        page: "false"
+        severity: critical
   - name: mintel-node.alerts
     rules:
     - alert: NodeFreeConntrackEntriesLow

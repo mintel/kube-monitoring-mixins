@@ -533,7 +533,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          (sum by (namespace) (rate(container_cpu_usage_seconds_total{container_name!="",image!="",service="kubelet"}[$__interval]))
+          (sum by (namespace) (rate(container_cpu_usage_seconds_total{container!="",image!="",service="kubelet"}[$__interval]))
             /  ignoring(namespace) group_left() (sum (kube_node_status_allocatable_cpu_cores)) ) * 100
         |||,
         format='table',
@@ -545,9 +545,9 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          sum(count(count(container_memory_working_set_bytes{namespace!=""}) by (pod_name, namespace)) by (pod_name, namespace) *
-            on (pod_name, namespace) sum(avg_over_time(container_memory_working_set_bytes{namespace!=""}[$__interval]))
-            by (pod_name, namespace)) by (namespace) / sum(container_spec_memory_limit_bytes{namespace!=""}) by (namespace) * 100
+          sum(count(count(container_memory_working_set_bytes{namespace!=""}) by (pod, namespace)) by (pod, namespace) *
+            on (pod, namespace) sum(avg_over_time(container_memory_working_set_bytes{namespace!=""}[$__interval]))
+            by (pod, namespace)) by (namespace) / sum(container_spec_memory_limit_bytes{namespace!=""}) by (namespace) * 100
         |||,
         format='table',
         instant=true,
@@ -678,7 +678,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
           link: true,
           linkTooltip: 'Click to drill down into pod',
           linkUrl: std.format('d/%s/mintel-cost-analysis-by-pod?var-namespace=$namespace&var-pod=$__cell', podDashboard),
-          pattern: 'pod_name',
+          pattern: 'pod',
           thresholds: [
             '30',
             '80',
@@ -813,45 +813,45 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       ],
       query=|||
             (
-              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)
+              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod)
               or
               count(
-                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
-              ) by(pod_name) -1
+                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod)
+              ) by(pod) -1
             )
 
             +
 
             (
-              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod_name)
+              sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod)
               or
               count(
-                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
-              ) by(pod_name) -1
+                count(container_spec_cpu_shares{namespace="$namespace"}) by(pod)
+              ) by(pod) -1
             )
       |||,
       intervalFactor=1,
-      legendFormat='{{ pod_name }}',
+      legendFormat='{{ pod }}',
     )
     .addTarget(
       promQuery.target(
         |||
           (
-            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod)
             or
             count(
-              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
 
           +
 
           (
-            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod_name)
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod)
             or
             count(
-              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
         |||,
         format='table',
@@ -875,42 +875,42 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       promQuery.target(
         |||
           (
-            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod_name)
+            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1000*($costcpu - ($costcpu / 100 * $costDiscount))) by(pod)
             or
             count(
-              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
 
           +
 
           (
-            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod_name)
+            sum(container_spec_cpu_shares{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(pod)
             or
             count(
-              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_cpu_shares{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
 
           # Now ram
 
           +
           (
-            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod_name)
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible!="true"}/1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(pod)
             or
             count(
-              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
 
           +
 
           (
-            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod_name)
+            sum(container_spec_memory_limit_bytes{namespace="$namespace",cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(pod)
             or
             count(
-              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod_name)
-            ) by(pod_name) -1
+              count(container_spec_memory_limit_bytes{namespace="$namespace"}) by(pod)
+            ) by(pod) -1
           )
         |||,
         format='table',
@@ -922,16 +922,16 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       promQuery.target(
         |||
            sum(
-              count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name)) by (pod_name)
-              * on (pod_name)
-              sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[$__interval])) by (pod_name)
-           ) by (pod_name) * 1000
+              count(count(container_spec_cpu_shares{namespace="$namespace"}) by (pod)) by (pod)
+              * on (pod)
+              sum(irate(container_cpu_usage_seconds_total{namespace="$namespace"}[$__interval])) by (pod)
+           ) by (pod) * 1000
            /
-           sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod_name) * 100
+           sum(container_spec_cpu_shares{namespace="$namespace"}) by (pod) * 100
         |||,
         format='table',
         instant=true,
-        legendFormat='{{ pod_name }}',
+        legendFormat='{{ pod }}',
         intervalFactor=1,
       )
     )
@@ -939,12 +939,12 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       promQuery.target(
         |||
           sum(
-             count(count(container_memory_working_set_bytes{namespace="$namespace"}) by (pod_name)) by (pod_name)
-             * on (pod_name)
-             sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[$__interval])) by (pod_name)
-          ) by (pod_name)
+             count(count(container_memory_working_set_bytes{namespace="$namespace"}) by (pod)) by (pod)
+             * on (pod)
+             sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace"}[$__interval])) by (pod)
+          ) by (pod)
           /
-          sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (pod_name) * 100
+          sum(container_spec_memory_limit_bytes{namespace="$namespace"}) by (pod) * 100
         |||,
         format='table',
         instant=true,
@@ -1186,7 +1186,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
           dateFormat: 'YYYY-MM-DD HH:mm:ss',
           decimals: 2,
           link: false,
-          pattern: 'container_name',
+          pattern: 'container',
           thresholds: [
             '30',
             '80',
@@ -1320,25 +1320,25 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
         },
       ],
       query=|||
-        (sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}/1000*
-          ($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(
-          count(container_spec_cpu_shares{namespace="$namespace",container_name!="POD",pod_name="$pod"})
-          by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",
-          container_name!="POD",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(container_name)  or
-          count(    count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
+        (sum(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible!="true"}/1000*
+          ($costcpu - ($costcpu / 100 * $costDiscount))) by(container)  or  count(
+          count(container_spec_cpu_shares{namespace="$namespace",container!="POD",pod="$pod"})
+          by(container)  ) by(container) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod="$pod",
+          container!="POD",cloud_google_com_gke_preemptible="true"}/1000*$costpcpu) by(container)  or
+          count(    count(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD"}) by(container)  ) by(container) -1)
       |||,
       intervalFactor=1,
-      legendFormat='{{ pod_name }}',
+      legendFormat='{{ pod }}',
     )
     .addTarget(
       promQuery.target(
         |||
-          (sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}
-            /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)
-            or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  )
-            by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible="true"}
-            /1024/1024/1024*$costpram) by(container_name)  or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
-            by(container_name)  ) by(container_name) -1)
+          (sum(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible!="true"}
+            /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container)
+            or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD"}) by(container)  )
+            by(container) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible="true"}
+            /1024/1024/1024*$costpram) by(container)  or  count(    count(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD"})
+            by(container)  ) by(container) -1)
         |||,
         format='table',
         instant=true,
@@ -1360,16 +1360,16 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          (sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}/1000
-            *($costcpu - ($costcpu / 100 * $costDiscount))) by(container_name)  or  count(count(container_spec_cpu_shares{namespace="$namespace",container_name!="POD",pod_name="$pod"})
-            by(container_name)  ) by(container_name) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible="true"}
-            /1000*$costpcpu) by(container_name)  or count(    count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  )
-            by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",cloud_google_com_gke_preemptible!="true"}
-            /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container_name)
-            or  count( count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
-            by(container_name)  ) by(container_name) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD",
-            cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(container_name)  or  count(
-            count(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by(container_name)  ) by(container_name) -1)
+          (sum(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible!="true"}/1000
+            *($costcpu - ($costcpu / 100 * $costDiscount))) by(container)  or  count(count(container_spec_cpu_shares{namespace="$namespace",container!="POD",pod="$pod"})
+            by(container)  ) by(container) -1)+(  sum(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible="true"}
+            /1000*$costpcpu) by(container)  or count(    count(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD"}) by(container)  )
+            by(container) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD",cloud_google_com_gke_preemptible!="true"}
+            /1024/1024/1024*($costram- ($costram / 100 * $costDiscount))) by(container)
+            or  count( count(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD"})
+            by(container)  ) by(container) -1)+(  sum(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD",
+            cloud_google_com_gke_preemptible="true"}/1024/1024/1024*$costpram) by(container)  or  count(
+            count(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD"}) by(container)  ) by(container) -1)
         |||,
         format='table',
         instant=true,
@@ -1379,23 +1379,23 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          sum(count(count(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name))
-            by (container_name) * on (container_name) sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$pod",container_name!="POD"}[$__interval]))
-            by (container_name)) by (container_name) * 1000/sum(container_spec_cpu_shares{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
+          sum(count(count(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD"}) by (container))
+            by (container) * on (container) sum(irate(container_cpu_usage_seconds_total{namespace="$namespace",pod="$pod",container!="POD"}[$__interval]))
+            by (container)) by (container) * 1000/sum(container_spec_cpu_shares{namespace="$namespace",pod="$pod",container!="POD"}) by (container) * 100
         |||,
         format='table',
         instant=true,
-        legendFormat='{{ pod_name }}',
+        legendFormat='{{ pod }}',
         intervalFactor=1,
       )
     )
     .addTarget(
       promQuery.target(
         |||
-          sum(count(count(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"})
-            by (container_name)) by (container_name) * on (container_name)
-            sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}[$__interval]))
-            by (container_name)) by (container_name)/sum(container_spec_memory_limit_bytes{namespace="$namespace",pod_name="$pod",container_name!="POD"}) by (container_name) * 100
+          sum(count(count(container_memory_working_set_bytes{namespace="$namespace",pod="$pod",container!="POD"})
+            by (container)) by (container) * on (container)
+            sum(avg_over_time(container_memory_working_set_bytes{namespace="$namespace",pod="$pod",container!="POD"}[$__interval]))
+            by (container)) by (container)/sum(container_spec_memory_limit_bytes{namespace="$namespace",pod="$pod",container!="POD"}) by (container) * 100
         |||,
         format='table',
         instant=true,
@@ -1413,17 +1413,17 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}[$__interval])) by (container_name)
+        sum (rate (container_cpu_usage_seconds_total{namespace=~"$namespace", pod="$pod", container!="POD"}[$__interval])) by (container)
       |||,
-      legendFormat='{{ container_name }}',
+      legendFormat='{{ container }}',
       intervalFactor=1,
     )
     .addTarget(
       promQuery.target(
         |||
-          sum(container_spec_cpu_shares{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name) / 1000
+          sum(container_spec_cpu_shares{namespace=~"$namespace", pod="$pod", container!="POD"}) by (container) / 1000
         |||,
-        legendFormat='{{ container_name }} (requested)',
+        legendFormat='{{ container }} (requested)',
         intervalFactor=1,
       )
     ) + {
@@ -1450,17 +1450,17 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       nullPointMode='connected',
       format='percent',
       query=|||
-        sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod_name="$pod", container_name!="POD"}[$__interval])) by (container_name)
+        sum (avg_over_time (container_memory_working_set_bytes{namespace="$namespace", pod="$pod", container!="POD"}[$__interval])) by (container)
       |||,
-      legendFormat='{{ container_name }}',
+      legendFormat='{{ container }}',
       intervalFactor=1,
     )
     .addTarget(
       promQuery.target(
         |||
-          sum(container_spec_memory_limit_bytes{namespace=~"$namespace", pod_name="$pod", container_name!="POD"}) by (container_name)
+          sum(container_spec_memory_limit_bytes{namespace=~"$namespace", pod="$pod", container!="POD"}) by (container)
         |||,
-        legendFormat='{{ container_name }} (requested)',
+        legendFormat='{{ container }} (requested)',
         intervalFactor=1,
       )
     ) + {
@@ -1489,14 +1489,14 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       format='percent',
       intervalFactor=1,
       query=|||
-        sum (rate (container_network_receive_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
+        sum (rate (container_network_receive_bytes_total{namespace="$namespace",pod="$pod"}[$__interval])) by (pod)
       |||,
       legendFormat='<- in',
     )
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
+          - sum (rate (container_network_transmit_bytes_total{namespace="$namespace",pod="$pod"}[$__interval])) by (pod)
         |||,
         legendFormat='-> out',
         intervalFactor=1,
@@ -1526,7 +1526,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
       fill=1,
       format='percent',
       query=|||
-        sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
+        sum (rate (container_fs_writes_bytes_total{namespace="$namespace",pod="$pod"}[$__interval])) by (pod)
       |||,
       legendFormat='<- write',
       intervalFactor=1,
@@ -1534,7 +1534,7 @@ local podDashboard = std.md5('cost-analysis-pod-dashboard.json');
     .addTarget(
       promQuery.target(
         |||
-          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace",pod_name="$pod"}[$__interval])) by (pod_name)
+          - sum (rate (container_fs_reads_bytes_total{namespace="$namespace",pod="$pod"}[$__interval])) by (pod)
         |||,
         legendFormat='-> read',
         intervalFactor=1,
