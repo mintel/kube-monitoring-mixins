@@ -23,6 +23,7 @@
             "y": 0
          },
          "id": 2,
+         "links": [ ],
          "styles": [
             {
                "alias": "Container",
@@ -256,6 +257,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -346,6 +348,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -436,6 +439,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -526,6 +530,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },

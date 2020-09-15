@@ -114,6 +114,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

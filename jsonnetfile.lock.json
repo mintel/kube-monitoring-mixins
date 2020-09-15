@@ -8,8 +8,8 @@
           "subdir": "grafana"
         }
       },
-      "version": "539a90dbf63c812ad0194d8078dd776868a11c81",
-      "sum": "b8faWX1qqLGyN67sA36oRqYZ5HX+tHBRMPtrWRqIysE="
+      "version": "57b4365eacda291b82e0d55ba7eec573a8198dda",
+      "sum": "92DWADwGjnCfpZaL7Q07C0GZayxBziGla/O03qWea34="
     },
     {
       "source": {
@@ -18,8 +18,8 @@
           "subdir": "Documentation/etcd-mixin"
         }
       },
-      "version": "ca7a2927903bb9de434f68b1106c43eee81e57ee",
-      "sum": "Ko3qhNfC2vN/houLh6C0Ryacjv70gl0DVPGU/PQ4OD0="
+      "version": "ae66916226f4dad3e13c1a52dffc34ce41859879",
+      "sum": "NhOkJWkO7ZO2DSE8Fvipcs7Hh2/GOCS0WjPPZU8OiaQ="
     },
     {
       "source": {
@@ -28,8 +28,8 @@
           "subdir": "jsonnet/kube-prometheus"
         }
       },
-      "version": "ce5fe790ee9f1772ad52d935b320d545c8f88722",
-      "sum": "AerKgmCkb6FsMAjPHqExxYSr6C/uYYq5qV9pAZULaxY="
+      "version": "44326abcc87669f21c3eed15e476d2495c4c9f06",
+      "sum": "mN2hPXqqIp525jpe9YFEsvT9NAsl+ld2hdCBZ+5HaWY="
     },
     {
       "source": {
@@ -48,8 +48,8 @@
           "subdir": "grafonnet"
         }
       },
-      "version": "c459106d2d2b583dd3a83f6c75eb52abee3af764",
-      "sum": "CeM3LRgUCUJTolTdMnerfMPGYmhClx7gX5ajrQVEY2Y="
+      "version": "0cfef6b1e666316d40a255c93e1d98d2a2610009",
+      "sum": "BVozpBqmTw67JSEDX9DRLEzCLMt0+aQjDBKGaTLS+Bc="
     },
     {
       "source": {
@@ -58,8 +58,8 @@
           "subdir": "grafana-builder"
         }
       },
-      "version": "7ac7da1a0fe165b68cdb718b2521b560d51bd1f4",
-      "sum": "slxrtftVDiTlQK22ertdfrg4Epnq97gdrLI63ftUfaE="
+      "version": "0d5c2119373cb53d9f02fb82b94857412f7540c8",
+      "sum": "R5WJe6wW0R9vMpOAHaGFwcK8q4NmGZ0aLhdZGKDHeMU="
     },
     {
       "source": {
@@ -79,8 +79,8 @@
           "subdir": ""
         }
       },
-      "version": "7f099821b29bb6f792c5a0833e74db142eba272a",
-      "sum": "ELEzQQcNRLX15CRhASw4eZaeGsvSBCHvYQtgjnXOoE8="
+      "version": "b1005adad5940eee9366272ab4c85cf077e547c2",
+      "sum": "FVMHGdPPdJ3OYoR2b2ZjqQq/cxmS7/Y5dYkA9oYQ3Vg="
     },
     {
       "source": {
@@ -89,18 +89,28 @@
           "subdir": "lib/promgrafonnet"
         }
       },
-      "version": "7f099821b29bb6f792c5a0833e74db142eba272a",
+      "version": "b1005adad5940eee9366272ab4c85cf077e547c2",
       "sum": "VhgBM39yv0f4bKv8VfGg4FXkg573evGDRalip9ypKbc="
     },
     {
       "source": {
         "git": {
-          "remote": "https://github.com/metalmatze/slo-libsonnet",
-          "subdir": "slo-libsonnet"
+          "remote": "https://github.com/kubernetes/kube-state-metrics",
+          "subdir": "jsonnet/kube-state-metrics"
         }
       },
-      "version": "437c402c5f3ad86c3c16db8471f1649284fef0ee",
-      "sum": "2Zcyku1f558VrUpMaJnI78fahDksPLcS1idmxxwcQ7Q="
+      "version": "89aaf6c524ee891140c4c8f2a05b1b16f5847309",
+      "sum": "zD/pbQLnQq+5hegEelaheHS8mn1h09GTktFO74iwlBI="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/kubernetes/kube-state-metrics",
+          "subdir": "jsonnet/kube-state-metrics-mixin"
+        }
+      },
+      "version": "89aaf6c524ee891140c4c8f2a05b1b16f5847309",
+      "sum": "E1GGavnf9PCWBm4WVrxWnc0FIj72UcbcweqGioWrOdU="
     },
     {
       "source": {
