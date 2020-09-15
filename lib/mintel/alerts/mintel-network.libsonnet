@@ -18,7 +18,7 @@
                            rate(container_network_transmit_bytes_total{namespace="monitoring", pod=~"prometheus-k8s-."}[15m]) - 
                            avg_over_time(rate(container_network_transmit_bytes_total{namespace="monitoring", pod=~"prometheus-k8s-."}[15m])[1w:5m])
                          ) 
-                         / avg_over_time(rate(container_network_transmit_bytes_total{namespace="monitoring", pod=~"prometheus-k8s-."}[15m])[1w:5m]) 
+                         / stddev_over_time(rate(container_network_transmit_bytes_total{namespace="monitoring", pod=~"prometheus-k8s-."}[15m])[1w:5m]) 
                        )
                      ) > 5
                    |||,
@@ -44,7 +44,7 @@
                            rate(promtail_sent_bytes_total{pod=~"promtail-.*"}[15m]) - 
                            avg_over_time(rate(promtail_sent_bytes_total{pod=~"promtail-.*"}[15m])[1w:5m])
                          ) 
-                         / avg_over_time(rate(promtail_sent_bytes_total{pod=~"promtail-.*"}[15m])[1w:5m]) 
+                         / stddev_over_time(rate(promtail_sent_bytes_total{pod=~"promtail-.*"}[15m])[1w:5m]) 
                        )
                      ) > 8
                    |||,
@@ -70,7 +70,7 @@
                            rate(%(metricname)s{}[15m]) -
                            avg_over_time(rate(%(metricname)s{}[15m])[1w:5m])
                          )
-                         / avg_over_time(rate(%(metricname)s{}[15m])[1w:5m])
+                         / stddev_over_time(rate(%(metricname)s{}[15m])[1w:5m])
                        ) > 0
                      ) > %(threshold)s
                    ||| % alert,
@@ -80,10 +80,10 @@
                    },
                  }
                  for alert in [
-                   { alertname: 'GoogleNatGatewayOutboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count', severity: 'warning', interval: '30m', threshold: 10 },
-                   { alertname: 'GoogleNatGatewayOutboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count', severity: 'critical', interval: '60m', threshold: 10 },
-                   { alertname: 'GoogleNatGatewayInboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count', severity: 'warning', interval: '30m', threshold: 10 },
-                   { alertname: 'GoogleNatGatewayInboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count', severity: 'critical', interval: '60m', threshold: 10 },
+                   { alertname: 'GoogleNatGatewayOutboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count', severity: 'warning', interval: '60m', threshold: 20 },
+                   { alertname: 'GoogleNatGatewayOutboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_sent_bytes_count', severity: 'critical', interval: '90m', threshold: 20 },
+                   { alertname: 'GoogleNatGatewayInboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count', severity: 'warning', interval: '60m', threshold: 20 },
+                   { alertname: 'GoogleNatGatewayInboundNetworkAnomalyDetection', metricname: 'stackdriver_gce_instance_compute_googleapis_com_nat_received_bytes_count', severity: 'critical', interval: '90m', threshold: 20 },
                  ]
                ] +
                [],
