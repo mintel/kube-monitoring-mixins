@@ -30,6 +30,19 @@
               severity: 'warning',
             },
           },
+          {
+            alert: 'KubePDBDisruptionsAllowedZero',
+            annotations: {
+              description: 'PDB Allowed Disruptions {{ $labels.namespace}}/{{ $labels.poddisruptionbudget }} has been at 0 for too long',
+              runbook_url: '%(runBookBaseURL)s/core/KubePDBDisruptionsAllowedZero.md' % $._config,
+              summary: 'PDB Allowed Disruptions is 0',
+            },
+            expr: 'kube_poddisruptionbudget_status_pod_disruptions_allowed == 0',
+            'for': '60m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
