@@ -27,6 +27,7 @@
     kubeControllerManagerSelector: 'job="kube-controller-manager"',
     kubeApiserverSelector: 'job="apiserver"',
     coreDNSSelector: 'job="kube-dns"',
+    externalDnsJobSelector: 'job="kube-system/external-dns"',
     podLabel: 'pod',
 
     // Select the device for Io Container reads/writes metrics
@@ -87,6 +88,7 @@
       PrometheusOperator: $._config.prometheusOperatorSelector,
       CoreDNS: $._config.coreDNSSelector,
       HaproxyIngress: 'job="haproxy-exporter"',
+      // externalDns: $._config.externalDnsJobSelector,
     },
 
     alertmanager+:: {

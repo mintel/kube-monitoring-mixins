@@ -21,6 +21,8 @@
     // Select metrics coming from the Kubelet.
     kubeletSelector: 'job="kubelet"',
 
+    externalDnsJobSelector: 'job="external-dns"',
+
     // Select the device for Io Container reads/writes metrics
     containerIoDiskDeviceSelector: 'device="/dev/sda"',
     // Select the Interval for Rate function for Io Container reads/writes metrics
