@@ -1386,7 +1386,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchOperatorReconcileErrors.md
         summary: ElasticSearch Operator failing to reconcile controller {{ $labels.controller
           }}
-      expr: increase(controller_runtime_reconcile_errors_total{job="kube-operators/elastic-operator-metrics"}[30m])
+      expr: increase(controller_runtime_reconcile_errors_total{job="kube-operators/eck"}[30m])
         >0
       for: 30m
       labels:
