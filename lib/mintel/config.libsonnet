@@ -71,7 +71,7 @@
     prometheusOperatorJobFilter: 'job="prometheus-operator"',
 
     // ECK Operator
-    eckOperatorFilter: 'job="elastic-operator-metrics"',
+    eckOperatorFilter: 'job="kube-operators/elastic-operator-metrics"',
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
     mintel: {
