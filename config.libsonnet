@@ -20,7 +20,7 @@
 
     cadvisorSelector: 'job="kubelet"',
     kubeletSelector: 'job="kubelet"',
-    kubeStateMetricsSelector: 'job="kube-state-metrics"',
+    kubeStateMetricsSelector: 'job="monitoring/kube-state-metrics"',
     nodeExporterSelector: 'job="node-exporter"',
     notKubeDnsSelector: 'job!="kube-dns"',
     kubeSchedulerSelector: 'job="kube-scheduler"',
