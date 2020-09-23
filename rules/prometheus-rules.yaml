@@ -13,56 +13,56 @@ spec:
     - expr: |
         count without (cpu) (
           count without (mode) (
-            node_cpu_seconds_total{job="node-exporter"}
+            node_cpu_seconds_total{job="monitoring/node-exporter"}
           )
         )
       record: instance:node_num_cpu:sum
     - expr: |
         1 - avg without (cpu, mode) (
-          rate(node_cpu_seconds_total{job="node-exporter", mode="idle"}[1m])
+          rate(node_cpu_seconds_total{job="monitoring/node-exporter", mode="idle"}[1m])
         )
       record: instance:node_cpu_utilisation:rate1m
     - expr: |
         (
-          node_load1{job="node-exporter"}
+          node_load1{job="monitoring/node-exporter"}
         /
-          instance:node_num_cpu:sum{job="node-exporter"}
+          instance:node_num_cpu:sum{job="monitoring/node-exporter"}
         )
       record: instance:node_load1_per_cpu:ratio
     - expr: |
         1 - (
-          node_memory_MemAvailable_bytes{job="node-exporter"}
+          node_memory_MemAvailable_bytes{job="monitoring/node-exporter"}
         /
-          node_memory_MemTotal_bytes{job="node-exporter"}
+          node_memory_MemTotal_bytes{job="monitoring/node-exporter"}
         )
       record: instance:node_memory_utilisation:ratio
     - expr: |
-        rate(node_vmstat_pgmajfault{job="node-exporter"}[1m])
+        rate(node_vmstat_pgmajfault{job="monitoring/node-exporter"}[1m])
       record: instance:node_vmstat_pgmajfault:rate1m
     - expr: |
-        rate(node_disk_io_time_seconds_total{job="node-exporter", device=~"sda"}[1m])
+        rate(node_disk_io_time_seconds_total{job="monitoring/node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_seconds:rate1m
     - expr: |
-        rate(node_disk_io_time_weighted_seconds_total{job="node-exporter", device=~"sda"}[1m])
+        rate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_weighted_seconds:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_receive_bytes_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_receive_bytes_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_receive_bytes_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_transmit_bytes_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_transmit_bytes_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_transmit_bytes_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_receive_drop_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_receive_drop_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_receive_drop_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_transmit_drop_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_transmit_drop_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_transmit_drop_excluding_lo:rate1m
   - name: kube-prometheus-node-recording.rules
@@ -180,19 +180,19 @@ spec:
       record: 'node_namespace_pod:kube_pod_info:'
     - expr: |
         count by (cluster, node) (sum by (node, cpu) (
-          node_cpu_seconds_total{job="node-exporter"}
+          node_cpu_seconds_total{job="monitoring/node-exporter"}
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         ))
       record: node:node_num_cpu:sum
     - expr: |
         sum(
-          node_memory_MemAvailable_bytes{job="node-exporter"} or
+          node_memory_MemAvailable_bytes{job="monitoring/node-exporter"} or
           (
-            node_memory_Buffers_bytes{job="node-exporter"} +
-            node_memory_Cached_bytes{job="node-exporter"} +
-            node_memory_MemFree_bytes{job="node-exporter"} +
-            node_memory_Slab_bytes{job="node-exporter"}
+            node_memory_Buffers_bytes{job="monitoring/node-exporter"} +
+            node_memory_Cached_bytes{job="monitoring/node-exporter"} +
+            node_memory_MemFree_bytes{job="monitoring/node-exporter"} +
+            node_memory_Slab_bytes{job="monitoring/node-exporter"}
           )
         ) by (cluster)
       record: :node_memory_MemAvailable_bytes:sum
@@ -328,18 +328,18 @@ spec:
         * 100 )
       record: node:conntrack_entries_free:percentage
     - expr: |
-        avg(irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m]))
+        avg(irate(node_disk_io_time_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m]))
       record: :node_disk_utilisation:avg_irate
-    - expr: "avg by (node) (\n  irate(node_disk_io_time_seconds_total{job=\"node-exporter\",device=~\"sda\"}[1m])\n*
+    - expr: "avg by (node) (\n  irate(node_disk_io_time_seconds_total{job=\"monitoring/node-exporter\",device=~\"sda\"}[1m])\n*
         on (namespace, pod) group_left(node)\n  node_namespace_pod:kube_pod_info:\n)
         \n"
       record: node:node_disk_utilisation:avg_irate
     - expr: |
-        avg(irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m]))
+        avg(irate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m]))
       record: :node_disk_saturation:avg_irate
     - expr: |
         avg by (node) (
-          irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m])
+          irate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m])
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         )
@@ -359,7 +359,7 @@ spec:
           ) by (node, host_ip)
           * on (host_ip) group_right (node)
           label_replace(
-            (max(node_filesystem_files{job="node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
+            (max(node_filesystem_files{job="monitoring/node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
           )
         ) by (node)
       record: 'node:node_inodes_total:'
@@ -370,7 +370,7 @@ spec:
           ) by (node, host_ip)
           * on (host_ip) group_right (node)
           label_replace(
-            (max(node_filesystem_files_free{job="node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
+            (max(node_filesystem_files_free{job="monitoring/node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
           )
         ) by (node)
       record: 'node:node_inodes_free:'
@@ -435,11 +435,11 @@ spec:
         summary: Filesystem is predicted to run out of space within the next 24 hours.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
         and
-          predict_linear(node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -453,11 +453,11 @@ spec:
         summary: Filesystem is predicted to run out of space within the next 4 hours.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
         and
-          predict_linear(node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -471,9 +471,9 @@ spec:
         summary: Filesystem has less than 5% space left.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -486,9 +486,9 @@ spec:
         summary: Filesystem has less than 3% space left.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -503,11 +503,11 @@ spec:
         summary: Filesystem is predicted to run out of inodes within the next 24 hours.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
         and
-          predict_linear(node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -521,11 +521,11 @@ spec:
         summary: Filesystem is predicted to run out of inodes within the next 4 hours.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
         and
-          predict_linear(node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -539,9 +539,9 @@ spec:
         summary: Filesystem has less than 5% inodes left.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -554,9 +554,9 @@ spec:
         summary: Filesystem has less than 3% inodes left.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -651,7 +651,7 @@ spec:
           often on node-exporter {{ $labels.namespace }}/{{ $labels.pod }}"
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworkinterfaceflapping
       expr: |
-        changes(node_network_up{job="node-exporter",device!~"veth.+"}[2m]) > 2
+        changes(node_network_up{job="monitoring/node-exporter",device!~"veth.+"}[2m]) > 2
       for: 2m
       labels:
         severity: warning
@@ -926,7 +926,7 @@ spec:
       expr: |
         sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="memory"})
           /
-        sum(kube_node_status_allocatable_memory_bytes{job="node-exporter"})
+        sum(kube_node_status_allocatable_memory_bytes{job="monitoring/node-exporter"})
           > 1.5
       for: 5m
       labels:
@@ -1791,7 +1791,7 @@ spec:
       expr: |
         sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="requests.memory"})
           /
-        sum(node_memory_MemTotal_bytes{job="node-exporter"})
+        sum(node_memory_MemTotal_bytes{job="monitoring/node-exporter"})
           > 3
       for: 5m
       labels:
@@ -1999,7 +1999,7 @@ spec:
         message: Clock skew detected on node-exporter {{ $labels.namespace }}/{{ $labels.pod
           }}. Ensure NTP is configured correctly on this host.
       expr: |
-        abs(node_timex_offset_seconds{job="node-exporter"}) > 0.05
+        abs(node_timex_offset_seconds{job="monitoring/node-exporter"}) > 0.05
       for: 10m
       labels:
         severity: warning
@@ -2299,7 +2299,7 @@ spec:
       annotations:
         message: NodeExporter has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="node-exporter"} == 1)
+        absent(up{job="monitoring/node-exporter"} == 1)
       for: 15m
       labels:
         page: "true"

@@ -1380,7 +1380,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100-node:conntrack_entries_free:percentage{job=\"node-exporter\"}",
+          "expr": "100-node:conntrack_entries_free:percentage{job=\"monitoring/node-exporter\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
