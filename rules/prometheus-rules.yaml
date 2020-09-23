@@ -592,7 +592,7 @@ spec:
           are out of sync.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerconfiginconsistent
       expr: |
-        count_values("config_hash", alertmanager_config_hash{job="alertmanager-main",namespace="monitoring"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
+        count_values("config_hash", alertmanager_config_hash{job="monitoring/alertmanager,alertmanager=main"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
       for: 5m
       labels:
         page: "false"
@@ -603,7 +603,7 @@ spec:
           }}/{{ $labels.pod}}.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerfailedreload
       expr: |
-        alertmanager_config_last_reload_successful{job="alertmanager-main",namespace="monitoring"} == 0
+        alertmanager_config_last_reload_successful{job="monitoring/alertmanager,alertmanager=main"} == 0
       for: 10m
       labels:
         severity: warning
@@ -612,9 +612,9 @@ spec:
         message: Alertmanager has not found all other members of the cluster.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagermembersinconsistent
       expr: |
-        alertmanager_cluster_members{job="alertmanager-main",namespace="monitoring"}
+        alertmanager_cluster_members{job="monitoring/alertmanager,alertmanager=main"}
           != on (service) GROUP_LEFT()
-        count by (service) (alertmanager_cluster_members{job="alertmanager-main",namespace="monitoring"})
+        count by (service) (alertmanager_cluster_members{job="monitoring/alertmanager,alertmanager=main"})
       for: 5m
       labels:
         page: "true"
@@ -2254,7 +2254,7 @@ spec:
       annotations:
         message: Alertmanager has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="alertmanager-main",namespace="monitoring"} == 1)
+        absent(up{job="monitoring/alertmanager,alertmanager=main"} == 1)
       for: 15m
       labels:
         page: "true"
