@@ -57,7 +57,7 @@
     /// Same, but for node-mixin
     fsSelector: self.fstypeSelector,
 
-    alertmanagerSelector: 'job="monitoring/alertmanager,alertmanager=main"',
+    alertmanagerSelector: 'job="monitoring/alertmanager",alertmanager="main"',
     prometheusSelector: 'job="prometheus-' + $._config.prometheus.name + '",namespace="' + $._config.namespace + '"',
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
     prometheusOperatorSelector: 'job="prometheus-operator",namespace="' + $._config.namespace + '"',
