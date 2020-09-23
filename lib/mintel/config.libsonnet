@@ -68,7 +68,7 @@
     fluentdRulesExcludedTypes: 'type!~"^(null|rewrite_tag_filter|detect_exceptions)$"',
 
     // Prometheus Operator
-    prometheusOperatorJobFilter: 'job="prometheus-operator"',
+    prometheusOperatorJobFilter: 'job="monitoring/prometheus-operator"',
 
     // ECK Operator
     eckOperatorFilter: 'job="kube-operators/eck"',

@@ -60,7 +60,7 @@
     alertmanagerSelector: 'job="monitoring/alertmanager",alertmanager="main"',
     prometheusSelector: 'job="prometheus-' + $._config.prometheus.name + '",namespace="' + $._config.namespace + '"',
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
-    prometheusOperatorSelector: 'job="prometheus-operator",namespace="' + $._config.namespace + '"',
+    prometheusOperatorSelector: 'job="monitoring/prometheus-operator"',
 
 
     // If more than 51% of the PODS for a given workload are on the same node

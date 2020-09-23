@@ -592,7 +592,7 @@ spec:
           are out of sync.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerconfiginconsistent
       expr: |
-        count_values("config_hash", alertmanager_config_hash{job="monitoring/alertmanager",alertmanager="main"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
+        count_values("config_hash", alertmanager_config_hash{job="monitoring/alertmanager",alertmanager="main"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="monitoring/prometheus-operator",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
       for: 5m
       labels:
         page: "false"
@@ -663,7 +663,7 @@ spec:
           }} Namespace.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusoperatorreconcileerrors
       expr: |
-        rate(prometheus_operator_reconcile_errors_total{job="prometheus-operator",namespace="monitoring"}[5m]) > 0.1
+        rate(prometheus_operator_reconcile_errors_total{job="monitoring/prometheus-operator"}[5m]) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -672,7 +672,7 @@ spec:
         message: Errors while reconciling Prometheus in {{ $labels.namespace }} Namespace.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusoperatornodelookuperrors
       expr: |
-        rate(prometheus_operator_node_address_lookup_errors_total{job="prometheus-operator",namespace="monitoring"}[5m]) > 0.1
+        rate(prometheus_operator_node_address_lookup_errors_total{job="monitoring/prometheus-operator"}[5m]) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -2243,7 +2243,7 @@ spec:
         description: Prometheus Operator failed to validate rules
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/PrometheusOperatorRulesValidationErrors.md
         summary: Prometheus Operator failed to validate rules
-      expr: increase(prometheus_operator_rule_validation_errors_total{job="prometheus-operator"}[5m])
+      expr: increase(prometheus_operator_rule_validation_errors_total{job="monitoring/prometheus-operator"}[5m])
         >0
       for: 30m
       labels:
@@ -2317,7 +2317,7 @@ spec:
       annotations:
         message: PrometheusOperator has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="prometheus-operator",namespace="monitoring"} == 1)
+        absent(up{job="monitoring/prometheus-operator"} == 1)
       for: 15m
       labels:
         page: "true"
