@@ -50,7 +50,7 @@
     kubePodDistributionUnbalancedByZonePercentageThreshold: 50,
 
     // Flux Vars
-    fluxJobSelector: 'job="flux"',
+    fluxJobSelector: 'job=~"^flux-(bootstrap|apps)/flux$"',
     fluxDeltaIntervalMinutes: 6,
     fluxDeltaDoubleIntervalMinutes: 2 * this.fluxDeltaIntervalMinutes,
 
