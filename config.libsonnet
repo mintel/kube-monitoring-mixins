@@ -28,6 +28,7 @@
     kubeApiserverSelector: 'job="apiserver"',
     coreDNSSelector: 'job="kube-system/kube-dns"',
     externalDnsJobSelector: 'job="kube-system/external-dns"',
+    certManagerSelector: 'job="kube-system/cert-manager"',
     podLabel: 'pod',
 
     // Select the device for Io Container reads/writes metrics

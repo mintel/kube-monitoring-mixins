@@ -21,6 +21,8 @@
     // Select metrics coming from the Kubelet.
     kubeletSelector: 'job="kubelet"',
 
+    certManagerSelector: 'job="kube-system/cert-manager"',
+
     externalDnsJobSelector: 'job="external-dns"',
 
     // Select the device for Io Container reads/writes metrics

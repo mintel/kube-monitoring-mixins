@@ -1347,7 +1347,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
         summary: Certificate managed by Cert-Manager will expire soon in less then
           29 days
-      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="kube-system/cert-manager"}
         - time() < 2506000
       for: 60m
       labels:
@@ -1359,7 +1359,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
         summary: Certificate managed by Cert-Manager will expire soon in less then
           14 days
-      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="kube-system/cert-manager"}
         - time() < 1210000
       for: 60m
       labels:
@@ -1372,7 +1372,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateNotReady
         summary: Certificate managed by Cert-Manager has not reached Ready Status
           in 60 minutes
-      expr: certmanager_certificate_ready_status{job="cert-manager",condition="True"}
+      expr: certmanager_certificate_ready_status{job="kube-system/cert-manager",condition="True"}
         == 0
       for: 60m
       labels:
