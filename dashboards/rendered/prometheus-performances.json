@@ -368,7 +368,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(increase(net_conntrack_dialer_conn_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(net_conntrack_dialer_conn_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -376,7 +376,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_compactions_skipped_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_compactions_skipped_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -384,7 +384,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "sum(increase(prometheus_engine_query_log_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_engine_query_log_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -392,7 +392,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_wal_corruptions_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_wal_corruptions_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -400,7 +400,7 @@
                      "refId": "D"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_wal_writes_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_wal_writes_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -408,7 +408,7 @@
                      "refId": "E"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_wal_truncations_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_wal_truncations_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -416,7 +416,7 @@
                      "refId": "F"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_head_truncations_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_head_truncations_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -424,7 +424,7 @@
                      "refId": "G"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_head_series_not_found{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_head_series_not_found{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -432,7 +432,7 @@
                      "refId": "H"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_compactions_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_compactions_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -440,7 +440,7 @@
                      "refId": "I"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_checkpoint_deletions_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_checkpoint_deletions_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -448,7 +448,7 @@
                      "refId": "J"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_retention_cutoffs_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_retention_cutoffs_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -456,7 +456,7 @@
                      "refId": "K"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_checkpoint_creations_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_checkpoint_creations_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -464,7 +464,7 @@
                      "refId": "L"
                   },
                   {
-                     "expr": "sum(increase(prometheus_target_scrape_pools_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_target_scrape_pools_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -472,7 +472,7 @@
                      "refId": "M"
                   },
                   {
-                     "expr": "sum(increase(prometheus_target_scrape_pool_reloads_failed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_target_scrape_pool_reloads_failed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -480,7 +480,7 @@
                      "refId": "N"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_reloads_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_tsdb_reloads_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -488,7 +488,7 @@
                      "refId": "O"
                   },
                   {
-                     "expr": "sum(increase(prometheus_sd_gce_refresh_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_sd_gce_refresh_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -496,7 +496,7 @@
                      "refId": "P"
                   },
                   {
-                     "expr": "sum(increase(prometheus_rule_evaluation_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_rule_evaluation_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -504,7 +504,7 @@
                      "refId": "Q"
                   },
                   {
-                     "expr": "sum(increase(prometheus_rule_group_iterations_missed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
+                     "expr": "sum(increase(prometheus_rule_group_iterations_missed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])) > 0\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -596,7 +596,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "process_resident_memory_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "process_resident_memory_bytes{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -604,7 +604,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "prometheus_local_storage_target_heap_size_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_local_storage_target_heap_size_bytes{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -612,7 +612,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "go_memstats_next_gc_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "go_memstats_next_gc_bytes{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -620,7 +620,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "go_memstats_alloc_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "go_memstats_alloc_bytes{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -628,7 +628,7 @@
                      "refId": "D"
                   },
                   {
-                     "expr": "rate(prometheus_tsdb_head_gc_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[4h])\n/\nrate(prometheus_tsdb_head_gc_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[4h])\n",
+                     "expr": "rate(prometheus_tsdb_head_gc_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[4h])\n/\nrate(prometheus_tsdb_head_gc_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[4h])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -745,7 +745,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
+                     "expr": "sum by (pod) (prometheus_target_scrapes_exceeded_sample_limit_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_duplicate_timestamp_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_bounds_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}) + \nsum by (pod) (prometheus_target_scrapes_sample_out_of_order_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}) \n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -820,7 +820,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}) \n",
+                     "expr": "sum by (pod) (prometheus_target_scrapes_cache_flush_forced_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}) \n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -895,7 +895,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_compaction_chunk_size_bytes_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_size_bytes_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_compaction_chunk_size_bytes_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_size_bytes_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -970,7 +970,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_compaction_chunk_samples_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_samples_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_compaction_chunk_samples_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}/prometheus_tsdb_compaction_chunk_samples_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "instant": false,
                      "interval": "1m",
@@ -1024,7 +1024,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_head_series{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_head_series{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1113,7 +1113,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_tsdb_head_samples_appended_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\n",
+                     "expr": "rate(prometheus_tsdb_head_samples_appended_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1121,7 +1121,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "prometheus_tsdb_head_active_appenders{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_head_active_appenders{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1209,7 +1209,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(increase(prometheus_tsdb_head_series_created_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m]))\n",
+                     "expr": "sum(increase(prometheus_tsdb_head_series_created_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m]))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1217,7 +1217,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(increase(prometheus_tsdb_head_series_removed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m]))\n",
+                     "expr": "sum(increase(prometheus_tsdb_head_series_removed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m]))\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1299,7 +1299,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_head_chunks{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_head_chunks{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1381,7 +1381,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "irate(prometheus_tsdb_head_chunks_created_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[1m])\n",
+                     "expr": "irate(prometheus_tsdb_head_chunks_created_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[1m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1389,7 +1389,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "irate(prometheus_tsdb_head_chunks_removed_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[1m])\n",
+                     "expr": "irate(prometheus_tsdb_head_chunks_removed_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[1m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1554,7 +1554,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_target_interval_length_seconds{quantile=\"0.99\", job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_target_interval_length_seconds{quantile=\"0.99\", job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1739,7 +1739,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "avg_over_time(prometheus_engine_queries{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\nor\navg_over_time(prometheus_engine_queries{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])\n",
+                     "expr": "avg_over_time(prometheus_engine_queries{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\nor\navg_over_time(prometheus_engine_queries{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1747,7 +1747,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "max_over_time(prometheus_engine_queries{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nmax_over_time(prometheus_engine_queries{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])\n",
+                     "expr": "max_over_time(prometheus_engine_queries{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nmax_over_time(prometheus_engine_queries{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -1755,7 +1755,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "prometheus_engine_queries_concurrent_max{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_engine_queries_concurrent_max{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1837,7 +1837,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_engine_query_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nrate(prometheus_engine_query_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n",
+                     "expr": "rate(prometheus_engine_query_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nrate(prometheus_engine_query_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -1919,7 +1919,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_engine_query_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nrate(prometheus_engine_query_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n",
+                     "expr": "rate(prometheus_engine_query_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\nor\nrate(prometheus_engine_query_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2001,7 +2001,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  rate(prometheus_rule_group_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\n  /\n  rate(prometheus_rule_group_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[$__interval])\n)\nor\n(\n  rate(prometheus_rule_group_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n  /\n  rate(prometheus_rule_group_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n)\n",
+                     "expr": "(\n  rate(prometheus_rule_group_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\n  /\n  rate(prometheus_rule_group_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[$__interval])\n)\nor\n(\n  rate(prometheus_rule_group_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n  /\n  rate(prometheus_rule_group_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2009,7 +2009,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "prometheus_rule_group_duration_seconds{quantile=\"0.99\",job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_rule_group_duration_seconds{quantile=\"0.99\",job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2017,7 +2017,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "prometheus_rule_group_duration_seconds{quantile=\"0.9\",job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_rule_group_duration_seconds{quantile=\"0.9\",job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2099,7 +2099,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "topk(5, prometheus_rule_group_last_duration_seconds{job=\"prometheus-k8s\", pod=~\"$prometheus\"})\n",
+                     "expr": "topk(5, prometheus_rule_group_last_duration_seconds{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"})\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2177,7 +2177,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_http_request_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
+                     "expr": "rate(prometheus_http_request_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2255,7 +2255,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_http_request_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n/\nrate(prometheus_http_request_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
+                     "expr": "rate(prometheus_http_request_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n/\nrate(prometheus_http_request_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2333,7 +2333,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_http_request_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
+                     "expr": "rate(prometheus_http_request_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\",handler!~\"/|/-/healthy|/-/ready\"}[1m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2429,7 +2429,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_storage_blocks_bytes_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"} or \n  prometheus_tsdb_storage_blocks_bytes{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_storage_blocks_bytes_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"} or \n  prometheus_tsdb_storage_blocks_bytes{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2524,7 +2524,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "process_max_fds{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "process_max_fds{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2532,7 +2532,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "process_open_fds{job=\"prometheus-k8s\", pod=~\"$prometheus\"}\n",
+                     "expr": "process_open_fds{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2614,7 +2614,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "prometheus_tsdb_blocks_loaded{job=\"prometheus-k8s\",pod=~\"$prometheus\"}\n",
+                     "expr": "prometheus_tsdb_blocks_loaded{job=\"monitoring/prometheus\", prometheus=\"k8s\",pod=~\"$prometheus\"}\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2708,7 +2708,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "irate(prometheus_tsdb_reloads_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n",
+                     "expr": "irate(prometheus_tsdb_reloads_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2716,7 +2716,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "irate(prometheus_tsdb_reloads_failures_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n",
+                     "expr": "irate(prometheus_tsdb_reloads_failures_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2798,7 +2798,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_tsdb_wal_fsync_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2h])\n/\nrate(prometheus_tsdb_wal_fsync_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2h])\n",
+                     "expr": "rate(prometheus_tsdb_wal_fsync_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2h])\n/\nrate(prometheus_tsdb_wal_fsync_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2h])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2880,7 +2880,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(prometheus_tsdb_compaction_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2h])\n/\nrate(prometheus_tsdb_compaction_duration_seconds_count{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2h])\n",
+                     "expr": "rate(prometheus_tsdb_compaction_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2h])\n/\nrate(prometheus_tsdb_compaction_duration_seconds_count{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2h])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2969,7 +2969,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "increase(prometheus_tsdb_compactions_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])\n",
+                     "expr": "increase(prometheus_tsdb_compactions_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -2977,7 +2977,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "rate(prometheus_tsdb_compaction_duration_seconds_sum{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[2m])\n",
+                     "expr": "rate(prometheus_tsdb_compaction_duration_seconds_sum{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[2m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -3059,7 +3059,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "increase(prometheus_tsdb_time_retentions_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])\n",
+                     "expr": "increase(prometheus_tsdb_time_retentions_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -3067,7 +3067,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "increase(prometheus_tsdb_size_retentions_total{job=\"prometheus-k8s\", pod=~\"$prometheus\"}[5m])\n",
+                     "expr": "increase(prometheus_tsdb_size_retentions_total{job=\"monitoring/prometheus\", prometheus=\"k8s\", pod=~\"$prometheus\"}[5m])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -3157,7 +3157,7 @@
             "multi": false,
             "name": "prometheus",
             "options": [ ],
-            "query": "label_values(up{job=\"prometheus-k8s\"}, pod)",
+            "query": "label_values(up{job=\"monitoring/prometheus\", prometheus=\"k8s\"}, pod)",
             "refresh": 2,
             "regex": "",
             "sort": 0,

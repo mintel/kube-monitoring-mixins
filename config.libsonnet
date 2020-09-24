@@ -58,7 +58,7 @@
     fsSelector: self.fstypeSelector,
 
     alertmanagerSelector: 'job="monitoring/alertmanager",alertmanager="main"',
-    prometheusSelector: 'job="prometheus-' + $._config.prometheus.name + '",namespace="' + $._config.namespace + '"',
+    prometheusSelector: 'job="monitoring/prometheus", prometheus="k8s"',
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
     prometheusOperatorSelector: 'job="monitoring/prometheus-operator"',
 
