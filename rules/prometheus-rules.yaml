@@ -2273,7 +2273,7 @@ spec:
       annotations:
         message: HaproxyIngress has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="haproxy-exporter"} == 1)
+        absent(up{job="ingress-controller/haproxy", service="haproxy-ingress-controller"} == 1)
       for: 15m
       labels:
         page: "true"

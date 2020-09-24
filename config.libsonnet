@@ -87,7 +87,7 @@
       Prometheus: $._config.prometheusSelector,
       PrometheusOperator: $._config.prometheusOperatorSelector,
       CoreDNS: $._config.coreDNSSelector,
-      HaproxyIngress: 'job="haproxy-exporter"',
+      HaproxyIngress: 'job="ingress-controller/haproxy", service="haproxy-ingress-controller"',
       // externalDns: $._config.externalDnsJobSelector,
     },
 
