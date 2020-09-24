@@ -647,7 +647,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flux_daemon_queue_length_count",
+          "expr": "flux_daemon_queue_length_count{service=\"$service\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ pod }}",
