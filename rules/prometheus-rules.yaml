@@ -2264,7 +2264,7 @@ spec:
       annotations:
         message: CoreDNS has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="kube-dns"} == 1)
+        absent(up{job="kube-system/kube-dns"} == 1)
       for: 15m
       labels:
         page: "true"

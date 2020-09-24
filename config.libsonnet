@@ -26,7 +26,7 @@
     kubeSchedulerSelector: 'job="kube-scheduler"',
     kubeControllerManagerSelector: 'job="kube-controller-manager"',
     kubeApiserverSelector: 'job="apiserver"',
-    coreDNSSelector: 'job="kube-dns"',
+    coreDNSSelector: 'job="kube-system/kube-dns"',
     externalDnsJobSelector: 'job="kube-system/external-dns"',
     podLabel: 'pod',
 
