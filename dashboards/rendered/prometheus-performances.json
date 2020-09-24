@@ -103,7 +103,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[1m])\n)\n",
+                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kube-system/kubelet\", container=~\"prometheus\", container!=\"POD\"}[1m])\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -111,7 +111,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"}[5m])\n)\n",
+                     "expr": "sum by (pod) (\n  rate(container_cpu_usage_seconds_total{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kube-system/kubelet\", container=~\"prometheus\", container!=\"POD\"}[5m])\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -135,7 +135,7 @@
                      "refId": "D"
                   },
                   {
-                     "expr": "100 *\nsum(increase(container_cpu_cfs_throttled_periods_total{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kubelet\"}[5m])) by (container,pod)\n/\nsum(increase(container_cpu_cfs_periods_total{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kubelet\"}[5m])) by (container,pod)\n",
+                     "expr": "100 *\nsum(increase(container_cpu_cfs_throttled_periods_total{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-system/kubelet\"}[5m])) by (container,pod)\n/\nsum(increase(container_cpu_cfs_periods_total{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-system/kubelet\"}[5m])) by (container,pod)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -265,7 +265,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by(pod) (container_memory_working_set_bytes{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"})\n",
+                     "expr": "sum by(pod) (container_memory_working_set_bytes{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kube-system/kubelet\", container=~\"prometheus\", container!=\"POD\"})\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 1,
@@ -289,7 +289,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "sum by(pod) (container_memory_cache{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kubelet\", container=~\"prometheus\", container!=\"POD\"})\n",
+                     "expr": "sum by(pod) (container_memory_cache{namespace=\"monitoring\", pod=~\"$prometheus\", image!=\"\", job=\"kube-system/kubelet\", container=~\"prometheus\", container!=\"POD\"})\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,

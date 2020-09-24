@@ -18,8 +18,8 @@
   _config+:: {
     namespace:: error 'namespace is required',
 
-    cadvisorSelector: 'job="kubelet"',
-    kubeletSelector: 'job="kubelet"',
+    cadvisorSelector: 'job="kube-system/kubelet"',
+    kubeletSelector: 'job="kube-system/kubelet"',
     kubeStateMetricsSelector: 'job="monitoring/kube-state-metrics"',
     nodeExporterSelector: 'job="monitoring/node-exporter"',
     notKubeDnsSelector: 'job!="kube-dns"',

@@ -7,9 +7,9 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
 
   podResourcesRow(namespace, pod, container='.*', title='', interval='5m', startRow=1000)::
     local config = {
-      kubeletSelector: std.format('namespace="%s", pod=~"%s", image!="", job="kubelet", container=~"%s", container!="POD"', [namespace, pod, container]),
+      kubeletSelector: std.format('namespace="%s", pod=~"%s", image!="", job="kube-system/kubelet", container=~"%s", container!="POD"', [namespace, pod, container]),
       kubeStateSelector: std.format('namespace="%s", pod=~"%s", container=~"%s", job="kube-state-metrics"', [namespace, pod, container]),
-      throttlingSelector: std.format('namespace="%s", pod=~"%s", container=~"%s", job="kubelet"', [namespace, pod, container]),
+      throttlingSelector: std.format('namespace="%s", pod=~"%s", container=~"%s", job="kube-system/kubelet"', [namespace, pod, container]),
       interval: interval,
       cpuTitle: std.format('Pod Cpu %s', title),
       memoryTitle: std.format('Pod Memory %s', title),
