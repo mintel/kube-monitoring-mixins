@@ -119,7 +119,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by (pod) (\n  kube_pod_container_resource_requests{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-state-metrics\", resource=\"cpu\"}\n)\n",
+                     "expr": "sum by (pod) (\n  kube_pod_container_resource_requests{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"monitoring/kube-state-metrics\", resource=\"cpu\"}\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -127,7 +127,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "sum by (pod) (\n  kube_pod_container_resource_limits{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-state-metrics\", resource=\"cpu\"}\n)\n",
+                     "expr": "sum by (pod) (\n  kube_pod_container_resource_limits{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"monitoring/kube-state-metrics\", resource=\"cpu\"}\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -273,7 +273,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by (pod) (\n  kube_pod_container_resource_requests{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-state-metrics\", resource=\"memory\"}\n)\n",
+                     "expr": "sum by (pod) (\n  kube_pod_container_resource_requests{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"monitoring/kube-state-metrics\", resource=\"memory\"}\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -281,7 +281,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by (pod) (\n  kube_pod_container_resource_limits{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"kube-state-metrics\", resource=\"memory\"}\n)\n",
+                     "expr": "sum by (pod) (\n  kube_pod_container_resource_limits{namespace=\"monitoring\", pod=~\"$prometheus\", container=~\"prometheus\", job=\"monitoring/kube-state-metrics\", resource=\"memory\"}\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
