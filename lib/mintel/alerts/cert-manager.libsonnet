@@ -11,7 +11,7 @@
               summary: 'Certificate managed by Cert-Manager will expire soon in less then 29 days',
               runbook_url: '%(runBookBaseURL)s/core/CertManager.md#CertManagerCertificateExpireSoon' % $._config,
             },
-            expr: 'certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"} - time() < 2506000',
+            expr: 'certmanager_certificate_expiration_timestamp_seconds{%(certManagerSelector)s} - time() < 2506000' % $._config,
             'for': '60m',
             labels: {
               severity: 'warning',
@@ -24,7 +24,7 @@
               summary: 'Certificate managed by Cert-Manager will expire soon in less then 14 days',
               runbook_url: '%(runBookBaseURL)s/core/CertManager.md#CertManagerCertificateExpireSoon' % $._config,
             },
-            expr: 'certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"} - time() < 1210000',
+            expr: 'certmanager_certificate_expiration_timestamp_seconds{%(certManagerSelector)s} - time() < 1210000' % $._config,
             'for': '60m',
             labels: {
               page: 'false',
@@ -38,7 +38,7 @@
               summary: 'Certificate managed by Cert-Manager has not reached Ready Status in 60 minutes',
               runbook_url: '%(runBookBaseURL)s/core/CertManager.md#CertManagerCertificateNotReady' % $._config,
             },
-            expr: 'certmanager_certificate_ready_status{job="cert-manager",condition="True"} == 0',
+            expr: 'certmanager_certificate_ready_status{%(certManagerSelector)s,condition="True"} == 0' % $._config,
             'for': '60m',
             labels: {
               severity: 'warning',
