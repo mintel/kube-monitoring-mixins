@@ -11,7 +11,7 @@
               summary: 'External DNS Last Sync is very Old',
               runbook_url: '%(runBookBaseURL)s/core/ExternalDNS.md#ExternalDnsLastSyncOld' % $._config,
             },
-            expr: '(time() - external_dns_controller_last_sync_timestamp_seconds{job="external-dns"} > 90) or external_dns_controller_last_sync_timestamp_seconds{job="external-dns"} == 0',
+            expr: '(time() - external_dns_controller_last_sync_timestamp_seconds{%(externalDnsJobSelector)s} > 90) or external_dns_controller_last_sync_timestamp_seconds{%(externalDnsJobSelector)s} == 0' % $._config,
             'for': '10m',
             labels: {
               severity: 'warning',
@@ -24,7 +24,7 @@
               summary: 'External DNS registry Errors increasing constantly',
               runbook_url: '%(runBookBaseURL)s/core/ExternalDNS.md#ExternalDnsRegistryErrorsIncrease' % $._config,
             },
-            expr: 'increase(external_dns_registry_errors_total{job="external-dns"}[5m]) > 0',
+            expr: 'increase(external_dns_registry_errors_total{%(externalDnsJobSelector)s}[5m]) > 0' % $._config,
             'for': '30m',
             labels: {
               severity: 'warning',

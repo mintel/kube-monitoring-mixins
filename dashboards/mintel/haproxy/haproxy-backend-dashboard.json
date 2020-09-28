@@ -1330,7 +1330,7 @@
         "multi": false,
         "name": "alias",
         "options": [],
-        "query": "label_values(haproxy_up{job=\"haproxy-exporter\"}, pod)",
+        "query": "label_values(haproxy_up{job=\"ingress-controller/haproxy\"}, pod)",
         "refresh": 1,
         "regex": "",
         "sort": 1,

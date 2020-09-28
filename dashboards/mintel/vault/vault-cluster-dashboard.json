@@ -507,7 +507,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum by (vault_cr) (increase(vault_core_leadership_lost_count{job=\"vault\"}[1h]))",
+          "expr": "sum by (vault_cr) (increase(vault_core_leadership_lost_count{job=\"vault/vault\"}[1h]))",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
