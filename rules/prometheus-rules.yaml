@@ -1244,7 +1244,7 @@ spec:
           > 10
       for: 15m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: PromtailRequestLatency
       annotations:
@@ -1254,7 +1254,7 @@ spec:
         job_status_code:promtail_request_duration_seconds:99quantile > 1
       for: 15m
       labels:
-        page: "true"
+        page: "false"
         severity: critical
     - alert: PromtailFileLagging
       annotations:
