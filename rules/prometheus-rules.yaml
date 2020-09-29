@@ -13,56 +13,56 @@ spec:
     - expr: |
         count without (cpu) (
           count without (mode) (
-            node_cpu_seconds_total{job="node-exporter"}
+            node_cpu_seconds_total{job="monitoring/node-exporter"}
           )
         )
       record: instance:node_num_cpu:sum
     - expr: |
         1 - avg without (cpu, mode) (
-          rate(node_cpu_seconds_total{job="node-exporter", mode="idle"}[1m])
+          rate(node_cpu_seconds_total{job="monitoring/node-exporter", mode="idle"}[1m])
         )
       record: instance:node_cpu_utilisation:rate1m
     - expr: |
         (
-          node_load1{job="node-exporter"}
+          node_load1{job="monitoring/node-exporter"}
         /
-          instance:node_num_cpu:sum{job="node-exporter"}
+          instance:node_num_cpu:sum{job="monitoring/node-exporter"}
         )
       record: instance:node_load1_per_cpu:ratio
     - expr: |
         1 - (
-          node_memory_MemAvailable_bytes{job="node-exporter"}
+          node_memory_MemAvailable_bytes{job="monitoring/node-exporter"}
         /
-          node_memory_MemTotal_bytes{job="node-exporter"}
+          node_memory_MemTotal_bytes{job="monitoring/node-exporter"}
         )
       record: instance:node_memory_utilisation:ratio
     - expr: |
-        rate(node_vmstat_pgmajfault{job="node-exporter"}[1m])
+        rate(node_vmstat_pgmajfault{job="monitoring/node-exporter"}[1m])
       record: instance:node_vmstat_pgmajfault:rate1m
     - expr: |
-        rate(node_disk_io_time_seconds_total{job="node-exporter", device=~"sda"}[1m])
+        rate(node_disk_io_time_seconds_total{job="monitoring/node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_seconds:rate1m
     - expr: |
-        rate(node_disk_io_time_weighted_seconds_total{job="node-exporter", device=~"sda"}[1m])
+        rate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter", device=~"sda"}[1m])
       record: instance_device:node_disk_io_time_weighted_seconds:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_receive_bytes_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_receive_bytes_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_receive_bytes_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_transmit_bytes_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_transmit_bytes_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_transmit_bytes_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_receive_drop_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_receive_drop_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_receive_drop_excluding_lo:rate1m
     - expr: |
         sum without (device) (
-          rate(node_network_transmit_drop_total{job="node-exporter", device!="lo"}[1m])
+          rate(node_network_transmit_drop_total{job="monitoring/node-exporter", device!="lo"}[1m])
         )
       record: instance:node_network_transmit_drop_excluding_lo:rate1m
   - name: kube-prometheus-node-recording.rules
@@ -89,37 +89,37 @@ spec:
   - name: k8s.rules
     rules:
     - expr: |
-        sum(rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])) by (namespace)
+        sum(rate(container_cpu_usage_seconds_total{job="kube-system/kubelet", image!="", container!="POD"}[5m])) by (namespace)
       record: namespace:container_cpu_usage_seconds_total:sum_rate
     - expr: |
         sum by (cluster, namespace, pod, container) (
-          rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])
+          rate(container_cpu_usage_seconds_total{job="kube-system/kubelet", image!="", container!="POD"}[5m])
         ) * on (cluster, namespace, pod) group_left(node) max by(cluster, namespace, pod, node) (kube_pod_info)
       record: node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate
     - expr: |
-        container_memory_working_set_bytes{job="kubelet", image!=""}
+        container_memory_working_set_bytes{job="kube-system/kubelet", image!=""}
         * on (namespace, pod) group_left(node) max by(namespace, pod, node) (kube_pod_info)
       record: node_namespace_pod_container:container_memory_working_set_bytes
     - expr: |
-        container_memory_rss{job="kubelet", image!=""}
+        container_memory_rss{job="kube-system/kubelet", image!=""}
         * on (namespace, pod) group_left(node) max by(namespace, pod, node) (kube_pod_info)
       record: node_namespace_pod_container:container_memory_rss
     - expr: |
-        container_memory_cache{job="kubelet", image!=""}
+        container_memory_cache{job="kube-system/kubelet", image!=""}
         * on (namespace, pod) group_left(node) max by(namespace, pod, node) (kube_pod_info)
       record: node_namespace_pod_container:container_memory_cache
     - expr: |
-        container_memory_swap{job="kubelet", image!=""}
+        container_memory_swap{job="kube-system/kubelet", image!=""}
         * on (namespace, pod) group_left(node) max by(namespace, pod, node) (kube_pod_info)
       record: node_namespace_pod_container:container_memory_swap
     - expr: |
-        sum(container_memory_usage_bytes{job="kubelet", image!="", container!="POD"}) by (namespace)
+        sum(container_memory_usage_bytes{job="kube-system/kubelet", image!="", container!="POD"}) by (namespace)
       record: namespace:container_memory_usage_bytes:sum
     - expr: |
         sum by (namespace) (
             sum by (namespace, pod) (
                 max by (namespace, pod, container) (
-                    kube_pod_container_resource_requests_memory_bytes{job="kube-state-metrics"}
+                    kube_pod_container_resource_requests_memory_bytes{job="monitoring/kube-state-metrics"}
                 ) * on(namespace, pod) group_left() max by (namespace, pod) (
                     kube_pod_status_phase{phase=~"Pending|Running"} == 1
                 )
@@ -130,7 +130,7 @@ spec:
         sum by (namespace) (
             sum by (namespace, pod) (
                 max by (namespace, pod, container) (
-                    kube_pod_container_resource_requests_cpu_cores{job="kube-state-metrics"}
+                    kube_pod_container_resource_requests_cpu_cores{job="monitoring/kube-state-metrics"}
                 ) * on(namespace, pod) group_left() max by (namespace, pod) (
                   kube_pod_status_phase{phase=~"Pending|Running"} == 1
                 )
@@ -141,9 +141,9 @@ spec:
         sum(
           label_replace(
             label_replace(
-              kube_pod_owner{job="kube-state-metrics", owner_kind="ReplicaSet"},
+              kube_pod_owner{job="monitoring/kube-state-metrics", owner_kind="ReplicaSet"},
               "replicaset", "$1", "owner_name", "(.*)"
-            ) * on(replicaset, namespace) group_left(owner_name) kube_replicaset_owner{job="kube-state-metrics"},
+            ) * on(replicaset, namespace) group_left(owner_name) kube_replicaset_owner{job="monitoring/kube-state-metrics"},
             "workload", "$1", "owner_name", "(.*)"
           )
         ) by (cluster, namespace, workload, pod)
@@ -153,7 +153,7 @@ spec:
     - expr: |
         sum(
           label_replace(
-            kube_pod_owner{job="kube-state-metrics", owner_kind="DaemonSet"},
+            kube_pod_owner{job="monitoring/kube-state-metrics", owner_kind="DaemonSet"},
             "workload", "$1", "owner_name", "(.*)"
           )
         ) by (cluster, namespace, workload, pod)
@@ -163,7 +163,7 @@ spec:
     - expr: |
         sum(
           label_replace(
-            kube_pod_owner{job="kube-state-metrics", owner_kind="StatefulSet"},
+            kube_pod_owner{job="monitoring/kube-state-metrics", owner_kind="StatefulSet"},
             "workload", "$1", "owner_name", "(.*)"
           )
         ) by (cluster, namespace, workload, pod)
@@ -176,26 +176,58 @@ spec:
         sum(min(kube_pod_info) by (cluster, node))
       record: ':kube_pod_info_node_count:'
     - expr: |
-        max(label_replace(kube_pod_info{job="kube-state-metrics"}, "pod", "$1", "pod", "(.*)")) by (node, namespace, pod)
+        max(label_replace(kube_pod_info{job="monitoring/kube-state-metrics"}, "pod", "$1", "pod", "(.*)")) by (node, namespace, pod)
       record: 'node_namespace_pod:kube_pod_info:'
     - expr: |
         count by (cluster, node) (sum by (node, cpu) (
-          node_cpu_seconds_total{job="node-exporter"}
+          node_cpu_seconds_total{job="monitoring/node-exporter"}
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         ))
       record: node:node_num_cpu:sum
     - expr: |
         sum(
-          node_memory_MemAvailable_bytes{job="node-exporter"} or
+          node_memory_MemAvailable_bytes{job="monitoring/node-exporter"} or
           (
-            node_memory_Buffers_bytes{job="node-exporter"} +
-            node_memory_Cached_bytes{job="node-exporter"} +
-            node_memory_MemFree_bytes{job="node-exporter"} +
-            node_memory_Slab_bytes{job="node-exporter"}
+            node_memory_Buffers_bytes{job="monitoring/node-exporter"} +
+            node_memory_Cached_bytes{job="monitoring/node-exporter"} +
+            node_memory_MemFree_bytes{job="monitoring/node-exporter"} +
+            node_memory_Slab_bytes{job="monitoring/node-exporter"}
           )
         ) by (cluster)
       record: :node_memory_MemAvailable_bytes:sum
+  - name: promtail_rules
+    rules:
+    - expr: histogram_quantile(0.99, sum(rate(promtail_request_duration_seconds_bucket[1m]))
+        by (le, job))
+      record: job:promtail_request_duration_seconds:99quantile
+    - expr: histogram_quantile(0.50, sum(rate(promtail_request_duration_seconds_bucket[1m]))
+        by (le, job))
+      record: job:promtail_request_duration_seconds:50quantile
+    - expr: sum(rate(promtail_request_duration_seconds_sum[1m])) by (job) / sum(rate(promtail_request_duration_seconds_count[1m]))
+        by (job)
+      record: job:promtail_request_duration_seconds:avg
+    - expr: sum(rate(promtail_request_duration_seconds_bucket[1m])) by (le, job)
+      record: job:promtail_request_duration_seconds_bucket:sum_rate
+    - expr: sum(rate(promtail_request_duration_seconds_sum[1m])) by (job)
+      record: job:promtail_request_duration_seconds_sum:sum_rate
+    - expr: sum(rate(promtail_request_duration_seconds_count[1m])) by (job)
+      record: job:promtail_request_duration_seconds_count:sum_rate
+    - expr: histogram_quantile(0.99, sum(rate(promtail_request_duration_seconds_bucket[1m]))
+        by (le, job, status_code))
+      record: job_status_code:promtail_request_duration_seconds:99quantile
+    - expr: histogram_quantile(0.50, sum(rate(promtail_request_duration_seconds_bucket[1m]))
+        by (le, job, status_code))
+      record: job_status_code:promtail_request_duration_seconds:50quantile
+    - expr: sum(rate(promtail_request_duration_seconds_sum[1m])) by (job, status_code)
+        / sum(rate(promtail_request_duration_seconds_count[1m])) by (job, status_code)
+      record: job_status_code:promtail_request_duration_seconds:avg
+    - expr: sum(rate(promtail_request_duration_seconds_bucket[1m])) by (le, job, status_code)
+      record: job_status_code:promtail_request_duration_seconds_bucket:sum_rate
+    - expr: sum(rate(promtail_request_duration_seconds_sum[1m])) by (job, status_code)
+      record: job_status_code:promtail_request_duration_seconds_sum:sum_rate
+    - expr: sum(rate(promtail_request_duration_seconds_count[1m])) by (job, status_code)
+      record: job_status_code:promtail_request_duration_seconds_count:sum_rate
   - name: blackbox.rules
     rules:
     - expr: count by (target,job,app_mintel_com_owner) (up{job="blackbox"})
@@ -288,7 +320,7 @@ spec:
   - name: mintel-disk.rules
     rules:
     - expr: |
-        (kubelet_volume_stats_inodes_free{job="kubelet"} / kubelet_volume_stats_inodes{job="kubelet"}) * 100
+        (kubelet_volume_stats_inodes_free{job="kube-system/kubelet"} / kubelet_volume_stats_inodes{job="kube-system/kubelet"}) * 100
       record: mintel:pvc:inodes_free:percentage
   - name: mintel-node.rules
     rules:
@@ -296,18 +328,18 @@ spec:
         * 100 )
       record: node:conntrack_entries_free:percentage
     - expr: |
-        avg(irate(node_disk_io_time_seconds_total{job="node-exporter",device=~"sda"}[1m]))
+        avg(irate(node_disk_io_time_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m]))
       record: :node_disk_utilisation:avg_irate
-    - expr: "avg by (node) (\n  irate(node_disk_io_time_seconds_total{job=\"node-exporter\",device=~\"sda\"}[1m])\n*
+    - expr: "avg by (node) (\n  irate(node_disk_io_time_seconds_total{job=\"monitoring/node-exporter\",device=~\"sda\"}[1m])\n*
         on (namespace, pod) group_left(node)\n  node_namespace_pod:kube_pod_info:\n)
         \n"
       record: node:node_disk_utilisation:avg_irate
     - expr: |
-        avg(irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m]))
+        avg(irate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m]))
       record: :node_disk_saturation:avg_irate
     - expr: |
         avg by (node) (
-          irate(node_disk_io_time_weighted_seconds_total{job="node-exporter",device=~"sda"}[1m])
+          irate(node_disk_io_time_weighted_seconds_total{job="monitoring/node-exporter",device=~"sda"}[1m])
         * on (namespace, pod) group_left(node)
           node_namespace_pod:kube_pod_info:
         )
@@ -323,22 +355,22 @@ spec:
     - expr: |
         max(
           max(
-            kube_pod_info{job="kube-state-metrics", host_ip!=""}
+            kube_pod_info{job="monitoring/kube-state-metrics", host_ip!=""}
           ) by (node, host_ip)
           * on (host_ip) group_right (node)
           label_replace(
-            (max(node_filesystem_files{job="node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
+            (max(node_filesystem_files{job="monitoring/node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
           )
         ) by (node)
       record: 'node:node_inodes_total:'
     - expr: |
         max(
           max(
-            kube_pod_info{job="kube-state-metrics", host_ip!=""}
+            kube_pod_info{job="monitoring/kube-state-metrics", host_ip!=""}
           ) by (node, host_ip)
           * on (host_ip) group_right (node)
           label_replace(
-            (max(node_filesystem_files_free{job="node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
+            (max(node_filesystem_files_free{job="monitoring/node-exporter", mountpoint="/mnt/stateful_partition"}) by (instance)), "host_ip", "$1", "instance", "(.*):.*"
           )
         ) by (node)
       record: 'node:node_inodes_free:'
@@ -346,7 +378,7 @@ spec:
     rules:
     - expr: |
         count by (zone) (label_replace(
-          kube_node_info{job="kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
+          kube_node_info{job="monitoring/kube-state-metrics"}, "zone", "$1", "provider_id","gce://.*/(.*)/.*")
         )
       record: mintel:cluster:nodes_per_zone:count
   - name: mintel-pod.rules
@@ -403,11 +435,11 @@ spec:
         summary: Filesystem is predicted to run out of space within the next 24 hours.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
         and
-          predict_linear(node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -421,11 +453,11 @@ spec:
         summary: Filesystem is predicted to run out of space within the next 4 hours.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
         and
-          predict_linear(node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -439,9 +471,9 @@ spec:
         summary: Filesystem has less than 5% space left.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -454,9 +486,9 @@ spec:
         summary: Filesystem has less than 3% space left.
       expr: |
         (
-          node_filesystem_avail_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
+          node_filesystem_avail_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_size_bytes{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -471,11 +503,11 @@ spec:
         summary: Filesystem is predicted to run out of inodes within the next 24 hours.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 40
         and
-          predict_linear(node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -489,11 +521,11 @@ spec:
         summary: Filesystem is predicted to run out of inodes within the next 4 hours.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 20
         and
-          predict_linear(node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -507,9 +539,9 @@ spec:
         summary: Filesystem has less than 5% inodes left.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 5
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -522,9 +554,9 @@ spec:
         summary: Filesystem has less than 3% inodes left.
       expr: |
         (
-          node_filesystem_files_free{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
+          node_filesystem_files_free{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} / node_filesystem_files{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} * 100 < 3
         and
-          node_filesystem_readonly{job="node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
+          node_filesystem_readonly{job="monitoring/node-exporter",fstype="ext4", mountpoint="/mnt/stateful_partition"} == 0
         )
       for: 1h
       labels:
@@ -560,7 +592,7 @@ spec:
           are out of sync.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerconfiginconsistent
       expr: |
-        count_values("config_hash", alertmanager_config_hash{job="alertmanager-main",namespace="monitoring"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="prometheus-operator",namespace="monitoring",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
+        count_values("config_hash", alertmanager_config_hash{job="monitoring/alertmanager",alertmanager="main"}) BY (service) / ON(service) GROUP_LEFT() label_replace(max(prometheus_operator_spec_replicas{job="monitoring/prometheus-operator",controller="alertmanager"}) by (name, job, namespace, controller), "service", "alertmanager-$1", "name", "(.*)") != 1
       for: 5m
       labels:
         page: "false"
@@ -571,7 +603,7 @@ spec:
           }}/{{ $labels.pod}}.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerfailedreload
       expr: |
-        alertmanager_config_last_reload_successful{job="alertmanager-main",namespace="monitoring"} == 0
+        alertmanager_config_last_reload_successful{job="monitoring/alertmanager",alertmanager="main"} == 0
       for: 10m
       labels:
         severity: warning
@@ -580,9 +612,9 @@ spec:
         message: Alertmanager has not found all other members of the cluster.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagermembersinconsistent
       expr: |
-        alertmanager_cluster_members{job="alertmanager-main",namespace="monitoring"}
+        alertmanager_cluster_members{job="monitoring/alertmanager",alertmanager="main"}
           != on (service) GROUP_LEFT()
-        count by (service) (alertmanager_cluster_members{job="alertmanager-main",namespace="monitoring"})
+        count by (service) (alertmanager_cluster_members{job="monitoring/alertmanager",alertmanager="main"})
       for: 5m
       labels:
         page: "true"
@@ -619,7 +651,7 @@ spec:
           often on node-exporter {{ $labels.namespace }}/{{ $labels.pod }}"
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-nodenetworkinterfaceflapping
       expr: |
-        changes(node_network_up{job="node-exporter",device!~"veth.+"}[2m]) > 2
+        changes(node_network_up{job="monitoring/node-exporter",device!~"veth.+"}[2m]) > 2
       for: 2m
       labels:
         severity: warning
@@ -631,7 +663,7 @@ spec:
           }} Namespace.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusoperatorreconcileerrors
       expr: |
-        rate(prometheus_operator_reconcile_errors_total{job="prometheus-operator",namespace="monitoring"}[5m]) > 0.1
+        rate(prometheus_operator_reconcile_errors_total{job="monitoring/prometheus-operator"}[5m]) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -640,7 +672,7 @@ spec:
         message: Errors while reconciling Prometheus in {{ $labels.namespace }} Namespace.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-prometheusoperatornodelookuperrors
       expr: |
-        rate(prometheus_operator_node_address_lookup_errors_total{job="prometheus-operator",namespace="monitoring"}[5m]) > 0.1
+        rate(prometheus_operator_node_address_lookup_errors_total{job="monitoring/prometheus-operator"}[5m]) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -652,7 +684,7 @@ spec:
           }}) is restarting {{ printf "%.2f" $value }} times / 5 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping
       expr: |
-        rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[15m]) * 60 * 5 > 0
+        rate(kube_pod_container_status_restarts_total{job="monitoring/kube-state-metrics"}[15m]) * 60 * 5 > 0
       for: 15m
       labels:
         page: "true"
@@ -663,7 +695,7 @@ spec:
           state for longer than 15 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready
       expr: |
-        sum by (namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}) * on(namespace, pod) group_left(owner_kind) max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})) > 0
+        sum by (namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{job="monitoring/kube-state-metrics", phase=~"Pending|Unknown"}) * on(namespace, pod) group_left(owner_kind) max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})) > 0
       for: 15m
       labels:
         page: "true"
@@ -675,9 +707,9 @@ spec:
           not been rolled back.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentgenerationmismatch
       expr: |
-        kube_deployment_status_observed_generation{job="kube-state-metrics"}
+        kube_deployment_status_observed_generation{job="monitoring/kube-state-metrics"}
           !=
-        kube_deployment_metadata_generation{job="kube-state-metrics"}
+        kube_deployment_metadata_generation{job="monitoring/kube-state-metrics"}
       for: 15m
       labels:
         page: "true"
@@ -688,9 +720,9 @@ spec:
           matched the expected number of replicas for longer than 15 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch
       expr: |
-        kube_deployment_spec_replicas{job="kube-state-metrics"}
+        kube_deployment_spec_replicas{job="monitoring/kube-state-metrics"}
           !=
-        kube_deployment_status_replicas_available{job="kube-state-metrics"}
+        kube_deployment_status_replicas_available{job="monitoring/kube-state-metrics"}
       for: 15m
       labels:
         page: "true"
@@ -701,9 +733,9 @@ spec:
           not matched the expected number of replicas for longer than 15 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubestatefulsetreplicasmismatch
       expr: |
-        kube_statefulset_status_replicas_ready{job="kube-state-metrics"}
+        kube_statefulset_status_replicas_ready{job="monitoring/kube-state-metrics"}
           !=
-        kube_statefulset_status_replicas{job="kube-state-metrics"}
+        kube_statefulset_status_replicas{job="monitoring/kube-state-metrics"}
       for: 15m
       labels:
         page: "true"
@@ -715,9 +747,9 @@ spec:
           not been rolled back.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubestatefulsetgenerationmismatch
       expr: |
-        kube_statefulset_status_observed_generation{job="kube-state-metrics"}
+        kube_statefulset_status_observed_generation{job="monitoring/kube-state-metrics"}
           !=
-        kube_statefulset_metadata_generation{job="kube-state-metrics"}
+        kube_statefulset_metadata_generation{job="monitoring/kube-state-metrics"}
       for: 15m
       labels:
         page: "true"
@@ -729,15 +761,15 @@ spec:
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubestatefulsetupdatenotrolledout
       expr: |
         max without (revision) (
-          kube_statefulset_status_current_revision{job="kube-state-metrics"}
+          kube_statefulset_status_current_revision{job="monitoring/kube-state-metrics"}
             unless
-          kube_statefulset_status_update_revision{job="kube-state-metrics"}
+          kube_statefulset_status_update_revision{job="monitoring/kube-state-metrics"}
         )
           *
         (
-          kube_statefulset_replicas{job="kube-state-metrics"}
+          kube_statefulset_replicas{job="monitoring/kube-state-metrics"}
             !=
-          kube_statefulset_status_replicas_updated{job="kube-state-metrics"}
+          kube_statefulset_status_replicas_updated{job="monitoring/kube-state-metrics"}
         )
       for: 15m
       labels:
@@ -749,9 +781,9 @@ spec:
           {{ $labels.namespace }}/{{ $labels.daemonset }} are scheduled and ready.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetrolloutstuck
       expr: |
-        kube_daemonset_status_number_ready{job="kube-state-metrics"}
+        kube_daemonset_status_number_ready{job="monitoring/kube-state-metrics"}
           /
-        kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"} < 1.00
+        kube_daemonset_status_desired_number_scheduled{job="monitoring/kube-state-metrics"} < 1.00
       for: 15m
       labels:
         page: "true"
@@ -762,7 +794,7 @@ spec:
           has been in waiting state for longer than 1 hour.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontainerwaiting
       expr: |
-        sum by (namespace, pod, container) (kube_pod_container_status_waiting_reason{job="kube-state-metrics"}) > 0
+        sum by (namespace, pod, container) (kube_pod_container_status_waiting_reason{job="monitoring/kube-state-metrics"}) > 0
       for: 1h
       labels:
         severity: warning
@@ -772,9 +804,9 @@ spec:
           }} are not scheduled.'
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetnotscheduled
       expr: |
-        kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
+        kube_daemonset_status_desired_number_scheduled{job="monitoring/kube-state-metrics"}
           -
-        kube_daemonset_status_current_number_scheduled{job="kube-state-metrics"} > 0
+        kube_daemonset_status_current_number_scheduled{job="monitoring/kube-state-metrics"} > 0
       for: 10m
       labels:
         severity: warning
@@ -784,7 +816,7 @@ spec:
           }} are running where they are not supposed to run.'
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetmisscheduled
       expr: |
-        kube_daemonset_status_number_misscheduled{job="kube-state-metrics"} > 0
+        kube_daemonset_status_number_misscheduled{job="monitoring/kube-state-metrics"} > 0
       for: 10m
       labels:
         severity: warning
@@ -794,7 +826,7 @@ spec:
           than 1h to complete.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecronjobrunning
       expr: |
-        time() - kube_cronjob_next_schedule_time{job="kube-state-metrics"} > 3600
+        time() - kube_cronjob_next_schedule_time{job="monitoring/kube-state-metrics"} > 3600
       for: 1h
       labels:
         severity: warning
@@ -804,7 +836,7 @@ spec:
           than one hour to complete.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobcompletion
       expr: |
-        kube_job_spec_completions{job="kube-state-metrics"} - kube_job_status_succeeded{job="kube-state-metrics"}  > 0
+        kube_job_spec_completions{job="monitoring/kube-state-metrics"} - kube_job_status_succeeded{job="monitoring/kube-state-metrics"}  > 0
       for: 1h
       labels:
         severity: warning
@@ -813,7 +845,7 @@ spec:
         message: Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed
       expr: |
-        kube_job_failed{job="kube-state-metrics"}  > 0
+        kube_job_failed{job="monitoring/kube-state-metrics"}  > 0
       for: 15m
       labels:
         severity: warning
@@ -823,9 +855,9 @@ spec:
           desired number of replicas for longer than 15 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubehpareplicasmismatch
       expr: |
-        (kube_hpa_status_desired_replicas{job="kube-state-metrics"}
+        (kube_hpa_status_desired_replicas{job="monitoring/kube-state-metrics"}
           !=
-        kube_hpa_status_current_replicas{job="kube-state-metrics"})
+        kube_hpa_status_current_replicas{job="monitoring/kube-state-metrics"})
           and
         changes(kube_hpa_status_current_replicas[15m]) == 0
       for: 15m
@@ -837,9 +869,9 @@ spec:
           max replicas for longer than 15 minutes.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubehpamaxedout
       expr: |
-        kube_hpa_status_current_replicas{job="kube-state-metrics"}
+        kube_hpa_status_current_replicas{job="monitoring/kube-state-metrics"}
           ==
-        kube_hpa_spec_max_replicas{job="kube-state-metrics"}
+        kube_hpa_spec_max_replicas{job="monitoring/kube-state-metrics"}
       for: 15m
       labels:
         severity: warning
@@ -880,7 +912,7 @@ spec:
         message: Cluster has overcommitted CPU resource requests for Namespaces.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
       expr: |
-        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="cpu"})
+        sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="cpu"})
           /
         sum(kube_node_status_allocatable_cpu_cores)
           > 1.5
@@ -892,9 +924,9 @@ spec:
         message: Cluster has overcommitted memory resource requests for Namespaces.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
       expr: |
-        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="memory"})
+        sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="memory"})
           /
-        sum(kube_node_status_allocatable_memory_bytes{job="node-exporter"})
+        sum(kube_node_status_allocatable_memory_bytes{job="monitoring/node-exporter"})
           > 1.5
       for: 5m
       labels:
@@ -905,9 +937,9 @@ spec:
           }} of its {{ $labels.resource }} quota.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubequotaexceeded
       expr: |
-        kube_resourcequota{job="kube-state-metrics", type="used"}
+        kube_resourcequota{job="monitoring/kube-state-metrics", type="used"}
           / ignoring(instance, job, type)
-        (kube_resourcequota{job="kube-state-metrics", type="hard"} > 0)
+        (kube_resourcequota{job="monitoring/kube-state-metrics", type="hard"} > 0)
           > 0.90
       for: 15m
       labels:
@@ -935,9 +967,9 @@ spec:
           }} free.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumeusagecritical
       expr: |
-        kubelet_volume_stats_available_bytes{job="kubelet"}
+        kubelet_volume_stats_available_bytes{job="kube-system/kubelet"}
           /
-        kubelet_volume_stats_capacity_bytes{job="kubelet"}
+        kubelet_volume_stats_capacity_bytes{job="kube-system/kubelet"}
           < 0.03
       for: 15m
       labels:
@@ -951,12 +983,12 @@ spec:
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumefullinfourdays
       expr: |
         (
-          kubelet_volume_stats_available_bytes{job="kubelet"}
+          kubelet_volume_stats_available_bytes{job="kube-system/kubelet"}
             /
-          kubelet_volume_stats_capacity_bytes{job="kubelet"}
+          kubelet_volume_stats_capacity_bytes{job="kube-system/kubelet"}
         ) < 0.15
         and
-        predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 24 * 3600) < 0
+        predict_linear(kubelet_volume_stats_available_bytes{job="kube-system/kubelet"}[6h], 4 * 24 * 3600) < 0
       for: 1h
       labels:
         page: "false"
@@ -967,7 +999,7 @@ spec:
           $labels.phase }}.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumeerrors
       expr: |
-        kube_persistentvolume_status_phase{phase=~"Failed|Pending",job="kube-state-metrics"} > 0
+        kube_persistentvolume_status_phase{phase=~"Failed|Pending",job="monitoring/kube-state-metrics"} > 0
       for: 15m
       labels:
         page: "true"
@@ -993,7 +1025,7 @@ spec:
         message: '{{ $labels.node }} has been unready for more than 15 minutes.'
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodenotready
       expr: |
-        kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
+        kube_node_status_condition{job="monitoring/kube-state-metrics",condition="Ready",status="true"} == 0
       for: 15m
       labels:
         severity: warning
@@ -1002,7 +1034,7 @@ spec:
         message: '{{ $labels.node }} is unreachable and some workloads may be rescheduled.'
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodeunreachable
       expr: |
-        kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1
+        kube_node_spec_taint{job="monitoring/kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} == 1
       for: 2m
       labels:
         severity: warning
@@ -1012,7 +1044,7 @@ spec:
           }} of its Pod capacity.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubelettoomanypods
       expr: |
-        max(max(kubelet_running_pod_count{job="kubelet"}) by(instance) * on(instance) group_left(node) kubelet_node_name{job="kubelet"}) by(node) / max(kube_node_status_capacity_pods{job="kube-state-metrics"}) by(node) > 0.95
+        max(max(kubelet_running_pod_count{job="kube-system/kubelet"}) by(instance) * on(instance) group_left(node) kubelet_node_name{job="kube-system/kubelet"}) by(node) / max(kube_node_status_capacity_pods{job="monitoring/kube-state-metrics"}) by(node) > 0.95
       for: 15m
       labels:
         severity: warning
@@ -1021,7 +1053,7 @@ spec:
         message: Kubelet has disappeared from Prometheus target discovery.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletdown
       expr: |
-        absent(up{job="kubelet"} == 1)
+        absent(up{job="kube-system/kubelet"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -1040,7 +1072,7 @@ spec:
       expr: |
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        max_over_time(prometheus_config_last_reload_successful{job="prometheus-k8s",namespace="monitoring"}[5m]) == 0
+        max_over_time(prometheus_config_last_reload_successful{job="monitoring/prometheus", prometheus="k8s"}[5m]) == 0
       for: 10m
       labels:
         page: "false"
@@ -1055,9 +1087,9 @@ spec:
         # Without min_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
-          predict_linear(prometheus_notifications_queue_length{job="prometheus-k8s",namespace="monitoring"}[5m], 60 * 30)
+          predict_linear(prometheus_notifications_queue_length{job="monitoring/prometheus", prometheus="k8s"}[5m], 60 * 30)
         >
-          min_over_time(prometheus_notifications_queue_capacity{job="prometheus-k8s",namespace="monitoring"}[5m])
+          min_over_time(prometheus_notifications_queue_capacity{job="monitoring/prometheus", prometheus="k8s"}[5m])
         )
       for: 15m
       labels:
@@ -1070,9 +1102,9 @@ spec:
           a specific Alertmanager.
       expr: |
         (
-          rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m])
+          rate(prometheus_notifications_errors_total{job="monitoring/prometheus", prometheus="k8s"}[5m])
         /
-          rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m])
+          rate(prometheus_notifications_sent_total{job="monitoring/prometheus", prometheus="k8s"}[5m])
         )
         * 100
         > 1
@@ -1086,9 +1118,9 @@ spec:
         summary: Prometheus encounters more than 3% errors sending alerts to any Alertmanager.
       expr: |
         min without(alertmanager) (
-          rate(prometheus_notifications_errors_total{job="prometheus-k8s",namespace="monitoring"}[5m])
+          rate(prometheus_notifications_errors_total{job="monitoring/prometheus", prometheus="k8s"}[5m])
         /
-          rate(prometheus_notifications_sent_total{job="prometheus-k8s",namespace="monitoring"}[5m])
+          rate(prometheus_notifications_sent_total{job="monitoring/prometheus", prometheus="k8s"}[5m])
         )
         * 100
         > 3
@@ -1104,7 +1136,7 @@ spec:
       expr: |
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        max_over_time(prometheus_notifications_alertmanagers_discovered{job="prometheus-k8s",namespace="monitoring"}[5m]) < 1
+        max_over_time(prometheus_notifications_alertmanagers_discovered{job="monitoring/prometheus", prometheus="k8s"}[5m]) < 1
       for: 10m
       labels:
         severity: warning
@@ -1114,7 +1146,7 @@ spec:
           {{$value | humanize}} reload failures over the last 3h.
         summary: Prometheus has issues reloading blocks from disk.
       expr: |
-        increase(prometheus_tsdb_reloads_failures_total{job="prometheus-k8s",namespace="monitoring"}[3h]) > 0
+        increase(prometheus_tsdb_reloads_failures_total{job="monitoring/prometheus", prometheus="k8s"}[3h]) > 0
       for: 4h
       labels:
         severity: warning
@@ -1124,7 +1156,7 @@ spec:
           {{$value | humanize}} compaction failures over the last 3h.
         summary: Prometheus has issues compacting blocks.
       expr: |
-        increase(prometheus_tsdb_compactions_failed_total{job="prometheus-k8s",namespace="monitoring"}[3h]) > 0
+        increase(prometheus_tsdb_compactions_failed_total{job="monitoring/prometheus", prometheus="k8s"}[3h]) > 0
       for: 4h
       labels:
         severity: warning
@@ -1134,7 +1166,7 @@ spec:
           samples.
         summary: Prometheus is not ingesting samples.
       expr: |
-        rate(prometheus_tsdb_head_samples_appended_total{job="prometheus-k8s",namespace="monitoring"}[5m]) <= 0
+        rate(prometheus_tsdb_head_samples_appended_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) <= 0
       for: 10m
       labels:
         severity: warning
@@ -1145,7 +1177,7 @@ spec:
           timestamp.
         summary: Prometheus is dropping samples with duplicate timestamps.
       expr: |
-        rate(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
+        rate(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
       for: 10m
       labels:
         severity: warning
@@ -1155,7 +1187,7 @@ spec:
           {{ printf "%.4g" $value  }} samples/s with timestamps arriving out of order.
         summary: Prometheus drops samples with out-of-order timestamps.
       expr: |
-        rate(prometheus_target_scrapes_sample_out_of_order_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
+        rate(prometheus_target_scrapes_sample_out_of_order_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
       for: 10m
       labels:
         severity: warning
@@ -1163,17 +1195,17 @@ spec:
       annotations:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write
           desired shards calculation wants to run {{ $value }} shards, which is more
-          than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="prometheus-k8s",namespace="monitoring"}`
-          $labels.instance | query | first | value }}.
+          than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="monitoring/prometheus",
+          prometheus="k8s"}` $labels.instance | query | first | value }}.
         summary: Prometheus remote write desired shards calculation wants to run more
           than configured max shards.
       expr: |
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
-          max_over_time(prometheus_remote_storage_shards_desired{job="prometheus-k8s",namespace="monitoring"}[5m])
+          max_over_time(prometheus_remote_storage_shards_desired{job="monitoring/prometheus", prometheus="k8s"}[5m])
         >
-          max_over_time(prometheus_remote_storage_shards_max{job="prometheus-k8s",namespace="monitoring"}[5m])
+          max_over_time(prometheus_remote_storage_shards_max{job="monitoring/prometheus", prometheus="k8s"}[5m])
         )
       for: 15m
       labels:
@@ -1184,7 +1216,7 @@ spec:
           evaluate {{ printf "%.0f" $value }} rules in the last 5m.
         summary: Prometheus is failing rule evaluations.
       expr: |
-        increase(prometheus_rule_evaluation_failures_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
+        increase(prometheus_rule_evaluation_failures_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
       for: 1h
       labels:
         page: "true"
@@ -1195,10 +1227,54 @@ spec:
           printf "%.0f" $value }} rule group evaluations in the last 5m.
         summary: Prometheus is missing rule evaluations due to slow rule group evaluation.
       expr: |
-        increase(prometheus_rule_group_iterations_missed_total{job="prometheus-k8s",namespace="monitoring"}[5m]) > 0
+        increase(prometheus_rule_group_iterations_missed_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
+  - name: promtail_alerts
+    rules:
+    - alert: PromtailRequestsErrors
+      annotations:
+        message: |
+          {{ $labels.job }} {{ $labels.route }} is experiencing {{ printf "%.2f" $value }}% errors.
+      expr: |
+        100 * sum(rate(promtail_request_duration_seconds_count{status_code=~"5..|failed"}[1m])) by (namespace, job, route, instance)
+          /
+        sum(rate(promtail_request_duration_seconds_count[1m])) by (namespace, job, route, instance)
+          > 10
+      for: 15m
+      labels:
+        page: "false"
+        severity: critical
+    - alert: PromtailRequestLatency
+      annotations:
+        message: |
+          {{ $labels.job }} {{ $labels.route }} is experiencing {{ printf "%.2f" $value }}s 99th percentile latency.
+      expr: |
+        job_status_code:promtail_request_duration_seconds:99quantile > 1
+      for: 15m
+      labels:
+        page: "false"
+        severity: critical
+    - alert: PromtailFileLagging
+      annotations:
+        message: |
+          {{ $labels.instance }} {{ $labels.job }} {{ $labels.path }} has been lagging by more than 1MB for more than 15m.
+      expr: |
+        abs(promtail_file_bytes_total - promtail_read_bytes_total) > 1e6
+      for: 15m
+      labels:
+        severity: warning
+    - alert: PromtailFileMissing
+      annotations:
+        message: |
+          {{ $labels.instance }} {{ $labels.job }} {{ $labels.path }} matches the glob but is not being tailed.
+      expr: |
+        count by (path,instance,job) (promtail_file_bytes_total) unless count by (path,instance,job) (promtail_read_bytes_total)
+      for: 15m
+      labels:
+        page: "false"
+        severity: critical
   - name: blackbox.alerts
     rules:
     - alert: SiteIsDown
@@ -1271,7 +1347,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
         summary: Certificate managed by Cert-Manager will expire soon in less then
           29 days
-      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="kube-system/cert-manager"}
         - time() < 2506000
       for: 60m
       labels:
@@ -1283,7 +1359,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateExpireSoon
         summary: Certificate managed by Cert-Manager will expire soon in less then
           14 days
-      expr: certmanager_certificate_expiration_timestamp_seconds{job="cert-manager"}
+      expr: certmanager_certificate_expiration_timestamp_seconds{job="kube-system/cert-manager"}
         - time() < 1210000
       for: 60m
       labels:
@@ -1296,7 +1372,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/CertManager.md#CertManagerCertificateNotReady
         summary: Certificate managed by Cert-Manager has not reached Ready Status
           in 60 minutes
-      expr: certmanager_certificate_ready_status{job="cert-manager",condition="True"}
+      expr: certmanager_certificate_ready_status{job="kube-system/cert-manager",condition="True"}
         == 0
       for: 60m
       labels:
@@ -1310,7 +1386,7 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ElasticsearchOperatorReconcileErrors.md
         summary: ElasticSearch Operator failing to reconcile controller {{ $labels.controller
           }}
-      expr: increase(controller_runtime_reconcile_errors_total{job="elastic-operator-metrics"}[30m])
+      expr: increase(controller_runtime_reconcile_errors_total{job="kube-operators/eck"}[30m])
         >0
       for: 30m
       labels:
@@ -1490,8 +1566,8 @@ spec:
         description: External DNS Last Sync is very Old
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ExternalDNS.md#ExternalDnsLastSyncOld
         summary: External DNS Last Sync is very Old
-      expr: (time() - external_dns_controller_last_sync_timestamp_seconds{job="external-dns"}
-        > 90) or external_dns_controller_last_sync_timestamp_seconds{job="external-dns"}
+      expr: (time() - external_dns_controller_last_sync_timestamp_seconds{job="kube-system/external-dns"}
+        > 90) or external_dns_controller_last_sync_timestamp_seconds{job="kube-system/external-dns"}
         == 0
       for: 10m
       labels:
@@ -1501,8 +1577,8 @@ spec:
         description: External DNS registry Errors increasing constantly
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ExternalDNS.md#ExternalDnsRegistryErrorsIncrease
         summary: External DNS registry Errors increasing constantly
-      expr: increase(external_dns_registry_errors_total{job="external-dns"}[5m]) >
-        0
+      expr: increase(external_dns_registry_errors_total{job="kube-system/external-dns"}[5m])
+        > 0
       for: 30m
       labels:
         severity: warning
@@ -1701,7 +1777,7 @@ spec:
         message: Cluster has overcommitted CPU resource requests for Namespaces.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
       expr: |
-        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.cpu"})
+        sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="requests.cpu"})
           /
         sum(node:node_num_cpu:sum)
           > 3
@@ -1713,9 +1789,9 @@ spec:
         message: Cluster has overcommitted memory resource requests for Namespaces.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubememovercommit
       expr: |
-        sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="requests.memory"})
+        sum(kube_resourcequota{job="monitoring/kube-state-metrics", type="hard", resource="requests.memory"})
           /
-        sum(node_memory_MemTotal_bytes{job="node-exporter"})
+        sum(node_memory_MemTotal_bytes{job="monitoring/node-exporter"})
           > 3
       for: 5m
       labels:
@@ -1743,9 +1819,9 @@ spec:
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/ContainerCombinedIoHighOverTime.md
         summary: Container have been doing an unusual amount of IO
       expr: |
-        rate(container_fs_reads_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        rate(container_fs_reads_bytes_total{job="kube-system/kubelet",device="/dev/sda"}[5m])
         +
-        rate(container_fs_writes_bytes_total{job="kubelet",device="/dev/sda"}[5m])
+        rate(container_fs_writes_bytes_total{job="kube-system/kubelet",device="/dev/sda"}[5m])
         > 20000000
       for: 12h
       labels:
@@ -1803,12 +1879,12 @@ spec:
           hours. Currently {{ printf "%0.2f" $value }}% is available.
       expr: |
         100 * (
-          kubelet_volume_stats_available_bytes{job="kubelet"}
+          kubelet_volume_stats_available_bytes{job="kube-system/kubelet"}
             /
-          kubelet_volume_stats_capacity_bytes{job="kubelet"}
+          kubelet_volume_stats_capacity_bytes{job="kube-system/kubelet"}
         ) < 20
         and
-        predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 60 * 60) < 0
+        predict_linear(kubelet_volume_stats_available_bytes{job="kube-system/kubelet"}[6h], 4 * 60 * 60) < 0
       for: 15m
       labels:
         page: "true"
@@ -1923,7 +1999,7 @@ spec:
         message: Clock skew detected on node-exporter {{ $labels.namespace }}/{{ $labels.pod
           }}. Ensure NTP is configured correctly on this host.
       expr: |
-        abs(node_timex_offset_seconds{job="node-exporter"}) > 0.05
+        abs(node_timex_offset_seconds{job="monitoring/node-exporter"}) > 0.05
       for: 10m
       labels:
         severity: warning
@@ -1962,7 +2038,7 @@ spec:
           state for longer than an hour.
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodFailed.md
       expr: |
-        sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0
+        sum by (namespace, pod) (kube_pod_status_phase{job="monitoring/kube-state-metrics", phase=~"Failed"}) > 0
       for: 1h
       labels:
         page: "false"
@@ -2070,8 +2146,8 @@ spec:
         description: General flux sync errors
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxdaemongeneralsyncerror
         summary: General Flux Daemon sync error
-      expr: delta(flux_daemon_sync_duration_seconds_count{job="flux",success="true"}[6m])
-        < 1 or absent(flux_daemon_sync_duration_seconds_count{job="flux",success="true"})
+      expr: delta(flux_daemon_sync_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="true"}[6m])
+        < 1 or absent(flux_daemon_sync_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="true"})
       for: 120m
       labels:
         severity: warning
@@ -2080,7 +2156,8 @@ spec:
         description: Flux manifests sync errors
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxmanifestssyncerror
         summary: Flux Manifests sync error
-      expr: flux_daemon_sync_manifests{job="flux",success="false"} > 0
+      expr: flux_daemon_sync_manifests{job=~"^flux-(bootstrap|apps)/flux$",success="false"}
+        > 0
       for: 60m
       labels:
         severity: warning
@@ -2089,7 +2166,7 @@ spec:
         description: Flux Errors talking to memcached
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxmemcacheerrors
         summary: Flux Errors talking to memcached
-      expr: delta(flux_cache_request_duration_seconds_count{job="flux",success="false"}[12m])
+      expr: delta(flux_cache_request_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="false"}[12m])
         > 0
       for: 60m
       labels:
@@ -2099,7 +2176,7 @@ spec:
         description: Flux errors fetching from remote registry
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxremotefetcherrors
         summary: Flux errors fetching from remote registry
-      expr: delta(flux_client_fetch_duration_seconds_count{job="flux",success="false"}[12m])
+      expr: delta(flux_client_fetch_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="false"}[12m])
         > 0
       for: 240m
       labels:
@@ -2109,7 +2186,7 @@ spec:
         description: Flux image release errors
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxreleaseerrors
         summary: Flux release errors
-      expr: delta(flux_fluxsvc_release_duration_seconds_count{job="flux",success="false"}[6m])
+      expr: delta(flux_fluxsvc_release_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="false"}[6m])
         > 0
       for: 10m
       labels:
@@ -2167,7 +2244,7 @@ spec:
         description: Prometheus Operator failed to validate rules
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/PrometheusOperatorRulesValidationErrors.md
         summary: Prometheus Operator failed to validate rules
-      expr: increase(prometheus_operator_rule_validation_errors_total{job="prometheus-operator"}[5m])
+      expr: increase(prometheus_operator_rule_validation_errors_total{job="monitoring/prometheus-operator"}[5m])
         >0
       for: 30m
       labels:
@@ -2178,7 +2255,7 @@ spec:
       annotations:
         message: Alertmanager has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="alertmanager-main",namespace="monitoring"} == 1)
+        absent(up{job="monitoring/alertmanager",alertmanager="main"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2187,7 +2264,7 @@ spec:
       annotations:
         message: CoreDNS has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="kube-dns"} == 1)
+        absent(up{job="kube-system/kube-dns"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2196,7 +2273,7 @@ spec:
       annotations:
         message: HaproxyIngress has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="haproxy-exporter"} == 1)
+        absent(up{job="ingress-controller/haproxy", service="haproxy-ingress-controller"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2205,7 +2282,7 @@ spec:
       annotations:
         message: KubeStateMetrics has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="kube-state-metrics"} == 1)
+        absent(up{job="monitoring/kube-state-metrics"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2214,7 +2291,7 @@ spec:
       annotations:
         message: Kubelet has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="kubelet"} == 1)
+        absent(up{job="kube-system/kubelet"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2223,7 +2300,7 @@ spec:
       annotations:
         message: NodeExporter has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="node-exporter"} == 1)
+        absent(up{job="monitoring/node-exporter"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2232,7 +2309,7 @@ spec:
       annotations:
         message: Prometheus has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="prometheus-k8s",namespace="monitoring"} == 1)
+        absent(up{job="monitoring/prometheus", prometheus="k8s"} == 1)
       for: 15m
       labels:
         page: "true"
@@ -2241,7 +2318,7 @@ spec:
       annotations:
         message: PrometheusOperator has disappeared from Prometheus target discovery.
       expr: |
-        absent(up{job="prometheus-operator",namespace="monitoring"} == 1)
+        absent(up{job="monitoring/prometheus-operator"} == 1)
       for: 15m
       labels:
         page: "true"
