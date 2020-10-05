@@ -23,7 +23,7 @@
               message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a Failed state for longer than an hour.',
               runbook_url: '%(runBookBaseURL)s/core/KubePodFailed.md' % $._config,
             },
-            expr: 'sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed"}) > 0\n',
+            expr: 'sum by (namespace, pod) (kube_pod_status_phase{%(kubeStateMetricsSelector)s, phase=~"Failed"}) > 0\n' % $._config,
             'for': '1h',
             labels: {
               severity: 'critical',

@@ -4,7 +4,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/brancz/kubernetes-grafana",
+          "remote": "https://github.com/brancz/kubernetes-grafana.git",
           "subdir": "grafana"
         }
       },
@@ -14,7 +14,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/etcd",
+          "remote": "https://github.com/coreos/etcd.git",
           "subdir": "Documentation/etcd-mixin"
         }
       },
@@ -24,7 +24,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/kube-prometheus",
+          "remote": "https://github.com/coreos/kube-prometheus.git",
           "subdir": "jsonnet/kube-prometheus"
         }
       },
@@ -34,7 +34,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/prometheus-operator",
+          "remote": "https://github.com/coreos/prometheus-operator.git",
           "subdir": "jsonnet/prometheus-operator"
         }
       },
@@ -44,7 +44,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/grafana/grafonnet-lib",
+          "remote": "https://github.com/grafana/grafonnet-lib.git",
           "subdir": "grafonnet"
         }
       },
@@ -54,7 +54,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/grafana/jsonnet-libs",
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
           "subdir": "grafana-builder"
         }
       },
@@ -64,7 +64,27 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/ksonnet/ksonnet-lib",
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "mixin-utils"
+        }
+      },
+      "version": "ce1ab51249de5e6f86a31f1cccd622acf28f7084",
+      "sum": "Je2SxBKu+1WrKEEG60zjSKaY/6TPX8uRz5bsaw0a8oA="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/loki.git",
+          "subdir": "production/promtail-mixin"
+        }
+      },
+      "version": "1664a98111b2e40364f3e3e0a5202229b79d75e4",
+      "sum": "hxQXJr+tIY7eeFJuFNPS1TzvZ/WUM7PL+B0s0oVGEnE="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/ksonnet/ksonnet-lib.git",
           "subdir": ""
         }
       },
@@ -75,7 +95,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin",
+          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin.git",
           "subdir": ""
         }
       },
@@ -85,7 +105,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin",
+          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin.git",
           "subdir": "lib/promgrafonnet"
         }
       },
@@ -95,7 +115,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/metalmatze/slo-libsonnet",
+          "remote": "https://github.com/metalmatze/slo-libsonnet.git",
           "subdir": "slo-libsonnet"
         }
       },
@@ -105,7 +125,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/prometheus/node_exporter",
+          "remote": "https://github.com/prometheus/node_exporter.git",
           "subdir": "docs/node-mixin"
         }
       },
@@ -115,7 +135,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/prometheus/prometheus",
+          "remote": "https://github.com/prometheus/prometheus.git",
           "subdir": "documentation/prometheus-mixin"
         }
       },

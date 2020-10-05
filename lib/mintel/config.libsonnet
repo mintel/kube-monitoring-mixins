@@ -21,6 +21,10 @@
     // Select metrics coming from the Kubelet.
     kubeletSelector: 'job="kubelet"',
 
+    certManagerSelector: 'job="kube-system/cert-manager"',
+
+    externalDnsJobSelector: 'job="external-dns"',
+
     // Select the device for Io Container reads/writes metrics
     containerIoDiskDeviceSelector: 'device="/dev/sda"',
     // Select the Interval for Rate function for Io Container reads/writes metrics
@@ -48,7 +52,7 @@
     kubePodDistributionUnbalancedByZonePercentageThreshold: 50,
 
     // Flux Vars
-    fluxJobSelector: 'job="flux"',
+    fluxJobSelector: 'job=~"^flux-(bootstrap|apps)/flux$"',
     fluxDeltaIntervalMinutes: 6,
     fluxDeltaDoubleIntervalMinutes: 2 * this.fluxDeltaIntervalMinutes,
 
@@ -66,10 +70,10 @@
     fluentdRulesExcludedTypes: 'type!~"^(null|rewrite_tag_filter|detect_exceptions)$"',
 
     // Prometheus Operator
-    prometheusOperatorJobFilter: 'job="prometheus-operator"',
+    prometheusOperatorJobFilter: 'job="monitoring/prometheus-operator"',
 
     // ECK Operator
-    eckOperatorFilter: 'job="elastic-operator-metrics"',
+    eckOperatorFilter: 'job="kube-operators/eck"',
 
     // Config for the Grafana dashboards in the Kubernetes Mixin
     mintel: {
