@@ -19,7 +19,7 @@ local dashboardLink = '/d/' + std.md5(dashboardFile);
 local dashboardTags = ['prometheus', 'performances'];
 
 local config = {
-  jobSelector: 'job="prometheus-k8s"',
+  jobSelector: 'job="monitoring/prometheus", prometheus="k8s"',
 };
 
 // End dashboard settings

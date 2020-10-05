@@ -37,7 +37,7 @@
               summary: 'Flux Errors talking to memcached',
               runbook_url: '%(runBookBaseURL)s/core/flux.md#fluxmemcacheerrors' % $._config,
             },
-            expr: 'delta(flux_cache_request_duration_seconds_count{%(fluxJobSelector)s,success="false"}[%(fluxDeltaDoubleIntervalMinutes)sm]) > 0' % $._config,
+            expr: 'delta(flux_cache_request_duration_seconds_count{%(fluxJobSelector)s,method!="GetKey",success="false"}[%(fluxDeltaDoubleIntervalMinutes)sm]) > 0' % $._config,
             'for': '60m',
             labels: {
               severity: 'warning',

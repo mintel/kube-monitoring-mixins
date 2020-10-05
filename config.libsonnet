@@ -7,6 +7,7 @@
 (import 'kube-prometheus/rules/rules.libsonnet') +
 (import 'kubernetes-mixin/mixin.libsonnet') +
 (import 'prometheus/mixin.libsonnet') +
+(import 'promtail-mixin/mixin.libsonnet') +
 (import 'lib/prometheus.libsonnet') +
 (import 'lib/grafana.libsonnet') +
 (import 'lib/mintel/mixins.libsonnet') +
@@ -17,15 +18,17 @@
   _config+:: {
     namespace:: error 'namespace is required',
 
-    cadvisorSelector: 'job="kubelet"',
-    kubeletSelector: 'job="kubelet"',
-    kubeStateMetricsSelector: 'job="kube-state-metrics"',
-    nodeExporterSelector: 'job="node-exporter"',
+    cadvisorSelector: 'job="kube-system/kubelet"',
+    kubeletSelector: 'job="kube-system/kubelet"',
+    kubeStateMetricsSelector: 'job="monitoring/kube-state-metrics"',
+    nodeExporterSelector: 'job="monitoring/node-exporter"',
     notKubeDnsSelector: 'job!="kube-dns"',
     kubeSchedulerSelector: 'job="kube-scheduler"',
     kubeControllerManagerSelector: 'job="kube-controller-manager"',
     kubeApiserverSelector: 'job="apiserver"',
-    coreDNSSelector: 'job="kube-dns"',
+    coreDNSSelector: 'job="kube-system/kube-dns"',
+    externalDnsJobSelector: 'job="kube-system/external-dns"',
+    certManagerSelector: 'job="kube-system/cert-manager"',
     podLabel: 'pod',
 
     // Select the device for Io Container reads/writes metrics
@@ -55,10 +58,10 @@
     /// Same, but for node-mixin
     fsSelector: self.fstypeSelector,
 
-    alertmanagerSelector: 'job="alertmanager-' + $._config.alertmanager.name + '",namespace="' + $._config.namespace + '"',
-    prometheusSelector: 'job="prometheus-' + $._config.prometheus.name + '",namespace="' + $._config.namespace + '"',
+    alertmanagerSelector: 'job="monitoring/alertmanager",alertmanager="main"',
+    prometheusSelector: 'job="monitoring/prometheus", prometheus="k8s"',
     prometheusName: '{{$labels.namespace}}/{{$labels.pod}}',
-    prometheusOperatorSelector: 'job="prometheus-operator",namespace="' + $._config.namespace + '"',
+    prometheusOperatorSelector: 'job="monitoring/prometheus-operator"',
 
 
     // If more than 51% of the PODS for a given workload are on the same node
@@ -85,7 +88,8 @@
       Prometheus: $._config.prometheusSelector,
       PrometheusOperator: $._config.prometheusOperatorSelector,
       CoreDNS: $._config.coreDNSSelector,
-      HaproxyIngress: 'job="haproxy-exporter"',
+      HaproxyIngress: 'job="ingress-controller/haproxy", service="haproxy-ingress-controller"',
+      // externalDns: $._config.externalDnsJobSelector,
     },
 
     alertmanager+:: {

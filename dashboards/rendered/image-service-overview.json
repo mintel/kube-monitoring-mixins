@@ -859,7 +859,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(thumbor_gcs_fetch_sum{job=\"$deployment\"}[$__interval])\n /\n rate(thumbor_gcs_fetch_count{job=\"$deployment\"}[$__interval])\n",
+                     "expr": "rate(thumbor_gcs_fetch_sum{service=\"${deployment}\"}[$__interval])\n /\n rate(thumbor_gcs_fetch_count{service=\"${deployment}\"}[$__interval])\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
