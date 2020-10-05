@@ -64,7 +64,7 @@ local dashboardTags = ['image-service'];
       )
       .addRow(
         row.new('Storage')
-        .addPanels(thumbor.storagePanels())
+        .addPanels(thumbor.storagePanels(serviceSelectorKey='service', serviceSelectorValue='${deployment}'))
       ),
 
   },
