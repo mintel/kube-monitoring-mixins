@@ -2166,7 +2166,7 @@ spec:
         description: Flux Errors talking to memcached
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/flux.md#fluxmemcacheerrors
         summary: Flux Errors talking to memcached
-      expr: delta(flux_cache_request_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",success="false"}[12m])
+      expr: delta(flux_cache_request_duration_seconds_count{job=~"^flux-(bootstrap|apps)/flux$",method!="GetKey",success="false"}[12m])
         > 0
       for: 60m
       labels:
