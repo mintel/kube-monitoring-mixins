@@ -32,4 +32,5 @@
 (import './rules/mintel-overcommit.libsonnet') +
 (import './rules/mintel-pod.libsonnet') +
 (import './rules/mintel-http.libsonnet') +
+(import './rules/mintel-workload.libsonnet') +
 (import './dashboards/dashboards.libsonnet')
