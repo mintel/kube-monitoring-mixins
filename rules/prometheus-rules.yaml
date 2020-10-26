@@ -424,6 +424,24 @@ spec:
           sum without(instance, endpoint, job, pod) (rate(http_request_duration_seconds_bucket[1m]))
         )
       record: mintel:http_request_duration_seconds_quantile:99
+  - name: mintel-workload.rules
+    rules:
+    - expr: |
+        sum(
+            node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate
+          * on(namespace, pod)
+            group_left(workload, workload_type) mixin_pod_workload
+        ) by (workload, namespace, workload_type)
+      record: mintel:workload:cpu_usage_seconds_total:rate5m
+    - expr: |
+        abs(
+          (
+            mintel:workload:cpu_usage_seconds_total:rate5m
+            -
+            avg_over_time(mintel:workload:cpu_usage_seconds_total:rate5m[1d])
+          ) / stddev_over_time(mintel:workload:cpu_usage_seconds_total:rate5m[1d])
+        )
+      record: mintel:workload:cpu_usage_anomaly:z_score_1d
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
@@ -2092,6 +2110,18 @@ spec:
       expr: kube_poddisruptionbudget_status_pod_disruptions_allowed == 0
       for: 60m
       labels:
+        severity: warning
+    - alert: KubeCPUUsageOutsideNormalParameters
+      annotations:
+        description: CPU Usage on {{ $labels.namespace }}/{{ $labels.workload }} is
+          outside of normal operating parameters based on z-score value of {{ $value
+          }}
+        runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubeCPUUsageOutsideNormalParameters.md
+        summary: CPU Usage outside expected operating parameters
+      expr: mintel:workload:cpu_usage_anomaly:z_score_1d > 3
+      for: 1h
+      labels:
+        page: "false"
         severity: warning
   - name: filebeat.alerts
     rules:
