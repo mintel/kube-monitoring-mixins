@@ -51,7 +51,7 @@
               summary: 'CPU Usage outside expected operating parameters',
             },
             expr: 'mintel:workload:cpu_usage_seconds_total:rate5m:z_score_1d > 3',
-            'for': '10m',
+            'for': '1h',
             labels: {
               severity: 'warning',
             },
