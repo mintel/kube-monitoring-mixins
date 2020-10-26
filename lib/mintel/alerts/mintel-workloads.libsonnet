@@ -43,6 +43,19 @@
               severity: 'warning',
             },
           },
+          {
+            alert: 'KubeCPUUsageOutsideNormalParameters',
+            annotations: {
+              description: 'CPU Usage on {{ $labels.namespace }}/{{ $labels.workload }} is outside of normal operating parameters based on z-score value of {{ $value }}',
+              runbook_url: '%(runBookBaseURL)s/core/KubeCPUUsageOutsideNormalParameters.md' % $._config,
+              summary: 'CPU Usage outside expected operating parameters',
+            },
+            expr: 'mintel:workload:cpu_usage_seconds_total:rate5m:z_score_1d > 3',
+            'for': '10m',
+            labels: {
+              severity: 'warning',
+            },
+          },
         ],
       },
     ],
