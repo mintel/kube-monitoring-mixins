@@ -27,7 +27,7 @@
                 ) / stddev_over_time(mintel:workload:cpu_usage_seconds_total:rate5m[%(stddev_over_time_period)s])
               )
             ||| % { avg_over_time_period: z_score_time_period, stddev_over_time_period: z_score_time_period},
-            record: 'mintel:workload:cpu_usage_seconds_total:rate5m:z_score_%(z_score_period)s' % (z_score_time_period)
+            record: 'mintel:workload:cpu_usage_anomaly:z_score_%(z_score_period)s' % (z_score_time_period)
           }
           for z_score_time_period in ['1d']
         ],

@@ -441,7 +441,7 @@ spec:
             avg_over_time(mintel:workload:cpu_usage_seconds_total:rate5m[1d])
           ) / stddev_over_time(mintel:workload:cpu_usage_seconds_total:rate5m[1d])
         )
-      record: mintel:workload:cpu_usage_seconds_total:rate5m:z_score_1d
+      record: mintel:workload:cpu_usage_anomaly:z_score_1d
   - name: node-exporter
     rules:
     - alert: NodeFilesystemSpaceFillingUp
@@ -2118,9 +2118,10 @@ spec:
           }}
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubeCPUUsageOutsideNormalParameters.md
         summary: CPU Usage outside expected operating parameters
-      expr: mintel:workload:cpu_usage_seconds_total:rate5m:z_score_1d > 3
+      expr: mintel:workload:cpu_usage_anomaly:z_score_1d > 3
       for: 1h
       labels:
+        page: "false"
         severity: warning
   - name: filebeat.alerts
     rules:
