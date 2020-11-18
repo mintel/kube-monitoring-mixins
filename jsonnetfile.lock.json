@@ -8,18 +8,8 @@
           "subdir": "grafana"
         }
       },
-      "version": "57b4365eacda291b82e0d55ba7eec573a8198dda",
-      "sum": "92DWADwGjnCfpZaL7Q07C0GZayxBziGla/O03qWea34="
-    },
-    {
-      "source": {
-        "git": {
-          "remote": "https://github.com/coreos/etcd.git",
-          "subdir": "Documentation/etcd-mixin"
-        }
-      },
-      "version": "06e48f04865f64cb1e65cde43f293187f2e782fd",
-      "sum": "bLqTqEr0jky9zz5MV/7ucn6H5mph2NlXas0TVnGNB1Y="
+      "version": "38f42bbba57b5ee7c1f93ee3f587999b26497fbd",
+      "sum": "2GcuE0apSQkiM3QRc6YDjRR6hfe0iNpR+OHXKxEPIFU="
     },
     {
       "source": {
@@ -28,18 +18,18 @@
           "subdir": "jsonnet/kube-prometheus"
         }
       },
-      "version": "44326abcc87669f21c3eed15e476d2495c4c9f06",
-      "sum": "mN2hPXqqIp525jpe9YFEsvT9NAsl+ld2hdCBZ+5HaWY="
+      "version": "e667d85de83d3ff065bb58c9e109cc83b0c158d6",
+      "sum": "CwrjDJgzfHTq7MJtmsk7pnc1yy+rOmE9fQ5/CZoDP6M="
     },
     {
       "source": {
         "git": {
-          "remote": "https://github.com/coreos/prometheus-operator.git",
-          "subdir": "jsonnet/prometheus-operator"
+          "remote": "https://github.com/etcd-io/etcd.git",
+          "subdir": "Documentation/etcd-mixin"
         }
       },
-      "version": "c41e6fad7235528f115ad307bff36c057a5adfc1",
-      "sum": "PH3rwM0Egk3SRtm/RLf2D9fAwZz7cK45D+vXcFoA12k="
+      "version": "06e48f04865f64cb1e65cde43f293187f2e782fd",
+      "sum": "bLqTqEr0jky9zz5MV/7ucn6H5mph2NlXas0TVnGNB1Y="
     },
     {
       "source": {
@@ -129,8 +119,29 @@
           "subdir": "jsonnet/kube-state-metrics-mixin"
         }
       },
-      "version": "89aaf6c524ee891140c4c8f2a05b1b16f5847309",
-      "sum": "E1GGavnf9PCWBm4WVrxWnc0FIj72UcbcweqGioWrOdU="
+      "version": "662d59e83f4a529dee55570522ee02c91ed1e0fb",
+      "sum": "Yf8mNAHrV1YWzrdV8Ry5dJ8YblepTGw3C0Zp10XIYLo="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus-operator/prometheus-operator.git",
+          "subdir": "jsonnet/mixin"
+        }
+      },
+      "version": "b86ab77239f2a11ee69ad05b24122958d8b2df5b",
+      "sum": "6reUygVmQrLEWQzTKcH8ceDbvM+2ztK3z2VBR2K2l+U=",
+      "name": "prometheus-operator-mixin"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus-operator/prometheus-operator.git",
+          "subdir": "jsonnet/prometheus-operator"
+        }
+      },
+      "version": "b86ab77239f2a11ee69ad05b24122958d8b2df5b",
+      "sum": "Zof470kQY377VxlEH5MQJUSbtViNEdLyLPv/P7fX8QQ="
     },
     {
       "source": {

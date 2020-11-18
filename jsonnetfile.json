@@ -8,16 +8,7 @@
           "subdir": "jsonnet/kube-prometheus"
         }
       },
-      "version": "v0.6.0"
-    },
-    {
-      "source": {
-        "git": {
-          "remote": "https://github.com/coreos/prometheus-operator.git",
-          "subdir": "jsonnet/prometheus-operator"
-        }
-      },
-      "version": "c41e6fad7235528f115ad307bff36c057a5adfc1"
+      "version": "master"
     },
     {
       "source": {
@@ -27,6 +18,16 @@
         }
       },
       "version": "master"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus-operator/prometheus-operator.git",
+          "subdir": "jsonnet/mixin"
+        }
+      },
+      "version": "release-0.43",
+      "name": "prometheus-operator-mixin"
     },
     {
       "source": {
