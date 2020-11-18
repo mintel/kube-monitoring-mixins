@@ -329,6 +329,7 @@
          "id": 5,
          "lines": true,
          "linewidth": 1,
+         "links": [ ],
          "minSpan": 24,
          "nullPointMode": "null as zero",
          "renderer": "flot",
@@ -541,6 +542,7 @@
          "dashes": false,
          "datasource": "$datasource",
          "fill": 2,
+         "fillGradient": 0,
          "gridPos": {
             "h": 9,
             "w": 12,
@@ -558,6 +560,7 @@
             "min": false,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": false
          },
@@ -630,6 +633,7 @@
          "dashes": false,
          "datasource": "$datasource",
          "fill": 2,
+         "fillGradient": 0,
          "gridPos": {
             "h": 9,
             "w": 12,
@@ -647,6 +651,7 @@
             "min": false,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": false
          },
@@ -730,6 +735,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 2,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -747,6 +753,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -819,6 +826,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 2,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -836,6 +844,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -928,6 +937,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 2,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -945,6 +955,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -1017,6 +1028,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 2,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1034,6 +1046,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -1109,7 +1122,7 @@
          "type": "row"
       }
    ],
-   "refresh": "30s",
+   "refresh": "10s",
    "rows": [ ],
    "schemaVersion": 18,
    "style": "dark",
@@ -1267,7 +1280,7 @@
          "30d"
       ]
    },
-   "timezone": "",
+   "timezone": "UTC",
    "title": "Kubernetes / Networking / Namespace (Pods)",
    "uid": "8b7a8b326d7a6f1f04244066368c67af",
    "version": 0

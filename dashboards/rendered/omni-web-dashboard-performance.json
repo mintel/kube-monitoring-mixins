@@ -65,6 +65,7 @@
                "decimals": 2,
                "description": "Dashboard Request Time By Dashboard ID",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -82,6 +83,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -167,6 +169,7 @@
                "decimals": 2,
                "description": "Widget Request Time By Dashboard ID",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -184,6 +187,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

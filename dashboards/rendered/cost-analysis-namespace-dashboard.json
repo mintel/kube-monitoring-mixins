@@ -23,6 +23,7 @@
             "y": 0
          },
          "id": 2,
+         "links": [ ],
          "styles": [
             {
                "alias": "Pod",
@@ -243,6 +244,7 @@
             "y": 0
          },
          "id": 3,
+         "links": [ ],
          "styles": [
             {
                "alias": "Namespace",
@@ -355,6 +357,7 @@
          "decimals": 2,
          "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
          "fill": 0,
+         "fillGradient": 0,
          "gridPos": {
             "h": 6,
             "w": 12,
@@ -372,6 +375,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -443,6 +447,7 @@
          "decimals": 2,
          "description": "This panel shows historical utilisation as an average across all pods in this namespace.  It only accounts for currently deployed pods",
          "fill": 0,
+         "fillGradient": 0,
          "gridPos": {
             "h": 6,
             "w": 12,
@@ -460,6 +465,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -531,6 +537,7 @@
          "decimals": 2,
          "description": "Traffic in and out of this namespace, as a sum of the pods within it",
          "fill": 1,
+         "fillGradient": 0,
          "gridPos": {
             "h": 7,
             "w": 12,
@@ -548,6 +555,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -621,6 +629,7 @@
          "decimals": 2,
          "description": "Disk reads and writes for the namespace, as a sum of the pods within it",
          "fill": 1,
+         "fillGradient": 0,
          "gridPos": {
             "h": 7,
             "w": 12,
@@ -638,6 +647,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },

@@ -102,6 +102,7 @@
                "decimals": 2,
                "description": "Breaches of availability over time, error ratio > threshold",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 200,
                "id": 3,
@@ -114,6 +115,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

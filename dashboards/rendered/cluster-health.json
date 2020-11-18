@@ -361,6 +361,7 @@
                "description": "This table shows the current alerts either in a pending or firing state",
                "gridPos": { },
                "id": 6,
+               "links": [ ],
                "span": 12,
                "styles": [
                   {

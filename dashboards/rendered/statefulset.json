@@ -72,7 +72,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(rate(container_cpu_usage_seconds_total{job=\"kube-system/kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}[3m]))",
+                     "expr": "sum(rate(container_cpu_usage_seconds_total{job=\"kube-system/kubelet\", cluster=\"$cluster\", container!=\"\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}[3m]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -151,7 +151,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(container_memory_usage_bytes{job=\"kube-system/kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}) / 1024^3",
+                     "expr": "sum(container_memory_usage_bytes{job=\"kube-system/kubelet\", cluster=\"$cluster\", container!=\"\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}) / 1024^3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -230,7 +230,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kube-system/kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}[3m])) + sum(rate(container_network_receive_bytes_total{cluster=\"$cluster\", namespace=\"$namespace\",pod=~\"$statefulset.*\"}[3m]))",
+                     "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kube-system/kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$statefulset.*\"}[3m])) + sum(rate(container_network_receive_bytes_total{job=\"kube-system/kubelet\", cluster=\"$cluster\", namespace=\"$namespace\",pod=~\"$statefulset.*\"}[3m]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -607,6 +607,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 9,
                "legend": {
@@ -617,6 +618,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -828,7 +830,7 @@
          "30d"
       ]
    },
-   "timezone": "",
+   "timezone": "UTC",
    "title": "Kubernetes / StatefulSets",
    "uid": "a31c1f46e6f727cb37c0d731a7245005",
    "version": 0
