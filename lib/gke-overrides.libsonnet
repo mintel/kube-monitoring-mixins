@@ -13,6 +13,7 @@ local ignore_alerts = [
   'KubeControllerManagerDown',
   'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
+  'NodeHighNumberConntrackEntriesUsed',  // We already have our own rules for this
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',
   'PrometheusOutboundNetworkTrafficAnomalyDetected',
