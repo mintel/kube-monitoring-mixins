@@ -1547,8 +1547,9 @@ spec:
     - alert: PrometheusRemoteWriteDesiredShards
       annotations:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write
-          desired shards calculation wants to run {{ $value }} shards, which is more
-          than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="monitoring/prometheus",
+          desired shards calculation wants to run {{ $value }} shards for queue {{
+          $labels.remote_name}}:{{ $labels.url }}, which is more than the max of {{
+          printf `prometheus_remote_storage_shards_max{instance="%s",job="monitoring/prometheus",
           prometheus="k8s"}` $labels.instance | query | first | value }}.
         summary: Prometheus remote write desired shards calculation wants to run more
           than configured max shards.
@@ -1581,6 +1582,18 @@ spec:
         summary: Prometheus is missing rule evaluations due to slow rule group evaluation.
       expr: |
         increase(prometheus_rule_group_iterations_missed_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
+      for: 15m
+      labels:
+        severity: warning
+    - alert: PrometheusTargetLimitHit
+      annotations:
+        description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has dropped
+          {{ printf "%.0f" $value }} targets because the number of targets exceeded
+          the configured target_limit.
+        summary: Prometheus has dropped targets because some scrape configs have exceeded
+          the targets limit.
+      expr: |
+        increase(prometheus_target_scrape_pool_exceeded_target_limit_total{job="monitoring/prometheus", prometheus="k8s"}[5m]) > 0
       for: 15m
       labels:
         severity: warning

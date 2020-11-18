@@ -45,7 +45,7 @@
           "subdir": "documentation/prometheus-mixin"
         }
       },
-      "version": "7321f1d227218bd498ecd446c4ec2bec34cf740f",
+      "version": "release-2.22",
       "name": "prometheus"
     }
   ],

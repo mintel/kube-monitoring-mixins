@@ -160,8 +160,8 @@
           "subdir": "documentation/prometheus-mixin"
         }
       },
-      "version": "7321f1d227218bd498ecd446c4ec2bec34cf740f",
-      "sum": "u1YS9CVuBTcw2vks0PZbLb1gtlI/7bVGDVBZsjWFLTw=",
+      "version": "de1c1243f4dd66fbac3e8213e9a7bd8dbc9f38b2",
+      "sum": "CGxvaHkP7z/gnsLB/8Imvt/AnW+9nJUnTcL+fvIAZUs=",
       "name": "prometheus"
     }
   ],
