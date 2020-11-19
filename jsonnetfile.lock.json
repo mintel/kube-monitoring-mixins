@@ -125,6 +125,18 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/primeroz/kubernetes-mixin.git",
+          "subdir": ""
+        }
+      },
+      "version": "8fec4d3837027ec2c3ddb7841aded500e56a3990",
+      "sum": "AKH5DVFkSK4lQMCPpV210nFB1yEBQwSfwE2QGWrtqGs=",
+      "single": true,
+      "name": "kubernetes-mixin-primeroz"
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/prometheus-operator/prometheus-operator.git",
           "subdir": "jsonnet/mixin"
         }

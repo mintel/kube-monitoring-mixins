@@ -22,6 +22,17 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/primeroz/kubernetes-mixin.git",
+          "subdir": ""
+        }
+      },
+      "version": "support-grafana72-rate-interval",
+      "single": true,
+      "name": "kubernetes-mixin-primeroz"
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/prometheus-operator/prometheus-operator.git",
           "subdir": "jsonnet/mixin"
         }
