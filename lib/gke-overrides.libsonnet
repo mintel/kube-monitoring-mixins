@@ -52,7 +52,6 @@ local downgrade_severity_rules = [
 local ignore_dashboards = [
   'apiserver.json',
   'controller-manager.json',
-  'promtail.json',
   'scheduler.json',
 ];
 
