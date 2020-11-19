@@ -92,9 +92,6 @@
       // externalDns: $._config.externalDnsJobSelector,
     },
 
-    // Enable GRAFANA72 support
-    grafana72: true,
-
     alertmanager+:: {
       name: 'main',
     },
