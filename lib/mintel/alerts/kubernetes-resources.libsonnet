@@ -47,11 +47,11 @@
             },
             expr: |||
               100 * (
-                (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1) 
+                (count by (created_by_kind, created_by_name, node, namespace ) (kube_pod_info{created_by_kind!~"<none>|Job"}) > 1)
                 / 
                 ignoring(node) 
-                  group_left(created_by_kind, created_by_name) 
-                    count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
+                  group_left(created_by_kind, created_by_name, namespace)
+                    count by (created_by_kind, created_by_name, namespace) (kube_pod_info{created_by_kind!~"<none>|Job"})
               ) > %(kubePodDistributionUnbalancedByNodePercentageThreshold)s
             ||| % $._config,
             'for': '15m',
