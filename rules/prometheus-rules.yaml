@@ -2168,9 +2168,10 @@ spec:
           , {{ $value }}% are on node {{ $labels.node }}'
         message: Pod Distribution for pods is unbalanced by node
         runbook_url: https://gitlab.com/mintel/satoshi/docs/blob/master/runbooks/core/KubePodDistributionUnbalancedByNode.md
-      expr: "100 * (\n  (count by (created_by_kind, created_by_name, node ) (kube_pod_info{created_by_kind!~\"<none>|Job\"})
-        > 1) \n  / \n  ignoring(node) \n    group_left(created_by_kind, created_by_name)
-        \n      count by (created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
+      expr: "100 * (\n  (count by (created_by_kind, created_by_name, node, namespace
+        ) (kube_pod_info{created_by_kind!~\"<none>|Job\"}) > 1)\n  / \n  ignoring(node)
+        \n    group_left(created_by_kind, created_by_name, namespace)\n      count
+        by (created_by_kind, created_by_name, namespace) (kube_pod_info{created_by_kind!~\"<none>|Job\"})\n)
         > 50\n"
       for: 15m
       labels:
