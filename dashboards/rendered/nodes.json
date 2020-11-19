@@ -23,6 +23,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 2,
                "legend": {
@@ -33,6 +34,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -103,6 +105,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 3,
                "legend": {
@@ -113,6 +116,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -216,6 +220,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 4,
                "legend": {
@@ -226,6 +231,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -409,6 +415,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 6,
                "legend": {
@@ -419,6 +426,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -514,6 +522,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 7,
                "legend": {
@@ -524,6 +533,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -622,6 +632,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 8,
                "legend": {
@@ -632,6 +643,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -702,6 +714,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 9,
                "legend": {
@@ -712,6 +725,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -855,7 +869,7 @@
          "30d"
       ]
    },
-   "timezone": "",
+   "timezone": "UTC",
    "title": "Nodes",
    "uid": "fa49a4706d07a042595b664c87fb33ea",
    "version": 0

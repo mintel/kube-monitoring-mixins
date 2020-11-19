@@ -23,6 +23,7 @@
             "y": 0
          },
          "id": 2,
+         "links": [ ],
          "styles": [
             {
                "alias": "Container",
@@ -239,6 +240,7 @@
          "decimals": 2,
          "description": "This graph attempts to show you CPU use of your application vs its requests",
          "fill": 0,
+         "fillGradient": 0,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -256,6 +258,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -329,6 +332,7 @@
          "decimals": 2,
          "description": "This graph attempts to show you RAM use of your application vs its requests",
          "fill": 0,
+         "fillGradient": 0,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -346,6 +350,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -419,6 +424,7 @@
          "decimals": 2,
          "description": "Traffic in and out of this pod, as a sum of its containers",
          "fill": 1,
+         "fillGradient": 0,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -436,6 +442,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },
@@ -509,6 +516,7 @@
          "decimals": 2,
          "description": "Disk read writes",
          "fill": 1,
+         "fillGradient": 0,
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -526,6 +534,7 @@
             "min": true,
             "rightSide": false,
             "show": true,
+            "sideWidth": null,
             "total": false,
             "values": true
          },

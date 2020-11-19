@@ -23,6 +23,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 2,
                "legend": {
@@ -33,6 +34,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -52,10 +54,10 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  prometheus_remote_storage_highest_timestamp_in_seconds{cluster=~\"$cluster\", instance=~\"$instance\"} \n-  \n  ignoring(queue) group_right(instance) prometheus_remote_storage_queue_highest_sent_timestamp_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}\n)\n",
+                     "expr": "(\n  prometheus_remote_storage_highest_timestamp_in_seconds{cluster=~\"$cluster\", instance=~\"$instance\"} \n-  \n  ignoring(remote_name, url) group_right(instance) prometheus_remote_storage_queue_highest_sent_timestamp_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -102,6 +104,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 3,
                "legend": {
@@ -112,6 +115,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -131,10 +135,10 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  rate(prometheus_remote_storage_highest_timestamp_in_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])  \n- \n  ignoring (queue) group_right(instance) rate(prometheus_remote_storage_queue_highest_sent_timestamp_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n)\n",
+                     "expr": "(\n  rate(prometheus_remote_storage_highest_timestamp_in_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])  \n- \n  ignoring (remote_name, url) group_right(instance) rate(prometheus_remote_storage_queue_highest_sent_timestamp_seconds{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -194,6 +198,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 4,
                "legend": {
@@ -204,6 +209,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -223,10 +229,10 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(\n  prometheus_remote_storage_samples_in_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n- \n  ignoring(queue) group_right(instance) rate(prometheus_remote_storage_succeeded_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m]) \n- \n  rate(prometheus_remote_storage_dropped_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n",
+                     "expr": "rate(\n  prometheus_remote_storage_samples_in_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n- \n  ignoring(remote_name, url) group_right(instance) rate(prometheus_remote_storage_succeeded_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n- \n  rate(prometheus_remote_storage_dropped_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -286,6 +292,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 5,
                "legend": {
@@ -296,6 +303,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -319,7 +327,7 @@
                      "expr": "prometheus_remote_storage_shards{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -366,6 +374,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 6,
                "legend": {
@@ -376,6 +385,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -398,7 +408,7 @@
                      "expr": "prometheus_remote_storage_shards_max{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -445,6 +455,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 7,
                "legend": {
@@ -455,6 +466,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -477,7 +489,7 @@
                      "expr": "prometheus_remote_storage_shards_min{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -524,6 +536,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 8,
                "legend": {
@@ -534,6 +547,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -556,7 +570,7 @@
                      "expr": "prometheus_remote_storage_shards_desired{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -616,6 +630,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 9,
                "legend": {
@@ -626,6 +641,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -648,7 +664,7 @@
                      "expr": "prometheus_remote_storage_shard_capacity{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -695,6 +711,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 10,
                "legend": {
@@ -705,6 +722,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -727,7 +745,7 @@
                      "expr": "prometheus_remote_storage_pending_samples{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -787,6 +805,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 11,
                "legend": {
@@ -797,6 +816,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -866,6 +886,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 12,
                "legend": {
@@ -876,6 +897,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -898,7 +920,7 @@
                      "expr": "prometheus_wal_watcher_current_segment{cluster=~\"$cluster\", instance=~\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{consumer}}",
                      "refId": "A"
                   }
                ],
@@ -958,6 +980,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 13,
                "legend": {
@@ -968,6 +991,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -990,7 +1014,7 @@
                      "expr": "rate(prometheus_remote_storage_dropped_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -1037,6 +1061,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 14,
                "legend": {
@@ -1047,6 +1072,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -1069,7 +1095,7 @@
                      "expr": "rate(prometheus_remote_storage_failed_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -1116,6 +1142,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 15,
                "legend": {
@@ -1126,6 +1153,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -1148,7 +1176,7 @@
                      "expr": "rate(prometheus_remote_storage_retried_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -1195,6 +1223,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
+               "fillGradient": 0,
                "gridPos": { },
                "id": 16,
                "legend": {
@@ -1205,6 +1234,7 @@
                   "min": false,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": false
                },
@@ -1227,7 +1257,7 @@
                      "expr": "rate(prometheus_remote_storage_enqueue_retries_total{cluster=~\"$cluster\", instance=~\"$instance\"}[5m])",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{cluster}}:{{instance}}-{{queue}}",
+                     "legendFormat": "{{cluster}}:{{instance}} {{remote_name}}:{{url}}",
                      "refId": "A"
                   }
                ],
@@ -1362,9 +1392,9 @@
             "includeAll": true,
             "label": null,
             "multi": false,
-            "name": "queue",
+            "name": "url",
             "options": [ ],
-            "query": "label_values(prometheus_remote_storage_shards{cluster=~\"$cluster\", instance=~\"$instance\"}, queue)",
+            "query": "label_values(prometheus_remote_storage_shards{cluster=~\"$cluster\", instance=~\"$instance\"}, url)",
             "refresh": 2,
             "regex": "",
             "sort": 0,

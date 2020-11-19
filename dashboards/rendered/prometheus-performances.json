@@ -26,6 +26,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -43,6 +44,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -188,6 +190,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -205,6 +208,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -341,6 +345,7 @@
                "datasource": "$ds",
                "description": "All Failures and errors",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 200,
                "id": 4,
@@ -556,6 +561,7 @@
                "datasource": "$ds",
                "description": "Memory usage for prometheus process, including GO heap and GC",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 200,
                "id": 5,
@@ -568,6 +574,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -994,6 +1001,7 @@
                "datasource": "$ds",
                "description": "Number of timeseries in the head chunk (last 0-2 hours)",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 10,
                "legend": {
@@ -1005,6 +1013,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1076,6 +1085,7 @@
                "datasource": "$ds",
                "description": "Number of timeseries appended to the head chunk (last 0-2 hours)",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 11,
                "legend": {
@@ -1087,6 +1097,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1174,6 +1185,7 @@
                "datasource": "$ds",
                "description": "Series Created and Removed over 5m",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 12,
                "legend": {
@@ -1185,6 +1197,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1269,6 +1282,7 @@
                "datasource": "$ds",
                "description": "Total number of chunks in the head block",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 13,
                "legend": {
@@ -1280,6 +1294,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1351,6 +1366,7 @@
                "datasource": "$ds",
                "description": "Rate of chunks Created/Removed in the head block",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 14,
                "legend": {
@@ -1362,6 +1378,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1441,6 +1458,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 1,
+               "fillGradient": 0,
                "height": 300,
                "id": 15,
                "legend": {
@@ -1452,6 +1470,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1524,6 +1543,7 @@
                "decimals": 5,
                "description": "Actual intervals between scrapes",
                "fill": 1,
+               "fillGradient": 0,
                "height": 300,
                "id": 16,
                "legend": {
@@ -1535,6 +1555,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1606,6 +1627,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 1,
+               "fillGradient": 0,
                "height": 300,
                "id": 17,
                "legend": {
@@ -1617,6 +1639,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1702,6 +1725,7 @@
                "datasource": "$ds",
                "description": "Prometheus running queries",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 18,
                "legend": {
@@ -1713,6 +1737,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1807,6 +1832,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 19,
                "legend": {
@@ -1818,6 +1844,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1889,6 +1916,7 @@
                "datasource": "$ds",
                "description": "",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 20,
                "legend": {
@@ -1900,6 +1928,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1971,6 +2000,7 @@
                "datasource": "$ds",
                "description": "The duration of rule group evaluations",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 21,
                "legend": {
@@ -1982,6 +2012,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2069,6 +2100,7 @@
                "datasource": "$ds",
                "description": "The duration of the last rule group evaluation",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 22,
                "legend": {
@@ -2080,6 +2112,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2151,6 +2184,7 @@
                "datasource": "$ds",
                "description": "The number of http endpoints requests",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 23,
                "legend": {
@@ -2229,6 +2263,7 @@
                "datasource": "$ds",
                "description": "The latency of http endpoints requests",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 24,
                "legend": {
@@ -2307,6 +2342,7 @@
                "datasource": "$ds",
                "description": "The Amount of time spent in http requests each second",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 25,
                "legend": {
@@ -2399,6 +2435,7 @@
                "datasource": "$ds",
                "description": "The number of bytes that are currently used for local storage by all blocks",
                "fill": 0,
+               "fillGradient": 0,
                "height": 200,
                "id": 26,
                "legend": {
@@ -2410,6 +2447,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2481,6 +2519,7 @@
                "datasource": "$ds",
                "description": "Open and Max file descriptors as seen by the GO processs",
                "fill": 0,
+               "fillGradient": 0,
                "height": 200,
                "id": 27,
                "legend": {
@@ -2492,6 +2531,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2584,6 +2624,7 @@
                "datasource": "$ds",
                "description": "Number of currently loaded data blocks",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 28,
                "legend": {
@@ -2595,6 +2636,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2666,6 +2708,7 @@
                "datasource": "$ds",
                "description": "Number of times the database reloaded block data from disk",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 29,
                "legend": {
@@ -2677,6 +2720,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2768,6 +2812,7 @@
                "datasource": "$ds",
                "description": "Duration of WAL fsync",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 30,
                "legend": {
@@ -2779,6 +2824,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2850,6 +2896,7 @@
                "datasource": "$ds",
                "description": "Duration of Compaction event",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 31,
                "legend": {
@@ -2861,6 +2908,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2932,6 +2980,7 @@
                "datasource": "$ds",
                "description": "Compactions events and duration",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 32,
                "legend": {
@@ -2943,6 +2992,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -3029,6 +3079,7 @@
                "datasource": "$ds",
                "description": "blocks were deleted because the maximum time / size limit was exceeded",
                "fill": 1,
+               "fillGradient": 0,
                "height": 200,
                "id": 33,
                "legend": {
@@ -3040,6 +3091,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

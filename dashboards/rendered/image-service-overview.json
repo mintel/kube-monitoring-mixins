@@ -66,6 +66,7 @@
                "decimals": 2,
                "description": "Percentage of instances up (by workload)",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -83,6 +84,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -336,6 +338,7 @@
                "decimals": 2,
                "description": "Percentile Latency from HAProxy Ingress",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -353,6 +356,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -441,6 +445,7 @@
                "decimals": 2,
                "description": "HTTP Responses from HAProxy Ingress for backend ${deployment}",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -458,6 +463,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -543,6 +549,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -560,6 +567,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -632,6 +640,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -649,6 +658,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -721,6 +731,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -738,6 +749,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -823,6 +835,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 24,
@@ -840,6 +853,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

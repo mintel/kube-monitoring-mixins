@@ -1,10 +1,10 @@
 // Core configuration (mostly from upstream)
 (import 'grafana/grafana.libsonnet') +
 (import 'node-mixin/mixin.libsonnet') +
-(import 'prometheus-operator/prometheus-operator.libsonnet') +
 //(import 'prometheus-adapter/prometheus-adapter.libsonnet') +
 (import 'kube-prometheus/alerts/alerts.libsonnet') +
 (import 'kube-prometheus/rules/rules.libsonnet') +
+(import 'prometheus-operator-mixin/mixin.libsonnet') +
 (import 'kubernetes-mixin/mixin.libsonnet') +
 (import 'prometheus/mixin.libsonnet') +
 (import 'promtail-mixin/mixin.libsonnet') +

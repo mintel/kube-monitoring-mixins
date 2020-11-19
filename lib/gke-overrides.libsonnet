@@ -13,6 +13,7 @@ local ignore_alerts = [
   'KubeControllerManagerDown',
   'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
+  'NodeHighNumberConntrackEntriesUsed',  // We already have our own rules for this
   'PrometheusRemoteStorageFailures',
   'PrometheusRemoteWriteBehind',
   'PrometheusOutboundNetworkTrafficAnomalyDetected',
@@ -25,7 +26,10 @@ local ignore_records = [];
 // Define a list of groups to ignore
 local ignore_groups = [
   'kube-scheduler.rules',
+  'kubernetes-system-apiserver',
+  'kube-apiserver-slos',
   'kube-apiserver.rules',
+  'kube-apiserver-availability.rules',
   'kube-apiserver-error',
   'kube-apiserver-error-alerts',
   'kube-prometheus-node-alerting.rules',
@@ -37,21 +41,17 @@ local ignore_groups = [
 // overrides the for field for the specified alertname
 local for_overrides = {
   KubePersistentVolumeErrors: '15m',
-  KubePersistentVolumeFullInFourDays: '1h',
-  KubePersistentVolumeUsageCritical: '15m',
   PrometheusRuleFailures: '1h',
 };
 
 // Define a list of rules to downgrade severity for
 local downgrade_severity_rules = [
-  'KubePersistentVolumeFullInFourDays',
 ];
 
 // Define a list of grafana dashboards to ignore
 local ignore_dashboards = [
   'apiserver.json',
   'controller-manager.json',
-  'promtail.json',
   'scheduler.json',
 ];
 
@@ -74,7 +74,7 @@ local page_false_critical = [
   'HAProxyBackendResponseErrors',
   'HAProxyServerInBackendUpPercentageLow',
   'KubePersistentVolumeInodeUsageCritical',
-  'KubePersistentVolumeFullInFourDays',
+  'KubePersistentVolumeFillingUp',
   'KubePodFailed',
   'PodOOMKilled',
   'PromtailRequestsErrors',  // To remove once we are in production ?
