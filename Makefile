@@ -49,6 +49,9 @@ _test:
 
 _install:
 	$(JSONNETBUNDLERCMD) install
+	# Hack kubernetes-mixin to FC Fork until https://github.com/kubernetes-monitoring/kubernetes-mixin/pull/517 is merged
+	@rm -f vendor/kubernetes-mixin
+	@cp -a vendor/kubernetes-mixin-primeroz vendor/kubernetes-mixin
 
 _diff: _install _dashboards _rules
 	@git status

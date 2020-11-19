@@ -66,6 +66,7 @@
                "decimals": 2,
                "description": "Percentage of instances up (by workload)",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -83,6 +84,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -337,6 +339,7 @@
                "decimals": 2,
                "description": "Percentile Latency For Analytics API Service",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -354,6 +357,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -456,6 +460,7 @@
                "decimals": 2,
                "description": "Percentile Latency For Analytics ElasticSearch Responses",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -473,6 +478,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -574,6 +580,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -591,6 +598,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -663,6 +671,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -680,6 +689,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -752,6 +762,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -769,6 +780,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

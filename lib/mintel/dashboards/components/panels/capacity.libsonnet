@@ -36,9 +36,7 @@ local seriesOverrides = import 'components/series_overrides.libsonnet';
       query=|||
         avg(
           rate(
-            node_cpu_seconds_total{mode="idle"}[2m]) 
-            *
-             on(instance) group_left(nodename) node_uname_info{nodename=~%(nodeSelectorRegex)s} * 100) 
+            node_cpu_seconds_total{mode="idle", instance=~%(nodeSelectorRegex)s}[2m]) * 100)
         by (mode)
       ||| % config,
       legendFormat='% Idle',

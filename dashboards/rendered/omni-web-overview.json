@@ -66,6 +66,7 @@
                "decimals": 2,
                "description": "Percentage of instances up (by workload)",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -83,6 +84,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -336,6 +338,7 @@
                "decimals": 2,
                "description": "Percentile Latency from HAProxy Ingress",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -353,6 +356,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -441,6 +445,7 @@
                "decimals": 2,
                "description": "HTTP Responses from HAProxy Ingress for backend ${service}",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -458,6 +463,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -530,6 +536,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -547,6 +554,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -631,6 +639,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -648,6 +657,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -720,6 +730,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -737,6 +748,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -809,6 +821,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -826,6 +839,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -911,6 +925,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -928,6 +943,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1093,6 +1109,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 2,
@@ -1110,6 +1127,7 @@
                   "min": true,
                   "rightSide": true,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1195,6 +1213,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1212,6 +1231,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1283,6 +1303,7 @@
                "decimals": 2,
                "description": "Blocked clients are waiting for a state change event using commands such as BLPOP. Blocked clients are not a sign of an issue on their own.",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1300,6 +1321,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1371,6 +1393,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1388,6 +1411,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1459,6 +1483,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1476,6 +1501,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1547,6 +1573,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1564,6 +1591,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1635,6 +1663,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1652,6 +1681,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1723,6 +1753,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1740,6 +1771,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1811,6 +1843,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1828,6 +1861,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1899,6 +1933,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -1916,6 +1951,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1987,6 +2023,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2004,6 +2041,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": false,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2075,6 +2113,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2092,6 +2131,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2163,6 +2203,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2180,6 +2221,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2251,6 +2293,7 @@
                "decimals": 2,
                "description": "Depending on the memory allocator used, Redis may not return memory to the operating system at the same rate that applications release keys. RSS indicates the operating systems perspective of Redis memory usage. So, even if usage is low, if RSS is high, the OOM killer may terminate the Redis process",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2268,6 +2311,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2339,6 +2383,7 @@
                "decimals": 2,
                "description": "The fragmentation ratio in Redis should ideally be around 1.0 and generally below 1.5. The higher the value, the more wasted memory.",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2356,6 +2401,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2427,6 +2473,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2444,6 +2491,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -2515,6 +2563,7 @@
                "decimals": 2,
                "description": "",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": {
                   "h": 10,
                   "w": 12,
@@ -2532,6 +2581,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },

@@ -858,6 +858,7 @@
                "decimals": 2,
                "description": "Idle CPU in the Cluster",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 300,
                "id": 14,
@@ -870,6 +871,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -889,7 +891,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\"}[2m]) \n    *\n     on(instance) group_left(nodename) node_uname_info{nodename=~\"^gke.*\"} * 100) \nby (mode)\n",
+                     "expr": "avg(\n  rate(\n    node_cpu_seconds_total{mode=\"idle\", instance=~\"^gke.*\"}[2m]) * 100)\nby (mode)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -942,6 +944,7 @@
                "decimals": 2,
                "description": "Memory usage in the Cluster",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 300,
                "id": 15,
@@ -954,6 +957,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
@@ -1026,6 +1030,7 @@
                "decimals": 2,
                "description": "Ephemeral Disk IO",
                "fill": 0,
+               "fillGradient": 0,
                "gridPos": { },
                "height": 300,
                "id": 16,
@@ -1038,6 +1043,7 @@
                   "min": true,
                   "rightSide": false,
                   "show": true,
+                  "sideWidth": null,
                   "total": false,
                   "values": true
                },
