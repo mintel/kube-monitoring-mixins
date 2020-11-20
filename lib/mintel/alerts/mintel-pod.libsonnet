@@ -38,7 +38,7 @@
             expr: |||
               count(
                 count(
-                  (kube_pod_container_info) * on(pod)
+                  (kube_pod_container_info) * on(pod, namespace)
                   group_left(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
                 )
                 by (created_by_kind, created_by_name, image_id, container, namespace)
