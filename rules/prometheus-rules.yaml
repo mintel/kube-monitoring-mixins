@@ -421,7 +421,7 @@ spec:
   - name: mintel-pod.rules
     rules:
     - expr: label_replace( (sum by (namespace, container, pod, environment) ( sum(container_memory_usage_bytes{container!=""})
-        by (container, pod) * on (pod) group_left(environment, namespace) label_replace(kube_pod_labels{label_app!=""},"pod","$1","pod","(.*)")
+        by (container, pod) * on (pod, namespace) group_left(environment) label_replace(kube_pod_labels{label_app!=""},"pod","$1","pod","(.*)")
         ) / sum( label_replace( label_replace( kube_pod_container_resource_requests_memory_bytes{container!=""},
         "container", "$1", "container",  "(.*)" ), "pod", "$1", "pod", "(.*)" ) )
         by (namespace, container, pod, environment) * 100), "service", "$1", "container",
@@ -2418,7 +2418,7 @@ spec:
       expr: |
         count(
           count(
-            (kube_pod_container_info) * on(pod)
+            (kube_pod_container_info) * on(pod, namespace)
             group_left(created_by_kind, created_by_name) (kube_pod_info{created_by_kind!~"<none>|Job"})
           )
           by (created_by_kind, created_by_name, image_id, container, namespace)
