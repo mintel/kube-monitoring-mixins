@@ -11,6 +11,7 @@ local ignore_alerts = [
   'KubeClientErrors',
   'KubeClientCertificateExpiration',
   'KubeControllerManagerDown',
+  'KubeCPUUsageOutsideNormalParameters',
   'KubePodDistributionUnbalancedByZone',
   'KubeSchedulerDown',
   'NodeHighNumberConntrackEntriesUsed',  // We already have our own rules for this
